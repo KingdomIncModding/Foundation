@@ -58,11 +58,22 @@ namespace KingdomFoundation
             if (error == null) try
             {
                 mouse = InputSystem.AddDevice<Mouse>(); mouse.MakeCurrent();
+                VerifyModBar(directory);
+            }
+            catch (Exception ex) { error = ex.ToString(); }
+            // Native dropdowns remove their blocker after the closing fade.
+            yield return new WaitForSecondsRealtime(.25f);
+            if (error == null) try
+            {
+                FinishModBarChecks(directory);
                 VerifyWorkspaceLocked();
                 GameUI.Instance.ToggleTechMenu(true);
                 menu = TechTreeMenu.Instance; tabs = Tabs(menu); camera = TechTreeTabs.Field<Camera>(menu, "_camera");
                 Check(tabs && tabs.Bar.GetComponentsInChildren<Button>().Length == 2, "Tech Tree heading has two tabs");
                 Check(tabs.Heading.GetComponentInChildren<TMPro.TMP_Text>().text == "Tech Tree" && tabs.ResearchButton.GetComponentInChildren<TMPro.TMP_Text>().text == "Base Game" && tabs.ModsButton.GetComponentInChildren<TMPro.TMP_Text>().text == "Mods", "Requested heading and tab labels retained");
+                var headingCorners = new Vector3[4]; tabs.Heading.GetWorldCorners(headingCorners);
+                var hudCorners = new Vector3[4]; testedBar.Bar.GetWorldCorners(hudCorners);
+                Check(headingCorners[1].y < hudCorners[0].y, "Tech Tree heading stays below the shared Mod Bar");
                 Check(menu.Nodes.Any() && menu.Nodes.All(n => !NativeResearch.Owns(n.Tech)), "Base Game contains only original and existing mod research");
                 basePosition = camera.transform.position; baseSize = camera.orthographicSize;
                 Capture(camera, Path.Combine(directory, "foundation-tech-tree.png"));
@@ -223,8 +234,52 @@ namespace KingdomFoundation
             if (error == null) try
             {
                 Check(!menu && !tabs, "Leaving the game scene destroys Foundation UI cleanly");
+                Check(!testedBar && lifecycleElement.Disposes == 1 && lifecycleItem.IsRegistered, "Scene teardown disposes the custom Mod Bar view once and preserves its registration");
                 Check(FoundationApi.TechNodes.Nodes.Count == initialResearchCount, "Native registrations survive scene teardown");
-                Check(errors.Count == 0, "No Unity exceptions during native research navigation");
+                var previewPlayer = GamePlayer.CreateNewPlayer(); previewPlayer.AddCurrency(Currency.Gold, 123456, false); SceneManager.LoadScene("Game");
+            }
+            catch (Exception ex) { error = ex.ToString(); }
+            yield return new WaitForSecondsRealtime(3);
+            TMPro.TMP_Dropdown reopenedDropdown = null;
+            if (error == null) try
+            {
+                var hosts = GameUI.Instance.GetComponentsInChildren<ModBarHost>(true);
+                Check(hosts.Length == 1 && lifecycleElement.Creates == 2 && lifecycleElement.Disposes == 1,
+                    "New game scene recreates one Mod Bar and a fresh custom view from the surviving registration");
+                reopenedDropdown = hosts[0].Slots.Single(s => s.name == "urakka.foundation.example:period").GetComponentInChildren<TMPro.TMP_Dropdown>();
+                Check(reopenedDropdown.value == 1, "Mod-owned dropdown state survives HUD recreation");
+                reopenedDropdown.Show();
+            }
+            catch (Exception ex) { error = ex.ToString(); }
+            yield return new WaitForSecondsRealtime(.25f);
+            if (error == null) try
+            {
+                Capture(TechTreeTabs.Field<Camera>(WorldFlowManager.Instance, "_camera"), Path.Combine(directory, "foundation-mod-bar-dropdown.png"));
+                GameUI.Instance.ProcessEscape();
+                Check(!GameUI.MenuVisible, "Escape dismisses the Mod Bar dropdown without opening the game menu");
+            }
+            catch (Exception ex) { error = ex.ToString(); }
+            yield return new WaitForSecondsRealtime(.25f);
+            if (error == null) try
+            {
+                Check(!reopenedDropdown.IsExpanded, "Mod Bar dropdown completes its native close and removes its blocker");
+                reopenedDropdown.Show(); GameUI.Instance.ToggleUI(false);
+                GameUI.Instance.ToggleUI(true);
+            }
+            catch (Exception ex) { error = ex.ToString(); }
+            yield return new WaitForSecondsRealtime(.25f);
+            if (error == null) try
+            {
+                Check(!reopenedDropdown.IsExpanded, "Hiding the native HUD also closes Mod Bar popups");
+                SceneManager.LoadScene("MainMenu");
+            }
+            catch (Exception ex) { error = ex.ToString(); }
+            yield return new WaitForSecondsRealtime(2);
+            if (error == null) try
+            {
+                Check(lifecycleElement.Disposes == 2 && lifecycleItem.IsRegistered, "Each HUD lifetime disposes its custom view exactly once");
+                lifecycleItem.Dispose();
+                Check(errors.Count == 0, "No Unity exceptions during research, workspace and Mod Bar diagnostics");
             }
             catch (Exception ex) { error = ex.ToString(); }
             var report = new JsonObject {

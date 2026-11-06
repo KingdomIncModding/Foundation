@@ -8,12 +8,13 @@ using LightJson;
 namespace FoundationExamples
 {
     // Reference Foundation.dll in your project, but don't distribute a second copy.
-    [BepInPlugin("urakka.foundation.example", "Foundation Example", "0.5.0")]
-    [BepInDependency("urakka.kingdominc.foundation", "0.5.0")]
+    [BepInPlugin("urakka.foundation.example", "Foundation Example", "0.6.0")]
+    [BepInDependency("urakka.kingdominc.foundation", "0.6.0")]
     public sealed class ExamplePlugin : BaseUnityPlugin
     {
         ITechNode first, second, upgrade;
         IWorkspaceNodeType relay;
+        readonly System.Collections.Generic.List<IModBarRegistration> barItems = new System.Collections.Generic.List<IModBarRegistration>();
 
         void Awake()
         {
@@ -37,6 +38,22 @@ namespace FoundationExamples
                 Relay.TypeId, "Example Relay", () => new Relay(), first.Id,
                 size: new Vector2Int(256, 128), description: "Passes items from its input to its output using native pipes.",
                 fixedCost: new CurrencyCollection(Currency.Gold, 20)));
+            // Each control is an IModBarElement. Registrations can be made before a HUD exists.
+            const string mod = "urakka.foundation.example";
+            var status = new ModBarText(mod, "status", "Example ready", width: 220, order: 0, alignment: ModBarAlignment.Left);
+            var statusHandle = FoundationApi.ModBar.Register(status); barItems.Add(statusHandle);
+            int clicks = 0;
+            barItems.Add(FoundationApi.ModBar.Register(new ModBarButton(mod, "button", "Example button", () => {
+                status.Text = "Clicks: " + ++clicks; statusHandle.Refresh();
+            }, width: 220, order: 1, alignment: ModBarAlignment.Left)));
+            barItems.Add(FoundationApi.ModBar.RegisterSeparator(mod, "separator", ModBarAlignment.Left, order: 2));
+            barItems.Add(FoundationApi.ModBar.Register(new ModBarDropdown(mod, "period", new[] { "Second", "Minute", "Hour" }, selected: index => {
+                status.Text = "Period: " + new[] { "Second", "Minute", "Hour" }[index]; statusHandle.Refresh();
+            }, order: 3, alignment: ModBarAlignment.Left)));
+            barItems.Add(FoundationApi.ModBar.Register(new ModBarToggle(mod, "enabled", "Example enabled", changed: value => {
+                status.Text = value ? "Enabled" : "Disabled"; statusHandle.Refresh();
+            }, width: 240, order: 0, alignment: ModBarAlignment.Center)));
+            barItems.Add(FoundationApi.ModBar.Register(new CustomBarElement()));
         }
 
         void OnFirstClicked(ITechNode node)
@@ -49,6 +66,27 @@ namespace FoundationExamples
         void OnDestroy()
         {
             relay?.Dispose(); upgrade?.Dispose(); first?.Dispose(); second?.Dispose();
+            foreach (var item in barItems) item.Dispose();
+        }
+    }
+
+    // A custom implementation uses the same contract as the built-in controls.
+    // The context also exposes Root for icons, progress bars or other Unity UI children.
+    public sealed class CustomBarElement : IModBarElement
+    {
+        public string Id => "custom";
+        public string ModId => "urakka.foundation.example";
+        public float Width => 200;
+        public int Order => 0;
+        public ModBarAlignment Alignment => ModBarAlignment.Right;
+        public bool IsVisible => true;
+        public IModBarView CreateView(IModBarContext context) => new CustomBarView(context);
+        sealed class CustomBarView : IModBarView
+        {
+            readonly TMPro.TMP_Text label;
+            internal CustomBarView(IModBarContext context) { label = context.CreateText("Custom view"); }
+            public void Refresh() { label.text = "Custom view"; }
+            public void Dispose() { /* Release external subscriptions here; Foundation destroys the slot. */ }
         }
     }
 

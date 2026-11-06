@@ -26,6 +26,7 @@ namespace KingdomFoundation
         Image researchImage, modsImage;
         Sprite activeSprite, defaultSprite;
         bool titleWasActive;
+        Vector2 originalListButtonPosition, originalListOffset;
         internal bool Switching;
         TechNode baseRoot, modsRoot;
         CameraState baseCamera, modsCamera;
@@ -85,6 +86,10 @@ namespace KingdomFoundation
             listButton = Field<GameObject>(menu, "_listViewButton");
             listHint = Field<GameObject>(menu, "_listViewHint");
             list = Field<TechTreeListView>(menu, "_listView");
+            originalListButtonPosition = ((RectTransform)listButton.transform).anchoredPosition;
+            originalListOffset = ((RectTransform)list.transform).offsetMax;
+            ((RectTransform)listButton.transform).anchoredPosition -= new Vector2(0, ModBarHost.ReservedHeight);
+            ((RectTransform)list.transform).offsetMax -= new Vector2(0, ModBarHost.ReservedHeight);
             var ui = Field<RectTransform>(menu, "_uiLabel");
             var title = ui.GetComponentsInChildren<RectTransform>(true).FirstOrDefault(t => t.name == "TechTreeLabel");
             nativeTitle = title ? title.gameObject : null;
@@ -99,7 +104,7 @@ namespace KingdomFoundation
             Heading = Rect("FoundationTechTreeHeading", ui);
             Heading.anchorMin = Heading.anchorMax = new Vector2(.5f, 1);
             Heading.pivot = new Vector2(.5f, 1);
-            Heading.anchoredPosition = new Vector2(0, -52);
+            Heading.anchoredPosition = new Vector2(0, -52 - ModBarHost.ReservedHeight);
             Heading.sizeDelta = new Vector2(240, 44);
             var headingBackground = Heading.gameObject.AddComponent<Image>();
             var titleImage = nativeTitle ? nativeTitle.GetComponent<Image>() : null;
@@ -112,7 +117,7 @@ namespace KingdomFoundation
             Bar = Rect("FoundationTabs", ui);
             Bar.anchorMin = Bar.anchorMax = new Vector2(.5f, 1);
             Bar.pivot = new Vector2(.5f, 1);
-            Bar.anchoredPosition = new Vector2(0, -104);
+            Bar.anchoredPosition = new Vector2(0, -104 - ModBarHost.ReservedHeight);
             Bar.sizeDelta = new Vector2(460, 54);
             ResearchButton = MakeTab("Base Game", 0, font, image, out researchImage);
             ModsButton = MakeTab("Mods", 240, font, image, out modsImage);
@@ -126,7 +131,7 @@ namespace KingdomFoundation
             // Marker only: actual nodes are rendered by TechTreeMenu on its world canvas.
             var page = Rect("FoundationModsPage", ui);
             page.anchorMin = Vector2.zero; page.anchorMax = Vector2.one;
-            page.offsetMin = Vector2.zero; page.offsetMax = new Vector2(0, -168);
+            page.offsetMin = Vector2.zero; page.offsetMax = new Vector2(0, -168 - ModBarHost.ReservedHeight);
             ModsPage = page.gameObject;
             ModsPage.SetActive(false);
             ModTree = menu.gameObject.AddComponent<ModTechTreeView>();
@@ -227,6 +232,8 @@ namespace KingdomFoundation
         void OnDestroy()
         {
             Close();
+            if (listButton) ((RectTransform)listButton.transform).anchoredPosition = originalListButtonPosition;
+            if (list) ((RectTransform)list.transform).offsetMax = originalListOffset;
             if (Bar) Destroy(Bar.gameObject);
             if (Heading) Destroy(Heading.gameObject);
             if (ModsPage) Destroy(ModsPage);

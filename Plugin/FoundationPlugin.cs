@@ -17,18 +17,21 @@ namespace KingdomFoundation
     [BepInPlugin(Id, "Foundation", Version)]
     public sealed partial class FoundationPlugin : BaseUnityPlugin
     {
-        public const string Id = "urakka.kingdominc.foundation", Version = "0.5.0";
+        public const string Id = "urakka.kingdominc.foundation", Version = "0.6.0";
         internal Harmony hooks;
         internal static bool Diagnostic => Environment.GetCommandLineArgs().Contains("-foundation-smoke");
         void Awake()
         {
             Assets.Source.Util.Translation.Init();
             hooks = new Harmony(Id);
-            foreach (var type in new[] { typeof(OpenTree), typeof(CloseTree), typeof(ShowResearch), typeof(RefreshResearch), typeof(FocusResearch), typeof(RequirementNavigation), typeof(ListResearch), typeof(TreeUpdate), typeof(EmptyBounds), typeof(CustomIcon), typeof(FixedCosts), typeof(SaveNotifications) })
+            foreach (var type in new[] { typeof(OpenTree), typeof(CloseTree), typeof(ShowResearch), typeof(RefreshResearch), typeof(FocusResearch), typeof(RequirementNavigation), typeof(ListResearch), typeof(TreeUpdate), typeof(EmptyBounds), typeof(CustomIcon), typeof(FixedCosts), typeof(SaveNotifications), typeof(ReadResearch) })
                 hooks.CreateClassProcessor(type).Patch();
             WorkspaceIntegration.Install(hooks);
+            hooks.CreateClassProcessor(typeof(CreateModBar)).Patch();
+            hooks.CreateClassProcessor(typeof(EscapeModBar)).Patch();
+            hooks.CreateClassProcessor(typeof(HideModBar)).Patch();
             if (Diagnostic) { InstallDiagnostics(); Application.runInBackground = true; StartCoroutine(RuntimeCheck()); }
-            Logger.LogInfo("Foundation " + Version + ": native research and workspace node framework ready.");
+            Logger.LogInfo("Foundation " + Version + ": native research, workspace nodes and Mod Bar framework ready.");
         }
         internal static TechTreeTabs Tabs(TechTreeMenu menu) => menu ? menu.GetComponent<TechTreeTabs>() : null;
         internal static bool ModsOpen => TechTreeMenu.Visible && Tabs(TechTreeMenu.Instance)?.ModsSelected == true;
@@ -47,9 +50,22 @@ namespace KingdomFoundation
         void OnDestroy()
         {
             WorkspaceIntegration.Remove();
+            foreach (var bar in Resources.FindObjectsOfTypeAll<ModBarHost>()) Destroy(bar);
             foreach (var links in Resources.FindObjectsOfTypeAll<RequirementLinks>()) Destroy(links);
             foreach (var tabs in Resources.FindObjectsOfTypeAll<TechTreeTabs>()) Destroy(tabs);
             hooks?.UnpatchSelf();
+        }
+        [HarmonyPatch(typeof(Assets.Behaviour.UI.GameUI), "Start")]
+        static class CreateModBar
+        { static void Postfix(Assets.Behaviour.UI.GameUI __instance) => ModBarHost.Attach(__instance); }
+        [HarmonyPatch(typeof(Assets.Behaviour.UI.GameUI), nameof(Assets.Behaviour.UI.GameUI.ProcessEscape))]
+        static class EscapeModBar
+        { static bool Prefix(Assets.Behaviour.UI.GameUI __instance) => !__instance.GetComponentsInChildren<ModBarHost>(true).Any(host => host.ClosePopups()); }
+        [HarmonyPatch(typeof(Assets.Behaviour.UI.GameUI), nameof(Assets.Behaviour.UI.GameUI.ToggleUI))]
+        static class HideModBar
+        {
+            static void Postfix(Assets.Behaviour.UI.GameUI __instance)
+            { if (!__instance.GetComponent<Canvas>().enabled) foreach (var host in __instance.GetComponentsInChildren<ModBarHost>(true)) host.ClosePopups(); }
         }
         [HarmonyPatch(typeof(TechTreeMenu), "OnEnable")]
         static class OpenTree
@@ -126,6 +142,10 @@ namespace KingdomFoundation
         }
         [HarmonyPatch(typeof(TechNode), nameof(TechNode.ResetCost))]
         static class FixedCosts { static void Postfix(TechNode __instance) => NativeResearch.RestoreFixedCost(__instance); }
+        // Native research uses a fixed-size array. Other consumers can retain player
+        // snapshots created before a late registration, or register native tech themselves.
+        [HarmonyPatch(typeof(GamePlayer), nameof(GamePlayer.HasTech), new[] { typeof(TechNode) })]
+        static class ReadResearch { static void Prefix(GamePlayer __instance) => NativeResearch.EnsureCapacity(__instance); }
         // Vanilla ignores missing researched IDs on load, but its NewTechCount dictionary
         // cannot accept missing keys. Keep Foundation's branch counters session-only.
         [HarmonyPatch(typeof(GamePlayer), nameof(GamePlayer.ToJson))]

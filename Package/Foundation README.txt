@@ -1,4 +1,4 @@
-Foundation 0.5.0
+Foundation 0.6.0
 By Urakka
 
 A framework for Kingdom Inc modders, with Base Game and Mods tabs beneath
@@ -16,6 +16,13 @@ branch and Base Game or Mods tab open automatically, without buying research.
 Adds a public workspace registration API: native build menu, placement,
 collisions, dragging, ports, copying and saved custom models.
 No demonstration nodes are installed automatically; see the separate SDK.
+
+The shared Mod Bar appears 2 pixels under the existing currency bar with a
+top-center chevron toggle that smoothly slides the bar open and closed. Other
+mods can add buttons, text, dropdowns, toggles, separators and custom controls
+aligned left, center or right. It follows the game's UI scale and HUD
+visibility, and scrolls horizontally when full. Foundation installs no
+demonstration controls or Ledger-specific behavior.
 
 REQUIREMENTS
 Kingdom Inc (tested: Release v1.0.12).
@@ -35,7 +42,7 @@ that mod may discard its research progress. No custom save schema is added.
 Manual installation verified. Mod-manager deployment untested.
 
 FOR MODDERS
-Use the Foundation SDK 0.5.0 for the public interfaces, native research options,
+Use the Foundation SDK 0.6.0 for the public interfaces, native research options,
 IntelliSense XML and a separate BepInEx consumer example.
 Rebuild 0.2.0 consumers: positions now use native Y-up coordinates and
 Clicked means a successful native research unlock.

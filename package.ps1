@@ -12,7 +12,12 @@ New-Item -ItemType Directory -Path $plugin -Force | Out-Null
 Copy-Item -LiteralPath $dll -Destination (Join-Path $plugin 'Foundation.dll')
 Copy-Item -LiteralPath (Join-Path $PSScriptRoot 'Package\Foundation README.txt') -Destination $stage
 $archive = Join-Path $releases ('Foundation-' + $version + '.zip')
-if (Test-Path -LiteralPath $archive) { throw 'This release archive already exists. Preserve it or choose a new version before packaging again.' }
+if (Test-Path -LiteralPath $archive) {
+    $backupDir = Join-Path $PSScriptRoot ('_Backup\Releases-' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff'))
+    New-Item -ItemType Directory -Path $backupDir -Force | Out-Null
+    Move-Item -LiteralPath $archive -Destination $backupDir -Force
+    if (Test-Path -LiteralPath ($archive + '.sha256')) { Move-Item -LiteralPath ($archive + '.sha256') -Destination $backupDir -Force }
+}
 Compress-Archive -LiteralPath (Join-Path $stage 'BepInEx'),(Join-Path $stage 'Foundation README.txt') -DestinationPath $archive
 $clean = Join-Path $releases ('CleanExtraction-' + [Guid]::NewGuid().ToString('N'))
 Expand-Archive -LiteralPath $archive -DestinationPath $clean
@@ -37,7 +42,12 @@ foreach ($name in @('ExamplePlugin.cs','ExampleTechNodes.csproj')) {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot ('Examples\ExampleTechNodes\' + $name)) -Destination $sdkExample
 }
 $sdkArchive = Join-Path $releases ('Foundation-SDK-' + $version + '.zip')
-if (Test-Path -LiteralPath $sdkArchive) { throw 'SDK archive already exists. Preserve it or choose a new version.' }
+if (Test-Path -LiteralPath $sdkArchive) {
+    $backupDir = Join-Path $PSScriptRoot ('_Backup\Releases-' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff'))
+    New-Item -ItemType Directory -Path $backupDir -Force | Out-Null
+    Move-Item -LiteralPath $sdkArchive -Destination $backupDir -Force
+    if (Test-Path -LiteralPath ($sdkArchive + '.sha256')) { Move-Item -LiteralPath ($sdkArchive + '.sha256') -Destination $backupDir -Force }
+}
 Compress-Archive -LiteralPath $sdkLib,(Join-Path $sdkStage 'Examples'),(Join-Path $sdkStage 'README.md') -DestinationPath $sdkArchive
 $sdkClean = Join-Path $releases ('CleanSdk-' + [Guid]::NewGuid().ToString('N'))
 Expand-Archive -LiteralPath $sdkArchive -DestinationPath $sdkClean

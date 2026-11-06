@@ -1,6 +1,8 @@
 # Foundation
 
-Foundation 0.5.0 is a C# framework for Kingdom Inc mods. It adds **Base Game | Mods** beneath the **Tech Tree** heading and lets other plugins create real native research through public interfaces.
+Foundation 0.6.0 is a C# framework for Kingdom Inc mods. It adds **Base Game | Mods** beneath the **Tech Tree** heading and lets other plugins create real native research through public interfaces.
+
+The shared **Mod Bar** sits 2 pixels beneath the existing currency bar with a top-center chevron toggle that smoothly slides the bar open and closed. Mods can register text, buttons, dropdowns, toggles, vertical separators or custom controls through `FoundationApi.ModBar`, aligned to the left, center or right. The registry, element, view, context and registration contracts are public interfaces; built-in controls are ordinary implementations, and custom implementations use the same path. Controls use native frames, fonts and dropdowns, follow HUD scaling/visibility, and scroll horizontally when space is limited. Each mod owns its callbacks and state; Foundation owns slot layout and scene cleanup. The player package includes the bar, with no demonstration controls.
 
 Download the player package and separate developer SDK from [GitHub Releases](https://github.com/urakkaamyx/KingdomInc_Foundation/releases). For a source checkout, clone this repository into `<KingdomInc>/_Mods/Foundation`; game and BepInEx assemblies stay local.
 

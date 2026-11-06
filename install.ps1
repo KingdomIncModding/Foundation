@@ -17,8 +17,10 @@ if ($PendingDll) {
         foreach ($game in $running) { try { $game.WaitForExit() } catch { if (!$game.HasExited) { throw } } }
     } while (Get-Process -Name KingdomInc -ErrorAction SilentlyContinue)
     $installed = Join-Path $GameRoot 'BepInEx\plugins\Foundation\Foundation.dll'
-    if ((Test-Path -LiteralPath $installed) -and
-        [Reflection.AssemblyName]::GetAssemblyName($installed).Version -ge [Reflection.AssemblyName]::GetAssemblyName($source).Version) {
+    if ((Test-Path -LiteralPath $installed) -and (
+        [Reflection.AssemblyName]::GetAssemblyName($installed).Version -gt [Reflection.AssemblyName]::GetAssemblyName($source).Version -or
+        ([Reflection.AssemblyName]::GetAssemblyName($installed).Version -eq [Reflection.AssemblyName]::GetAssemblyName($source).Version -and
+         (Get-FileHash -LiteralPath $installed).Hash -eq $ExpectedSha256))) {
         Write-Output 'An equal or newer Foundation version is already installed.'
         return
     }

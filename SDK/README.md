@@ -1,4 +1,4 @@
-# Foundation SDK 0.5.0
+# Foundation SDK 0.6.0
 
 Create real Kingdom Inc research through public C# interfaces. Foundation puts registered research on **Tech Tree → Mods**, using the game's actual TechNode model, UITechNode/UIElementTechNode prefabs, tooltips, costs, hover/glow/checkmark feedback, prerequisite connectors, branch navigation, research list and map camera controls.
 
@@ -11,7 +11,7 @@ Version 0.5.0 adds a left **Mod List** with one research map per registering mod
 Install the player package, then reference `lib/Foundation.dll`, BepInEx, UnityEngine/CoreModule and the game's Assembly-CSharp.dll. Keep Foundation.xml beside the DLL for IntelliSense. Target .NET Standard 2.1. Set assembly references to `Private=false` and distribute only your own plugin, with Foundation as a separate requirement.
 
 ```csharp
-[BepInDependency("urakka.kingdominc.foundation", "0.5.0")]
+[BepInDependency("urakka.kingdominc.foundation", "0.6.0")]
 ```
 
 ## Create native research
@@ -241,3 +241,55 @@ Position is a preferred native map coordinate, with X right and Y up. Foundation
 
 This also handles branch roots, generic resource/recipe views, late registration and definition updates. Existing positions are retained when free. Different category pages can use the same coordinates because they are never rendered together. No research IDs, purchases or saved workspace positions are changed by this layout.
 
+
+## Shared Mod Bar (0.6.0+)
+
+Foundation adds a 48-unit native-style row 2 pixels below the currency bar, with a top-center chevron toggle that smoothly slides the bar open and closed. Register controls on Unity's main thread through `IModBarRegistry bar = FoundationApi.ModBar`. Registration is supported in plugin Awake before the HUD exists, and at runtime. The player package contains no example controls.
+
+```csharp
+IModBarRegistration statusHandle, buttonHandle, separatorHandle, periodHandle;
+ModBarText status;
+
+void RegisterBar()
+{
+    IModBarRegistry bar = FoundationApi.ModBar;
+    const string owner = "your.mod.guid";
+    status = new ModBarText(owner, "status", "Ready", width: 200, order: 0, alignment: ModBarAlignment.Left);
+    statusHandle = bar.Register(status);
+    buttonHandle = bar.Register(new ModBarButton(owner, "open", "Open report", () => {
+        status.Text = "Report opened";
+        statusHandle.Refresh();
+        // Open your mod's window here.
+    }, width: 200, order: 1, alignment: ModBarAlignment.Left));
+    separatorHandle = bar.RegisterSeparator(owner, "divider", order: 2, alignment: ModBarAlignment.Left);
+    periodHandle = bar.Register(new ModBarDropdown(owner, "period",
+        new[] { "Second", "Minute", "Hour" }, selected: index => {
+            // Update your own reporting setting.
+        }, order: 3, alignment: ModBarAlignment.Left));
+}
+
+void OnDestroy()
+{
+    periodHandle?.Dispose(); separatorHandle?.Dispose(); buttonHandle?.Dispose(); statusHandle?.Dispose();
+}
+```
+
+`ModBarToggle` adds a typed bool control, and `ModBarSeparator` (or `bar.RegisterSeparator(...)`) adds a vertical divider with configurable `ModBarAlignment` (`Left`, `Center`, `Right`), `Order`, and `Width` (default 14 units). Set `Text`, `Interactable`, `IsVisible`, `Order`, `Alignment`, dropdown `SetSelectedIndex`, or toggle `SetValue`, then call the registration's `Refresh()`. Refresh is applied in the HUD's next layout pass. Programmatic selection/value refresh is silent; user actions call `Clicked`, `SelectionChanged` or `ValueChanged`. The framework isolates subscriber exceptions. State belongs to your objects; persist your own settings when required. There is no polling delegate or implicit save format.
+
+The contracts are polymorphic:
+
+| Interface | Responsibility |
+| --- | --- |
+| `IModBarRegistry` | Register controls and separators, lookup and enumerate controls; announce registration/presentation changes. |
+| `IModBarElement` | Supply stable mod GUID/local ID, width, order, `ModBarAlignment` (`Left`, `Center`, `Right`) and visibility; create a view for each HUD lifetime. |
+| `IModBarView` | Refresh the scene's presentation; dispose mod-owned subscriptions/resources on removal or scene exit. |
+| `IModBarContext` | Expose a framework-owned `Root` slot and native-style text/button/dropdown/toggle/separator factories. |
+| `IModBarRegistration` | Keep the registration alive independently of a HUD, request refresh, or dispose it. |
+
+`ModBarElement` is an optional abstract convenience base. Implementing `IModBarElement` directly is supported; the HUD calls `CreateView` through the interface and has no type switch for built-in controls. The separately compiled example includes a `CustomBarElement`/`IModBarView` implementation alongside the built-in controls. Custom views can put icons, progress bars or other Unity UI children under `context.Root`. Use the native factories (`CreateText`, `CreateButton`, `CreateDropdown`, `CreateToggle`, `CreateSeparator`) as building blocks, then position those returned controls within the slot yourself. One factory call fills its slot by default. References require local UnityEngine.UI and Unity.TextMeshPro assemblies in addition to the normal SDK references; keep `Private=false`.
+
+IDs are unique within each owning GUID; separate mods may reuse local IDs. Dispose is idempotent and stale handles cannot remove a replacement. Collection properties return stable snapshots. Controls group by `Alignment` (`Left`, `Center`, `Right`) and sort within each alignment group by `Order`, then mod GUID and local ID using ordinal comparison. Width is 8–2048 UI units, with a 40-unit-high content slot, 8-unit gaps and a single horizontally scrolling row. Hidden items take no space. Call `Refresh()` after changing custom width/order/alignment/visibility properties too; identity cannot change. Reserve enough width for your label; text can shrink or ellipsize.
+
+The framework owns slot transforms, destroys their Unity objects and closes factory-created dropdown popups. A context is valid for only that HUD lifetime: do not cache it across scene changes, reparent its Root, or destroy another mod's controls. `IModBarView.Dispose()` releases your external event handlers or resources; do not unregister the persistent item there. A fresh view is created next scene, using the same element state. Dispose your registration when your plugin unloads. All registry changes, refresh calls and callbacks must run on Unity's main thread. Custom views must keep their content inside their own slot; custom popups outside Root need their own explicit lifecycle and input handling.
+
+The bar follows native HUD visibility and scaling. Hovering it blocks workspace wheel zoom, overflow uses native ScrollRect plus arrow buttons, and Escape closes a factory-created dropdown before opening the game menu. Research headings and list controls are inset to stay below the new row. Existing research/workspace API contracts are unchanged; 0.5.x consumers remain compatible.

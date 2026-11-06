@@ -24,7 +24,7 @@ namespace KingdomFoundation
             this.tabs = tabs; this.font = font; this.rowSource = rowSource; this.selected = selected;
             Panel = TechTreeTabs.Rect("FoundationModList", ui);
             Panel.anchorMin = new Vector2(0, 0); Panel.anchorMax = new Vector2(0, 1);
-            Panel.pivot = new Vector2(0, 1); Panel.offsetMin = new Vector2(20, 120); Panel.offsetMax = new Vector2(292, -188);
+            Panel.pivot = new Vector2(0, 1); Panel.offsetMin = new Vector2(20, 120); Panel.offsetMax = new Vector2(292, -188 - ModBarHost.ReservedHeight);
             var background = Panel.gameObject.AddComponent<Image>();
             Panel.gameObject.AddComponent<UIBlocksZoom>();
             background.sprite = frame.sprite; background.type = Image.Type.Sliced; background.pixelsPerUnitMultiplier = frame.pixelsPerUnitMultiplier;
