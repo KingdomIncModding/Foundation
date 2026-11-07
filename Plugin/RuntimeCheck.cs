@@ -49,6 +49,7 @@ namespace KingdomFoundation
                 VerifyRegistry();
                 initialResearchCount = FoundationApi.TechNodes.Nodes.Count;
                 VerifyWorkspaceRegistry();
+                VerifyModConfig();
                 var player = GamePlayer.CreateNewPlayer();
                 player.Flows[0].Label = "Foundation native research verification";
                 SceneManager.LoadScene("Game");

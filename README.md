@@ -1,10 +1,20 @@
 # Foundation
 
-Foundation 0.6.0 is a C# framework for Kingdom Inc mods. It adds **Base Game | Mods** beneath the **Tech Tree** heading and lets other plugins create real native research through public interfaces.
+Foundation 0.7.0 is a C# framework for Kingdom Inc mods. It adds **Base Game | Mods** beneath the **Tech Tree** heading, a shared **Mod Bar**, and a custom 3x expanded **Options / Config Menu** with a dedicated **Mod Settings** tab and public `FoundationApi.ModConfig` API.
+
+## Custom 3x Options Menu and ModConfig API
+
+Foundation 0.7.0 replaces the vanilla Options menu with a spacious, 3x expanded layout maintaining the authentic Kingdom Inc visual aesthetic. It preserves 100% of vanilla functionality (Resolution, Fullscreen, Quality, Master/Music/SFX Audio sliders, Apply, and Cancel) and adds a dual-tab header: **[ Game Settings ]** and **[ Mod Settings ]**.
+
+Under **[ Mod Settings ]**, players see a left sidebar listing all installed mods that register configuration, complete with mod descriptions and clean settings panels. Mod developers register settings via `FoundationApi.ModConfig`, offering ready-to-use template controls (buttons, dropdowns, text headers, sliders, toggles) or direct two-way bindings to BepInEx `ConfigEntry<T>` fields with Apply/Cancel lifecycle notifications.
+
+## Shared Mod Bar
 
 The shared **Mod Bar** sits 2 pixels beneath the existing currency bar with a top-center chevron toggle that smoothly slides the bar open and closed. Mods can register text, buttons, dropdowns, toggles, vertical separators or custom controls through `FoundationApi.ModBar`, aligned to the left, center or right. The registry, element, view, context and registration contracts are public interfaces; built-in controls are ordinary implementations, and custom implementations use the same path. Controls use native frames, fonts and dropdowns, follow HUD scaling/visibility, and scroll horizontally when space is limited. Each mod owns its callbacks and state; Foundation owns slot layout and scene cleanup. The player package includes the bar, with no demonstration controls.
 
 Download the player package and separate developer SDK from [GitHub Releases](https://github.com/urakkaamyx/KingdomInc_Foundation/releases). For a source checkout, clone this repository into `<KingdomInc>/_Mods/Foundation`; game and BepInEx assemblies stay local.
+
+## Native Research
 
 Registered nodes use the game's actual research models, building/upgrade prefabs, fonts, tooltips, highlights, available glow, purchased checkmarks, cost displays, insufficient-funds feedback, prerequisites, connectors, upgrade branches and research list. The Mods map uses normal game zoom/pan controls, including Better Zoom. Each tab retains its camera and selected branch.
 
@@ -18,11 +28,13 @@ Technologies sharing a visible map cannot overlap: Foundation measures their nat
 
 Use `FoundationApi.CreateTechNode(ITechNodeDefinition)` or `ITechNodeRegistry.CreateTechNode`. The returned ITechNode supports presentation updates, disposal and successful-unlock callbacks. INativeTechNode exposes the actual game model. TechNodeOptions configures native costs, prerequisites and branch relationships. The workspace API adds IWorkspaceNodeDefinition, IWorkspaceNodeRegistry, IWorkspaceNodeType and a WorkspaceNode base class. RegisterWorkspaceNode exposes a native building type; its factory supplies the mod-owned FlowElement behavior. Types appear in the normal build menu after research, and use native placement, dragging, collisions, ports, copying and save/load.
 
-See [the API guide](SDK/README.md) and [the separately compiled example](Examples/ExampleTechNodes/ExamplePlugin.cs). The player package installs no example technologies; another plugin must register them. Version 0.3.0 replaces 0.2.0's separate overlay cards with the actual game research system. Rebuild prior SDK consumers; native positions use Y up and Clicked means successful native unlock.
+For mod settings, call `FoundationApi.ModConfig.GetOrCreateSection(modId, modName, description)` to add in-game configurable options under the Options menu Mod Settings tab.
+
+See [the API guide](SDK/README.md) and [the separately compiled example](Examples/ExampleTechNodes/ExamplePlugin.cs). The player package installs no example technologies; another plugin must register them.
 
 ## Requirements and installation
 
-Tested against Kingdom Inc Release v1.0.12 / Unity 6000.3.27f2 and BepInEx 5.4.23.6 with bundled HarmonyX. Extract the player ZIP into the game directory so the DLL is at `BepInEx/plugins/Foundation/Foundation.dll`, then relaunch. Manual installation is verified; mod-manager installation is untested.
+Tested against Kingdom Inc Release v1.0.13 / Unity 6000.3.27f2 and BepInEx 5.4.23.6 with bundled HarmonyX. Extract the player ZIP into the game directory so the DLL is at `BepInEx/plugins/Foundation/Foundation.dll`, then relaunch. Manual installation is verified; mod-manager installation is untested.
 
 Close the game before replacing/removing an installed DLL. `install.ps1 -WhenGameCloses` can queue a verified update while the game is running; it backs up the previous DLL after the game closes. `-StageForNextLaunch` is only for a first installation. To remove, delete the Foundation plugin folder. Dependent mods require Foundation to load.
 
@@ -52,5 +64,3 @@ UI sprites/fonts are referenced from the installed game at runtime, not redistri
 Workspace registrations are building types, not placed instances. The optional SDK example includes an input/output relay costing 20 gold, unlocked by its first research. The framework itself adds no demonstration nodes. See the SDK workspace section for a complete subclass and registration example.
 
 Remove placed custom workspace nodes before uninstalling the defining plugin or Foundation: the native loader needs its registered factory to recreate saved FlowElement types. Deactivation during the current process hides new purchases while retaining existing instances and factory routing. Mods own custom data and port-schema migrations.
-
-Verification includes separate consumer ownership detection, category isolation, actual sidebar button raycasts, category camera/branch restoration, cross-category prerequisite navigation, root/branch/resource collision layout, connector positions, live updates, stable layouts, sidebar overflow scrolling and native zoom blocking. Existing research and workspace checks remain in the same disposable runtime suite. Results are recorded in Verification and the release record; user saves are not loaded or written.

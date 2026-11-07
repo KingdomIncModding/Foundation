@@ -8,8 +8,8 @@ using LightJson;
 namespace FoundationExamples
 {
     // Reference Foundation.dll in your project, but don't distribute a second copy.
-    [BepInPlugin("urakka.foundation.example", "Foundation Example", "0.6.0")]
-    [BepInDependency("urakka.kingdominc.foundation", "0.6.0")]
+    [BepInPlugin("urakka.foundation.example", "Foundation Example", "0.7.0")]
+    [BepInDependency("urakka.kingdominc.foundation", "0.7.0")]
     public sealed class ExamplePlugin : BaseUnityPlugin
     {
         ITechNode first, second, upgrade;
@@ -54,6 +54,11 @@ namespace FoundationExamples
                 status.Text = value ? "Enabled" : "Disabled"; statusHandle.Refresh();
             }, width: 240, order: 0, alignment: ModBarAlignment.Center)));
             barItems.Add(FoundationApi.ModBar.Register(new CustomBarElement()));
+
+            // Register a ModConfig section for in-game Options menu integration
+            var config = FoundationApi.ModConfig.GetOrCreateSection(mod, "Foundation Example", "Example plugin settings demonstrating Foundation's ModConfig API.");
+            config.AddText("Example Mod Configuration", isHeader: true);
+            config.AddToggle("Example Feature", true, val => Logger.LogInfo("Example feature toggled: " + val));
         }
 
         void OnFirstClicked(ITechNode node)
@@ -67,6 +72,7 @@ namespace FoundationExamples
         {
             relay?.Dispose(); upgrade?.Dispose(); first?.Dispose(); second?.Dispose();
             foreach (var item in barItems) item.Dispose();
+            FoundationApi.ModConfig.RemoveSection("urakka.foundation.example");
         }
     }
 

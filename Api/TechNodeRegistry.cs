@@ -14,6 +14,7 @@ namespace KingdomFoundation.Api
         public static IReadOnlyList<ITechMod> TechMods => Registry.Mods;
         public static IWorkspaceNodeRegistry WorkspaceNodes => WorkspaceNodeRegistry.Shared;
         public static IModBarRegistry ModBar { get; } = new ModBarRegistry();
+        public static IModConfigRegistry ModConfig { get; } = new ModConfigRegistry();
         public static ITechNode CreateTechNode(ITechNodeDefinition definition) => TechNodes.CreateTechNode(definition);
         public static IWorkspaceNodeType RegisterWorkspaceNode(IWorkspaceNodeDefinition definition) => WorkspaceNodes.RegisterWorkspaceNode(definition);
         internal static void Report(Exception error) => Log.LogError("A Foundation subscriber failed: " + error);

@@ -1,4 +1,4 @@
-# Foundation SDK 0.6.0
+# Foundation SDK 0.7.0
 
 Create real Kingdom Inc research through public C# interfaces. Foundation puts registered research on **Tech Tree → Mods**, using the game's actual TechNode model, UITechNode/UIElementTechNode prefabs, tooltips, costs, hover/glow/checkmark feedback, prerequisite connectors, branch navigation, research list and map camera controls.
 
@@ -11,7 +11,7 @@ Version 0.5.0 adds a left **Mod List** with one research map per registering mod
 Install the player package, then reference `lib/Foundation.dll`, BepInEx, UnityEngine/CoreModule and the game's Assembly-CSharp.dll. Keep Foundation.xml beside the DLL for IntelliSense. Target .NET Standard 2.1. Set assembly references to `Private=false` and distribute only your own plugin, with Foundation as a separate requirement.
 
 ```csharp
-[BepInDependency("urakka.kingdominc.foundation", "0.6.0")]
+[BepInDependency("urakka.kingdominc.foundation", "0.7.0")]
 ```
 
 ## Create native research
@@ -293,3 +293,55 @@ IDs are unique within each owning GUID; separate mods may reuse local IDs. Dispo
 The framework owns slot transforms, destroys their Unity objects and closes factory-created dropdown popups. A context is valid for only that HUD lifetime: do not cache it across scene changes, reparent its Root, or destroy another mod's controls. `IModBarView.Dispose()` releases your external event handlers or resources; do not unregister the persistent item there. A fresh view is created next scene, using the same element state. Dispose your registration when your plugin unloads. All registry changes, refresh calls and callbacks must run on Unity's main thread. Custom views must keep their content inside their own slot; custom popups outside Root need their own explicit lifecycle and input handling.
 
 The bar follows native HUD visibility and scaling. Hovering it blocks workspace wheel zoom, overflow uses native ScrollRect plus arrow buttons, and Escape closes a factory-created dropdown before opening the game menu. Research headings and list controls are inset to stay below the new row. Existing research/workspace API contracts are unchanged; 0.5.x consumers remain compatible.
+
+
+## Custom Options Menu & Mod Config API (0.7.0+)
+
+Foundation replaces the game's Options menu with a 3x expanded custom menu containing **[ Game Settings ]** and **[ Mod Settings ]** tabs.
+
+Under **[ Mod Settings ]**, players can configure installed mods in real time. Register settings sections on Unity's main thread through `FoundationApi.ModConfig`:
+
+```csharp
+using KingdomFoundation.Api;
+
+void Awake()
+{
+    var section = FoundationApi.ModConfig.GetOrCreateSection("your.mod.guid", "Your Mod Name", "Description of what your mod does.");
+
+    // Template elements
+    section.AddText("Audio / Gameplay Settings", isHeader: true);
+    section.AddToggle("Fast Simulation", false, val => Logger.LogInfo("Fast sim: " + val));
+    section.AddSlider("Volume Boost", min: 0f, max: 2f, initialValue: 1f, onValueChanged: val => Logger.LogInfo("Boost: " + val), step: 0.1f);
+    section.AddDropdown("Preset", new[] { "Default", "Performance", "Ultra" }, initialIndex: 0, onSelectionChanged: idx => Logger.LogInfo("Preset: " + idx));
+    section.AddButton("Reset Mod Defaults", () => Logger.LogInfo("Reset clicked"), buttonText: "Reset");
+
+    // Direct BepInEx ConfigEntry bindings:
+    // section.AddToggle(myBoolConfigEntry);
+    // section.AddSlider(myFloatConfigEntry, min: 0.1f, max: 5.0f, step: 0.1f);
+    // section.AddDropdown(myStringConfigEntry, new[] { "Option A", "Option B" });
+
+    // Optional lifecycle hooks
+    section.OnCommit += () => Logger.LogInfo("Applied changes in Options menu");
+    section.OnCancel += () => Logger.LogInfo("Cancelled changes in Options menu");
+}
+
+void OnDestroy()
+{
+    FoundationApi.ModConfig.RemoveSection("your.mod.guid");
+}
+```
+
+### ModConfig Contracts
+
+| Contract | Responsibility |
+| --- | --- |
+| `IModConfigRegistry` | Access `FoundationApi.ModConfig`. Register sections, look up existing sections, list all sections, remove sections. |
+| `IModConfigSection` | Configure section metadata (`ModId`, `ModName`, `Description`), add template or custom elements, bind BepInEx ConfigEntries, receive `OnCommit` / `OnCancel` events. |
+| `IModConfigElement` | Polymorphic element contract (`Id`, `IsVisible`, `CreateView(context)`, `Commit()`, `Cancel()`). Custom controls can implement this directly. |
+| `IModConfigText` | Static label or bold header display. |
+| `IModConfigButton` | Row label with an authentic native button. |
+| `IModConfigToggle` | Row label with an authentic native toggle checkbox/indicator. |
+| `IModConfigSlider` | Row label, slider control, and formatted live numeric readout. |
+| `IModConfigDropdown` | Row label with authentic dropdown control. |
+
+Changes made by the player in the UI are staged until they click **Apply** (or cancelled when they click **Back** / press Escape). Calling `section.Commit()` or `section.Cancel()` programmatically applies or restores staged values.

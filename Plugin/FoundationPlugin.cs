@@ -17,7 +17,7 @@ namespace KingdomFoundation
     [BepInPlugin(Id, "Foundation", Version)]
     public sealed partial class FoundationPlugin : BaseUnityPlugin
     {
-        public const string Id = "urakka.kingdominc.foundation", Version = "0.6.0";
+        public const string Id = "urakka.kingdominc.foundation", Version = "0.7.0";
         internal Harmony hooks;
         internal static bool Diagnostic => Environment.GetCommandLineArgs().Contains("-foundation-smoke");
         void Awake()
@@ -30,8 +30,12 @@ namespace KingdomFoundation
             hooks.CreateClassProcessor(typeof(CreateModBar)).Patch();
             hooks.CreateClassProcessor(typeof(EscapeModBar)).Patch();
             hooks.CreateClassProcessor(typeof(HideModBar)).Patch();
+            hooks.CreateClassProcessor(typeof(OptionsUIStartPatch)).Patch();
+            hooks.CreateClassProcessor(typeof(OptionsUIOnEnablePatch)).Patch();
+            hooks.CreateClassProcessor(typeof(OptionsUIApplyPatch)).Patch();
+            hooks.CreateClassProcessor(typeof(OptionsUICancelPatch)).Patch();
             if (Diagnostic) { InstallDiagnostics(); Application.runInBackground = true; StartCoroutine(RuntimeCheck()); }
-            Logger.LogInfo("Foundation " + Version + ": native research, workspace nodes and Mod Bar framework ready.");
+            Logger.LogInfo("Foundation " + Version + ": native research, workspace nodes, Mod Bar, and Mod Config menu ready.");
         }
         internal static TechTreeTabs Tabs(TechTreeMenu menu) => menu ? menu.GetComponent<TechTreeTabs>() : null;
         internal static bool ModsOpen => TechTreeMenu.Visible && Tabs(TechTreeMenu.Instance)?.ModsSelected == true;
@@ -53,6 +57,7 @@ namespace KingdomFoundation
             foreach (var bar in Resources.FindObjectsOfTypeAll<ModBarHost>()) Destroy(bar);
             foreach (var links in Resources.FindObjectsOfTypeAll<RequirementLinks>()) Destroy(links);
             foreach (var tabs in Resources.FindObjectsOfTypeAll<TechTreeTabs>()) Destroy(tabs);
+            foreach (var menu in Resources.FindObjectsOfTypeAll<FoundationConfigMenu>()) Destroy(menu);
             hooks?.UnpatchSelf();
         }
         [HarmonyPatch(typeof(Assets.Behaviour.UI.GameUI), "Start")]

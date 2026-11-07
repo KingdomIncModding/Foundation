@@ -1,4 +1,4 @@
-Foundation 0.6.0
+Foundation 0.7.0
 By Urakka
 
 A framework for Kingdom Inc modders, with Base Game and Mods tabs beneath
@@ -24,14 +24,22 @@ aligned left, center or right. It follows the game's UI scale and HUD
 visibility, and scrolls horizontally when full. Foundation installs no
 demonstration controls or Ledger-specific behavior.
 
+Custom 3x Options / Config Menu: Foundation replaces the vanilla Options menu
+with a spacious, 3x expanded design while retaining 100% of vanilla options
+(Resolution, Fullscreen, Quality, Master/Music/SFX Audio volumes, Apply, Cancel).
+A new [ Mod Settings ] tab lets players configure installed mods directly in-game.
+Mods register sections via FoundationApi.ModConfig with native-styled buttons,
+dropdowns, sliders, text headers, toggles, or direct BepInEx ConfigEntry bindings,
+complete with Apply/Cancel lifecycle hooks.
+
 REQUIREMENTS
-Kingdom Inc (tested: Release v1.0.12).
+Kingdom Inc (tested: Release v1.0.13).
 BepInEx 5 (tested: 5.4.23.6), with its bundled Harmony library.
 
 INSTALLATION
 Extract this archive into the folder containing KingdomInc.exe.
 Installed file: BepInEx/plugins/Foundation/Foundation.dll.
-Relaunch Kingdom Inc and open Tech Tree -> Mods.
+Relaunch Kingdom Inc and open Tech Tree -> Mods, or open Options -> Mod Settings.
 
 UPDATING AND REMOVAL
 Close the game before replacing/removing the Foundation plugin folder.
@@ -42,10 +50,9 @@ that mod may discard its research progress. No custom save schema is added.
 Manual installation verified. Mod-manager deployment untested.
 
 FOR MODDERS
-Use the Foundation SDK 0.6.0 for the public interfaces, native research options,
-IntelliSense XML and a separate BepInEx consumer example.
-Rebuild 0.2.0 consumers: positions now use native Y-up coordinates and
-Clicked means a successful native research unlock.
+Use the Foundation SDK 0.7.0 for the public interfaces, native research options,
+Mod Bar contracts, Mod Config contracts, IntelliSense XML and a separate BepInEx
+consumer example.
 
 CREDITS
 Uses the game's existing UI sprites and fonts at runtime.
@@ -59,4 +66,3 @@ containing those ElementType IDs. Native research IDs are handled differently.
 The SDK includes WorkspaceNode and workspace registry interfaces. The optional
 example includes a relay unlocked by its first technology, purchased for
 20 gold through the native Utility build category.
-
