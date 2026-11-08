@@ -1,4 +1,4 @@
-Foundation 0.7.0
+Foundation 0.7.1
 By Urakka
 
 A framework for Kingdom Inc modders, with Base Game and Mods tabs beneath
@@ -50,7 +50,7 @@ that mod may discard its research progress. No custom save schema is added.
 Manual installation verified. Mod-manager deployment untested.
 
 FOR MODDERS
-Use the Foundation SDK 0.7.0 for the public interfaces, native research options,
+Use the Foundation SDK 0.7.1 for the public interfaces, native research options,
 Mod Bar contracts, Mod Config contracts, IntelliSense XML and a separate BepInEx
 consumer example.
 

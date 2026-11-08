@@ -8,8 +8,8 @@ using LightJson;
 namespace FoundationExamples
 {
     // Reference Foundation.dll in your project, but don't distribute a second copy.
-    [BepInPlugin("urakka.foundation.example", "Foundation Example", "0.7.0")]
-    [BepInDependency("urakka.kingdominc.foundation", "0.7.0")]
+    [BepInPlugin("urakka.foundation.example", "Foundation Example", "0.7.1")]
+    [BepInDependency("urakka.kingdominc.foundation", "0.7.1")]
     public sealed class ExamplePlugin : BaseUnityPlugin
     {
         ITechNode first, second, upgrade;

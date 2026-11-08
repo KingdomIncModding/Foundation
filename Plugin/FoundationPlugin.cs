@@ -17,7 +17,7 @@ namespace KingdomFoundation
     [BepInPlugin(Id, "Foundation", Version)]
     public sealed partial class FoundationPlugin : BaseUnityPlugin
     {
-        public const string Id = "urakka.kingdominc.foundation", Version = "0.7.0";
+        public const string Id = "urakka.kingdominc.foundation", Version = "0.7.1";
         internal Harmony hooks;
         internal static bool Diagnostic => Environment.GetCommandLineArgs().Contains("-foundation-smoke");
         void Awake()

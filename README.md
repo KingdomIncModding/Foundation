@@ -1,10 +1,10 @@
 # Foundation
 
-Foundation 0.7.0 is a C# framework for Kingdom Inc mods. It adds **Base Game | Mods** beneath the **Tech Tree** heading, a shared **Mod Bar**, and a custom 3x expanded **Options / Config Menu** with a dedicated **Mod Settings** tab and public `FoundationApi.ModConfig` API.
+Foundation 0.7.1 is a C# framework for Kingdom Inc mods. It adds **Base Game | Mods** beneath the **Tech Tree** heading, a shared **Mod Bar**, and a custom 3x expanded **Options / Config Menu** with a dedicated **Mod Settings** tab and public `FoundationApi.ModConfig` API.
 
 ## Custom 3x Options Menu and ModConfig API
 
-Foundation 0.7.0 replaces the vanilla Options menu with a spacious, 3x expanded layout maintaining the authentic Kingdom Inc visual aesthetic. It preserves 100% of vanilla functionality (Resolution, Fullscreen, Quality, Master/Music/SFX Audio sliders, Apply, and Cancel) and adds a dual-tab header: **[ Game Settings ]** and **[ Mod Settings ]**.
+Foundation 0.7.1 replaces the vanilla Options menu with a spacious, 3x expanded layout maintaining the authentic Kingdom Inc visual aesthetic. It preserves 100% of vanilla functionality (Resolution, Fullscreen, Quality, Master/Music/SFX Audio sliders, Apply, and Cancel) and adds a dual-tab header: **[ Game Settings ]** and **[ Mod Settings ]**.
 
 Under **[ Mod Settings ]**, players see a left sidebar listing all installed mods that register configuration, complete with mod descriptions and clean settings panels. Mod developers register settings via `FoundationApi.ModConfig`, offering ready-to-use template controls (buttons, dropdowns, text headers, sliders, toggles) or direct two-way bindings to BepInEx `ConfigEntry<T>` fields with Apply/Cancel lifecycle notifications.
 

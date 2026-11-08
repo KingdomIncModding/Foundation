@@ -1,4 +1,4 @@
-# Foundation SDK 0.7.0
+# Foundation SDK 0.7.1
 
 Create real Kingdom Inc research through public C# interfaces. Foundation puts registered research on **Tech Tree → Mods**, using the game's actual TechNode model, UITechNode/UIElementTechNode prefabs, tooltips, costs, hover/glow/checkmark feedback, prerequisite connectors, branch navigation, research list and map camera controls.
 
@@ -11,7 +11,7 @@ Version 0.5.0 adds a left **Mod List** with one research map per registering mod
 Install the player package, then reference `lib/Foundation.dll`, BepInEx, UnityEngine/CoreModule and the game's Assembly-CSharp.dll. Keep Foundation.xml beside the DLL for IntelliSense. Target .NET Standard 2.1. Set assembly references to `Private=false` and distribute only your own plugin, with Foundation as a separate requirement.
 
 ```csharp
-[BepInDependency("urakka.kingdominc.foundation", "0.7.0")]
+[BepInDependency("urakka.kingdominc.foundation", "0.7.1")]
 ```
 
 ## Create native research
