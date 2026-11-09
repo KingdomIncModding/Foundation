@@ -1,43 +1,45 @@
 @echo off
 setlocal EnableExtensions
-title Foundation - Build
-
-rem This launcher lives beside Build-Foundation.ps1.
-rem Determine the KingdomInc root from Foundation\Tools\Build.
-for %%I in ("%~dp0..\..\..\..") do set "GAME_ROOT=%%~fI"
-
-if exist "%GAME_ROOT%\KingdomInc_Data\Managed\Assembly-CSharp.dll" goto build
-
-rem Fallback for a source repository cloned away from the game folder.
 set "GAME_ROOT=G:\Program Files (x86)\Steam\steamapps\common\KingdomInc"
-if exist "%GAME_ROOT%\KingdomInc_Data\Managed\Assembly-CSharp.dll" goto build
-
-echo Kingdom Inc installation not found automatically.
-set /p "GAME_ROOT=Enter Kingdom Inc game folder: "
-if exist "%GAME_ROOT%\KingdomInc_Data\Managed\Assembly-CSharp.dll" goto build
+set "BUILD_SCRIPT=%~dp0Build-Foundation.ps1"
+title Kingdom Inc Foundation - Build
 
 echo.
-echo [ERROR] Kingdom Inc managed assemblies not found.
+echo ========================================
+echo          FOUNDATION BUILD
+echo ========================================
+echo.
+
+if not exist "%BUILD_SCRIPT%" (
+    echo ERROR: Build-Foundation.ps1 is missing.
+    echo Expected: "%BUILD_SCRIPT%"
+    set "BUILD_RESULT=1"
+    goto end
+)
+
+if not exist "%GAME_ROOT%\KingdomInc_Data\Managed\Assembly-CSharp.dll" (
+    echo ERROR: Kingdom Inc game assemblies not found.
+    echo Checked: "%GAME_ROOT%"
+    set "BUILD_RESULT=1"
+    goto end
+)
+
+where dotnet >nul 2>&1
+if errorlevel 1 (
+    echo ERROR: .NET SDK not found. Install the .NET SDK and restart this window.
+    set "BUILD_RESULT=1"
+    goto end
+)
+
+echo Source: "%BUILD_SCRIPT%"
+echo Game:   "%GAME_ROOT%"
+echo.
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%BUILD_SCRIPT%" -GameRoot "%GAME_ROOT%" %*
+set "BUILD_RESULT=%ERRORLEVEL%"
+
+:end
+echo.
+if "%BUILD_RESULT%"=="0" (echo BUILD COMPLETED) else echo BUILD FAILED - exit code %BUILD_RESULT%
 echo.
 pause
-exit /b 1
-
-:build
-echo.
-echo Building Foundation against:
-echo "%GAME_ROOT%"
-echo.
-if not exist "%~dp0Build-Foundation.ps1" goto missing
-
-rem -NoExit ensures that even a PowerShell error cannot flash away.
-powershell.exe -NoExit -NoProfile -ExecutionPolicy Bypass -File "%~dp0Build-Foundation.ps1" -GameRoot "%GAME_ROOT%" %*
-set "RC=%ERRORLEVEL%"
-echo.
-echo Build launcher exited with code %RC%.
-pause
-exit /b %RC%
-
-:missing
-echo [ERROR] Build-Foundation.ps1 not found beside this CMD file.
-pause
-exit /b 1
+exit /b %BUILD_RESULT%
