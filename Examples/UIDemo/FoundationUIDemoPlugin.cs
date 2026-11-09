@@ -10,8 +10,8 @@ using UnityEngine;
 
 namespace KingdomFoundation.Examples
 {
-    /// <summary>Development-only panel exercise; not part of the public player release.</summary>
-    [BepInPlugin("urakka.foundation.example.ui", "Foundation UI Verification Demo", "1.0.0")]
+    /// <summary>Example of custom panels and native-themed controls.</summary>
+    [BepInPlugin("urakka.foundation.example.ui", "Foundation UI Example", "1.0.0")]
     [BepInDependency("urakka.kingdominc.foundation", BepInDependency.DependencyFlags.HardDependency)]
     public sealed class FoundationUIDemoPlugin : BaseUnityPlugin
     {
@@ -33,7 +33,7 @@ namespace KingdomFoundation.Examples
             panels = FoundationApi.Panels.ForMod("urakka.foundation.example.ui");
             panels.Register("controls", "Foundation UI - Control Gallery", BuildGallery);
             openButton = FoundationApi.ModBar.Register(new ModBarButton(
-                "urakka.foundation.example.ui", "open", "Test UI", () => panels.Open("controls"), 125));
+                "urakka.foundation.example.ui", "open", "Open UI", () => panels.Open("controls"), 125));
             machineButton = FoundationApi.ModBar.Register(new ModBarButton(
                 "urakka.foundation.example.ui", "machine", "Machine UI", OpenMachine, 150, order: 1));
             Logger.LogInfo("[FOUNDATION UI DEMO] Control gallery registered for the unified Foundation DLL.");

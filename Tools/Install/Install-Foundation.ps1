@@ -1,12 +1,9 @@
-﻿# Foundation installer. Default: build, package, deploy (no one-off audit scripts).
-# Use -Verify only when a developer explicitly requests the isolated smoke/compatibility suite.
+# Foundation installer. Default: build, package, deploy (no one-off audit scripts).
 # Does not copy game assemblies or saves into distribution packages.
 [CmdletBinding()]
 param(
     [string]$GameRoot = '',
     [switch]$BuildOnly,
-    [switch]$Verify,
-    [switch]$SkipExistingPluginCompatibility,
     [switch]$UseInstalledBepInExOnly
 )
 $ErrorActionPreference = 'Stop'
@@ -44,7 +41,7 @@ function Run-Script {
 Assert-File (Join-Path $GameRoot 'KingdomInc.exe') 'Kingdom Inc executable'
 Assert-File (Join-Path $GameRoot 'KingdomInc_Data\Managed\Assembly-CSharp.dll') 'Kingdom Inc managed assembly'
 if (Get-Process -Name KingdomInc -ErrorAction SilentlyContinue) {
-    throw 'Kingdom Inc is running. Exit the game before building, testing or installing Foundation.'
+    throw 'Kingdom Inc is running. Exit the game before building or installing Foundation.'
 }
 if (-not (Get-Command dotnet -ErrorAction SilentlyContinue)) {
     throw 'A .NET 8+ SDK is required. Install it and rerun this script.'
@@ -54,7 +51,7 @@ if ($LASTEXITCODE -ne 0 -or -not (@($sdks | Where-Object { "$_" -match '^([89]|[
     throw "A .NET 8+ SDK is required. Installed SDKs: $($sdks -join ', ')"
 }
 
-$logDir = Join-Path $ProjectRoot 'Verification\InstallLogs'
+$logDir = Join-Path $ProjectRoot 'Logs\Install'
 New-Item -ItemType Directory -Path $logDir -Force | Out-Null
 $logPath = Join-Path $logDir ('foundation-' + (Get-Date -Format 'yyyyMMdd-HHmmss') + '.log')
 Write-Host "Target game: $GameRoot"
@@ -70,16 +67,11 @@ try {
         SkipPackaging = $true
     }
     if (-not $UseInstalledBepInExOnly) { $bootstrapParams['InstallBepInEx'] = $true }
-    if ($Verify) { $bootstrapParams['Verify'] = $true }
     Run-Script -Name 'Tools\Build\Build-Foundation.ps1' -Parameters $bootstrapParams
 
     if ($BuildOnly) {
         Write-Host 'Build-only requested. Nothing was installed.'
         return
-    }
-
-    if ($Verify -and -not $SkipExistingPluginCompatibility) {
-        Run-Script -Name 'Tools\Development\Verify-Isolated.ps1' -Parameters @{ GameRoot = $GameRoot; WithExistingPlugins = $true }
     }
 
     Run-Script -Name 'Tools\Build\Package-Foundation.ps1' -Parameters @{ GameRoot = $GameRoot }

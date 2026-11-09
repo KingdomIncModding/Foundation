@@ -56,7 +56,7 @@ foreach ($name in @('ExampleGameplayPlugin.cs','ExampleGameplay.csproj')) {
 foreach ($name in @('ExampleCorePlugin.cs','ExampleCounter.cs','ExampleModule.cs','IExampleCounter.cs','ExampleCoreMod.csproj')) {
     Copy-Item -LiteralPath (Join-Path $ProjectRoot ('Examples\CoreMod\' + $name)) -Destination $sdkCore
 }
-Copy-Item -LiteralPath (Join-Path $ProjectRoot 'Docs\Guides\Game-API-0.10.0.md') -Destination (Join-Path $sdkStage 'GUIDE-0.10.0.md')
+Copy-Item -LiteralPath (Join-Path $ProjectRoot 'Docs\Getting-Started.md') -Destination (Join-Path $sdkStage 'GUIDE.md')
 $sdkArchive = Join-Path $releases ('Foundation-SDK-' + $version + '.zip')
 if (Test-Path -LiteralPath $sdkArchive) {
     $backupDir = Join-Path $ProjectRoot ('_Backup\Releases-' + (Get-Date -Format 'yyyyMMdd-HHmmss-fff'))
@@ -64,7 +64,7 @@ if (Test-Path -LiteralPath $sdkArchive) {
     Move-Item -LiteralPath $sdkArchive -Destination $backupDir -Force
     if (Test-Path -LiteralPath ($sdkArchive + '.sha256')) { Move-Item -LiteralPath ($sdkArchive + '.sha256') -Destination $backupDir -Force }
 }
-Compress-Archive -LiteralPath $sdkLib,(Join-Path $sdkStage 'Examples'),(Join-Path $sdkStage 'README.md'),(Join-Path $sdkStage 'GUIDE-0.10.0.md') -DestinationPath $sdkArchive
+Compress-Archive -LiteralPath $sdkLib,(Join-Path $sdkStage 'Examples'),(Join-Path $sdkStage 'README.md'),(Join-Path $sdkStage 'GUIDE.md') -DestinationPath $sdkArchive
 $sdkClean = Join-Path $releases ('CleanSdk-' + [Guid]::NewGuid().ToString('N'))
 Expand-Archive -LiteralPath $sdkArchive -DestinationPath $sdkClean
 $sdkFiles = @(Get-ChildItem -LiteralPath $sdkClean -Recurse -File)
@@ -78,7 +78,7 @@ if ($sdkFiles.Count -ne 15 -or !(Test-Path -LiteralPath (Join-Path $sdkClean 'li
     !(Test-Path -LiteralPath (Join-Path $sdkClean 'Examples\ExampleGameplay\ExampleGameplayPlugin.cs')) -or
     !(Test-Path -LiteralPath (Join-Path $sdkClean 'Examples\CoreMod\ExampleCoreMod.csproj')) -or
     !(Test-Path -LiteralPath (Join-Path $sdkClean 'Examples\CoreMod\ExampleCorePlugin.cs')) -or
-    !(Test-Path -LiteralPath (Join-Path $sdkClean 'GUIDE-0.10.0.md'))) { throw 'Unexpected SDK contents.' }
+    !(Test-Path -LiteralPath (Join-Path $sdkClean 'GUIDE.md'))) { throw 'Unexpected SDK contents.' }
 if ((Get-FileHash -LiteralPath $dll).Hash -ne (Get-FileHash -LiteralPath (Join-Path $sdkClean 'lib\Foundation.dll')).Hash) { throw 'SDK DLL does not match the build.' }
 $gameRoot = (Resolve-Path -LiteralPath $GameRoot).Path.Replace('\','/') + '/'
 & dotnet build (Join-Path $sdkClean 'Examples\ExampleTechNodes\ExampleTechNodes.csproj') -c Release --nologo ('-p:GameRoot=' + $gameRoot)

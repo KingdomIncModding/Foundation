@@ -132,15 +132,22 @@ Kingdom Inc's existing game systems
 
 ## Documentation
 
-| Guide | What you'll find |
+Developer documentation is organized by capability:
+
+| Guide | Description |
 | --- | --- |
-| [SDK overview](SDK/README.md) | Public interfaces and introductory usage. |
-| [Core framework](Docs/Core/Overview.md) | Modules, lifecycle, services, and shared infrastructure. |
-| [Native machine SDK](Docs/GameAPI/A1-Machine-SDK-Guide.md) | Machine discovery, specialized properties, and game-backed operations. |
-| [Native machine IO and throughput](Docs/GameAPI/A2-Native-Machine-IO-Throughput.md) | Ports, connections, routing rules, and real item flow. |
-| [Gameplay API](Docs/GameAPI/A3-A7-Native-Game-API.md) | Items, research, adventures, workspaces, UI, and game events. |
-| [UI framework](Docs/UI/README.md) | Panels, controls, machine editors, and game-themed interfaces. |
-| [Mod migration guide](Docs/StageB/Mod-Migration-Guide.md) | Updating existing mods to Foundation's unified APIs. |
+| [Documentation index](Docs/README.md) | Start here |
+| [Getting started](Docs/Getting-Started.md) | Create a Foundation mod |
+| [API reference](Docs/API-Reference.md) | Public service map |
+| [Core framework](Docs/Core/README.md) | Modules, events and inter-mod services |
+| [Game API](Docs/GameAPI/README.md) | Native Kingdom Inc systems |
+| [Machines](Docs/GameAPI/Machines.md) | Machine capabilities and operations |
+| [Logistics](Docs/GameAPI/Logistics.md) | Native pipes, ports and throughput |
+| [Gameplay](Docs/GameAPI/Gameplay.md) | Items, research, adventures and world state |
+| [UI](Docs/UI/README.md) | Panels, HUD controls and settings |
+| [Signals](Docs/Signals.md) | Typed source/property bindings |
+| [Content and persistence](Docs/Content-And-Persistence.md) | Mod content and saved data |
+| [Migration](Docs/Migration.md) | Updating older mods |
 
 ### Repository layout
 

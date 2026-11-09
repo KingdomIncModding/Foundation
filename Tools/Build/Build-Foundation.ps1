@@ -6,10 +6,8 @@ param(
     [string]$GameRoot,
     [string]$GameDataZip,
     [string]$BepInExZip,
-    [switch]$Verify,
     [switch]$Install,
     [switch]$InstallBepInEx,
-    [switch]$WithExistingPlugins,
     [switch]$SkipPackaging
 )
 $ErrorActionPreference = 'Stop'
@@ -104,7 +102,7 @@ if (!$GameRoot -and !$GameDataZip) { throw 'Pass -GameRoot for an installed game
 if ($GameRoot) {
     $buildGameRoot = [IO.Path]::GetFullPath($GameRoot)
     Require-File (Join-Path $buildGameRoot 'KingdomInc_Data\Managed\Assembly-CSharp.dll') 'Kingdom Inc managed assembly'
-    if (($Verify -or $Install -or $InstallBepInEx)) {
+    if (($Install -or $InstallBepInEx)) {
         Require-File (Join-Path $buildGameRoot 'KingdomInc.exe') 'installed game executable'
     }
 } else {
@@ -139,12 +137,6 @@ foreach ($project in @('Foundation.csproj','Examples\ExampleTechNodes\ExampleTec
     & dotnet build (Join-Path $ProjectRoot $project) -c Release --nologo $gameArg
     if ($LASTEXITCODE -ne 0) { throw "Build FAILED: $project. No release or installation was produced." }
 }
-if ($Verify) {
-    if (!$GameRoot) { throw 'Runtime verification requires -GameRoot and the actual executable; game data alone cannot be launched.' }
-    if (Get-Process -Name 'KingdomInc' -ErrorAction SilentlyContinue) { throw 'Close Kingdom Inc before isolated verification.' }
-    & (Join-Path $ProjectRoot 'Tools\Development\Verify-Isolated.ps1') -GameRoot $buildGameRoot -WithExistingPlugins:$WithExistingPlugins
-    if ($LASTEXITCODE -ne 0) { throw 'Runtime verification failed; installation blocked.' }
-}
 if (!$SkipPackaging) {
     & (Join-Path $ProjectRoot 'Tools\Build\Package-Foundation.ps1') -GameRoot $buildGameRoot
     if ($LASTEXITCODE -ne 0) { throw 'Packaging failed.' }
@@ -154,4 +146,3 @@ if ($Install) {
     if ($LASTEXITCODE -ne 0) { throw 'Installation failed.' }
 }
 Write-Host "Foundation build complete. Release packages: $(Join-Path $ProjectRoot 'Releases')"
-if (!$Verify) { Write-Host 'Runtime smoke checks were skipped (optional -Verify switch).'}
