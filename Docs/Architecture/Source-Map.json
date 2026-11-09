@@ -1,0 +1,452 @@
+{
+  "filesMoved": 84,
+  "filesWritten": 277,
+  "sourceMap": {
+    "Api/FlowInspection.cs": [
+      "src/Foundation/Api/IFlowInspectionService.cs",
+      "src/Foundation/Workspace/FlowPortDirection.cs",
+      "src/Foundation/Workspace/FlowPortSnapshot.cs",
+      "src/Foundation/Workspace/FlowElementSnapshot.cs",
+      "src/Foundation/Workspace/FlowPipeSnapshot.cs",
+      "src/Foundation/Workspace/FlowItemTransferSnapshot.cs",
+      "src/Foundation/Workspace/FlowInspectionService.cs"
+    ],
+    "Api/FlowOperations.cs": [
+      "src/Foundation/Api/IFlowOperations.cs",
+      "src/Foundation/Workspace/FlowPipeMetrics.cs",
+      "src/Foundation/Workspace/Nested/Counter.cs",
+      "src/Foundation/Workspace/FlowOperations.cs"
+    ],
+    "Api/FoundationAssets.cs": [
+      "src/Foundation/Api/IFoundationAssets.cs",
+      "src/Foundation/Api/IFoundationAsset.cs",
+      "src/Foundation/Integration/Nested/Handle.cs",
+      "src/Foundation/Api/FoundationAssets.cs"
+    ],
+    "Api/FoundationDiagnostics.cs": [
+      "src/Foundation/Api/FoundationDiagnosticLevel.cs",
+      "src/Foundation/Api/FoundationDiagnosticEntry.cs",
+      "src/Foundation/Api/IFoundationDiagnostics.cs",
+      "src/Foundation/Api/FoundationDiagnostics.cs"
+    ],
+    "Api/FoundationEvents.cs": [
+      "src/Foundation/Api/IFoundationEventBus.cs",
+      "src/Foundation/Api/FoundationEventSubscription.cs",
+      "src/Foundation/Integration/Nested/Entry.cs",
+      "src/Foundation/Api/FoundationEventBus.cs"
+    ],
+    "Api/FoundationLifecycle.cs": [
+      "src/Foundation/Api/FoundationLifecyclePhase.cs",
+      "src/Foundation/Api/FoundationLifecycleEvent.cs",
+      "src/Foundation/Api/IFoundationLifecycleService.cs",
+      "src/Foundation/Api/FoundationLifecycleService.cs"
+    ],
+    "Api/FoundationModContext.cs": [
+      "src/Foundation/Public/FoundationModContext.cs"
+    ],
+    "Api/FoundationNativeSignals.cs": [
+      "src/Foundation/Api/FoundationNativeSignals.cs"
+    ],
+    "Api/FoundationRuntime.cs": [
+      "src/Foundation/Api/IFoundationRuntimeService.cs",
+      "src/Foundation/Integration/Nested/Registration.cs",
+      "src/Foundation/Api/FoundationRuntimeService.cs"
+    ],
+    "Api/GameAdventureService.cs": [
+      "src/Foundation/Api/IGameAdventureService.cs",
+      "src/Foundation/Gameplay/GameAdventureService.cs"
+    ],
+    "Api/GameAudioService.cs": [
+      "src/Foundation/Api/IGameAudioService.cs",
+      "src/Foundation/Gameplay/GameAudioService.cs"
+    ],
+    "Api/GameCombatService.cs": [
+      "src/Foundation/Api/IGameCombatService.cs",
+      "src/Foundation/Gameplay/GameCombatService.cs"
+    ],
+    "Api/GameContentRegistry.cs": [
+      "src/Foundation/Api/IGameContentRegistry.cs",
+      "src/Foundation/Gameplay/GameContentRegistry.cs"
+    ],
+    "Api/GameEconomyService.cs": [
+      "src/Foundation/Api/IGameEconomyService.cs",
+      "src/Foundation/Api/ResourceAvailability.cs",
+      "src/Foundation/Api/ResourceUpgradeOffer.cs",
+      "src/Foundation/Gameplay/GameEconomyService.cs"
+    ],
+    "Api/GameEvents.cs": [
+      "src/Foundation/Api/CurrencyChangedEvent.cs",
+      "src/Foundation/Api/ResourceChangedEvent.cs",
+      "src/Foundation/Api/ResearchUnlockedEvent.cs",
+      "src/Foundation/Api/QuestCompletedEvent.cs",
+      "src/Foundation/Api/DungeonStageChangedEvent.cs",
+      "src/Foundation/Api/WarStageChangedEvent.cs",
+      "src/Foundation/Api/DungeonUnlockedEvent.cs",
+      "src/Foundation/Api/WarUnlockedEvent.cs",
+      "src/Foundation/Api/PrestigeChangedEvent.cs"
+    ],
+    "Api/GameFlagsService.cs": [
+      "src/Foundation/Api/IGameFlagsService.cs",
+      "src/Foundation/Gameplay/GameFlagsService.cs"
+    ],
+    "Api/GameItemsService.cs": [
+      "src/Foundation/Api/IGameItemsService.cs",
+      "src/Foundation/Gameplay/GameItemsService.cs"
+    ],
+    "Api/GameLogisticsService.cs": [
+      "src/Foundation/Api/IGameLogisticsService.cs",
+      "src/Foundation/Gameplay/GameLogisticsService.cs"
+    ],
+    "Api/GameMachinesService.cs": [
+      "src/Foundation/Api/IGameMachinesService.cs",
+      "src/Foundation/Gameplay/GameMachinesService.cs"
+    ],
+    "Api/GamePresentationService.cs": [
+      "src/Foundation/Api/IGamePresentationService.cs",
+      "src/Foundation/Gameplay/GamePresentationService.cs"
+    ],
+    "Api/GameProductionService.cs": [
+      "src/Foundation/Api/IGameProductionService.cs",
+      "src/Foundation/Gameplay/GameProductionService.cs"
+    ],
+    "Api/GameProgressService.cs": [
+      "src/Foundation/Api/IGameProgressService.cs",
+      "src/Foundation/Gameplay/GameProgressService.cs"
+    ],
+    "Api/GamePropertyControls.cs": [
+      "src/Foundation/Api/PropertyEditorOptions.cs",
+      "src/Foundation/Api/IGamePropertyControls.cs",
+      "src/Foundation/Gameplay/GamePropertyControls.cs"
+    ],
+    "Api/GameSaveService.cs": [
+      "src/Foundation/Api/IGameSaveService.cs",
+      "src/Foundation/Gameplay/GameSaveService.cs"
+    ],
+    "Api/GameUiService.cs": [
+      "src/Foundation/Api/IGameUiService.cs",
+      "src/Foundation/Gameplay/GameUiService.cs"
+    ],
+    "Api/GameUpgradeRegistry.cs": [
+      "src/Foundation/Api/IGameUpgradeRegistry.cs",
+      "src/Foundation/Gameplay/GameUpgradeRegistry.cs"
+    ],
+    "Api/GameViewService.cs": [
+      "src/Foundation/Api/IGameViewService.cs",
+      "src/Foundation/Gameplay/GameViewService.cs"
+    ],
+    "Api/GameWorldService.cs": [
+      "src/Foundation/Api/IGameWorldService.cs",
+      "src/Foundation/Gameplay/GameWorldService.cs",
+      "src/Foundation/Api/KingdomFlowCreatedEvent.cs",
+      "src/Foundation/Api/IWorkspaceEditorService.cs",
+      "src/Foundation/Workspace/WorkspaceEditorService.cs"
+    ],
+    "Api/MachineEvents.cs": [
+      "src/Foundation/Api/MachineRecipeChangedEvent.cs",
+      "src/Foundation/Api/MachineFilterChangedEvent.cs",
+      "src/Foundation/Api/MachineUpgradeChangedEvent.cs",
+      "src/Foundation/Api/MachineQuestChangedEvent.cs",
+      "src/Foundation/Api/MachineDungeonChangedEvent.cs",
+      "src/Foundation/Api/ItemQualityChangedEvent.cs",
+      "src/Foundation/Api/KingdomAscendedEvent.cs"
+    ],
+    "Api/MissingResearchRecovery.cs": [
+      "src/Foundation/Persistence/Nested/LoadSnapshot.cs",
+      "src/Foundation/Persistence/MissingResearchRecovery.cs"
+    ],
+    "Api/MissingWorkspaceElement.cs": [
+      "src/Foundation/Workspace/MissingWorkspaceElement.cs"
+    ],
+    "Api/ModBarContracts.cs": [
+      "src/Foundation/UI/ModBar/ModBarAlignment.cs",
+      "src/Foundation/Api/IModBarRegistry.cs",
+      "src/Foundation/Api/IModBarElement.cs",
+      "src/Foundation/Api/IModBarView.cs",
+      "src/Foundation/Api/IModBarContext.cs",
+      "src/Foundation/Api/IModBarRegistration.cs",
+      "src/Foundation/UI/ModBar/ModBarElement.cs"
+    ],
+    "Api/ModBarControls.cs": [
+      "src/Foundation/UI/ModBar/ModBarControlView.cs",
+      "src/Foundation/UI/ModBar/ModBarText.cs",
+      "src/Foundation/UI/ModBar/ModBarButton.cs",
+      "src/Foundation/UI/ModBar/ModBarDropdown.cs",
+      "src/Foundation/UI/ModBar/ModBarToggle.cs",
+      "src/Foundation/UI/ModBar/ModBarSeparator.cs"
+    ],
+    "Api/ModBarRegistry.cs": [
+      "src/Foundation/UI/ModBar/ModBarRegistry.cs",
+      "src/Foundation/UI/ModBar/ModBarRegistration.cs"
+    ],
+    "Api/ModConfigColorSwatches.cs": [
+      "src/Foundation/UI/Settings/ModConfigColorSwatches.cs"
+    ],
+    "Api/ModConfigColorSwatchesExtensions.cs": [
+      "src/Foundation/UI/Settings/ModConfigColorSwatchesExtensions.cs"
+    ],
+    "Api/ModConfigContracts.cs": [
+      "src/Foundation/Api/IModConfigRegistry.cs",
+      "src/Foundation/Api/IModConfigSection.cs",
+      "src/Foundation/Api/IModConfigElement.cs",
+      "src/Foundation/Api/IModConfigText.cs",
+      "src/Foundation/Api/IModConfigButton.cs",
+      "src/Foundation/Api/IModConfigToggle.cs",
+      "src/Foundation/Api/IModConfigSlider.cs",
+      "src/Foundation/Api/IModConfigDropdown.cs",
+      "src/Foundation/Api/IModConfigColorSwatches.cs",
+      "src/Foundation/Api/IModConfigContext.cs",
+      "src/Foundation/Api/IModConfigTemplates.cs"
+    ],
+    "Api/ModConfigElements.cs": [
+      "src/Foundation/Api/IModConfigEditSession.cs",
+      "src/Foundation/UI/Settings/ModConfigText.cs",
+      "src/Foundation/UI/Settings/ModConfigButton.cs",
+      "src/Foundation/UI/Settings/ModConfigToggle.cs",
+      "src/Foundation/UI/Settings/ModConfigSlider.cs",
+      "src/Foundation/UI/Settings/ModConfigDropdown.cs"
+    ],
+    "Api/ModConfigRegistry.cs": [
+      "src/Foundation/UI/Settings/ModConfigRegistry.cs",
+      "src/Foundation/UI/Settings/ModConfigSection.cs"
+    ],
+    "Api/ModConfigSignalSelector.cs": [
+      "src/Foundation/Signals/SignalSelection.cs",
+      "src/Foundation/UI/Settings/ModConfigSignalSelector.cs",
+      "src/Foundation/UI/Settings/ModConfigSignalSelectorExtensions.cs"
+    ],
+    "Api/ModSaveRegistry.cs": [
+      "src/Foundation/Api/IModSaveRegistry.cs",
+      "src/Foundation/Persistence/Nested/Stored.cs",
+      "src/Foundation/Persistence/Nested/Registration.cs",
+      "src/Foundation/Persistence/ModSaveRegistry.cs"
+    ],
+    "Api/NativeGameBridge.cs": [
+      "src/Foundation/Api/INativeGameBridge.cs",
+      "src/Foundation/Api/NativeGameBridge.cs"
+    ],
+    "Api/NativeResearch.cs": [
+      "src/Foundation/Research/NativeResearch.cs"
+    ],
+    "Api/NativeSignalBinder.cs": [
+      "src/Foundation/Api/INativeSignalBinder.cs",
+      "src/Foundation/Signals/NativeSignalBinder.cs"
+    ],
+    "Api/NexusModAttribute.cs": [
+      "src/Foundation/Updates/NexusModAttribute.cs"
+    ],
+    "Api/SignalRegistry.cs": [
+      "src/Foundation/Api/ISignalRegistry.cs",
+      "src/Foundation/Api/ISignalSource.cs",
+      "src/Foundation/Api/ISignalProperty.cs",
+      "src/Foundation/Signals/SignalPropertyChanged.cs",
+      "src/Foundation/Signals/SignalPropertyDefinition.cs",
+      "src/Foundation/Signals/SignalSourceDefinition.cs",
+      "src/Foundation/Signals/Nested/Source.cs",
+      "src/Foundation/Signals/Nested/Property.cs",
+      "src/Foundation/Signals/SignalRegistry.cs"
+    ],
+    "Api/TechModContracts.cs": [
+      "src/Foundation/Api/IModTechNodeDefinition.cs",
+      "src/Foundation/Api/ITechMod.cs",
+      "src/Foundation/Api/IModTechNode.cs",
+      "src/Foundation/Api/IModTechNodeRegistry.cs",
+      "src/Foundation/Research/TechMod.cs"
+    ],
+    "Api/TechModIdentity.cs": [
+      "src/Foundation/Research/TechModIdentity.cs"
+    ],
+    "Api/TechNodeContracts.cs": [
+      "src/Foundation/Api/ITechNodeDefinition.cs",
+      "src/Foundation/Api/ITechNode.cs",
+      "src/Foundation/Api/INativeTechNodeDefinition.cs",
+      "src/Foundation/Api/INativeTechNode.cs",
+      "src/Foundation/Research/TechNodeOptions.cs",
+      "src/Foundation/Api/ITechNodeRegistry.cs",
+      "src/Foundation/Research/TechNodeDefinition.cs"
+    ],
+    "Api/TechNodeRegistry.cs": [
+      "src/Foundation/Public/FoundationApi.cs",
+      "src/Foundation/Research/TechNodeRegistry.cs",
+      "src/Foundation/Research/TechNodeRegistration.cs"
+    ],
+    "Api/WorkspaceNode.cs": [
+      "src/Foundation/Workspace/WorkspaceNode.cs"
+    ],
+    "Api/WorkspaceNodeContracts.cs": [
+      "src/Foundation/Api/IWorkspaceNodeDefinition.cs",
+      "src/Foundation/Api/IWorkspaceNodeType.cs",
+      "src/Foundation/Api/IWorkspaceNodeRegistry.cs",
+      "src/Foundation/Workspace/WorkspaceNodeDefinition.cs"
+    ],
+    "Api/WorkspaceNodeRegistry.cs": [
+      "src/Foundation/Workspace/WorkspaceNodeRegistry.cs",
+      "src/Foundation/Workspace/WorkspaceNodeType.cs"
+    ],
+    "Api/WorldEvents.cs": [
+      "src/Foundation/Workspace/WorkspaceChangeKind.cs",
+      "src/Foundation/Workspace/WorkspaceChangedEvent.cs"
+    ],
+    "Plugin/FlowIntegration.cs": [
+      "src/Foundation/Workspace/Nested/PauseMissingPipe.cs",
+      "src/Foundation/Workspace/Nested/PipeConnect.cs",
+      "src/Foundation/Workspace/Nested/ItemTransferred.cs",
+      "src/Foundation/Workspace/Nested/PipeDisconnect.cs",
+      "src/Foundation/Workspace/FlowIntegration.cs"
+    ],
+    "Plugin/FoundationChecks.cs": [
+      "src/Foundation/Bootstrap/FoundationPlugin.cs"
+    ],
+    "Plugin/FoundationConfigMenu.cs": [
+      "src/Foundation/UI/Settings/Nested/ConfigContext.cs",
+      "src/Foundation/UI/Settings/FoundationConfigMenu.cs"
+    ],
+    "Plugin/FoundationDeveloperConsole.cs": [
+      "src/Foundation/Bootstrap/FoundationPlugin.FoundationDeveloperConsole.cs"
+    ],
+    "Plugin/FoundationPlugin.cs": [
+      "src/Foundation/Bootstrap/Patches/BlockExistingSaveInSmoke.cs",
+      "src/Foundation/Bootstrap/Patches/BlockAnyNativeSaveInSmoke.cs",
+      "src/Foundation/Bootstrap/Patches/CreateModBar.cs",
+      "src/Foundation/Bootstrap/Patches/EscapeModBar.cs",
+      "src/Foundation/Bootstrap/Patches/HideModBar.cs",
+      "src/Foundation/Bootstrap/Patches/OpenTree.cs",
+      "src/Foundation/Bootstrap/Patches/CloseTree.cs",
+      "src/Foundation/Bootstrap/Patches/ShowResearch.cs",
+      "src/Foundation/Bootstrap/Patches/RefreshResearch.cs",
+      "src/Foundation/Bootstrap/Patches/FocusResearch.cs",
+      "src/Foundation/Bootstrap/Patches/RequirementNavigation.cs",
+      "src/Foundation/Bootstrap/Patches/ListResearch.cs",
+      "src/Foundation/Bootstrap/Patches/TreeUpdate.cs",
+      "src/Foundation/Bootstrap/Patches/EmptyBounds.cs",
+      "src/Foundation/Bootstrap/Patches/CustomIcon.cs",
+      "src/Foundation/Bootstrap/Patches/FixedCosts.cs",
+      "src/Foundation/Bootstrap/Patches/ReadResearch.cs",
+      "src/Foundation/Bootstrap/Patches/SaveNotifications.cs",
+      "src/Foundation/Bootstrap/FoundationPlugin.FoundationPlugin.cs"
+    ],
+    "Plugin/GameEventIntegration.cs": [
+      "src/Foundation/Gameplay/Nested/AddCurrency.cs",
+      "src/Foundation/Gameplay/Nested/SpendCurrency.cs",
+      "src/Foundation/Gameplay/Nested/AddResource.cs",
+      "src/Foundation/Gameplay/Nested/SetFarmResource.cs",
+      "src/Foundation/Gameplay/Nested/UnlockTech.cs",
+      "src/Foundation/Gameplay/Nested/QuestCompleted.cs",
+      "src/Foundation/Gameplay/Nested/DungeonTick.cs",
+      "src/Foundation/Gameplay/Nested/WarTick.cs",
+      "src/Foundation/Gameplay/Nested/DungeonUnlocked.cs",
+      "src/Foundation/Gameplay/Nested/WarUnlocked.cs",
+      "src/Foundation/Gameplay/Nested/PrestigeSet.cs",
+      "src/Foundation/Gameplay/GameEventIntegration.cs"
+    ],
+    "Plugin/GameplayIntegration.cs": [
+      "src/Foundation/Gameplay/Nested/RecipeChanged.cs",
+      "src/Foundation/Gameplay/Nested/FilterChanged.cs",
+      "src/Foundation/Gameplay/Nested/UpgradeChanged.cs",
+      "src/Foundation/Gameplay/Nested/QuestChanged.cs",
+      "src/Foundation/Gameplay/Nested/DungeonChanged.cs",
+      "src/Foundation/Gameplay/Nested/QualityChanged.cs",
+      "src/Foundation/Gameplay/Nested/Ascended.cs",
+      "src/Foundation/Gameplay/GameplayIntegration.cs"
+    ],
+    "Plugin/ItemIntegration.cs": [
+      "src/Foundation/Integration/Nested/ReadNamespacedItem.cs",
+      "src/Foundation/Integration/ItemIntegration.cs"
+    ],
+    "Plugin/ModBarChecks.cs": [
+      "src/Foundation/Bootstrap/Patches/ProbeBarElement.cs",
+      "src/Foundation/Bootstrap/FoundationPlugin.ModBarChecks.cs"
+    ],
+    "Plugin/ModBarContext.cs": [
+      "src/Foundation/UI/ModBar/ModBarContext.cs"
+    ],
+    "Plugin/ModBarHost.cs": [
+      "src/Foundation/UI/ModBar/Nested/Entry.cs",
+      "src/Foundation/UI/ModBar/ModBarHost.cs"
+    ],
+    "Plugin/ModCategoryChecks.cs": [
+      "src/Foundation/Bootstrap/FoundationPlugin.ModCategoryChecks.cs"
+    ],
+    "Plugin/ModConfigChecks.cs": [
+      "src/Foundation/Bootstrap/FoundationPlugin.ModConfigChecks.cs"
+    ],
+    "Plugin/ModConfigPatches.cs": [
+      "src/Foundation/UI/Settings/OptionsUIStartPatch.cs",
+      "src/Foundation/UI/Settings/OptionsUIOnEnablePatch.cs",
+      "src/Foundation/UI/Settings/OptionsUIApplyPatch.cs",
+      "src/Foundation/UI/Settings/OptionsUICancelPatch.cs"
+    ],
+    "Plugin/ModConfigTemplates.cs": [
+      "src/Foundation/UI/Settings/ModConfigTemplates.cs"
+    ],
+    "Plugin/ModResearchLayout.cs": [
+      "src/Foundation/Research/ModResearchLayout.cs"
+    ],
+    "Plugin/ModResearchSidebar.cs": [
+      "src/Foundation/Research/ModResearchSidebar.cs"
+    ],
+    "Plugin/ModTechTreeView.cs": [
+      "src/Foundation/Integration/ModTechTreeView.cs"
+    ],
+    "Plugin/NexusUpdateChecker.cs": [
+      "src/Foundation/Integration/ModItem.cs",
+      "src/Foundation/Updates/NexusUpdateChecker.cs"
+    ],
+    "Plugin/RequirementChecks.cs": [
+      "src/Foundation/Bootstrap/FoundationPlugin.RequirementChecks.cs"
+    ],
+    "Plugin/RequirementLinks.cs": [
+      "src/Foundation/Research/RequirementLinks.cs"
+    ],
+    "Plugin/RuntimeCheck.cs": [
+      "src/Foundation/Bootstrap/Patches/NoSave.cs",
+      "src/Foundation/Bootstrap/Patches/NoAutosave.cs",
+      "src/Foundation/Bootstrap/Patches/NoLoad.cs",
+      "src/Foundation/Bootstrap/Patches/NoAchievement.cs",
+      "src/Foundation/Bootstrap/Patches/Offline.cs",
+      "src/Foundation/Bootstrap/FoundationPlugin.RuntimeCheck.cs"
+    ],
+    "Plugin/SaveIntegration.cs": [
+      "src/Foundation/Persistence/Nested/SaveCurrentStatePatch.cs",
+      "src/Foundation/Persistence/Nested/LoadStatePatch.cs",
+      "src/Foundation/Persistence/Nested/NewPlayerPatch.cs",
+      "src/Foundation/Persistence/Nested/WorldReadyPatch.cs",
+      "src/Foundation/Persistence/Nested/WorldLeavingPatch.cs",
+      "src/Foundation/Persistence/SaveIntegration.cs"
+    ],
+    "Plugin/TechModSelection.cs": [
+      "src/Foundation/Research/Nested/ModState.cs",
+      "src/Foundation/Research/TechTreeTabs.cs"
+    ],
+    "Plugin/TechNodeChecks.cs": [
+      "src/Foundation/Bootstrap/Patches/MutableDefinition.cs",
+      "src/Foundation/Bootstrap/FoundationPlugin.TechNodeChecks.cs"
+    ],
+    "Plugin/TechTreeTabs.cs": [
+      "src/Foundation/Research/Nested/CameraState.cs",
+      "src/Foundation/Research/TechTreeTabs.TechTreeTabs.cs"
+    ],
+    "Plugin/UpgradeIntegration.cs": [
+      "src/Foundation/Integration/Nested/CreateNativeUpgrade.cs",
+      "src/Foundation/Integration/UpgradeIntegration.cs"
+    ],
+    "Plugin/WorkspaceChecks.cs": [
+      "src/Foundation/Bootstrap/FoundationPlugin.WorkspaceChecks.cs"
+    ],
+    "Plugin/WorkspaceIntegration.cs": [
+      "src/Foundation/Workspace/Nested/DeserializeScope.cs",
+      "src/Foundation/Workspace/Nested/CreateModel.cs",
+      "src/Foundation/Workspace/Nested/PreserveMissingJson.cs",
+      "src/Foundation/Workspace/Nested/BuildCatalog.cs",
+      "src/Foundation/Workspace/Nested/NativePrefab.cs",
+      "src/Foundation/Workspace/WorkspaceIntegration.cs"
+    ],
+    "Plugin/WorldEventIntegration.cs": [
+      "src/Foundation/Integration/Nested/Created.cs",
+      "src/Foundation/Integration/Nested/Removed.cs",
+      "src/Foundation/Integration/Nested/Moved.cs",
+      "src/Foundation/Integration/Nested/Switched.cs",
+      "src/Foundation/Integration/WorldEventIntegration.cs"
+    ]
+  },
+  "note": "All original sources backed up in Backup/ before movement. Harmony patch classes retained as nested partials."
+}

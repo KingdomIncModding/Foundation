@@ -1,0 +1,280 @@
+{
+  "scope": "Stage B static source contracts only. Windows Unity build and game acceptance required.",
+  "results": {
+    "PASS": 68
+  },
+  "checks": {
+    "source.R01": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R02": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R03": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R04": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R05": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R06": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R07": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R08": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R09": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R10": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R11": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R12": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R13": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R14": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R15": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R16": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R17": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R18": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R19": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R20": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R21": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R22": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R23": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "source.R24": {
+      "status": "PASS",
+      "details": "source presence only; not runtime behavior"
+    },
+    "compat.patch-manager-interface.PatchClass(string ownerId, Type patchContainer)": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.patch-manager-interface.Conflicts(string ownerId)": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.patch-manager-interface.ReleaseOwner(string ownerId)": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.modbar-interface.CreateText(string text)": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.modbar-interface.CreateButton(string text, Action clicked)": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.modbar-interface.CreateDropdown(": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.modbar-interface.CreateToggle(": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.modbar-interface.CreateSeparator()": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.workspace-node-interface.Nodes": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.workspace-node-interface.RegisterWorkspaceNode(": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.workspace-node-interface.TryGet(": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.workspace-node-interface.Changed": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.foundation-old-entry.public static IModBarRegistry ModBar": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.foundation-old-entry.public static IWorkspaceNodeRegistry WorkspaceNodes": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.foundation-old-entry.public static IModSaveRegistry ModSave": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.missing-research.RetainedIds": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.missing-research.RetainedNotificationIds": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.missing-research.Clear()": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.missing-research.Inspect(JsonObject": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.missing-research.PrepareLoad(JsonObject": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.missing-research.RestoreInputOnFailure": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.missing-research.Loaded(": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.missing-research.Extend(JsonObject": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.verification-source.IEnumerator Once()": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.verification-source.Check(": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.verification-source.Pending(": {
+      "status": "PASS",
+      "details": ""
+    },
+    "compat.verification-source.Write()": {
+      "status": "PASS",
+      "details": ""
+    },
+    "single-production-assembly": {
+      "status": "PASS",
+      "details": ""
+    },
+    "independent-test-assembly": {
+      "status": "PASS",
+      "details": ""
+    },
+    "explicit-uninstall-option": {
+      "status": "PASS",
+      "details": ""
+    },
+    "report-trust": {
+      "status": "PASS",
+      "details": ""
+    },
+    "pending-not-masked": {
+      "status": "PASS",
+      "details": ""
+    },
+    "no-unattended-native-mutation": {
+      "status": "PASS",
+      "details": ""
+    },
+    "gameapi-native-mapping-unmodified": {
+      "status": "PASS",
+      "details": ""
+    },
+    "docs-migration-exists": {
+      "status": "PASS",
+      "details": ""
+    },
+    "docs-B6-5": {
+      "status": "PASS",
+      "details": ""
+    },
+    "docs-24": {
+      "status": "PASS",
+      "details": ""
+    },
+    "legacy-interface-ABI": {
+      "status": "PASS",
+      "details": ""
+    },
+    "exact-public-interface.src/Foundation/Api/IModBarContext.cs": {
+      "status": "PASS",
+      "details": "public API unchanged"
+    },
+    "exact-public-interface.src/Foundation/Core/Contracts/ICorePatchManager.cs": {
+      "status": "PASS",
+      "details": "public API unchanged"
+    },
+    "exact-public-interface.src/Foundation/Api/IWorkspaceNodeRegistry.cs": {
+      "status": "PASS",
+      "details": "public API unchanged"
+    },
+    "exact-public-interface.src/Foundation/Api/UI/IFoundationPanelRegistry.cs": {
+      "status": "PASS",
+      "details": "public API unchanged"
+    },
+    "game-api-unchanged.Foundation/src/Foundation/Machines/": {
+      "status": "PASS",
+      "details": ""
+    },
+    "game-api-unchanged.Foundation/src/Foundation/Gameplay/": {
+      "status": "PASS",
+      "details": ""
+    }
+  }
+}

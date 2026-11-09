@@ -1,0 +1,150 @@
+{
+  "scope": "source contracts and native decompiled source comparisons only; NOT a Windows compile or Unity runtime audit",
+  "summary": {
+    "PASS": 35,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "checks": [
+    {
+      "name": "Every required native IO source included",
+      "status": "PASS"
+    },
+    {
+      "name": "One production Foundation DLL unchanged",
+      "status": "PASS"
+    },
+    {
+      "name": "Production version aligned with current project",
+      "status": "PASS"
+    },
+    {
+      "name": "Shared native IO public entrypoints",
+      "status": "PASS"
+    },
+    {
+      "name": "Mutations delegate to existing native workspace API",
+      "status": "PASS"
+    },
+    {
+      "name": "No duplicated pipe graph and no manual flow simulation",
+      "status": "PASS"
+    },
+    {
+      "name": "Port validation honors native occupancy and flow identity",
+      "status": "PASS"
+    },
+    {
+      "name": "Native acceptance predicate not guessed",
+      "status": "PASS"
+    },
+    {
+      "name": "Native preview truth labels incomplete custom filters",
+      "status": "PASS"
+    },
+    {
+      "name": "No invented physical item rate cap",
+      "status": "PASS"
+    },
+    {
+      "name": "Native throughput delegates to existing measured counter",
+      "status": "PASS"
+    },
+    {
+      "name": "Native production distinct from observed throughput",
+      "status": "PASS"
+    },
+    {
+      "name": "Native 3 logistics routing classes mapped",
+      "status": "PASS"
+    },
+    {
+      "name": "Delegates port expansion/collapse to existing native machine calls",
+      "status": "PASS"
+    },
+    {
+      "name": "Protects against trailing buffered-item loss",
+      "status": "PASS"
+    },
+    {
+      "name": "No fictional configurable FlowIO setters",
+      "status": "PASS"
+    },
+    {
+      "name": "Real native editor grid snap",
+      "status": "PASS"
+    },
+    {
+      "name": "Committed topology events from native methods",
+      "status": "PASS"
+    },
+    {
+      "name": "Native IO hooks enabled in unified runtime",
+      "status": "PASS"
+    },
+    {
+      "name": "Callback exception isolation and disposable ownership",
+      "status": "PASS"
+    },
+    {
+      "name": "Independent real-game BepInEx consumer included",
+      "status": "PASS"
+    },
+    {
+      "name": "One-step full build and verification installer",
+      "status": "PASS"
+    },
+    {
+      "name": "Development verification report has PASS FAIL PENDING",
+      "status": "PASS"
+    },
+    {
+      "name": "Manual mutations require explicit opt-in",
+      "status": "PASS"
+    },
+    {
+      "name": "Windows installer checks fresh runtime report",
+      "status": "PASS"
+    },
+    {
+      "name": "Roadmap boundary in game API docs",
+      "status": "PASS"
+    },
+    {
+      "name": "No Unity JsonUtility dependency in verifier",
+      "status": "PASS"
+    },
+    {
+      "name": "Vanilla pipe explicitly drains buffers without hard-coded speed",
+      "status": "PASS"
+    },
+    {
+      "name": "Vanilla IO accepts by native filter or ItemType",
+      "status": "PASS"
+    },
+    {
+      "name": "Vanilla InputItem only checks CanBuffer",
+      "status": "PASS"
+    },
+    {
+      "name": "Vanilla Collector forwards max one item per native Update",
+      "status": "PASS"
+    },
+    {
+      "name": "Vanilla Distributor advances selected output and returns if full",
+      "status": "PASS"
+    },
+    {
+      "name": "Vanilla Manifold first buffered source to first connected output",
+      "status": "PASS"
+    },
+    {
+      "name": "Vanilla UI port limit 4 documented by original UI class",
+      "status": "PASS"
+    },
+    {
+      "name": "Vanilla pipe graph uses actual manager CreateNewPipe",
+      "status": "PASS"
+    }
+  ]
+}

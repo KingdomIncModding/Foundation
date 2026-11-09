@@ -1,66 +1,219 @@
-# Foundation
+﻿# Foundation 0.10.7 — Stage B1 Core Framework Rewrite
 
-Foundation 0.7.1 is a C# framework for Kingdom Inc mods. It adds **Base Game | Mods** beneath the **Tech Tree** heading, a shared **Mod Bar**, and a custom 3x expanded **Options / Config Menu** with a dedicated **Mod Settings** tab and public `FoundationApi.ModConfig` API.
+**Game API Stage A (A1–A7):** project-owner-accepted Gate A assumption; the Gate A source-freeze candidate and original audit evidence are kept unchanged. This release addresses the six **B1** custom-system candidates R01/R02/R03/R04/R06/R07 only. No native gameplay or later B2–B6 rewrite is included.
 
-## Custom 3x Options Menu and ModConfig API
+See `Docs/Core/Stage-B1-Rewrite.md` for full API, preservation and acceptance details, and `Docs/Core/Stage-B1-Runtime-Test-Guide.md` for the independent **one-shot** verifier. The installer still produces **one production Foundation.dll**. This package is source-verified; installed Windows compilation and B1 runtime tests remain to be performed.
 
-Foundation 0.7.1 replaces the vanilla Options menu with a spacious, 3x expanded layout maintaining the authentic Kingdom Inc visual aesthetic. It preserves 100% of vanilla functionality (Resolution, Fullscreen, Quality, Master/Music/SFX Audio sliders, Apply, and Cancel) and adds a dual-tab header: **[ Game Settings ]** and **[ Mod Settings ]**.
+---
 
-Under **[ Mod Settings ]**, players see a left sidebar listing all installed mods that register configuration, complete with mod descriptions and clean settings panels. Mod developers register settings via `FoundationApi.ModConfig`, offering ready-to-use template controls (buttons, dropdowns, text headers, sliders, toggles) or direct two-way bindings to BepInEx `ConfigEntry<T>` fields with Apply/Cancel lifecycle notifications.
+# Foundation 0.10.6 — Stage A1 Native Machine API Full Source
 
-## Shared Mod Bar
+**One complete source archive; no incremental overlays.** This revision builds
+on the user-reported verified A2 runtime baseline and the A3–A7 source-complete
+Foundation 0.10.5 package. The only new scope is **native game API A1**.
 
-The shared **Mod Bar** sits 2 pixels beneath the existing currency bar with a top-center chevron toggle that smoothly slides the bar open and closed. Mods can register text, buttons, dropdowns, toggles, vertical separators or custom controls through `FoundationApi.ModBar`, aligned to the left, center or right. The registry, element, view, context and registration contracts are public interfaces; built-in controls are ordinary implementations, and custom implementations use the same path. Controls use native frames, fonts and dropdowns, follow HUD scaling/visibility, and scroll horizontally when space is limited. Each mod owns its callbacks and state; Foundation owns slot layout and scene cleanup. The player package includes the bar, with no demonstration controls.
+**Native A1 coverage:** 61 concrete original game `FlowElement` classes are
+explicitly mapped. The source now exposes per-machine native observations,
+inherited native crafting/resource operations, a typed native class catalog,
+selected machine-specific configuration bridges, native costs and independent
+read-only verification tooling. It does **not** reimplement game machines or
+rewrite custom Foundation components ahead of Gate A.
 
-Download the player package and separate developer SDK from [GitHub Releases](https://github.com/urakkaamyx/KingdomInc_Foundation/releases). For a source checkout, clone this repository into `<KingdomInc>/_Mods/Foundation`; game and BepInEx assemblies stay local.
+**Read:** `Docs/GameAPI/A1-Native-Machine-Coverage.md`,
+`Docs/GameAPI/A1-Machine-SDK-Guide.md`, and
+`Docs/GameAPI/A1-Source-Completion-Notes.md`.
 
-## Native Research
+**Offline tests:** `python Tests/verify_native_machine_a1.py --native-zip KingdomIncSrc.zip`
+(using your own original game source ZIP). **Windows and game runtime acceptance**
+are required after this source phase: `Tests/NativeMachines/INSTALL-A1-TEST.cmd`
+then `MACHINE-A1-TEST.cmd` option **3**. **No A1 runtime PASS is claimed here.**
 
-Registered nodes use the game's actual research models, building/upgrade prefabs, fonts, tooltips, highlights, available glow, purchased checkmarks, cost displays, insufficient-funds feedback, prerequisites, connectors, upgrade branches and research list. The Mods map uses normal game zoom/pan controls, including Better Zoom. Each tab retains its camera and selected branch.
+Only one production `Foundation.dll` is built. Any verifier DLL is dev-only.
 
-Click a red **Requires …** label to open the required technology's branch and center it on the map. Each missing requirement has its own destination, including links between Base Game and Mods. Navigation preserves the native appearance and does not purchase research.
+---
 
-The **Mods** tab has a **Mod List** on the left. Select a mod to view its own research map and list. Existing plugins are grouped automatically using their BepInEx identity; explicit category metadata is also supported. Each category remembers its branch, position and zoom. Empty categories disappear, and the sidebar scrolls independently of map zoom.
+# Foundation 0.10.5 — Native Game API A3–A7 Complete Source Candidate
 
-Technologies sharing a visible map cannot overlap: Foundation measures their native frames, costs and requirement panels and moves later nodes into free space. Definition coordinates remain the requested positions; the native model exposes the resolved positions used by focus and connectors. Separate categories can reuse coordinates.
+**One complete source package — not an incremental overlay.** This revision is
+based on the source-complete Foundation 0.10.4 native IO milestone, which the
+user subsequently reported passed its installed runtime checks. The controlling
+order is `Foundation_1.0_Game_API_First_Rewrite_Roadmap.md`: native Game API
+Stage A before any planned Foundation-created Stage B rewrites.
 
-## For modders
+**What changed:** typed game-backed item/equipment/recipe/resource/economy,
+research/adventure/combat, workspace editing, native game UI/input/camera/assets,
+and actual game-origin event coverage. No duplicated native game simulation,
+no fictional game capabilities, no replacement item transport. Existing
+Foundation custom systems are maintained for compatibility and left unrewritten.
 
-Use `FoundationApi.CreateTechNode(ITechNodeDefinition)` or `ITechNodeRegistry.CreateTechNode`. The returned ITechNode supports presentation updates, disposal and successful-unlock callbacks. INativeTechNode exposes the actual game model. TechNodeOptions configures native costs, prerequisites and branch relationships. The workspace API adds IWorkspaceNodeDefinition, IWorkspaceNodeRegistry, IWorkspaceNodeType and a WorkspaceNode base class. RegisterWorkspaceNode exposes a native building type; its factory supplies the mod-owned FlowElement behavior. Types appear in the normal build menu after research, and use native placement, dragging, collisions, ports, copying and save/load.
+**Documentation:**
 
-For mod settings, call `FoundationApi.ModConfig.GetOrCreateSection(modId, modName, description)` to add in-game configurable options under the Options menu Mod Settings tab.
+- `Docs/GameAPI/A3-A7-Native-Game-API.md` — native source evidence, contracts,
+  semantics, restrictions, and installed test guide.
+- `Docs/GameAPI/A3-A7-Stage-Status-Matrix.md` — evidence and remaining runtime
+  requirements for each A3–A7 milestone.
+- `Tests/verify_game_api_a3_a7.py` — offline source signature and semantic
+  checks against the game's extracted source; not a C# compile test.
+- `Tests/NativeGameApi/INSTALL-A3-A7-TEST.cmd` — compile/install the complete
+  Foundation and independent **development-only** verification plugin against
+  actual installed game DLLs. Run in a disposable save.
+- `Tests/NativeGameApi/GAME-API-TEST.cmd` — preflight, build, read exact
+  PASS/FAIL/PENDING scenarios and remove the development verifier.
 
-See [the API guide](SDK/README.md) and [the separately compiled example](Examples/ExampleTechNodes/ExamplePlugin.cs). The player package installs no example technologies; another plugin must register them.
+**Status:** source additions and static checks completed. **Windows
+compilation and in-game A3–A7 test results are still pending.** Do not mark
+100% accepted, or check Gate A, based on the ZIP alone. A1 native machine
+specialization coverage has its own outstanding roadmap requirement. The
+production output remains **one** `Foundation.dll`.
 
-## Requirements and installation
+---
 
-Tested against Kingdom Inc Release v1.0.13 / Unity 6000.3.27f2 and BepInEx 5.4.23.6 with bundled HarmonyX. Extract the player ZIP into the game directory so the DLL is at `BepInEx/plugins/Foundation/Foundation.dll`, then relaunch. Manual installation is verified; mod-manager installation is untested.
+# Foundation 0.10.4 — Native Machine IO & Throughput Source Candidate
 
-Close the game before replacing/removing an installed DLL. `install.ps1 -WhenGameCloses` can queue a verified update while the game is running; it backs up the previous DLL after the game closes. `-StageForNextLaunch` is only for a first installation. To remove, delete the Foundation plugin folder. Dependent mods require Foundation to load.
+**Latest complete source baseline:** `Foundation-Source-20261109-094126-36516.zip`.
+**Stage:** A2 Native Machine IO & Throughput, under `Foundation_1.0_Game_API_First_Rewrite_Roadmap.md`.
+**Runtime status:** Unity/BepInEx build and interactive A2 verification pending on installed Kingdom Inc. No custom framework rewrites.
 
-Research purchases use the game's existing saved technology IDs, with no custom save schema. Re-register the same IDs each launch to retain progress. The game skips missing technologies when loading without their defining mod; saving again without them may drop those IDs. Foundation keeps its branch notification counters out of saved NewTechCount dictionaries to avoid missing-key load failures.
+See `Docs/GameAPI/A2-Native-Machine-IO-Throughput.md` for actual native mechanics, API usage, source evidence and the full independent test procedure. This tree is the **complete Foundation source**, not an incremental overlay. One production `Foundation.dll`; a separate optional development-only BepInEx verification consumer is located in `Tests/NativeIO/` and should be removed after verification.
 
-## Build and verify
+# Previous milestone: Foundation 0.10.3 UI Framework notes — Unified Core, Machines and UI
 
-Keep this project at `<KingdomInc>/_Mods/Foundation`. Game assemblies stay local and are never packaged.
+This is a **source-level merge** of the complete Foundation source uploaded as `Foundation(1).zip` and its embedded `Foundation_Machine_Framework_1.0.5` implementation. **One game-facing DLL** is produced: `Foundation.dll`. The existing Foundation and Foundation Core plugin registrations remain inside it for compatibility, but there is **no standalone Machine plugin**.
 
-```powershell
-dotnet build .\Foundation.csproj -c Release
-dotnet build .\Examples\ExampleTechNodes\ExampleTechNodes.csproj -c Release
-.\verify-isolated.ps1
-.\verify-isolated.ps1 -WithExistingPlugins
-.\install.ps1 -WhenGameCloses
-.\package.ps1
-```
+## Architecture
 
-Diagnostics use a disposable kingdom and a separate consumer plugin, blocking save writes, autosaves, latest-save loading and achievements. They exercise native prefab identity, appearance/status, real pointer purchases, insufficient funds, prerequisite unlocking, branch connectors, native JSON persistence, late registration/storage growth, automatic refresh, list filtering, pan/zoom, tab state and scene cleanup. Reports and screenshots are under ignored Verification. The compatibility run includes the currently installed plugins and a separate Factory API port. Tests cover this framework, not every behavior of every other mod.
+- Existing Foundation namespaces, modules, Core interfaces, and API contracts are kept.
+- `KingdomFoundation.Machines.FoundationMachineApi` and its public types are **now defined inside `Foundation.dll`**, with the same namespace/type names.
+- The standalone `FoundationMachinePlugin : BaseUnityPlugin` has been retired; `FoundationPlugin` owns startup, native-transfer Harmony patch, per-frame polling, and cleanup. **The original Core companion BepInEx entry remains in the same assembly for compatibility with mods depending on the Core plugin ID; no new Machine entry is created.**
+- The Machine scanner still polls at 0.25 seconds and the native transfer postfix remains observe-only.
+- No vanilla game logic is rewritten.
 
-The packager builds separate player and developer ZIPs, verifies clean extraction and compiles the consumer against the extracted SDK's DLL. It preserves prior release archives.
+## Install / build (Windows)
 
-Plugin ID: `urakka.kingdominc.foundation`. Public name and assembly: Foundation.
+1. Exit Kingdom Inc.
+2. Extract this archive to `KingdomInc\_Mods\Foundation` (or another **fresh** folder; pass `-GameRoot` explicitly).
+3. Run `INSTALL-FOUNDATION.cmd -UseInstalledBepInExOnly` (or double-click `INSTALL-FOUNDATION.cmd` if BepInEx is already configured).
+4. The normal installer builds **using the actual installed Unity/game/BepInEx assemblies**, builds SDK examples, creates the player/SDK ZIPs, then installs one DLL to `BepInEx\plugins\Foundation\Foundation.dll`.
+5. After the new DLL has been installed and hash-verified, the installer backs up and removes the two **specific old binaries** `Foundation.Machines.dll` and `Foundation.MachineVerification.dll` (if present), preventing duplicate patches. It does not delete unrelated plugin files or saves.
 
-UI sprites/fonts are referenced from the installed game at runtime, not redistributed. No game assemblies or artwork are packaged. Implementation, documentation and verification were developed with AI assistance under the author's direction. No source license is specified.
+**Build without installing:** `INSTALL-FOUNDATION.cmd -BuildOnly -UseInstalledBepInExOnly` (no plugin cleanup). This is recommended before deployment.
 
-Workspace registrations are building types, not placed instances. The optional SDK example includes an input/output relay costing 20 gold, unlocked by its first research. The framework itself adds no demonstration nodes. See the SDK workspace section for a complete subclass and registration example.
+## Verification after merge
 
-Remove placed custom workspace nodes before uninstalling the defining plugin or Foundation: the native loader needs its registered factory to recreate saved FlowElement types. Deactivation during the current process hides new purchases while retaining existing instances and factory routing. Mods own custom data and port-schema migrations.
+The unified **0.10.2** baseline passed 296 native smoke + 24 independent Core + 26 independent Machine checks on the user's Windows installation. The previous **0.10.3** UI screenshot harness ran in Kingdom Inc (36/37 tests, with the tooltip probe defect since source-corrected). The **new asset-based theme code in this package is not yet compiled or screenshot-verified**. Do not mistake the earlier test run for verification of this revision.
+
+1. Run the built-in Foundation native isolated smoke workflow when safe, keeping backups. Build+Install first; `-Verify` is an optional special mode that needs prerequisites (see `Tools/Development`).
+2. To rebuild the independent machine verifier against the merged assembly, run `Tests\INSTALL-UNIFIED-MACHINE-TEST.cmd` (development only). This creates a second DLL temporarily **for testing**, not for players.
+3. In-game: enter a disposable kingdom, connect machines, let resources transfer, add/change/remove a machine, return to menu, reload, return to menu, exit.
+4. Run `Tests\READ-MACHINE-REPORT.ps1` for fresh 26/26 status. Delete the verification plugin DLL after successful testing. Rerun independent Core verification against the new DLL too.
+
+## Compatibility notice
+
+**Existing mods compiled with an AssemblyRef to `Foundation.Machines.dll` must be rebuilt to reference `Foundation.dll`**. Keeping the namespace/type names alone does not preserve CLR type identity across an assembly merge. Don't ship the old `Foundation.Machines.dll` alongside the merged build to make those mods work; doing so can cause duplicate plugins and conflicting types.
+
+The regular package contains only Foundation.dll. Developer tools may compile independent test DLLs but are not distributed to players.
+
+## Build status
+
+- Core + Machine unified 0.10.2 runtime regression tests: passed previously.
+- Prior UI 0.10.3 gallery and screenshot audit: executed in game (36/37 original cases).
+- This revision: game-asset-native theme source checks and contrast tests passed.
+- This theme revision's Windows compilation, in-game screenshots and visual approval: **not yet run**.
+- Native mutation/save/reload hardening remains a separate coverage requirement.
+
+## Complete UI framework source (0.10.3 candidate)
+
+The full UI implementation extends the verified 0.10.2 Core/Machine baseline. It
+adds owner-scoped native panels, per-machine editors, dynamic properties,
+searchable selection, signal source/property lookup, input fields, tabs,
+collapsible sections, confirm dialogs, tooltips, draggable layouts, color swatches,
+and live telemetry. Existing ModConfig now has staged string, numeric and
+search controls. All production code compiles into the one `Foundation.dll`.
+
+**Read `Docs/UI/README.md` before building.** New source has passed static checks
+but has **not** yet been compiled or tested in Kingdom Inc; do not overwrite a
+known-good install without backing it up. `Examples/UIDemo` is development-only.
+
+## Canonical Kingdom Inc UI theme / asset snapshot
+
+**The user's extracted `Assets.zip` is the immutable UI art reference until a
+Kingdom Inc game update.** This source release includes the asset SHA256 and
+native sprite names / nine-slice measurements in
+`Docs/UI/Game-Asset-Theme-Snapshot.json`, and the full visual QA acceptance
+checklist in `Docs/UI/Game-Theme-Contract.md`. The game loads its own textures;
+no raw or redistributed game art is bundled into the production mod.
+
+The theme pass replaces the previous custom gallery's jarring green machine
+buttons and fields with the game's actual Options button/ornament art wherever
+loaded, with measured plum/cream/brass fallbacks. Native Options Mod Settings
+keep using the original template styles. The optional UISmoke verifier now
+reports potential text overlaps and font-sizing issues in `VisualIssues[]`.
+
+**Retest after applying this source revision:** UI-FRAMEWORK-TEST.cmd option 2
+(build/install Foundation), option 7 (rebuild UI screenshot verifier), in game
+click UI Smoke + Screenshots, option 8 (ZIP report). Inspect every control PNG
+against the native Options screen. Do not call the new theme visually complete
+until a new screenshot review shows no layout, clipping or contrast faults.
+
+## UI screenshot visual review (2026-11-09 09:07)
+
+The latest 37/37 smoke-result screenshots revealed a Mod Settings Signal Source
+caption overflow not caught by the previous geometry analyzer. Source/hotfix
+notes are in `Docs/UI/UISmoke-Visual-Review-20261109-090724.md`. The runtime
+visual recheck, broader machine coverage, and narrow-resolution tests are still
+pending. The target remains one production `Foundation.dll`.
+
+
+## Four-issue UI visual correction (2026-11-09)
+
+See `Docs/UI/Visual-Regression-Fixes-20261109-4-Defects.md` for the
+number/input inset fields, signal captions, checkbox scaling and extended
+screenshot-smoke visual failures. The 0.10.3 source requires a new Windows
+build and Unity screenshot pass before being considered visually accepted.
+
+
+## Gate A native Game API audit — current 0.10.6 user-exported source
+
+See `Docs/GameAPI/GateA/README.md` for the complete Stage 0/A1–A7 source inventory,
+61 exact native machine declarations, 283 typed API members, 37 classified public
+entrypoints and the frozen 24-item Stage B candidate inventory. Gate A source
+checks are reproducible with `Tests/GateA/verify_gate_a.py`. The audit has **not**
+rewritten any of the Stage B systems or claimed an installed 1.0 freeze.
+The independent A1–A7 verifier PASS results are user-reported; installed assembly
+hashes and raw reports were not supplied with this source export. The read-only
+`Tests/GateA/GATE-A-AUDIT.cmd` captures any still-present evidence without
+installing test mods or repeating the overlapping audits that caused poor FPS.
+
+## Foundation 0.11.0 — Stage B integration and B6 compatibility-preserving rewrite
+
+See [Stage B workstream inventory](Docs/StageB/README.md), [Mod author migration guide](Docs/StageB/Mod-Migration-Guide.md) and [independent acceptance checklist](Docs/StageB/StageB-Acceptance-Checklist.md). All five B6 candidates are explicitly **REWRITE**, with existing public functionality kept available. The new `Tests/StageB/STAGE-B-TEST.cmd` is one-shot and development-only. Windows build and real kingdom verification are pending; static validation does not equate to runtime signoff.
+
+## Stage B visual smoke (0.11.0 test harness correction)
+
+A Stage B registry smoke PASS alone never creates a visible button. The corrected
+`Tests/StageB` verifier now registers a real HUD `STAGE B UI TEST` button and
+interactive popup for manual verification, with no per-frame test loop. See
+`Docs/StageB/StageB-Visual-UI-Test-20261109.md`. The production DLL is unchanged.
+
+
+## Single full verification launcher (A1–A7 and B1–B6)
+
+Run `RUN-ALL-TESTS.cmd` from the Foundation root. It builds the installed
+Foundation, performs source checks, runs one independent verifier at a time
+through a separate game session, collects a combined report, and removes each
+temporary testing DLL afterward to avoid the earlier FPS degradation.
+**F8 is disabled by default**; the runner temporarily enables Developer →
+EnableConsole for the Stage B UI test and restores the original config on
+exit. For full instructions and remaining manual acceptance fixtures, read
+`Tests/FullSuite/README.md`.
+
+
+## Gate B native API / Stage B integration audit (2026-11-09)
+
+See **`Docs/GateB/README.md`**, the complete **24-system traceability matrix**,
+`Docs/GateB/Gate-B-Compatibility-And-Decision-Record.md`, and
+`Docs/StageB/Mod-Migration-Guide.md`. All five B6 systems are designated
+**REWRITE** without deliberate functionality removal. The full-suite runner
+includes safe recovery from prior F8 test failures and a source-only Gate B
+regression check. This is a source audit and compatibility handoff, **not**
+a claim of independently verified 1.0 runtime/save/ABI compatibility.

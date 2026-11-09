@@ -1,0 +1,270 @@
+{
+  "schema": 1,
+  "coverage": "All 24 rewrite workstreams have linked runtime or manual acceptance checks. Not proof they have passed.",
+  "workstreams": [
+    {
+      "id": "R01",
+      "checks": [
+        {
+          "id": "B1.Directory",
+          "mode": "one_shot_runtime"
+        }
+      ]
+    },
+    {
+      "id": "R02",
+      "checks": [
+        {
+          "id": "B1.CoreAccessible",
+          "mode": "one_shot_runtime"
+        }
+      ]
+    },
+    {
+      "id": "R03",
+      "checks": [
+        {
+          "id": "B1.CoreAccessible",
+          "mode": "one_shot_runtime"
+        }
+      ]
+    },
+    {
+      "id": "R04",
+      "checks": [
+        {
+          "id": "B1.ServiceDirectory",
+          "mode": "one_shot_runtime"
+        }
+      ]
+    },
+    {
+      "id": "R05",
+      "checks": [
+        {
+          "id": "B6.PatchManagerCompatibility",
+          "mode": "one_shot_runtime"
+        },
+        {
+          "id": "B6.NativePatchConflictCleanup",
+          "mode": "manual_pending"
+        }
+      ]
+    },
+    {
+      "id": "R06",
+      "checks": [
+        {
+          "id": "B1.SharedEventBus",
+          "mode": "one_shot_runtime"
+        }
+      ]
+    },
+    {
+      "id": "R07",
+      "checks": [
+        {
+          "id": "B1.ServiceDirectory",
+          "mode": "one_shot_runtime"
+        }
+      ]
+    },
+    {
+      "id": "R08",
+      "checks": [
+        {
+          "id": "B3.SignalSearchAndTypedRouting",
+          "mode": "one_shot_runtime"
+        },
+        {
+          "id": "B3.UnavailableProviderSafe",
+          "mode": "one_shot_runtime"
+        }
+      ]
+    },
+    {
+      "id": "R09",
+      "checks": [
+        {
+          "id": "B3.SignalSearchAndTypedRouting",
+          "mode": "one_shot_runtime"
+        }
+      ]
+    },
+    {
+      "id": "R10",
+      "checks": [
+        {
+          "id": "B3.TypeCompatibility",
+          "mode": "one_shot_runtime"
+        },
+        {
+          "id": "B3.SignalSearchAndTypedRouting",
+          "mode": "one_shot_runtime"
+        }
+      ]
+    },
+    {
+      "id": "R11",
+      "checks": [
+        {
+          "id": "B3.NativeReadOnlyAdapters",
+          "mode": "one_shot_runtime"
+        }
+      ]
+    },
+    {
+      "id": "R12",
+      "checks": [
+        {
+          "id": "B4.OwnerPanelAndSettings",
+          "mode": "one_shot_runtime"
+        }
+      ]
+    },
+    {
+      "id": "R13",
+      "checks": [
+        {
+          "id": "B4.OwnerPanelAndSettings",
+          "mode": "one_shot_runtime"
+        },
+        {
+          "id": "B4.RenderingVisualAudit",
+          "mode": "manual_pending"
+        }
+      ]
+    },
+    {
+      "id": "R14",
+      "checks": [
+        {
+          "id": "B6.ModBarCompatibility",
+          "mode": "one_shot_runtime"
+        },
+        {
+          "id": "B6.ModBarNativeVisual",
+          "mode": "manual_pending"
+        }
+      ]
+    },
+    {
+      "id": "R15",
+      "checks": [
+        {
+          "id": "B4.OwnerPanelAndSettings",
+          "mode": "one_shot_runtime"
+        },
+        {
+          "id": "B4.RenderingVisualAudit",
+          "mode": "manual_pending"
+        }
+      ]
+    },
+    {
+      "id": "R16",
+      "checks": [
+        {
+          "id": "B5.ConsoleKeyboardF8",
+          "mode": "manual_pending"
+        }
+      ]
+    },
+    {
+      "id": "R17",
+      "checks": [
+        {
+          "id": "B5.InspectorNativeBridge",
+          "mode": "one_shot_runtime"
+        },
+        {
+          "id": "B5.ConsoleKeyboardF8",
+          "mode": "manual_pending"
+        }
+      ]
+    },
+    {
+      "id": "R18",
+      "checks": [
+        {
+          "id": "B5.DeveloperDiagnostics",
+          "mode": "one_shot_runtime"
+        }
+      ]
+    },
+    {
+      "id": "R19",
+      "checks": [
+        {
+          "id": "B6.VerificationIsOneShot",
+          "mode": "one_shot_runtime"
+        }
+      ]
+    },
+    {
+      "id": "R20",
+      "checks": [
+        {
+          "id": "B2.AssetOwnerIsolation",
+          "mode": "one_shot_runtime"
+        },
+        {
+          "id": "B2.InvalidAssetRejected",
+          "mode": "one_shot_runtime"
+        }
+      ]
+    },
+    {
+      "id": "R21",
+      "checks": [
+        {
+          "id": "B2.ContentNativeRegistry",
+          "mode": "one_shot_runtime"
+        },
+        {
+          "id": "B2.NativeRegistrationSaveRoundTrip",
+          "mode": "manual_pending"
+        }
+      ]
+    },
+    {
+      "id": "R22",
+      "checks": [
+        {
+          "id": "B2.SaveMigrationContract",
+          "mode": "one_shot_runtime"
+        },
+        {
+          "id": "B2.NativeRegistrationSaveRoundTrip",
+          "mode": "manual_pending"
+        }
+      ]
+    },
+    {
+      "id": "R23",
+      "checks": [
+        {
+          "id": "B6.MissingResearchPreserved",
+          "mode": "one_shot_runtime"
+        },
+        {
+          "id": "B6.MissingTechRoundTrip",
+          "mode": "manual_pending"
+        }
+      ]
+    },
+    {
+      "id": "R24",
+      "checks": [
+        {
+          "id": "B6.WorkspaceNodeCompatibility",
+          "mode": "one_shot_runtime"
+        },
+        {
+          "id": "B6.WorkspaceNodeSaveLoad",
+          "mode": "manual_pending"
+        }
+      ]
+    }
+  ]
+}

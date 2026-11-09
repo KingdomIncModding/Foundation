@@ -1,0 +1,76 @@
+{
+  "kind": "static_only",
+  "pass": true,
+  "checks": {
+    "all-24-ids": {
+      "pass": true,
+      "reason": ""
+    },
+    "no-removed-csharp": {
+      "pass": true,
+      "reason": ""
+    },
+    "native-implementation-baseline-preserved": {
+      "pass": true,
+      "reason": ""
+    },
+    "modified-files-exist": {
+      "pass": true,
+      "reason": ""
+    },
+    "added-files-exist": {
+      "pass": true,
+      "reason": ""
+    },
+    "modified-file-digest-locked": {
+      "pass": true,
+      "reason": ""
+    },
+    "added-file-digest-locked": {
+      "pass": true,
+      "reason": ""
+    },
+    "all-unmodified-file-hashes-unchanged": {
+      "pass": true,
+      "reason": "373 source files"
+    },
+    "original-source-file-coverage": {
+      "pass": true,
+      "reason": ""
+    },
+    "sources-and-review-coverage": {
+      "pass": true,
+      "reason": ""
+    },
+    "all-24-have-test-ids": {
+      "pass": true,
+      "reason": ""
+    },
+    "b6-rewrite-policy": {
+      "pass": true,
+      "reason": ""
+    },
+    "migration-risks-documented": {
+      "pass": true,
+      "reason": ""
+    },
+    "full-suite-regression-fixes": {
+      "pass": true,
+      "reason": ""
+    },
+    "one-production-project": {
+      "pass": true,
+      "reason": ""
+    },
+    "baseline-archive-equals-freeze": {
+      "pass": true,
+      "reason": ""
+    },
+    "full-diff-correct": {
+      "pass": true,
+      "reason": ""
+    }
+  },
+  "runtimeEvidence": "NOT_VERIFIED_IN_THIS_SCRIPT",
+  "note": "A successful static audit is not Gate B release approval or proof of external-mod binary compatibility."
+}

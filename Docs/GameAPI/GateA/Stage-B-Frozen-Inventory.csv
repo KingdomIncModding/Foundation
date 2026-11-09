@@ -1,0 +1,25 @@
+ID,Candidate,Decision from roadmap,Stage,Existing source examples,Current source state,Work authorized at Gate A,Later review action
+R01,Mod Registry,Rewrite,B1,src/Foundation/Core/Modules/CoreModuleRegistry.cs; src/Foundation/Api/FoundationRuntimeService.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R02,Mod Lifecycle Manager,Rewrite,B1,src/Foundation/Api/FoundationLifecycleService.cs; src/Foundation/Core/Runtime/CoreLifecycleInstaller.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R03,Dependency Manager,Rewrite,B1,src/Foundation/Core/Modules/ModuleDependencyResolver.cs; src/Foundation/Core/Models/ModDependency.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R04,Service Registry,Rewrite,B1,src/Foundation/Core/Services/CoreServiceRegistry.cs; src/Foundation/Core/Modules/OwnedServices.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R05,Harmony Patch Manager,Review,B6,src/Foundation/Core/Patches/CorePatchManager.cs; src/Foundation/Core/Patches/CorePatchSession.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,KEEP / REWRITE / MERGE / REMOVE decision required
+R06,Event System,Rewrite,B1,src/Foundation/Api/FoundationEventBus.cs; src/Foundation/Api/IFoundationEventBus.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R07,Inter-Mod Communication,Rewrite,B1,src/Foundation/Core/Services/CoreServiceRegistry.cs; src/Foundation/Public/FoundationModContext.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R08,Signal Registry,Rewrite,B3,src/Foundation/Signals/SignalRegistry.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R09,Signal Source Selector,Rewrite,B3,src/Foundation/UI/Settings/ModConfigSignalSelector.cs; src/Foundation/Signals/SignalSelection.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R10,Signal Property Selector,Rewrite,B3,src/Foundation/UI/Settings/ModConfigSignalSelector.cs; src/Foundation/Signals/SignalPropertyDefinition.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R11,Foundation Signal Adapters,Rewrite,B3,src/Foundation/Api/FoundationNativeSignals.cs; src/Foundation/Signals/NativeSignalBinder.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R12,Mod Configuration UI,Rewrite,B4,src/Foundation/UI/Settings/ModConfigRegistry.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R13,ModConfigTemplates,Rewrite,B4,src/Foundation/UI/Settings/ModConfigTemplates.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R14,ModBarContext,Review,B6,src/Foundation/UI/ModBar/ModBarContext.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,KEEP / REWRITE / MERGE / REMOVE decision required
+R15,Custom UI Controls,Rewrite,B4,src/Foundation/UI/Panels/FoundationPanelBuilder.cs; src/Foundation/UI/ModBar/ModBarButton.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R16,Foundation Developer Console,Rewrite,B5,src/Foundation/Bootstrap/FoundationPlugin.FoundationDeveloperConsole.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R17,Foundation Inspector,Rewrite,B5,src/Foundation/Bootstrap/FoundationPlugin.FoundationDeveloperConsole.cs; src/Foundation/Machines/Api/MachineRegistry.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R18,Foundation Diagnostics,Rewrite,B5,src/Foundation/Api/FoundationDiagnostics.cs; src/Foundation/Core/Diagnostics/CoreDiagnostics.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R19,Foundation Verification System,Review,B6,src/Foundation/Core/Runtime/CoreLifecycleInstaller.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,KEEP / REWRITE / MERGE / REMOVE decision required
+R20,Asset Registry,Rewrite,B2,src/Foundation/Api/FoundationAssets.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R21,Content Registration SDK,Rewrite,B2,src/Foundation/Gameplay/GameContentRegistry.cs; src/Foundation/Workspace/WorkspaceNodeRegistry.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R22,Mod Persistence System,Rewrite,B2,src/Foundation/Persistence/ModSaveRegistry.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,Rewrite only after Gate A accepted
+R23,Missing Research Recovery,Review,B6,src/Foundation/Persistence/MissingResearchRecovery.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,KEEP / REWRITE / MERGE / REMOVE decision required
+R24,Workspace Node Registry,Review,B6,src/Foundation/Workspace/WorkspaceNodeRegistry.cs,PRESENT: audit depth/coverage TBD,SOURCE INVENTORY ONLY,KEEP / REWRITE / MERGE / REMOVE decision required

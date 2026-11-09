@@ -1,0 +1,2126 @@
+{
+  "milestone": "Gate A \u2014 Native Game API audit",
+  "version": "0.10.6",
+  "nativeSourceVerified": true,
+  "baselineSourceSha256": "b12f0276c75b884496896e1afd66aeaedcbe563060f47a7b69cf1239fadc6f7a",
+  "baselinePreserved": true,
+  "productionFiles": 396,
+  "nativeMachineTypes": 61,
+  "auditedTypedApiMembers": 283,
+  "publicEntrypoints": 37,
+  "nativeServiceSourceReferences": 35,
+  "stageBCandidates": 24,
+  "counts": {
+    "PASS": 421
+  },
+  "checks": [
+    {
+      "name": "Controlling Gate A roadmap retained",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Complete 61-type native catalog manifest",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "One production assembly and current version",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "A1-A7 independent source-verification scripts present",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "All three runtime verifier projects retained",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Every public FoundationApi service property classified",
+      "result": "PASS",
+      "detail": "{'unclassified': [], 'stale': []}"
+    },
+    {
+      "name": "API implementation exists: IGameItemsService",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.Items",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.Recipes",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.Enhancements",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.FindEnhancement",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.EquipmentEnhancements",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.EquipmentStat",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.IsUnlocked",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.NativeBaseValue",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.NativeSellValue",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.AppraiserStat",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.CanEnhance",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.RecipeAvailable",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.RecipeCost",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.RecipeReward",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.RecipeReagents",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.RecipeResults",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.RequiredQuantity",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.ProducedQuantity",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.NativeItemSources",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.FindItem",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.FindRecipe",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.CreateItem",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.Clone",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.Deserialize",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.Serialize",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.Producing",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.Requiring",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.CanAccept",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.TryInsert",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameItemsService.Extract",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGameEconomyService",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.Wallet",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.Get",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.CanAfford",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.TrySpend",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.TrySpend",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.Grant",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.Grant",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.ExchangeTax",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.CanAfford",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.ResourceCostMultiplier",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.AdditionalWorkspaceCost",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.ResourceAvailable",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.ResourceDemand",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.ResourceQuotaMultiplier",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.ResourceOutput",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.Resources",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.ResourceUpgrade",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.GrantResource",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameEconomyService.SetFarmQuota",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGameProductionService",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.Forest",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.Farm",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.ForestResources",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.FarmResources",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.ForestWorkers",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.TotalForestWorkers",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.ForestBlocked",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.FarmBlocked",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.ForestUtilization",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.ForestQuotaMultiplier",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.ForestResourceUnlocked",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.FarmResourceUnlocked",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.NextForestWorkerCost",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.FarmExpansionCost",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.TryHireForestWorker",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.AssignForestWorkers",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.UnassignForestWorkers",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.UnlockForestResource",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.UnlockFarmResource",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.GetCrop",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.PlantCrop",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProductionService.TryExpandFarm",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGameAdventureService",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.Quests",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.Dungeons",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.ActiveWars",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.FindQuest",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.FindDungeon",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.FindWar",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.QuestCompletionCount",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.QuestDuration",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.QuestRewards",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.QuestUnlocked",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.IsDungeonAvailable",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.DungeonSupplyCost",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.DungeonStages",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.HasWarStage",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.WarCurrentStage",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.QuestMetadata",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.DungeonMetadata",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.DungeonProgress",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.IsDungeonUnlocked",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.UnlockDungeon",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.WarProgress",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.UnlockWar",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.Armories",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAdventureService.Portals",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGameCombatService",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.GetCombatant",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.GetHuman",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.Stat",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.CombatPower",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.BaseDamage",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.DamageReduction",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.HasTrait",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.Traits",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.CanEquip",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.ConflictingEquipment",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.Equipped",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.Equipment",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.TryEquip",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.RemoveEquipment",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.Heal",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.Damage",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.SpendEnergy",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameCombatService.Train",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGameProgressService",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.Research",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.FindTech",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.HasTech",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.Requirements",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.AvailableChildren",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.ResearchAvailable",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.ResearchLocked",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.ResearchCost",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.ResearchCostTier",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.UnlockTech",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.UpgradeSlots",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.SetUpgradeSlots",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.UnlockUpgrade",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.UnlockedUpgrades",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.Prestige",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.PrestigePoints",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.SetPrestigePoints",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.Ascensions",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.AvailableNightmarePoints",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameProgressService.NightmareEnabled",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGameWorldService",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.Player",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.IsInKingdom",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.GameTime",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.ActiveFlow",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.Flows",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.GetFlow",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.ActiveFlowIndex",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.NativeMachineCount",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.NativePipeCount",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.NativeDecorationCount",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.ElementsIn",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.FindElement",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.FindElements",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.SelectFlow",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.TryBuyFlow",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.RenameFlow",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameWorldService.SetCamera",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IWorkspaceEditorService",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IWorkspaceEditorService.TryPurchase",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IWorkspaceEditorService.AddWithoutPurchase",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IWorkspaceEditorService.Remove",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IWorkspaceEditorService.Move",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IWorkspaceEditorService.MoveToFlow",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IWorkspaceEditorService.MoveDecorationToFlow",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IWorkspaceEditorService.AddDecoration",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IWorkspaceEditorService.RemoveDecoration",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IWorkspaceEditorService.TryCraft",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IWorkspaceEditorService.TrySetUpgrade",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IWorkspaceEditorService.GetAvailableUpgrades",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGameUiService",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.IsReady",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.NativeUi",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.IsOpen",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowBuildMenu",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowItems",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowResearch",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowResources",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowDecorationMenu",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowWarMenu",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowForest",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowFarm",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowDungeons",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowWar",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowDungeon",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowCharacter",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowDeconstruction",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowClone",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowSearch",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowInsufficientFundsWarning",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowWarning",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowStatus",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowStatus",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ToggleMap",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.ShowAreaMove",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.CloseAllExcept",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUiService.TogglePopup",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGameAudioService",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAudioService.IsReady",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAudioService.IsPlaying",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAudioService.MusicVolume",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAudioService.PlayMusic",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAudioService.QueueMusic",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameAudioService.PreviewMusicVolume",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGameViewService",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.IsReady",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.MouseWorld",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.MouseUi",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.InteractPressed",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.InteractReleased",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.CancelPressed",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.GameInputEnabled",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.NativeActionAsset",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.NativeInput",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.NativeCamera",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.CameraZoom",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.MaximumCameraZoom",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.ZoomScale",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.SetCameraZoom",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.ChangeCameraZoom",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.PanCamera",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameViewService.RecalculateCameraBounds",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGamePresentationService",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGamePresentationService.CurrentLocale",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGamePresentationService.NativeLocales",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGamePresentationService.TranslateOnly",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGamePresentationService.Translate",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGamePresentationService.FindSprite",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGamePresentationService.IconNames",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGamePresentationService.RegisterSprite",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGamePresentationService.RegisterText",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGameSaveService",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameSaveService.SavedGames",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameSaveService.FindSave",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameSaveService.ReadSave",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameSaveService.CreateSnapshot",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameSaveService.Save",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameSaveService.Autosave",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGameLogisticsService",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameLogisticsService.ArmoryCount",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameLogisticsService.PeekArmory",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameLogisticsService.ArmoryTypes",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameLogisticsService.StoreInArmory",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameLogisticsService.PortalCount",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameLogisticsService.PeekPortal",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameLogisticsService.TryStoreInPortal",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGameMachinesService",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.Catalog",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.BuildableCatalog",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.ConfigureRecipe",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.ConfigureForest",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.SetFilter",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.SetSwitch",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.SetTimer",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.SetAppraiser",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.AddDistributorOutput",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.AddManifoldInput",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.AddCollectorInput",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.AdvanceCollector",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.SetArmoryOutput",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.SetPortalOutput",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.SetPortalChannel",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.SetArmoryChannel",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.SelectQuest",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.SelectDungeon",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.SelectRequisition",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.CollectShop",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.CollectRequisition",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.AvailableRecipes",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.CanCraft",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.CraftingCost",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.AvailableResources",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.ResourceCost",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.DesiredResourceOutput",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.ResourceOutputPerSecond",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.RefinementFailureChance",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.RefinementManaCost",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.CollapseCollector",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.CollapseDistributor",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameMachinesService.CollapseManifold",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGamePropertyControls",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGamePropertyControls.Build",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGameFlagsService",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameFlagsService.HasFlag",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameFlagsService.SetFlag",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameFlagsService.GetCounter",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameFlagsService.SetCounter",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameFlagsService.AddCounter",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameFlagsService.GetString",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameFlagsService.SetString",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGameContentRegistry",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameContentRegistry.Ownership",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameContentRegistry.RegisterItem",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameContentRegistry.RegisterRecipe",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameContentRegistry.RegisterQuest",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameContentRegistry.RegisterDungeon",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameContentRegistry.RegisterWar",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameContentRegistry.RegisterPrestige",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameContentRegistry.RegisterEnhancement",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "API implementation exists: IGameUpgradeRegistry",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUpgradeRegistry.RegisteredTypes",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUpgradeRegistry.Register",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Interface source member implemented: IGameUpgradeRegistry.TryCreate",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Substantive typed native/bridge interface inventory generated",
+      "result": "PASS",
+      "detail": "283"
+    },
+    {
+      "name": "Original KingdomIncSrc ZIP integrity",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native decompiled source SHA256 agrees with A1 manifest",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameItemsService -> Source/Assets.Source.Items/ItemType.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameItemsService -> Source/Assets.Source.Items/InventoryItem.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameItemsService -> Source/Assets.Source.Items/CraftingRecipe.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameItemsService -> Source/Assets.Source.Items/ItemEnhancement.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameEconomyService -> Source/Assets.Source.Player/GamePlayer.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameEconomyService -> Source/Assets.Source.Player/CurrencyCollection.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameProductionService -> Source/Assets.Source.Player/ForestSettings.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameProductionService -> Source/Assets.Source.Player/FarmSettings.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameAdventureService -> Source/Assets.Source.Adventure/Quest.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameAdventureService -> Source/Assets.Source.Adventure/DungeonType.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameAdventureService -> Source/Assets.Source.Adventure/WarType.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameCombatService -> Source/Assets.Source.Items.Data/CombatantItemData.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameCombatService -> Source/Assets.Source.Items.Data/HumanItemData.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameProgressService -> Source/Assets.Source.Player/TechNode.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameProgressService -> Source/Assets.Source.Player/PrestigeNode.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameProgressService -> Source/Assets.Source.Player/GamePlayer.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameWorldService -> Source/Assets.Source.Player/GamePlayer.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameWorldService -> Source/Assets.Source.Flow/FlowDiagram.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameWorldService -> Source/Assets.Behaviour.Flow/WorldFlowManager.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IWorkspaceEditorService -> Source/Assets.Behaviour.Flow/WorldFlowManager.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IWorkspaceEditorService -> Source/Assets.Source.Flow/FlowElement.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameUiService -> Source/Assets.Behaviour.UI/GameUI.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameUiService -> Source/Assets.Behaviour.UI/UIStatusMessage.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameAudioService -> Source/Assets.Behaviour.Util/MusicManager.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameViewService -> Source/Assets.Behaviour.Flow/WorldFlowCamera.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameViewService -> Source/Assets.Behaviour.Input/PlayerInput.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGamePresentationService -> Source/Assets.Source.Util/Translation.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGamePresentationService -> Source/SpriteLibrary.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameSaveService -> Source/Assets.Source.Util/SaveGame.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameSaveService -> Source/Assets.Source.Util/SaveGameFile.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameLogisticsService -> Source/Assets.Source.Flow.Elements/Armory.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameLogisticsService -> Source/Assets.Source.Flow.Elements/Portal.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameMachinesService -> Source/Assets.Source.Flow/FlowElement.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGameMachinesService -> Source/Assets.Source.Flow.Elements/Collector.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native service declaration exists: IGamePropertyControls -> Source/Assets.Source.Flow/FlowElement.cs",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Accountant",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Accountant.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: AdventureSupplies",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/AdventureSupplies.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: AdventurersGuild",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/AdventurersGuild.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Alchemist",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Alchemist.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Appraiser",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Appraiser.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Arena",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Arena.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Armory",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Armory.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Barracks",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Barracks.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Blacksmith",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Blacksmith.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Butcher",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Butcher.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Campfire",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Campfire.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Carpenter",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Carpenter.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Collector",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Collector.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: DemoTurtle",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/DemoTurtle.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: DevSpawner",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/DevSpawner.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Disenchanter",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Disenchanter.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Distributor",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Distributor.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Dungeon",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Dungeon.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Enchanter",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Enchanter.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Engraver",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Engraver.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Farm",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Farm.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Filter",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Filter.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Forest",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Forest.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Forge",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Forge.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Graveyard",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Graveyard.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Guildhouse",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Guildhouse.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Hoard",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Hoard.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Incinerator",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Incinerator.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Inn",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Inn.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Inspector",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Inspector.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Inventor",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Inventor.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Jeweler",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Jeweler.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Kitchen",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Kitchen.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Leatherworker",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Leatherworker.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Library",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Library.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: LuxuryShop",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/LuxuryShop.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Manifold",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Manifold.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: MercenaryGuild",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/MercenaryGuild.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Mine",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Mine.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Necromancer",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Necromancer.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: NightmareCollector",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/NightmareCollector.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Outfitter",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Outfitter.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Pantry",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Pantry.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Portal",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Portal.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: QuestBoard",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/QuestBoard.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Refiner",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Refiner.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: RequisitionOffice",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/RequisitionOffice.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Restaurant",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Restaurant.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Scribe",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Scribe.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Shop",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Shop.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Shrine",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Shrine.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: SingleButton",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/SingleButton.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Stockpile",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Stockpile.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: SummoningCircle",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/SummoningCircle.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: SupplyDepot",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/SupplyDepot.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Tailor",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Tailor.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Timer",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Timer.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: TrackSwitch",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/TrackSwitch.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: TrainingGrounds",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/TrainingGrounds.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: Treasury",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/Treasury.cs"
+    },
+    {
+      "name": "Native concrete machine declaration SHA: WarEffort",
+      "result": "PASS",
+      "detail": "Source/Assets.Source.Flow.Elements/WarEffort.cs"
+    },
+    {
+      "name": "All 26 native machine command entrypoints inventoried",
+      "result": "PASS",
+      "detail": "26"
+    },
+    {
+      "name": "Source freeze candidate hashes are unchanged",
+      "result": "PASS",
+      "detail": "{'modified': [], 'removed': []}"
+    },
+    {
+      "name": "Current full Foundation production source inventory",
+      "result": "PASS",
+      "detail": "396"
+    },
+    {
+      "name": "All 24 Stage B candidates retained for later decision",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "All five Stage B review decisions remain undecided",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Runtime verifier reports all three result states: A1",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Runtime verifier binds to Foundation DLL SHA256: A1",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Runtime verifier reports all three result states: A2",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Runtime verifier binds to Foundation DLL SHA256: A2",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Runtime verifier reports all three result states: A3-A7",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Runtime verifier binds to Foundation DLL SHA256: A3-A7",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Current user-source ZIP integrity",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Current source production file inventory identical to user ZIP",
+      "result": "PASS",
+      "detail": ""
+    },
+    {
+      "name": "Stage B production source code unchanged during Gate A audit",
+      "result": "PASS",
+      "detail": "[]"
+    }
+  ],
+  "runtimeStatus": "USER-REPORTED A1-A7 PASS; reports + game assembly SHA not present in this input",
+  "gateA": "AWAITING_EVIDENCE_AND_GAP_REVIEW",
+  "interpretation": "Source checks do NOT prove a full per-operation runtime audit or compatibility of external mods."
+}

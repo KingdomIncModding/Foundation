@@ -1,0 +1,284 @@
+stage,interface,member,kind,signature,implementation,implementedInSource
+A3,IGameItemsService,Items,property,IReadOnlyList<ItemType> Items { get; },src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,Recipes,property,IReadOnlyList<CraftingRecipe> Recipes { get; },src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,Enhancements,property,IReadOnlyList<ItemEnhancement> Enhancements { get; },src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,FindEnhancement,method,ItemEnhancement FindEnhancement(string id);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,EquipmentEnhancements,method,IReadOnlyList<ItemEnhancementData> EquipmentEnhancements(InventoryItem item);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,EquipmentStat,method,"int EquipmentStat(InventoryItem item, EquipStat stat);",src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,IsUnlocked,method,bool IsUnlocked(ItemType type);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,NativeBaseValue,method,long NativeBaseValue(ItemType type);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,NativeSellValue,method,long NativeSellValue(InventoryItem item);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,AppraiserStat,method,"int AppraiserStat(InventoryItem item, AppraiserStat stat);",src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,CanEnhance,method,"bool CanEnhance(InventoryItem item, EnhancementType type);",src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,RecipeAvailable,method,bool RecipeAvailable(CraftingRecipe recipe);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,RecipeCost,method,CurrencyCollection RecipeCost(CraftingRecipe recipe);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,RecipeReward,method,CurrencyCollection RecipeReward(CraftingRecipe recipe);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,RecipeReagents,method,IReadOnlyList<CraftingReagent> RecipeReagents(CraftingRecipe recipe);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,RecipeResults,method,IReadOnlyList<CraftingResult> RecipeResults(CraftingRecipe recipe);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,RequiredQuantity,method,"int RequiredQuantity(CraftingRecipe recipe, ItemType item);",src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,ProducedQuantity,method,"int ProducedQuantity(CraftingRecipe recipe, ItemType item);",src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,NativeItemSources,method,IReadOnlyList<string> NativeItemSources(ItemType item);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,FindItem,method,ItemType FindItem(string id);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,FindRecipe,method,CraftingRecipe FindRecipe(string id);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,CreateItem,method,"InventoryItem CreateItem(string itemId, float quality = 1f, bool initialize = true);",src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,Clone,method,InventoryItem Clone(InventoryItem original);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,Deserialize,method,InventoryItem Deserialize(JsonValue json);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,Serialize,method,JsonValue Serialize(InventoryItem item);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,Producing,method,IReadOnlyList<CraftingRecipe> Producing(ItemType type);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,Requiring,method,IReadOnlyList<CraftingRecipe> Requiring(ItemType type);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,CanAccept,method,"bool CanAccept(Assets.Source.Flow.FlowInput input, InventoryItem item);",src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,TryInsert,method,"bool TryInsert(Assets.Source.Flow.FlowInput input, InventoryItem item);",src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameItemsService,Extract,method,InventoryItem Extract(Assets.Source.Flow.FlowIO port);,src/Foundation/Gameplay/GameItemsService.cs,True
+A3,IGameEconomyService,Wallet,method,"IReadOnlyDictionary<Currency, long> Wallet();",src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,Get,method,long Get(Currency currency);,src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,CanAfford,method,bool CanAfford(CurrencyCollection price);,src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,TrySpend,method,bool TrySpend(CurrencyCollection price);,src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,TrySpend,method,"bool TrySpend(Currency currency, long amount);",src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,Grant,method,"void Grant(Currency currency, long amount, bool countAsIncome = false);",src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,Grant,method,"void Grant(CurrencyCollection amounts, bool countAsIncome = false);",src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,ExchangeTax,method,float ExchangeTax(Currency currency);,src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,CanAfford,method,"bool CanAfford(Currency currency, long amount);",src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,ResourceCostMultiplier,method,double ResourceCostMultiplier(ResourceItemType resource);,src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,AdditionalWorkspaceCost,method,CurrencyCollection AdditionalWorkspaceCost();,src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,ResourceAvailable,method,double ResourceAvailable(ResourceItemType resource);,src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,ResourceDemand,method,double ResourceDemand(ResourceItemType resource);,src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,ResourceQuotaMultiplier,method,float ResourceQuotaMultiplier(ResourceItemType resource);,src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,ResourceOutput,method,float ResourceOutput(ResourceElement producer);,src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,Resources,method,IReadOnlyList<ResourceAvailability> Resources();,src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,ResourceUpgrade,method,ResourceUpgradeOffer ResourceUpgrade(ResourceItemType resource);,src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,GrantResource,method,"void GrantResource(ResourceItemType resource, double amount, bool countsAsUpgrade = false);",src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameEconomyService,SetFarmQuota,method,"void SetFarmQuota(FarmItemType resource, double amount);",src/Foundation/Gameplay/GameEconomyService.cs,True
+A3,IGameProductionService,Forest,property,ForestSettings Forest { get; },src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,Farm,property,FarmSettings Farm { get; },src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,ForestResources,property,IReadOnlyList<ForestItemType> ForestResources { get; },src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,FarmResources,property,IReadOnlyList<FarmItemType> FarmResources { get; },src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,ForestWorkers,method,int ForestWorkers(ForestWorker type);,src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,TotalForestWorkers,property,int TotalForestWorkers { get; },src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,ForestBlocked,property,bool ForestBlocked { get; },src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,FarmBlocked,property,bool FarmBlocked { get; },src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,ForestUtilization,method,float ForestUtilization(ForestWorker role);,src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,ForestQuotaMultiplier,method,float ForestQuotaMultiplier(ForestWorker role);,src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,ForestResourceUnlocked,method,bool ForestResourceUnlocked(ForestItemType resource);,src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,FarmResourceUnlocked,method,bool FarmResourceUnlocked(FarmItemType resource);,src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,NextForestWorkerCost,property,CurrencyCollection NextForestWorkerCost { get; },src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,FarmExpansionCost,method,CurrencyCollection FarmExpansionCost(int addedPlots);,src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,TryHireForestWorker,method,bool TryHireForestWorker();,src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,AssignForestWorkers,method,"bool AssignForestWorkers(ForestWorker role, int number);",src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,UnassignForestWorkers,method,"bool UnassignForestWorkers(ForestWorker role, int number);",src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,UnlockForestResource,method,void UnlockForestResource(ForestItemType type);,src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,UnlockFarmResource,method,void UnlockFarmResource(FarmItemType type);,src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,GetCrop,method,"FarmItemType GetCrop(int x, int y);",src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,PlantCrop,method,"void PlantCrop(int x, int y, FarmItemType type);",src/Foundation/Gameplay/GameProductionService.cs,True
+A3,IGameProductionService,TryExpandFarm,method,"bool TryExpandFarm(int width, int height);",src/Foundation/Gameplay/GameProductionService.cs,True
+A4,IGameAdventureService,Quests,property,IReadOnlyList<Quest> Quests { get; },src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,Dungeons,property,IReadOnlyList<DungeonType> Dungeons { get; },src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,ActiveWars,property,IReadOnlyList<WarProgress> ActiveWars { get; },src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,FindQuest,method,Quest FindQuest(string id);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,FindDungeon,method,DungeonType FindDungeon(string id);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,FindWar,method,WarType FindWar(string id);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,QuestCompletionCount,method,int QuestCompletionCount(Quest quest);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,QuestDuration,method,int QuestDuration(Quest quest);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,QuestRewards,method,IReadOnlyList<QuestReward> QuestRewards(Quest quest);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,QuestUnlocked,method,bool QuestUnlocked(Quest quest);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,IsDungeonAvailable,method,bool IsDungeonAvailable(DungeonType dungeon);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,DungeonSupplyCost,method,CurrencyCollection DungeonSupplyCost(DungeonType dungeon);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,DungeonStages,method,IReadOnlyList<DungeonStage> DungeonStages(DungeonType dungeon);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,HasWarStage,method,"bool HasWarStage(WarType war, int stage);",src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,WarCurrentStage,method,int WarCurrentStage(WarType war);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,QuestMetadata,method,QuestMetadata QuestMetadata(Quest quest);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,DungeonMetadata,method,DungeonMetadata DungeonMetadata(DungeonType dungeon);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,DungeonProgress,method,DungeonProgress DungeonProgress(DungeonType dungeon);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,IsDungeonUnlocked,method,bool IsDungeonUnlocked(DungeonType dungeon);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,UnlockDungeon,method,void UnlockDungeon(DungeonType dungeon);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,WarProgress,method,WarProgress WarProgress(WarType war);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,UnlockWar,method,void UnlockWar(WarType war);,src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,Armories,method,"IReadOnlyList<Armory> Armories(int channel, Assets.Source.Items.ItemType item);",src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameAdventureService,Portals,method,"IReadOnlyList<Portal> Portals(int channel, int channelIndex);",src/Foundation/Gameplay/GameAdventureService.cs,True
+A4,IGameCombatService,GetCombatant,method,CombatantItemData GetCombatant(InventoryItem item);,src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,GetHuman,method,HumanItemData GetHuman(InventoryItem item);,src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,Stat,method,"int Stat(CombatantItemData combatant, EquipStat stat);",src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,CombatPower,method,int CombatPower(CombatantItemData combatant);,src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,BaseDamage,method,"int BaseDamage(CombatantItemData combatant, object target);",src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,DamageReduction,method,"float DamageReduction(CombatantItemData combatant, Assets.Source.Adventure.AdventurerTrait resistance);",src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,HasTrait,method,"bool HasTrait(CombatantItemData combatant, Assets.Source.Adventure.AdventurerTrait trait);",src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,Traits,method,IReadOnlyList<Assets.Source.Adventure.ActiveTrait> Traits(CombatantItemData combatant);,src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,CanEquip,method,"bool CanEquip(HumanItemData human, InventoryItem item, bool replace = true);",src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,ConflictingEquipment,method,"IReadOnlyList<InventoryItem> ConflictingEquipment(HumanItemData human, InventoryItem item);",src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,Equipped,method,"InventoryItem Equipped(HumanItemData human, EquipmentSlot slot);",src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,Equipment,method,IReadOnlyList<InventoryItem> Equipment(HumanItemData human);,src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,TryEquip,method,"bool TryEquip(HumanItemData human, InventoryItem item, bool replace = true);",src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,RemoveEquipment,method,"void RemoveEquipment(HumanItemData human, EquipmentSlot slot);",src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,Heal,method,"void Heal(CombatantItemData combatant, float amount, object context = null);",src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,Damage,method,"bool Damage(CombatantItemData combatant, float damage, object context = null, bool ignoreArmor = false);",src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,SpendEnergy,method,"bool SpendEnergy(CombatantItemData combatant, float amount, object context = null);",src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameCombatService,Train,method,"void Train(CombatantItemData combatant, float quality, object context = null);",src/Foundation/Gameplay/GameCombatService.cs,True
+A4,IGameProgressService,Research,property,IReadOnlyList<TechNode> Research { get; },src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,FindTech,method,TechNode FindTech(string id);,src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,HasTech,method,bool HasTech(string id);,src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,Requirements,method,IReadOnlyList<TechNode> Requirements(TechNode node);,src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,AvailableChildren,method,IReadOnlyList<TechNode> AvailableChildren(TechNode node);,src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,ResearchAvailable,method,bool ResearchAvailable(TechNode node);,src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,ResearchLocked,method,bool ResearchLocked(TechNode node);,src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,ResearchCost,method,CurrencyCollection ResearchCost(TechNode node);,src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,ResearchCostTier,method,int ResearchCostTier(TechNode node);,src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,UnlockTech,method,"bool UnlockTech(string id, bool notify = true);",src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,UpgradeSlots,method,int UpgradeSlots(string elementType);,src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,SetUpgradeSlots,method,"void SetUpgradeSlots(string elementType, int slots);",src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,UnlockUpgrade,method,"void UnlockUpgrade(string elementType, string upgradeType);",src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,UnlockedUpgrades,method,IReadOnlyList<string> UnlockedUpgrades(string elementType);,src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,Prestige,property,IReadOnlyList<PrestigeNode> Prestige { get; },src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,PrestigePoints,method,int PrestigePoints(PrestigeNode node);,src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,SetPrestigePoints,method,"void SetPrestigePoints(PrestigeNode node, int points);",src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,Ascensions,property,int Ascensions { get; },src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,AvailableNightmarePoints,property,int AvailableNightmarePoints { get; },src/Foundation/Gameplay/GameProgressService.cs,True
+A4,IGameProgressService,NightmareEnabled,property,bool NightmareEnabled { get; set; },src/Foundation/Gameplay/GameProgressService.cs,True
+A5,IGameWorldService,Player,property,GamePlayer Player { get; },src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IGameWorldService,IsInKingdom,property,bool IsInKingdom { get; },src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IGameWorldService,GameTime,property,int GameTime { get; },src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IGameWorldService,ActiveFlow,property,FlowDiagram ActiveFlow { get; },src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IGameWorldService,Flows,property,IReadOnlyList<FlowDiagram> Flows { get; },src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IGameWorldService,GetFlow,method,FlowDiagram GetFlow(int index);,src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IGameWorldService,ActiveFlowIndex,property,int ActiveFlowIndex { get; },src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IGameWorldService,NativeMachineCount,method,int NativeMachineCount(FlowDiagram flow);,src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IGameWorldService,NativePipeCount,method,int NativePipeCount(FlowDiagram flow);,src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IGameWorldService,NativeDecorationCount,method,int NativeDecorationCount(FlowDiagram flow);,src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IGameWorldService,ElementsIn,method,IReadOnlyList<FlowElement> ElementsIn(FlowDiagram flow);,src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IGameWorldService,FindElement,method,FlowElement FindElement(string guid);,src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IGameWorldService,FindElements,method,"IReadOnlyList<FlowElement> FindElements(Func<FlowElement, bool> predicate = null);",src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IGameWorldService,SelectFlow,method,void SelectFlow(int index);,src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IGameWorldService,TryBuyFlow,method,bool TryBuyFlow(out FlowDiagram created);,src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IGameWorldService,RenameFlow,method,"void RenameFlow(int index, string label, string iconName = null);",src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IGameWorldService,SetCamera,method,void SetCamera(Vector2Int position);,src/Foundation/Gameplay/GameWorldService.cs,True
+A5,IWorkspaceEditorService,TryPurchase,method,"bool TryPurchase(FlowElement element, Vector2Int position);",src/Foundation/Workspace/WorkspaceEditorService.cs,True
+A5,IWorkspaceEditorService,AddWithoutPurchase,method,"void AddWithoutPurchase(FlowElement element, Vector2Int position);",src/Foundation/Workspace/WorkspaceEditorService.cs,True
+A5,IWorkspaceEditorService,Remove,method,"void Remove(FlowElement element, bool grantNativeRefund = false);",src/Foundation/Workspace/WorkspaceEditorService.cs,True
+A5,IWorkspaceEditorService,Move,method,"void Move(FlowElement element, Vector2Int position);",src/Foundation/Workspace/WorkspaceEditorService.cs,True
+A5,IWorkspaceEditorService,MoveToFlow,method,"void MoveToFlow(FlowElement element, int destinationFlowIndex);",src/Foundation/Workspace/WorkspaceEditorService.cs,True
+A5,IWorkspaceEditorService,MoveDecorationToFlow,method,"void MoveDecorationToFlow(FlowDeco decoration, int destinationFlowIndex);",src/Foundation/Workspace/WorkspaceEditorService.cs,True
+A5,IWorkspaceEditorService,AddDecoration,method,FlowDeco AddDecoration(FlowDeco decoration);,src/Foundation/Workspace/WorkspaceEditorService.cs,True
+A5,IWorkspaceEditorService,RemoveDecoration,method,void RemoveDecoration(FlowDeco decoration);,src/Foundation/Workspace/WorkspaceEditorService.cs,True
+A5,IWorkspaceEditorService,TryCraft,method,bool TryCraft(FlowElement element);,src/Foundation/Workspace/WorkspaceEditorService.cs,True
+A5,IWorkspaceEditorService,TrySetUpgrade,method,"bool TrySetUpgrade(FlowElement element, int slot, FlowUpgrade upgrade, bool payCost = true);",src/Foundation/Workspace/WorkspaceEditorService.cs,True
+A5,IWorkspaceEditorService,GetAvailableUpgrades,method,IReadOnlyList<FlowUpgrade> GetAvailableUpgrades(FlowElement element);,src/Foundation/Workspace/WorkspaceEditorService.cs,True
+A6,IGameUiService,IsReady,property,bool IsReady { get; },src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,NativeUi,property,GameUI NativeUi { get; },src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,IsOpen,method,bool IsOpen(GameUIType type);,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowBuildMenu,method,void ShowBuildMenu(bool visible);,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowItems,method,void ShowItems(bool visible);,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowResearch,method,void ShowResearch(bool visible);,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowResources,method,void ShowResources(bool visible);,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowDecorationMenu,method,void ShowDecorationMenu(bool visible);,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowWarMenu,method,void ShowWarMenu(bool visible);,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowForest,method,void ShowForest(bool visible);,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowFarm,method,void ShowFarm(bool visible);,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowDungeons,method,void ShowDungeons(bool visible);,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowWar,method,void ShowWar(WarType war);,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowDungeon,method,void ShowDungeon(DungeonType dungeon);,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowCharacter,method,"void ShowCharacter(HumanItemData character, Action onClose = null);",src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowDeconstruction,method,void ShowDeconstruction(bool visible);,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowClone,method,void ShowClone(bool visible);,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowSearch,method,void ShowSearch();,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowInsufficientFundsWarning,method,void ShowInsufficientFundsWarning();,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowWarning,method,"TMP_Text ShowWarning(Vector2 uiPosition, string text);",src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowStatus,method,"UIStatusMessage ShowStatus(string text, string iconName, bool persistent = false, Action onClick = null);",src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowStatus,method,"UIStatusMessage ShowStatus(string text, Sprite icon, bool persistent = false, Action onClick = null);",src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ToggleMap,method,void ToggleMap();,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,ShowAreaMove,method,void ShowAreaMove(bool visible);,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,CloseAllExcept,method,void CloseAllExcept(GameUIType? type = null);,src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameUiService,TogglePopup,method,"void TogglePopup(UIPopupMenu popup, bool visible, bool playSound = true);",src/Foundation/Gameplay/GameUiService.cs,True
+A6,IGameAudioService,IsReady,property,bool IsReady { get; },src/Foundation/Gameplay/GameAudioService.cs,True
+A6,IGameAudioService,IsPlaying,property,bool IsPlaying { get; },src/Foundation/Gameplay/GameAudioService.cs,True
+A6,IGameAudioService,MusicVolume,property,float MusicVolume { get; set; },src/Foundation/Gameplay/GameAudioService.cs,True
+A6,IGameAudioService,PlayMusic,method,"void PlayMusic(string nativeTrackId, float fadeSeconds = -1f);",src/Foundation/Gameplay/GameAudioService.cs,True
+A6,IGameAudioService,QueueMusic,method,"void QueueMusic(string nativeTrackId, int priority = 0);",src/Foundation/Gameplay/GameAudioService.cs,True
+A6,IGameAudioService,PreviewMusicVolume,method,void PreviewMusicVolume(float volume);,src/Foundation/Gameplay/GameAudioService.cs,True
+A6,IGameViewService,IsReady,property,bool IsReady { get; },src/Foundation/Gameplay/GameViewService.cs,True
+A6,IGameViewService,MouseWorld,property,Vector2Int MouseWorld { get; },src/Foundation/Gameplay/GameViewService.cs,True
+A6,IGameViewService,MouseUi,property,Vector2Int MouseUi { get; },src/Foundation/Gameplay/GameViewService.cs,True
+A6,IGameViewService,InteractPressed,property,bool InteractPressed { get; },src/Foundation/Gameplay/GameViewService.cs,True
+A6,IGameViewService,InteractReleased,property,bool InteractReleased { get; },src/Foundation/Gameplay/GameViewService.cs,True
+A6,IGameViewService,CancelPressed,property,bool CancelPressed { get; },src/Foundation/Gameplay/GameViewService.cs,True
+A6,IGameViewService,GameInputEnabled,property,bool GameInputEnabled { get; },src/Foundation/Gameplay/GameViewService.cs,True
+A6,IGameViewService,NativeActionAsset,property,InputActionAsset NativeActionAsset { get; },src/Foundation/Gameplay/GameViewService.cs,True
+A6,IGameViewService,NativeInput,property,GamePlayerInput NativeInput { get; },src/Foundation/Gameplay/GameViewService.cs,True
+A6,IGameViewService,NativeCamera,property,WorldFlowCamera NativeCamera { get; },src/Foundation/Gameplay/GameViewService.cs,True
+A6,IGameViewService,CameraZoom,property,int CameraZoom { get; },src/Foundation/Gameplay/GameViewService.cs,True
+A6,IGameViewService,MaximumCameraZoom,property,int MaximumCameraZoom { get; },src/Foundation/Gameplay/GameViewService.cs,True
+A6,IGameViewService,ZoomScale,property,float ZoomScale { get; },src/Foundation/Gameplay/GameViewService.cs,True
+A6,IGameViewService,SetCameraZoom,method,void SetCameraZoom(int level);,src/Foundation/Gameplay/GameViewService.cs,True
+A6,IGameViewService,ChangeCameraZoom,method,void ChangeCameraZoom(int change);,src/Foundation/Gameplay/GameViewService.cs,True
+A6,IGameViewService,PanCamera,method,"void PanCamera(float deltaX, float deltaY);",src/Foundation/Gameplay/GameViewService.cs,True
+A6,IGameViewService,RecalculateCameraBounds,method,void RecalculateCameraBounds();,src/Foundation/Gameplay/GameViewService.cs,True
+A6+B2,IGamePresentationService,CurrentLocale,property,string CurrentLocale { get; },src/Foundation/Gameplay/GamePresentationService.cs,True
+A6+B2,IGamePresentationService,NativeLocales,property,IReadOnlyList<string> NativeLocales { get; },src/Foundation/Gameplay/GamePresentationService.cs,True
+A6+B2,IGamePresentationService,TranslateOnly,method,"string TranslateOnly(string token, params object[] arguments);",src/Foundation/Gameplay/GamePresentationService.cs,True
+A6+B2,IGamePresentationService,Translate,method,"string Translate(string token, params object[] arguments);",src/Foundation/Gameplay/GamePresentationService.cs,True
+A6+B2,IGamePresentationService,FindSprite,method,Sprite FindSprite(string iconName);,src/Foundation/Gameplay/GamePresentationService.cs,True
+A6+B2,IGamePresentationService,IconNames,property,IReadOnlyList<string> IconNames { get; },src/Foundation/Gameplay/GamePresentationService.cs,True
+A6+B2,IGamePresentationService,RegisterSprite,method,"void RegisterSprite(string modId, string iconName, Sprite sprite);",src/Foundation/Gameplay/GamePresentationService.cs,True
+A6+B2,IGamePresentationService,RegisterText,method,"void RegisterText(string modId, string key, string locale, string value);",src/Foundation/Gameplay/GamePresentationService.cs,True
+A6+B2,IGameSaveService,SavedGames,method,IReadOnlyList<SaveGameFile> SavedGames();,src/Foundation/Gameplay/GameSaveService.cs,True
+A6+B2,IGameSaveService,FindSave,method,SaveGameFile FindSave(string name);,src/Foundation/Gameplay/GameSaveService.cs,True
+A6+B2,IGameSaveService,ReadSave,method,JsonObject ReadSave(string name);,src/Foundation/Gameplay/GameSaveService.cs,True
+A6+B2,IGameSaveService,CreateSnapshot,method,JsonObject CreateSnapshot();,src/Foundation/Gameplay/GameSaveService.cs,True
+A6+B2,IGameSaveService,Save,method,void Save(string name);,src/Foundation/Gameplay/GameSaveService.cs,True
+A6+B2,IGameSaveService,Autosave,method,void Autosave();,src/Foundation/Gameplay/GameSaveService.cs,True
+A2,IGameLogisticsService,ArmoryCount,method,"int ArmoryCount(int channel, ItemType type);",src/Foundation/Gameplay/GameLogisticsService.cs,True
+A2,IGameLogisticsService,PeekArmory,method,"InventoryItem PeekArmory(int channel, ItemType type);",src/Foundation/Gameplay/GameLogisticsService.cs,True
+A2,IGameLogisticsService,ArmoryTypes,method,IReadOnlyList<ItemType> ArmoryTypes(int channel);,src/Foundation/Gameplay/GameLogisticsService.cs,True
+A2,IGameLogisticsService,StoreInArmory,method,"void StoreInArmory(int channel, InventoryItem item);",src/Foundation/Gameplay/GameLogisticsService.cs,True
+A2,IGameLogisticsService,PortalCount,method,"int PortalCount(int channel, int index);",src/Foundation/Gameplay/GameLogisticsService.cs,True
+A2,IGameLogisticsService,PeekPortal,method,"InventoryItem PeekPortal(int channel, int index);",src/Foundation/Gameplay/GameLogisticsService.cs,True
+A2,IGameLogisticsService,TryStoreInPortal,method,"bool TryStoreInPortal(int channel, int index, InventoryItem item);",src/Foundation/Gameplay/GameLogisticsService.cs,True
+A1,IGameMachinesService,Catalog,property,IReadOnlyList<FlowElement> Catalog { get; },src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,BuildableCatalog,property,IReadOnlyList<FlowElement> BuildableCatalog { get; },src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,ConfigureRecipe,method,"bool ConfigureRecipe(RecipeElement machine, CraftingRecipe recipe);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,ConfigureForest,method,"bool ConfigureForest(Forest machine, ForestItemType resource);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,SetFilter,method,"void SetFilter(Filter machine, ItemType item);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,SetSwitch,method,"void SetSwitch(TrackSwitch machine, bool enabled);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,SetTimer,method,"void SetTimer(Timer machine, float seconds);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,SetAppraiser,method,"void SetAppraiser(Appraiser machine, AppraiserStat? stat, AppraiserType op, int threshold);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,AddDistributorOutput,method,void AddDistributorOutput(Distributor machine);,src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,AddManifoldInput,method,void AddManifoldInput(Manifold machine);,src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,AddCollectorInput,method,void AddCollectorInput(Collector machine);,src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,AdvanceCollector,method,void AdvanceCollector(Collector machine);,src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,SetArmoryOutput,method,"void SetArmoryOutput(Armory machine, ItemType type);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,SetPortalOutput,method,"void SetPortalOutput(Portal machine, bool output);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,SetPortalChannel,method,"void SetPortalChannel(Portal machine, int channel, int index);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,SetArmoryChannel,method,"void SetArmoryChannel(Armory machine, int channel);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,SelectQuest,method,"void SelectQuest(QuestBoard machine, Quest quest);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,SelectDungeon,method,"void SelectDungeon(Dungeon machine, DungeonType dungeon);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,SelectRequisition,method,"void SelectRequisition(RequisitionOffice machine, int index);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,CollectShop,method,void CollectShop(Shop machine);,src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,CollectRequisition,method,void CollectRequisition(RequisitionOffice machine);,src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,AvailableRecipes,method,IReadOnlyList<CraftingRecipe> AvailableRecipes(RecipeElement machine);,src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,CanCraft,method,"bool CanCraft(RecipeElement machine, CraftingRecipe recipe);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,CraftingCost,method,"Assets.Source.Player.CurrencyCollection CraftingCost(RecipeElement machine, CraftingRecipe recipe = null);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,AvailableResources,method,IReadOnlyList<ResourceItemType> AvailableResources(ResourceElement machine);,src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,ResourceCost,method,"Assets.Source.Player.CurrencyCollection ResourceCost(ResourceElement machine, ResourceItemType resource = null);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,DesiredResourceOutput,method,float DesiredResourceOutput(ResourceElement machine);,src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,ResourceOutputPerSecond,method,float ResourceOutputPerSecond(ResourceElement machine);,src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,RefinementFailureChance,method,"float RefinementFailureChance(Refiner machine, InventoryItem item, bool? useMana = null);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,RefinementManaCost,method,"int RefinementManaCost(Refiner machine, InventoryItem item);",src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,CollapseCollector,method,void CollapseCollector(Collector machine);,src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,CollapseDistributor,method,void CollapseDistributor(Distributor machine);,src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGameMachinesService,CollapseManifold,method,void CollapseManifold(Manifold machine);,src/Foundation/Gameplay/GameMachinesService.cs,True
+A1,IGamePropertyControls,Build,method,"int Build(IModConfigSection section, ISignalSource source, PropertyEditorOptions options = null);",src/Foundation/Gameplay/GamePropertyControls.cs,True
+B2,IGameFlagsService,HasFlag,method,"bool HasFlag(string modId, string key, bool defaultValue = false);",src/Foundation/Gameplay/GameFlagsService.cs,True
+B2,IGameFlagsService,SetFlag,method,"void SetFlag(string modId, string key, bool value = true);",src/Foundation/Gameplay/GameFlagsService.cs,True
+B2,IGameFlagsService,GetCounter,method,"int GetCounter(string modId, string key, int defaultValue = 0);",src/Foundation/Gameplay/GameFlagsService.cs,True
+B2,IGameFlagsService,SetCounter,method,"void SetCounter(string modId, string key, int value);",src/Foundation/Gameplay/GameFlagsService.cs,True
+B2,IGameFlagsService,AddCounter,method,"int AddCounter(string modId, string key, int count = 1);",src/Foundation/Gameplay/GameFlagsService.cs,True
+B2,IGameFlagsService,GetString,method,"string GetString(string modId, string key, string defaultValue = null);",src/Foundation/Gameplay/GameFlagsService.cs,True
+B2,IGameFlagsService,SetString,method,"void SetString(string modId, string key, string value);",src/Foundation/Gameplay/GameFlagsService.cs,True
+B2,IGameContentRegistry,Ownership,property,"IReadOnlyDictionary<string, string> Ownership { get; }",src/Foundation/Gameplay/GameContentRegistry.cs,True
+B2,IGameContentRegistry,RegisterItem,method,"ItemType RegisterItem(string modId, ItemType item);",src/Foundation/Gameplay/GameContentRegistry.cs,True
+B2,IGameContentRegistry,RegisterRecipe,method,"CraftingRecipe RegisterRecipe(string modId, CraftingRecipe recipe);",src/Foundation/Gameplay/GameContentRegistry.cs,True
+B2,IGameContentRegistry,RegisterQuest,method,"Quest RegisterQuest(string modId, Quest quest);",src/Foundation/Gameplay/GameContentRegistry.cs,True
+B2,IGameContentRegistry,RegisterDungeon,method,"DungeonType RegisterDungeon(string modId, DungeonType dungeon);",src/Foundation/Gameplay/GameContentRegistry.cs,True
+B2,IGameContentRegistry,RegisterWar,method,"WarType RegisterWar(string modId, WarType war);",src/Foundation/Gameplay/GameContentRegistry.cs,True
+B2,IGameContentRegistry,RegisterPrestige,method,"PrestigeNode RegisterPrestige(string modId, PrestigeNode node);",src/Foundation/Gameplay/GameContentRegistry.cs,True
+B2,IGameContentRegistry,RegisterEnhancement,method,"ItemEnhancement RegisterEnhancement(string modId, ItemEnhancement enhancement);",src/Foundation/Gameplay/GameContentRegistry.cs,True
+B2,IGameUpgradeRegistry,RegisteredTypes,property,IReadOnlyList<string> RegisteredTypes { get; },src/Foundation/Gameplay/GameUpgradeRegistry.cs,True
+B2,IGameUpgradeRegistry,Register,method,"void Register(string modId, string typeId, Func<FlowUpgrade> factory);",src/Foundation/Gameplay/GameUpgradeRegistry.cs,True
+B2,IGameUpgradeRegistry,TryCreate,method,"bool TryCreate(string typeId, out FlowUpgrade upgrade);",src/Foundation/Gameplay/GameUpgradeRegistry.cs,True

@@ -1,0 +1,435 @@
+{
+  "milestone": "Foundation A1 Native Machine API",
+  "version": "0.11.0",
+  "originalMilestone": "A1 0.10.6",
+  "sourceOnly": true,
+  "compiled": false,
+  "runtimeVerified": false,
+  "counts": {
+    "PASS": 84,
+    "FAIL": 0,
+    "SKIP": 0
+  },
+  "checks": [
+    {
+      "name": "Source manifest has 61 exact concrete native FlowElement classes",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "One Foundation production DLL and matching current plugin version",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Source inventory is strongly typed (not fabricated runtime registration)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Native catalog consults real FlowElement.GetAllTypes",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Native catalog is exposed by same FoundationMachineApi",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Snapshot preserves separate read-only native and owner extension property maps",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "All snapshot paths read native specializations (not generic mod properties only)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Native specializations are main-thread and active-world checked",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Native observations do not expose mutable collections or Unity UI objects",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Native family getters use original inherited game methods",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Native operations guard kingdom placement and real Unity views",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Native operation contract: SetAppraiser",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Native operation contract: SetAccountant",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Native operation contract: SetWarType",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Native operation contract: AdvanceCollector",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Native operation contract: SetOutfitterTimeout",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Native operation contract: SetPortalChannel",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Native operation contract: SetArmoryChannel",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "A2 native transport untouched by A1 scope",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Read-only independent A1 verifier and Windows scripts exist",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Verifier has no direct native mutation",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Original native class inventory matches every supported game type",
+      "status": "PASS",
+      "details": "missing [] unexpected []"
+    },
+    {
+      "name": "Original game source zip unchanged (SHA256)",
+      "status": "PASS",
+      "details": ""
+    },
+    {
+      "name": "Native game declaration: Accountant",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Accountant.cs"
+    },
+    {
+      "name": "Native game declaration: AdventureSupplies",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/AdventureSupplies.cs"
+    },
+    {
+      "name": "Native game declaration: AdventurersGuild",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/AdventurersGuild.cs"
+    },
+    {
+      "name": "Native game declaration: Alchemist",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Alchemist.cs"
+    },
+    {
+      "name": "Native game declaration: Appraiser",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Appraiser.cs"
+    },
+    {
+      "name": "Native game declaration: Arena",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Arena.cs"
+    },
+    {
+      "name": "Native game declaration: Armory",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Armory.cs"
+    },
+    {
+      "name": "Native game declaration: Barracks",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Barracks.cs"
+    },
+    {
+      "name": "Native game declaration: Blacksmith",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Blacksmith.cs"
+    },
+    {
+      "name": "Native game declaration: Butcher",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Butcher.cs"
+    },
+    {
+      "name": "Native game declaration: Campfire",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Campfire.cs"
+    },
+    {
+      "name": "Native game declaration: Carpenter",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Carpenter.cs"
+    },
+    {
+      "name": "Native game declaration: Collector",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Collector.cs"
+    },
+    {
+      "name": "Native game declaration: DemoTurtle",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/DemoTurtle.cs"
+    },
+    {
+      "name": "Native game declaration: DevSpawner",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/DevSpawner.cs"
+    },
+    {
+      "name": "Native game declaration: Disenchanter",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Disenchanter.cs"
+    },
+    {
+      "name": "Native game declaration: Distributor",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Distributor.cs"
+    },
+    {
+      "name": "Native game declaration: Dungeon",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Dungeon.cs"
+    },
+    {
+      "name": "Native game declaration: Enchanter",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Enchanter.cs"
+    },
+    {
+      "name": "Native game declaration: Engraver",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Engraver.cs"
+    },
+    {
+      "name": "Native game declaration: Farm",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Farm.cs"
+    },
+    {
+      "name": "Native game declaration: Filter",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Filter.cs"
+    },
+    {
+      "name": "Native game declaration: Forest",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Forest.cs"
+    },
+    {
+      "name": "Native game declaration: Forge",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Forge.cs"
+    },
+    {
+      "name": "Native game declaration: Graveyard",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Graveyard.cs"
+    },
+    {
+      "name": "Native game declaration: Guildhouse",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Guildhouse.cs"
+    },
+    {
+      "name": "Native game declaration: Hoard",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Hoard.cs"
+    },
+    {
+      "name": "Native game declaration: Incinerator",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Incinerator.cs"
+    },
+    {
+      "name": "Native game declaration: Inn",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Inn.cs"
+    },
+    {
+      "name": "Native game declaration: Inspector",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Inspector.cs"
+    },
+    {
+      "name": "Native game declaration: Inventor",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Inventor.cs"
+    },
+    {
+      "name": "Native game declaration: Jeweler",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Jeweler.cs"
+    },
+    {
+      "name": "Native game declaration: Kitchen",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Kitchen.cs"
+    },
+    {
+      "name": "Native game declaration: Leatherworker",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Leatherworker.cs"
+    },
+    {
+      "name": "Native game declaration: Library",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Library.cs"
+    },
+    {
+      "name": "Native game declaration: LuxuryShop",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/LuxuryShop.cs"
+    },
+    {
+      "name": "Native game declaration: Manifold",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Manifold.cs"
+    },
+    {
+      "name": "Native game declaration: MercenaryGuild",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/MercenaryGuild.cs"
+    },
+    {
+      "name": "Native game declaration: Mine",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Mine.cs"
+    },
+    {
+      "name": "Native game declaration: Necromancer",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Necromancer.cs"
+    },
+    {
+      "name": "Native game declaration: NightmareCollector",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/NightmareCollector.cs"
+    },
+    {
+      "name": "Native game declaration: Outfitter",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Outfitter.cs"
+    },
+    {
+      "name": "Native game declaration: Pantry",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Pantry.cs"
+    },
+    {
+      "name": "Native game declaration: Portal",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Portal.cs"
+    },
+    {
+      "name": "Native game declaration: QuestBoard",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/QuestBoard.cs"
+    },
+    {
+      "name": "Native game declaration: Refiner",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Refiner.cs"
+    },
+    {
+      "name": "Native game declaration: RequisitionOffice",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/RequisitionOffice.cs"
+    },
+    {
+      "name": "Native game declaration: Restaurant",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Restaurant.cs"
+    },
+    {
+      "name": "Native game declaration: Scribe",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Scribe.cs"
+    },
+    {
+      "name": "Native game declaration: Shop",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Shop.cs"
+    },
+    {
+      "name": "Native game declaration: Shrine",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Shrine.cs"
+    },
+    {
+      "name": "Native game declaration: SingleButton",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/SingleButton.cs"
+    },
+    {
+      "name": "Native game declaration: Stockpile",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Stockpile.cs"
+    },
+    {
+      "name": "Native game declaration: SummoningCircle",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/SummoningCircle.cs"
+    },
+    {
+      "name": "Native game declaration: SupplyDepot",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/SupplyDepot.cs"
+    },
+    {
+      "name": "Native game declaration: Tailor",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Tailor.cs"
+    },
+    {
+      "name": "Native game declaration: Timer",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Timer.cs"
+    },
+    {
+      "name": "Native game declaration: TrackSwitch",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/TrackSwitch.cs"
+    },
+    {
+      "name": "Native game declaration: TrainingGrounds",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/TrainingGrounds.cs"
+    },
+    {
+      "name": "Native game declaration: Treasury",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/Treasury.cs"
+    },
+    {
+      "name": "Native game declaration: WarEffort",
+      "status": "PASS",
+      "details": "Source/Assets.Source.Flow.Elements/WarEffort.cs"
+    }
+  ]
+}

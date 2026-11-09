@@ -1,4 +1,26 @@
-# Foundation SDK 0.7.1
+﻿# Foundation SDK 0.10.4 — Native Machine IO & Throughput Update
+
+This SDK includes the **native Game API (Stage A2)** from Foundation 0.10.4. It is a read/edit/observe bridge over Kingdom Inc's own FlowElement, FlowIO, FlowPipe and WorldFlowManager; it does not replace native transport or add arbitrary throughput caps. Native items/second rates are **observed 10-second transfer statistics**, not theoretical pipe capacity.
+
+```csharp
+using KingdomFoundation.Machines;
+using Assets.Source.Flow.Elements;
+
+// Call on Unity's main thread while a real kingdom is loaded.
+var native = FoundationMachineApi.IO; // same instance as FoundationApi.NativeIO
+foreach (var collector in FoundationMachineApi.Registry.OfType<Collector>())
+{
+    var ports = native.Ports(collector);          // buffer, type and connection facts
+    var router = native.Router(collector);        // native selected input and slot count
+    var traffic = native.Throughput(collector);   // observed input/output per second
+}
+```
+
+Pipe connection validation uses real native port/flow restrictions, while `CanAccept(FlowInput, InventoryItem)` calls the game's actual item predicate and buffer check. `Connect`, `Disconnect`, and route edits reuse the existing Foundation native workspace operations. Native port expansion/collapse delegates to the game's existing machine methods; a general-purpose arbitrary port-filter setter is deliberately not provided because vanilla has no universal validated setter. For the full native method matrix, safety/ownership contract, and independent runtime verifier, see the **complete source** document `Docs/GameAPI/A2-Native-Machine-IO-Throughput.md`. This is a **source candidate pending a fresh installed Unity verification report**, not a claim of verified 0.10.4 gameplay.
+
+---
+
+# Foundation SDK 0.8.0
 
 Create real Kingdom Inc research through public C# interfaces. Foundation puts registered research on **Tech Tree → Mods**, using the game's actual TechNode model, UITechNode/UIElementTechNode prefabs, tooltips, costs, hover/glow/checkmark feedback, prerequisite connectors, branch navigation, research list and map camera controls.
 
@@ -297,7 +319,7 @@ The bar follows native HUD visibility and scaling. Hovering it blocks workspace 
 
 ## Custom Options Menu & Mod Config API (0.7.0+)
 
-Foundation replaces the game's Options menu with a 3x expanded custom menu containing **[ Game Settings ]** and **[ Mod Settings ]** tabs.
+Foundation replaces the game's Options menu with a 3x expanded custom menu containing **[ Game Settings ]**, **[ Mod Settings ]**, and **[ Installed ]** tabs.
 
 Under **[ Mod Settings ]**, players can configure installed mods in real time. Register settings sections on Unity's main thread through `FoundationApi.ModConfig`:
 
@@ -345,3 +367,199 @@ void OnDestroy()
 | `IModConfigDropdown` | Row label with authentic dropdown control. |
 
 Changes made by the player in the UI are staged until they click **Apply** (or cancelled when they click **Back** / press Escape). Calling `section.Commit()` or `section.Cancel()` programmatically applies or restores staged values.
+
+
+## Installed Mods & Nexus Version Checking (0.7.1+)
+
+On the far right of the custom Settings menu, Foundation provides the **[ Installed ]** tab. This tab lists every loaded BepInEx mod, shows current vs. latest Nexus version, and provides a direct `[Update Availible]` link button to the mod's Nexus page when outdated.
+
+### Mod Authors: Register Nexus ID
+
+Mods can declare their Nexus Mods page number in three ways:
+
+1. **Custom Attribute** on plugin class or assembly:
+```csharp
+[BepInPlugin("your.mod.guid", "Your Mod Name", "1.0.0")]
+[NexusMod(42)] // https://www.nexusmods.com/kingdominc/mods/42
+public sealed class MyPlugin : BaseUnityPlugin { }
+```
+
+2. **API Registration**:
+```csharp
+FoundationApi.RegisterNexusMod("your.mod.guid", 42);
+```
+
+3. **nexus.json** file in the plugin directory:
+```json
+{
+  "nexus_id": 42
+}
+```
+
+Foundation includes built-in mappings for all published Kingdom Inc community mods. Nexus version checks run asynchronously using Foundation's built-in Nexus API integration (with optional override via `NEXUSMODS_API_KEY` or config). Outdated mods display an amber **Update Available** button that opens the Nexus page in the default web browser.
+
+## Native Flow inspection and pipe events (0.8.0+)
+
+`FoundationApi.Flow` reads the game's existing `Assets.Source.Flow` classes. It never mutates port buffers or applies an artificial throughput limit.
+
+```csharp
+using Assets.Source.Flow;
+using KingdomFoundation.Api;
+
+// model is a native FlowElement from the workspace.
+FlowElementSnapshot modelState = FoundationApi.Flow.Inspect(model);
+foreach (FlowPortSnapshot port in modelState.Inputs)
+{
+    Logger.LogInfo($"{port.ElementType}[{port.Index}] buffered " +
+                   $"{port.BufferedCount}/{port.BufferCapacity}");
+}
+
+// Subscribe during mod startup and unsubscribe during teardown.
+FoundationApi.Flow.PipeConnected += OnNativePipeConnected;
+FoundationApi.Flow.PipeDisconnected += OnNativePipeDisconnected;
+FoundationApi.Flow.ItemTransferred += OnNativeItemTransferred;
+
+void OnNativePipeConnected(FlowPipeSnapshot connection)
+{
+    Logger.LogInfo($"Pipe: {connection.OutputElementGuid}:{connection.OutputPortIndex} " +
+                   $"-> {connection.InputElementGuid}:{connection.InputPortIndex}");
+}
+
+void OnNativePipeDisconnected(FlowPipeSnapshot connection) { /* ... */ }
+void OnNativeItemTransferred(FlowItemTransferSnapshot transfer)
+{
+    Logger.LogInfo($"Transferred {transfer.ItemTypeId}, quality {transfer.Quality}");
+}
+```
+
+The snapshot types are read-only copies of observed data. `BufferedItemTypeIds` contains item type IDs, not mutable item instances. All inspection and event callbacks should run on Unity's main thread. `PipeConnected` means native `FlowPipe.Connect` has completed, **not** that the pipe has been added to an active `FlowDiagram`; it may be emitted while a save is reconstructed, before saved route nodes are restored. The `PipeDisconnected` event is emitted only for a pipe removed from a diagram by `DisconnectPipe`. `ItemTransferred` observes each successful transfer reported by a **live** `WorldFlowPipe`; it is not emitted by detached/off-world pipe simulations. It can be used to measure actual transfers, but the native `FlowPipe.Update` has no fixed numeric throughput-rate field, and the service does not invent one.
+
+## Staged config changes (0.8.0+)
+
+`IModConfigToggle`, `IModConfigSlider` and `IModConfigDropdown` values can be edited in Mod Settings without calling the registered `OnValueChanged` / `OnSelectionChanged` callback immediately. The callback runs **once per changed value** on Apply, and Cancel discards pending values. Views can be rebuilt by navigating between mods without resetting pending changes. This is per-control staging, not an atomic transaction spanning multiple independent mod callbacks. Custom `IModConfigElement` implementations should provide their own reversible `Commit()` and `Cancel()` behavior. `IModConfigButton.OnClick` is an immediate action and cannot be rolled back.
+
+For Nexus checking, use the user's own `Updates.NexusApiKey` configuration or `NEXUSMODS_API_KEY`; no key is packaged in the framework.
+
+
+## 0.9.0 framework services
+
+See `GUIDE-0.10.0.md` in the SDK ZIP for end-to-end code demonstrating `FoundationApi.Events`, `Lifecycle`, `Signals`, `IO`, `ModSave`, `Assets`, `ForMod`, `Diagnostics`, and the native `AddSignalSelector` config control. `Examples/ExampleServices` compiles independently to verify public contracts.
+
+**Version note:** this SDK is a source candidate until compiled and verified using the provided Windows build and isolated test scripts.
+
+
+## 0.10.0 — Full native gameplay SDK
+
+`FoundationApi.World`, `Workspace`, `Machines`, `Economy`, `Production`, `Logistics`, `Combat`, `Items`, `Content`, `Upgrades`, `Progression`, `Adventures`, `Saves`, `UI`, `Presentation`, `PropertyControls`, `Native`, `Flags` and `Runtime` are now available in addition to the original Foundation APIs. The source-backed implementation routes actions to the base game and does not replace its simulation. See `GUIDE-0.10.0.md` for API catalog and examples.
+
+Use `ModConfigSection.AddColorSwatches` for native-themed rectangular color options. Use `FoundationApi.PropertyControls.Build(section, source)` to generate editors for exposed bool, enum, numerical and color fields automatically. 
+
+The SDK ZIP also contains `Examples/ExampleGameplay`. Persistent game item IDs use `modGuid:item` (Foundation supports their native quality/seed string serialization); enhancements must use `modGuid.name` due to the vanilla enhancement parser. All native registration must occur before starting or loading a kingdom.
+
+The 0.10.0 source is not a precompiled/verified binary; 0.9.3 was the last version confirmed working on the user's game.
+
+## Foundation 0.10.1: native machine capabilities, built-in signals and pipe routes
+
+All calls below run on Unity's main thread, with an active kingdom where indicated.
+
+### Native signal sources included with Foundation
+
+These sources appear automatically in `AddSignalSelector`'s source and exposed-property controls:
+
+| Source ID | Properties | Notes |
+|---|---|---|
+| `foundation:player` | `loaded`, `time`, `flowIndex`, `flowCount`, `ascensions`, `nightmareActive`, `nightmareProgress` | Live `GamePlayer` values. |
+| `foundation:workspace` | `available`, `label`, `icon`, `elements`, `pipes`, `decorations` | Tracks the current `FlowDiagram` when switching workspaces. |
+| `foundation:camera` | `available`, `zoom`, `maxZoom`, `zoomScale` | Live native `WorldFlowCamera` values. |
+
+All built-in properties are **read-only**, never writable game-state shortcuts. `loaded`/`available` indicates whether the associated object exists; numeric values are defaults before a kingdom loads.
+
+```csharp
+if (FoundationApi.Signals.TryGet("foundation:workspace", out var src) &&
+    src.TryGetProperty("pipes", out var pipes))
+{
+    int pipeCount = (int)pipes.Read();
+}
+```
+
+### Native machine capability queries
+
+```csharp
+var recipes = FoundationApi.Machines.AvailableRecipes(recipeMachine);
+if (recipes.Count > 0 && FoundationApi.Machines.CanCraft(recipeMachine, recipes[0]))
+{
+    var price = FoundationApi.Machines.CraftingCost(recipeMachine, recipes[0]);
+}
+var resources = FoundationApi.Machines.AvailableResources(resourceMachine);
+var rate = FoundationApi.Machines.ResourceOutputPerSecond(resourceMachine);
+```
+
+Methods delegate directly to the game's `RecipeElement`, `ResourceElement` and `Refiner`. The native machine must be placed in the loaded kingdom.
+
+### Native pipe-bend editing
+
+```csharp
+var allPipes = FoundationApi.IO.FindPipes(machine);
+if (allPipes.Count > 0)
+{
+    var pipe = allPipes[0];
+    FoundationApi.IO.ReplaceRoute(pipe, new []
+    {
+        new UnityEngine.Vector2Int(512, 128),
+        new UnityEngine.Vector2Int(512, 256)
+    });
+    // Rendered native line and collider are refreshed automatically.
+}
+```
+
+This manipulates *visual route nodes*, not transport throughput or connectivity. The game still owns item transfer behavior.
+
+### Built-in native notifications
+
+```csharp
+FoundationApi.UI.ShowStatus("A mod action finished", "Icons2_0", persistent: true,
+    onClick: () => FoundationApi.UI.ShowResearch(true));
+FoundationApi.UI.ShowWarning(new UnityEngine.Vector2(250, 300), "Check your connections");
+```
+
+`ShowStatus` uses `UIStatusMessage.Show`, supporting clickable persistent or time-limited status messages. The selected icon name must exist in the game's current `SpriteLibrary`.
+
+### Scoped content ownership
+
+```csharp
+var scope = FoundationApi.ForMod("com.example.my-mod");
+scope.RegisterItem(item);   // item.Identifier must be com.example.my-mod:name
+scope.RegisterRecipe(recipe);
+scope.RegisterQuest(quest);
+// Dispose scope at OnDestroy, not when exiting an individual world.
+```
+
+Native catalogs and upgrade factories are **process-lifetime** registrations because the game saves IDs and/or indices. Disposing a context does not remove those entries; transient subscriptions, assets and settings are cleaned up normally.
+
+
+## Machines in the unified assembly (0.10.2)
+
+Use `KingdomFoundation.Machines.FoundationMachineApi` from **Foundation.dll**. Do not reference `Foundation.Machines.dll`. The one Foundation BepInEx plugin initializes both Core and Machines. Use `FoundationMachineApi.ForMod(yourGuid)` for owned extensions/listeners and dispose the context on unload. Native game simulation remains authoritative.
+
+
+## Foundation UI (0.10.3 candidate)
+
+The unified `Foundation.dll` exposes `FoundationApi.Panels` with owner-scoped
+`FoundationPanelDefinition`, `IFoundationPanelModContext`, `IFoundationPanelBuilder`,
+and `FoundationUiProperty`. Register generic mod windows or native machine-type
+configuration panels. UI builder controls include native buttons, toggles, sliders,
+numeric/text fields, dropdowns, searchable selection, color swatches, signal source
+and exposed-property selectors, tabs, collapsible sections, columns, drag-reorder
+rows, confirmations, dynamic property editors and live telemetry.
+
+See `Docs/UI/README.md` and the independent `Examples/UIDemo` source for details.
+The demo DLL is not part of the distributable game mod.
+
+
+## Foundation 0.10.7 — Core Stage B1 discovery and event unification
+
+`FoundationCoreApi.Core.Mods` is the live unified discovery view for BepInEx plugins and Foundation modules. `FoundationCoreApi.Core.ServiceDirectory` is a typed service discovery view over the same authoritative `Core.Services` registry: `Find(typeof(ISharedContract), minVersion)` provides registered service IDs and owners; `TryResolveProvider<ISharedContract>(ownerId, out instance, minVersion)` works when the provider registered exactly one compatible service of that contract. Use `core.Services.TryResolve<ISharedContract>(exactServiceId, out instance)` for an explicitly chosen service. 
+
+`FoundationApi.Events` and `FoundationCoreApi.Core.Events` now publish through a **single** Core event dispatcher; existing legacy API calls remain valid. The old event facade only tracks its own disposable subscription handles. Module descriptors and native gameplay APIs retain their existing public signatures. Required dependents now stop, wait, and restart if their provider unloads and returns rather than being permanently unregistered.
+
+Full technical guide: `Docs/Core/Stage-B1-Rewrite.md` in the complete source tree. The 0.10.7 package needs its own Windows compile and independent one-shot `Tests/StageB1` runtime verification.
