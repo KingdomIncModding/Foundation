@@ -4,6 +4,7 @@ using KingdomFoundation.Core;
 
 namespace FoundationExamples.CoreMod
 {
+    /// <summary>Defines the example module type.</summary>
     internal sealed class ExampleModule : IFoundationModule, IFoundationWorldModule
     {
         public const string ModId = "example.foundation.core";

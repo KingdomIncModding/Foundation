@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Defines the foundation assets type.</summary>
     internal sealed partial class FoundationAssets : IFoundationAssetDirectory
     {
         readonly Dictionary<(string, string), Handle> assets = new Dictionary<(string, string), Handle>();
