@@ -16,6 +16,7 @@ namespace KingdomFoundation.Api
             internal IDisposable Token;
             internal bool Active = true;
             internal bool IsActive => Active && (!(Token is ICoreEventSubscription subscription) || subscription.IsActive);
+            /// <summary>Performs the dispose operation.</summary>
             public void Dispose() => Owner.Unsubscribe(this);
         }
     }

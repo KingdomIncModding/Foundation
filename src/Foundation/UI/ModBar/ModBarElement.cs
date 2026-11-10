@@ -22,6 +22,7 @@ namespace KingdomFoundation.Api
             ModBarRegistry.ValidateAlignment(alignment);
             ModId = modId; Id = id; Width = width; Order = order; Alignment = alignment;
         }
+        /// <summary>Creates view.</summary>
         public abstract IModBarView CreateView(IModBarContext context);
     }
 }

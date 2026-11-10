@@ -9,6 +9,7 @@ namespace KingdomFoundation.Api
     internal sealed partial class FoundationAssets : IFoundationAssetDirectory
     {
         readonly Dictionary<(string, string), Handle> assets = new Dictionary<(string, string), Handle>();
+        /// <summary>Gets or sets the assets value.</summary>
         public IReadOnlyList<IFoundationAsset> Assets => Array.AsReadOnly(assets.Values.Cast<IFoundationAsset>().ToArray());
         public IReadOnlyList<IFoundationAsset> ForOwner(string modId)
         {
@@ -31,6 +32,7 @@ namespace KingdomFoundation.Api
             }
             return released;
         }
+        /// <summary>Performs the add dependency operation.</summary>
         public void AddDependency(string ownerId, string assetId, string dependencyOwnerId, string dependencyAssetId)
         {
             if (!assets.TryGetValue((ownerId, assetId), out var dependent) || !dependent.IsLoaded)
@@ -41,6 +43,7 @@ namespace KingdomFoundation.Api
                 throw new InvalidOperationException("Cyclic asset dependency rejected.");
             dependent.Requires.Add(provider);
         }
+        /// <summary>Attempts to get.</summary>
         public bool TryGet(string modId, string assetId, out IFoundationAsset asset)
         {
             if (assets.TryGetValue((modId, assetId), out var handle)) { asset = handle; return true; }
@@ -57,6 +60,7 @@ namespace KingdomFoundation.Api
         {
             if (assets.ContainsKey((modId, id))) throw new ArgumentException("Asset ID already in use for this mod: " + id);
         }
+        /// <summary>Loads sprite.</summary>
         public IFoundationAsset LoadSprite(string modId, string assetId, string absolutePngPath, float pixelsPerUnit = 100f)
         {
             Validate(modId, assetId, absolutePngPath); CheckDuplicate(modId, assetId);
@@ -72,6 +76,7 @@ namespace KingdomFoundation.Api
             }
             catch { UnityEngine.Object.Destroy(texture); throw; }
         }
+        /// <summary>Loads asset bundle.</summary>
         public IFoundationAsset LoadAssetBundle(string modId, string assetId, string absoluteBundlePath)
         {
             Validate(modId, assetId, absoluteBundlePath); CheckDuplicate(modId, assetId);

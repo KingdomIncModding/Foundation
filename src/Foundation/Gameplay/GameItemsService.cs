@@ -11,6 +11,7 @@ namespace KingdomFoundation.Api
 {
     internal sealed class GameItemsService : IGameItemsService
     {
+        /// <summary>Gets or sets the items value.</summary>
         public IReadOnlyList<ItemType> Items => Array.AsReadOnly(ItemType.All.ToArray());
         public IReadOnlyList<CraftingRecipe> Recipes => Array.AsReadOnly(CraftingRecipe.All.ToArray());
         // ItemEnhancement has no public All catalog in the game's assembly.
@@ -30,6 +31,7 @@ namespace KingdomFoundation.Api
         }
         public IReadOnlyList<ItemEnhancement> Enhancements
             => Array.AsReadOnly(EnhancementCatalog.Values.OrderBy(e => e.Identifier, StringComparer.Ordinal).ToArray());
+        /// <summary>Finds enhancement.</summary>
         public ItemEnhancement FindEnhancement(string id)
             => id != null && EnhancementCatalog.TryGetValue(id, out var value) ? value : null;
         public IReadOnlyList<ItemEnhancementData> EquipmentEnhancements(InventoryItem item)
@@ -39,6 +41,7 @@ namespace KingdomFoundation.Api
                 ? Array.AsReadOnly(equip.Enhancements.ToArray())
                 : Array.Empty<ItemEnhancementData>();
         }
+        /// <summary>Performs the equipment stat operation.</summary>
         public int EquipmentStat(InventoryItem item, EquipStat stat)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
@@ -47,6 +50,7 @@ namespace KingdomFoundation.Api
         public bool IsUnlocked(ItemType type) => (type ?? throw new ArgumentNullException(nameof(type))).IsUnlocked;
         public long NativeBaseValue(ItemType type) => (type ?? throw new ArgumentNullException(nameof(type))).BaseValue;
         public long NativeSellValue(InventoryItem item) => (item ?? throw new ArgumentNullException(nameof(item))).SellValue;
+        /// <summary>Performs the appraiser stat operation.</summary>
         public int AppraiserStat(InventoryItem item, AppraiserStat stat)
             => (item ?? throw new ArgumentNullException(nameof(item))).GetAppraiserStat(stat);
         public bool CanEnhance(InventoryItem item, EnhancementType type)
@@ -55,6 +59,7 @@ namespace KingdomFoundation.Api
             => (recipe ?? throw new ArgumentNullException(nameof(recipe))).IsAvailable;
         public CurrencyCollection RecipeCost(CraftingRecipe recipe)
             => (recipe ?? throw new ArgumentNullException(nameof(recipe))).CraftingCost;
+        /// <summary>Performs the recipe reward operation.</summary>
         public CurrencyCollection RecipeReward(CraftingRecipe recipe)
             => (recipe ?? throw new ArgumentNullException(nameof(recipe))).CraftingReward;
         public IReadOnlyList<CraftingReagent> RecipeReagents(CraftingRecipe recipe)
@@ -63,6 +68,7 @@ namespace KingdomFoundation.Api
             => Array.AsReadOnly(((recipe ?? throw new ArgumentNullException(nameof(recipe))).Results ?? Array.Empty<CraftingResult>()).ToArray());
         public int RequiredQuantity(CraftingRecipe recipe, ItemType item)
             => (recipe ?? throw new ArgumentNullException(nameof(recipe))).GetReagentCount(item ?? throw new ArgumentNullException(nameof(item)));
+        /// <summary>Performs the produced quantity operation.</summary>
         public int ProducedQuantity(CraftingRecipe recipe, ItemType item)
             => (recipe ?? throw new ArgumentNullException(nameof(recipe))).GetResultCount(item ?? throw new ArgumentNullException(nameof(item)));
         public IReadOnlyList<string> NativeItemSources(ItemType item)
@@ -79,6 +85,7 @@ namespace KingdomFoundation.Api
             if (initialize) item.InitializeData();
             return item;
         }
+        /// <summary>Performs the clone operation.</summary>
         public InventoryItem Clone(InventoryItem original) => (original ?? throw new ArgumentNullException(nameof(original))).CloneItem();
         public InventoryItem Deserialize(JsonValue data) => InventoryItem.FromJson(data);
         public JsonValue Serialize(InventoryItem item) => (item ?? throw new ArgumentNullException(nameof(item))).ToJson();
@@ -87,6 +94,7 @@ namespace KingdomFoundation.Api
             if (type == null) throw new ArgumentNullException(nameof(type));
             return Array.AsReadOnly(CraftingRecipe.All.Where(r => r.Results != null && r.GetResultCount(type) > 0).ToArray());
         }
+        /// <summary>Performs the requiring operation.</summary>
         public IReadOnlyList<CraftingRecipe> Requiring(ItemType type)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
@@ -98,6 +106,7 @@ namespace KingdomFoundation.Api
             if (item == null) throw new ArgumentNullException(nameof(item));
             return input.CanBuffer && input.CanAcceptItem(item);
         }
+        /// <summary>Attempts to insert.</summary>
         public bool TryInsert(Assets.Source.Flow.FlowInput input, InventoryItem item)
         {
             if (!CanAccept(input, item)) return false;

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the imod config color swatches API.</summary>
     public interface IModConfigColorSwatches : IModConfigElement
     {
         string Label { get; set; }

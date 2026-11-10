@@ -79,6 +79,7 @@ namespace KingdomFoundation.Api
         private static readonly FoundationRuntimeService RuntimeService = new FoundationRuntimeService();
         private static readonly NativeGameBridge NativeBridge = new NativeGameBridge();
         private static readonly NativeSignalBinder SignalBinder = new NativeSignalBinder();
+        /// <summary>Gets or sets the view value.</summary>
         public static IGameViewService View => ViewService;
         public static IGameAudioService Audio => AudioService;
         public static IGameWorldService World => WorldService;
@@ -87,6 +88,7 @@ namespace KingdomFoundation.Api
         public static IGameProgressService Progression => ProgressService;
         public static IGameAdventureService Adventures => AdventureService;
         public static IGameItemsService Items => ItemsService;
+        /// <summary>Gets or sets the production value.</summary>
         public static IGameProductionService Production => ProductionService;
         public static IGameMachinesService Machines => MachinesService;
         public static IGamePresentationService Presentation => PresentationService;

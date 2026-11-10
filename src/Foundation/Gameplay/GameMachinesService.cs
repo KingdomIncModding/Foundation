@@ -20,6 +20,7 @@ namespace KingdomFoundation.Api
             if (!player.Flows.Any(f => f.Elements.Contains(element)))
                 throw new InvalidOperationException("Machine must be placed in a loaded kingdom.");
         }
+        /// <summary>Gets or sets the catalog value.</summary>
         public IReadOnlyList<FlowElement> Catalog => Array.AsReadOnly(FlowElement.GetAllTypes().ToArray());
         public IReadOnlyList<FlowElement> BuildableCatalog => Array.AsReadOnly(FlowElement.GetBuildableTypes().ToArray());
         public IReadOnlyList<T> Find<T>() where T : FlowElement
@@ -39,6 +40,7 @@ namespace KingdomFoundation.Api
             view.SetRecipe(recipe);
             return true;
         }
+        /// <summary>Performs the configure forest operation.</summary>
         public bool ConfigureForest(Forest machine, ForestItemType resource)
         {
             Active(machine);
@@ -52,6 +54,7 @@ namespace KingdomFoundation.Api
             view.SetResource(resource);
             return true;
         }
+        /// <summary>Sets filter.</summary>
         public void SetFilter(Filter machine, ItemType item) { Active(machine); machine.SetFilterType(item); }
         public void SetSwitch(TrackSwitch machine, bool enabled)
         {
@@ -60,6 +63,7 @@ namespace KingdomFoundation.Api
             machine.SwitchPosition = enabled;
             machine.UpdateTrackSwitch();
         }
+        /// <summary>Sets timer.</summary>
         public void SetTimer(Timer machine, float seconds)
         {
             Active(machine);
@@ -74,6 +78,7 @@ namespace KingdomFoundation.Api
             machine.AppraiseType = op;
             machine.StatAmount = threshold;
         }
+        /// <summary>Performs the add distributor output operation.</summary>
         public void AddDistributorOutput(Distributor machine) { Active(machine); machine.AddOutputSlot(); }
         public void AddManifoldInput(Manifold machine) { Active(machine); machine.AddInputSlot(); }
         public void AddCollectorInput(Collector machine) { Active(machine); machine.AddInputSlot(); }
@@ -92,6 +97,7 @@ namespace KingdomFoundation.Api
             machine.Channel = channel;
             machine.ChannelIndex = index;
         }
+        /// <summary>Sets armory channel.</summary>
         public void SetArmoryChannel(Armory machine, int channel)
         {
             Active(machine);
@@ -104,6 +110,7 @@ namespace KingdomFoundation.Api
             if (quest != null && !quest.IsUnlocked) throw new InvalidOperationException("Quest has not been unlocked.");
             machine.UpdateQuest(quest);
         }
+        /// <summary>Performs the select dungeon operation.</summary>
         public void SelectDungeon(Dungeon machine, DungeonType dungeon)
         {
             Active(machine);
@@ -112,6 +119,7 @@ namespace KingdomFoundation.Api
                 throw new InvalidOperationException("Dungeon has not been unlocked.");
             machine.SetDungeonType(dungeon);
         }
+        /// <summary>Performs the select requisition operation.</summary>
         public void SelectRequisition(RequisitionOffice machine, int index)
         { Active(machine); machine.SetSelectedContract(index); }
         public void CollectShop(Shop machine)
@@ -123,6 +131,7 @@ namespace KingdomFoundation.Api
             Active(machine);
             return Array.AsReadOnly(machine.GetAvailableRecipes().ToArray());
         }
+        /// <summary>Determines whether craft.</summary>
         public bool CanCraft(RecipeElement machine, CraftingRecipe recipe)
         {
             Active(machine);
@@ -134,6 +143,7 @@ namespace KingdomFoundation.Api
             Active(machine);
             return machine.GetCraftingCost(recipe);
         }
+        /// <summary>Performs the available resources operation.</summary>
         public IReadOnlyList<ResourceItemType> AvailableResources(ResourceElement machine)
         {
             Active(machine);
@@ -146,6 +156,7 @@ namespace KingdomFoundation.Api
                 throw new ArgumentException("The machine cannot supply that resource.", nameof(resource));
             return machine.GetResourceCost(resource);
         }
+        /// <summary>Performs the desired resource output operation.</summary>
         public float DesiredResourceOutput(ResourceElement machine)
         {
             Active(machine);
@@ -156,6 +167,7 @@ namespace KingdomFoundation.Api
             Active(machine);
             return machine.OutputPerSecond;
         }
+        /// <summary>Performs the refinement failure chance operation.</summary>
         public float RefinementFailureChance(Refiner machine, InventoryItem item, bool? useMana = null)
         {
             Active(machine);
@@ -168,6 +180,7 @@ namespace KingdomFoundation.Api
             if (item == null) throw new ArgumentNullException(nameof(item));
             return machine.GetManaCost(item);
         }
+        /// <summary>Performs the collapse collector operation.</summary>
         public void CollapseCollector(Collector machine) { Active(machine); machine.Collapse(); }
         public void CollapseDistributor(Distributor machine) { Active(machine); machine.Collapse(); }
         public void CollapseManifold(Manifold machine) { Active(machine); machine.Collapse(); }

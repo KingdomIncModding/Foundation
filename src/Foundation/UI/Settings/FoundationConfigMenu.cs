@@ -14,6 +14,7 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the foundation config menu API.</summary>
     public sealed partial class FoundationConfigMenu : MonoBehaviour
     {
         OptionsUI optionsUI;
@@ -61,6 +62,7 @@ namespace KingdomFoundation
 
         // Templates
         ModConfigTemplates templates;
+        /// <summary>Gets or sets the templates value.</summary>
         public IModConfigTemplates Templates => templates;
 
         bool built;
@@ -74,6 +76,7 @@ namespace KingdomFoundation
             return menu;
         }
 
+        /// <summary>Performs the build operation.</summary>
         public void Build(OptionsUI source)
         {
             if (built) return;
@@ -699,6 +702,7 @@ namespace KingdomFoundation
             modsSettingsScroll.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.Permanent;
         }
 
+        /// <summary>Performs the show game tab operation.</summary>
         public void ShowGameTab()
         {
             isModsTabActive = false;
@@ -715,6 +719,7 @@ namespace KingdomFoundation
             if (installedTabText) installedTabText.fontStyle = FontStyles.Normal;
         }
 
+        /// <summary>Performs the show mods tab operation.</summary>
         public void ShowModsTab(string modId = null)
         {
             isModsTabActive = true;
@@ -736,6 +741,7 @@ namespace KingdomFoundation
             RefreshModsList();
         }
 
+        /// <summary>Performs the show installed tab operation.</summary>
         public void ShowInstalledTab()
         {
             isModsTabActive = false;
@@ -983,6 +989,7 @@ namespace KingdomFoundation
             }
         }
 
+        /// <summary>Performs the refresh installed mods ui operation.</summary>
         public void RefreshInstalledModsUI()
         {
             if (!installedContent) return;
@@ -1191,6 +1198,7 @@ namespace KingdomFoundation
                 RefreshModsList();
         }
 
+        /// <summary>Performs the refresh mods list operation.</summary>
         public void RefreshModsList()
         {
             if (!modsSidebarContent) return;
@@ -1252,6 +1260,7 @@ namespace KingdomFoundation
             SelectMod(selectedModId);
         }
 
+        /// <summary>Performs the select mod operation.</summary>
         public void SelectMod(string modId)
         {
             selectedModId = modId;

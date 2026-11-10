@@ -32,6 +32,7 @@ namespace KingdomFoundation.Api
             OnChanged = onChanged;
             this.getter = getter;
         }
+        /// <summary>Creates view.</summary>
         public GameObject CreateView(IModConfigContext context)
         {
             var parent = new GameObject("FoundationSignalSelector", typeof(RectTransform), typeof(UnityEngine.UI.VerticalLayoutGroup), typeof(UnityEngine.UI.ContentSizeFitter));
@@ -127,6 +128,7 @@ namespace KingdomFoundation.Api
                 propertyDropdown.RefreshShownValue();
             }
         }
+        /// <summary>Performs the begin edit operation.</summary>
         public void BeginEdit() { committed = getter?.Invoke() ?? committed; pending = committed; RefreshOptions(); }
         public void Cancel() => BeginEdit();
         public void Commit()

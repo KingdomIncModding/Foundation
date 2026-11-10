@@ -12,6 +12,7 @@ namespace KingdomFoundation.Api
         public Func<object> Read { get; }
         public Action<object> Write { get; }
         public IReadOnlyList<string> Options { get; }
+        /// <summary>Gets or sets the minimum value.</summary>
         public double Minimum { get; }
         public double Maximum { get; }
         public double Step { get; }

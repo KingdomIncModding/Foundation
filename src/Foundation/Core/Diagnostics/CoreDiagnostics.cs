@@ -14,6 +14,7 @@ namespace KingdomFoundation.Core
             get { lock (gate) return Array.AsReadOnly(history.ToArray()); }
         }
         internal void SetLogger(ManualLogSource target) { logger = target; }
+        /// <summary>Performs the record operation.</summary>
         public void Record(CoreSeverity severity, string ownerId, string operation, string message, Exception error = null)
         {
             var record = new CoreDiagnosticRecord(severity, ownerId, operation, message, error);

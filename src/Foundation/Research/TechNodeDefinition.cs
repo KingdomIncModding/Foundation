@@ -14,6 +14,7 @@ namespace KingdomFoundation.Api
         public Sprite Icon { get; }
         public Vector2 Position { get; }
         public TechNodeOptions Research { get; }
+        /// <summary>Gets or sets the mod id value.</summary>
         public string ModId { get; }
         public string ModName { get; }
 

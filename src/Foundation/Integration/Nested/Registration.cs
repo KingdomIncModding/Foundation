@@ -18,6 +18,7 @@ namespace KingdomFoundation.Api
             internal Action Shortcut;
             internal bool AllowWhileTyping;
             internal bool Active = true;
+            /// <summary>Performs the dispose operation.</summary>
             public void Dispose() => Owner.Remove(this);
         }
     }

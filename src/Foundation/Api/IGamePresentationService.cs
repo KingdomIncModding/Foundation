@@ -16,6 +16,7 @@ namespace KingdomFoundation.Api
 
         string Translate(string token, params object[] arguments);
         Sprite FindSprite(string iconName);
+        /// <summary>Gets or sets the icon names value.</summary>
         IReadOnlyList<string> IconNames { get; }
         void RegisterSprite(string modId, string iconName, Sprite sprite);
         void RegisterText(string modId, string key, string locale, string value);

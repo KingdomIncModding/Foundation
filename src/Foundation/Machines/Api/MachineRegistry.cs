@@ -16,6 +16,7 @@ namespace KingdomFoundation.Machines
             foreach (var flow in player.Flows) list.AddRange(flow.Elements);
             return list.AsReadOnly();
         }
+        /// <summary>Performs the on flow operation.</summary>
         public IReadOnlyList<FlowElement> OnFlow(int flowIndex)
         {
             MachineThread.Verify();
@@ -30,6 +31,7 @@ namespace KingdomFoundation.Machines
             foreach (var el in All()) if (el is T machine) result.Add(machine);
             return result.AsReadOnly();
         }
+        /// <summary>Performs the where operation.</summary>
         public IReadOnlyList<FlowElement> Where(Func<FlowElement,bool> predicate)
         {
             MachineThread.Verify();
@@ -38,6 +40,7 @@ namespace KingdomFoundation.Machines
             foreach (var el in All()) if (predicate(el)) result.Add(el);
             return result.AsReadOnly();
         }
+        /// <summary>Finds by guid.</summary>
         public FlowElement FindByGuid(string guid)
         {
             MachineThread.Verify();
@@ -52,6 +55,7 @@ namespace KingdomFoundation.Machines
             foreach (var el in OnFlow(identity.FlowIndex)) if (el.Guid == identity.Guid) return el;
             return null;
         }
+        /// <summary>Performs the inspect operation.</summary>
         public MachineSnapshot Inspect(FlowElement el)
         {
             MachineThread.Verify();
@@ -61,6 +65,7 @@ namespace KingdomFoundation.Machines
                 if (player.Flows[i].Elements.Contains(el)) return new MachineSnapshot(el, i, FoundationMachineApi.Extensions.ReadProperties(el), FoundationMachineApi.Specializations.Read(el));
             throw new InvalidOperationException("Machine was removed during inspection.");
         }
+        /// <summary>Performs the snapshot all operation.</summary>
         public IReadOnlyList<MachineSnapshot> SnapshotAll()
         {
             MachineThread.Verify();
@@ -72,6 +77,7 @@ namespace KingdomFoundation.Machines
                     list.Add(new MachineSnapshot(el, i, FoundationMachineApi.Extensions.ReadProperties(el), FoundationMachineApi.Specializations.Read(el)));
             return list.AsReadOnly();
         }
+        /// <summary>Performs the connections operation.</summary>
         public IReadOnlyList<MachineConnection> Connections(int flowIndex)
         {
             MachineThread.Verify();
@@ -86,6 +92,7 @@ namespace KingdomFoundation.Machines
             }
             return list.AsReadOnly();
         }
+        /// <summary>Performs the connections of operation.</summary>
         public IReadOnlyList<MachineConnection> ConnectionsOf(FlowElement machine)
         {
             MachineThread.Verify();

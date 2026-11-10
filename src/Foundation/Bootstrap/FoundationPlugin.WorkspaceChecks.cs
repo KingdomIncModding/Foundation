@@ -16,6 +16,7 @@ using UnityEngine.InputSystem.LowLevel;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the foundation plugin API.</summary>
     public sealed partial class FoundationPlugin
     {
         const string RelayId = "urakka.foundation.example.relay";

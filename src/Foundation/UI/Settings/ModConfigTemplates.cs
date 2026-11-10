@@ -12,6 +12,7 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the mod config templates API.</summary>
     public sealed class ModConfigTemplates : IModConfigTemplates
     {
         readonly TMP_Dropdown dropdownTemplate;
@@ -43,6 +44,7 @@ namespace KingdomFoundation
                 ?? valueTemplate;
         }
 
+        /// <summary>Creates empty row.</summary>
         public GameObject CreateEmptyRow(Transform parent, float height = 40f)
         {
             var row = new GameObject("ModConfigRow", typeof(RectTransform), typeof(LayoutElement));
@@ -87,6 +89,7 @@ namespace KingdomFoundation
             return tmp;
         }
 
+        /// <summary>Creates button row.</summary>
         public GameObject CreateButtonRow(Transform parent, string label, string buttonText, Action onClick, out Button button, out TMP_Text buttonLabel)
         {
             var row = CreateEmptyRow(parent, 52f);
@@ -130,6 +133,7 @@ namespace KingdomFoundation
             return row;
         }
 
+        /// <summary>Creates toggle row.</summary>
         public GameObject CreateToggleRow(Transform parent, string label, bool initialValue, Action<bool> onChanged, out Toggle toggle)
         {
             var row = CreateEmptyRow(parent, 46f);
@@ -179,6 +183,7 @@ namespace KingdomFoundation
             return row;
         }
 
+        /// <summary>Creates slider row.</summary>
         public GameObject CreateSliderRow(Transform parent, string label, float min, float max, float initialValue, float step, Action<float> onChanged, Func<float, string> formatValue, out Slider slider, out TMP_Text valueText)
         {
             var row = CreateEmptyRow(parent, 48f);
@@ -244,6 +249,7 @@ namespace KingdomFoundation
             return row;
         }
 
+        /// <summary>Creates dropdown row.</summary>
         public GameObject CreateDropdownRow(Transform parent, string label, IReadOnlyList<string> options, int initialIndex, Action<int> onChanged, out TMP_Dropdown dropdown)
         {
             var row = CreateEmptyRow(parent, 52f);
@@ -301,6 +307,7 @@ namespace KingdomFoundation
             return row;
         }
 
+        /// <summary>Creates input row.</summary>
         public GameObject CreateInputRow(Transform parent, string label, string currentValue, int maxLength,
             Action<string> onEdited, out TMP_InputField input)
         {
@@ -361,6 +368,7 @@ namespace KingdomFoundation
             return row;
         }
 
+        /// <summary>Creates text row.</summary>
         public GameObject CreateTextRow(Transform parent, string text, bool isHeader, out TMP_Text textComponent)
         {
             float height = isHeader ? 44f : 34f;

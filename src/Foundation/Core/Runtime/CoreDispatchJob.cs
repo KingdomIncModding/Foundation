@@ -11,6 +11,7 @@ namespace KingdomFoundation.Core
         internal CoreDispatchJob(string ownerId, Action callback)
         { OwnerId = ownerId; Callback = callback; }
         internal bool TryRun() => Interlocked.CompareExchange(ref state, 1, 0) == 0;
+        /// <summary>Performs the dispose operation.</summary>
         public void Dispose() => Interlocked.Exchange(ref state, 1);
     }
 }

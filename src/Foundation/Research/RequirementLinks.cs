@@ -13,6 +13,7 @@ namespace KingdomFoundation
 {
     // Links are attached to the native requirement panel. Text, layout, color and
     // translation still come from the game; destinations use model references.
+    /// <summary>Provides the requirement links API.</summary>
     public sealed class RequirementLinks : MonoBehaviour, IPointerClickHandler
     {
         static readonly Func<TechNode, TechNode, string> Describe = AccessTools.MethodDelegate<Func<TechNode, TechNode, string>>(
@@ -50,6 +51,7 @@ namespace KingdomFoundation
             text.text = string.Join("\n", lines);
         }
 
+        /// <summary>Performs the on pointer click operation.</summary>
         public void OnPointerClick(PointerEventData eventData)
         {
             if (eventData.button != PointerEventData.InputButton.Left || !owner || !label || !owner.Tech.IsLocked) return;

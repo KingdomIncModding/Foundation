@@ -19,6 +19,7 @@ namespace KingdomFoundation.Core
             => services.TryResolve(serviceId, out service, minimumVersion);
         public T Resolve<T>(string serviceId, Version minimumVersion = null) where T : class
             => services.Resolve<T>(serviceId, minimumVersion);
+        /// <summary>Attempts to resolve.</summary>
         public bool TryResolve(Type type, string id, out object service, Version minimumVersion = null)
             => services.TryResolve(type, id, out service, minimumVersion);
     }

@@ -13,6 +13,7 @@ namespace KingdomFoundation.Api
         bool TryGet(string modId, string id, out FoundationPanelDefinition panel);
         bool TryResolveMachine(Type nativeMachineType, out FoundationPanelDefinition panel);
         bool Open(string modId, string id);
+        /// <summary>Performs the open machine operation.</summary>
         bool OpenMachine(FlowElement machine);
         void Close();
         bool IsOpen { get; }
@@ -22,6 +23,7 @@ namespace KingdomFoundation.Api
 
     public interface IFoundationPanelRegistration : IDisposable
     {
+        /// <summary>Gets or sets the mod id value.</summary>
         string ModId { get; }
         string Id { get; }
         bool IsRegistered { get; }

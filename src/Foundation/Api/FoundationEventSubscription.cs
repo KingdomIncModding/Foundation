@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the foundation event subscription API.</summary>
     public sealed class FoundationEventSubscription
     {
         public string ModId { get; }

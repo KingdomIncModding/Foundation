@@ -18,6 +18,7 @@ namespace KingdomFoundation.Api
             // Never overwrite the retained payload if this provider could not restore it.
             internal bool LoadFailed;
             internal Registration(ModSaveRegistry registry) { this.registry = registry; }
+            /// <summary>Performs the dispose operation.</summary>
             public void Dispose()
             {
                 if (!Active) return;

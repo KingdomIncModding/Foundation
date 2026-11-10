@@ -6,6 +6,7 @@ using KingdomFoundation.Api;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the tech tree tabs API.</summary>
     public sealed partial class TechTreeTabs
     {
         internal string SelectedModId { get; private set; }

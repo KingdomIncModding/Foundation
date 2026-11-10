@@ -16,6 +16,7 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the foundation plugin API.</summary>
     public sealed partial class FoundationPlugin
     {
         // Block reading any existing user autosave while in diagnostic mode.

@@ -16,6 +16,7 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the foundation plugin API.</summary>
     public sealed partial class FoundationPlugin
     {
         // Defense in depth: never write any native save file in smoke mode,

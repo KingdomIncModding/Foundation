@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the mod bar dropdown API.</summary>
     public sealed class ModBarDropdown : ModBarElement
     {
         public IReadOnlyList<string> Options { get; }

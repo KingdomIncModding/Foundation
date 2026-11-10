@@ -2,6 +2,7 @@
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the ifoundation core API.</summary>
     public interface IFoundationCore
     {
         Version ApiVersion { get; }
@@ -10,6 +11,7 @@ namespace KingdomFoundation.Core
         ICoreDispatcher Dispatcher { get; }
         ICoreContentCatalog Content { get; }
         ICoreEventBus Events { get; }
+        /// <summary>Gets or sets the patches value.</summary>
         ICorePatchManager Patches { get; }
         ICorePluginCatalog Plugins { get; }
         /// <summary>Unified live discovery of BepInEx plugins and Foundation modules.</summary>

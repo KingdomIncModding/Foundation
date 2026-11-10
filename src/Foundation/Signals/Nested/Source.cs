@@ -10,6 +10,7 @@ namespace KingdomFoundation.Api
         {
             readonly SignalRegistry owner;
             readonly Dictionary<string, ISignalProperty> byId = new Dictionary<string, ISignalProperty>(StringComparer.Ordinal);
+            /// <summary>Gets or sets the mod id value.</summary>
             public string ModId { get; }
             public string Id { get; }
             public string Name { get; }
@@ -22,6 +23,7 @@ namespace KingdomFoundation.Api
                 foreach (var p in definition.Properties) { var prop = new Property(this, p); props.Add(prop); byId.Add(prop.Id, prop); }
                 Properties = props.AsReadOnly();
             }
+            /// <summary>Attempts to get property.</summary>
             public bool TryGetProperty(string id, out ISignalProperty property) => byId.TryGetValue(id ?? "", out property);
             public void Dispose() { if (!IsRegistered) return; IsRegistered = false; owner.Remove(this); }
         }

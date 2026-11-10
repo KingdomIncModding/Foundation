@@ -18,6 +18,7 @@ namespace KingdomFoundation.Machines
         public static MachineTelemetry Telemetry { get; } = new MachineTelemetry();
         public static MachineEvents Events { get; } = new MachineEvents();
         public static MachineExtensions Extensions { get; } = new MachineExtensions();
+        /// <summary>Gets or sets the commands value.</summary>
         public static MachineCommands Commands { get; } = new MachineCommands();
         public static MachineModContext ForMod(string guid) => new MachineModContext(guid);
         /// <summary>Native active kingdom only; false at menu or during load.</summary>
@@ -40,6 +41,7 @@ namespace KingdomFoundation.Machines
             if(_disposed) {item.Dispose();throw new ObjectDisposedException(nameof(MachineModContext));}
             _registrations.Add(item);return item;
         }
+        /// <summary>Performs the listen operation.</summary>
         public IDisposable Listen(Action<MachineChangeEvent> listener) => Track(FoundationMachineApi.Events.Subscribe(listener));
         public IDisposable ListenTransfers(Action<MachineTransferEvent> listener) => Track(FoundationMachineApi.Telemetry.ObserveTransfers(listener));
         public IDisposable Expose(MachinePropertyDefinition property) => Track(FoundationMachineApi.Extensions.Register(ModGuid,property));

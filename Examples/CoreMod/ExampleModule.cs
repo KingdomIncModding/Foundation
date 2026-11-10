@@ -7,6 +7,7 @@ namespace FoundationExamples.CoreMod
     internal sealed class ExampleModule : IFoundationModule, IFoundationWorldModule
     {
         public const string ModId = "example.foundation.core";
+        /// <summary>Gets or sets the descriptor value.</summary>
         public ModDescriptor Descriptor { get; } = new ModDescriptor(
             ModId, "Example Core Module", new Version(1, 0, 0),
             author: "Foundation SDK", description: "A small example with an owned cross-mod service.",
@@ -23,6 +24,7 @@ namespace FoundationExamples.CoreMod
                 scope.Log(CoreSeverity.Info, "world", evt.Current == null ? "World exited" : "World loaded"));
             scope.Log(CoreSeverity.Info, "initialize", "Example module initialized.");
         }
+        /// <summary>Performs the world loaded operation.</summary>
         public void WorldLoaded(GamePlayer world)
         {
             context.Services.Resolve<IExampleCounter>(ModId + ":counter").Increment();
@@ -31,6 +33,7 @@ namespace FoundationExamples.CoreMod
         {
             context.Log(CoreSeverity.Info, "world-unload", "Kingdom unloaded.");
         }
+        /// <summary>Performs the shutdown operation.</summary>
         public void Shutdown()
         {
             context?.Log(CoreSeverity.Info, "shutdown", "Example module shutting down.");

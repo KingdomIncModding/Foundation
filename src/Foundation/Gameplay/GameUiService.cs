@@ -11,6 +11,7 @@ namespace KingdomFoundation.Api
     internal sealed class GameUiService : IGameUiService
     {
         static GameUI Ui => GameUI.Instance ? GameUI.Instance : throw new InvalidOperationException("Native GameUI is not active.");
+        /// <summary>Gets or sets the is ready value.</summary>
         public bool IsReady => GameUI.Instance;
         public GameUI NativeUi => GameUI.Instance;
         public bool IsOpen(GameUIType type) => Ui.IsActive(type);
@@ -19,6 +20,7 @@ namespace KingdomFoundation.Api
         public void ShowResearch(bool visible) => Ui.ToggleTechMenu(visible);
         public void ShowResources(bool visible) => Ui.ToggleResourceMenu(visible);
         public void ShowDecorationMenu(bool visible) => Ui.ToggleDecoMenu(visible);
+        /// <summary>Performs the show war menu operation.</summary>
         public void ShowWarMenu(bool visible) => Ui.ToggleWarEffortMenu(visible);
         public void ShowForest(bool visible) => Ui.ToggleForestCrewMenu(visible);
         public void ShowFarm(bool visible) => Ui.ToggleFarmMenu(visible);
@@ -30,6 +32,7 @@ namespace KingdomFoundation.Api
             if (character == null) throw new ArgumentNullException(nameof(character));
             Ui.ShowCharacterDetails(character, onClose);
         }
+        /// <summary>Performs the show deconstruction operation.</summary>
         public void ShowDeconstruction(bool visible) => Ui.ToggleDeconstructMode(visible);
         public void ShowClone(bool visible) => Ui.ToggleCloneMode(visible);
         public void ShowSearch() => Ui.ToggleSearch();
@@ -39,6 +42,7 @@ namespace KingdomFoundation.Api
             if (string.IsNullOrWhiteSpace(text)) throw new ArgumentException("Warning text is required.", nameof(text));
             return Ui.ShowWarning(uiPosition, text);
         }
+        /// <summary>Performs the show status operation.</summary>
         public UIStatusMessage ShowStatus(string text, string iconName, bool persistent = false, Action onClick = null)
         {
             if (string.IsNullOrWhiteSpace(text)) throw new ArgumentException("Status text is required.", nameof(text));
@@ -58,6 +62,7 @@ namespace KingdomFoundation.Api
             try { handler(); }
             catch (Exception error) { FoundationApi.Report(new InvalidOperationException("Native status callback failed.", error)); }
         });
+        /// <summary>Performs the toggle map operation.</summary>
         public void ToggleMap() => Ui.ToggleMap();
         public void ShowAreaMove(bool visible) => Ui.ToggleAreaMove(visible);
         public void CloseAllExcept(GameUIType? type = null) => Ui.CloseAllExcept(type);

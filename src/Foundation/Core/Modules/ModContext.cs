@@ -6,6 +6,7 @@ namespace KingdomFoundation.Core
     {
         readonly CoreDiagnostics diagnostics;
         readonly ModScope scope;
+        /// <summary>Gets or sets the mod id value.</summary>
         public string ModId { get; }
         public IModServices Services { get; }
         public IModContent Content { get; }
@@ -25,6 +26,7 @@ namespace KingdomFoundation.Core
             Events = new OwnedEvents(modId, events, scope);
             Patches = new OwnedPatches(modId, patches, scope);
         }
+        /// <summary>Performs the own operation.</summary>
         public IDisposable Own(IDisposable item) => scope.Track(item);
         public void Log(CoreSeverity severity, string operation, string message, Exception error = null)
             => diagnostics.Record(severity, ModId, operation, message, error);

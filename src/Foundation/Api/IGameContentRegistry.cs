@@ -20,6 +20,7 @@ namespace KingdomFoundation.Api
         Quest RegisterQuest(string modId, Quest quest);
         DungeonType RegisterDungeon(string modId, DungeonType dungeon);
         WarType RegisterWar(string modId, WarType war);
+        /// <summary>Registers prestige.</summary>
         PrestigeNode RegisterPrestige(string modId, PrestigeNode node);
         ItemEnhancement RegisterEnhancement(string modId, ItemEnhancement enhancement);
     }

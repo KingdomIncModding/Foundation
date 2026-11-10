@@ -39,6 +39,7 @@ namespace KingdomFoundation.Api
             this.getter = getter;
             MaxLength = maxLength;
         }
+        /// <summary>Creates view.</summary>
         public GameObject CreateView(IModConfigContext context)
         {
             var view = context.Templates.CreateInputRow(context.Container, Label, pending, MaxLength,
@@ -51,6 +52,7 @@ namespace KingdomFoundation.Api
             committed = getter?.Invoke() ?? committed;
             Value = committed;
         }
+        /// <summary>Performs the commit operation.</summary>
         public void Commit()
         {
             if (string.Equals(pending, committed, StringComparison.Ordinal)) return;

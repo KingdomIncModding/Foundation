@@ -2,6 +2,7 @@ using System;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the registered service info API.</summary>
     public sealed class RegisteredServiceInfo
     {
         public string OwnerId { get; }

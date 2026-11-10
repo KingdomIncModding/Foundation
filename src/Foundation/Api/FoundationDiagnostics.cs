@@ -11,6 +11,7 @@ namespace KingdomFoundation.Api
         readonly object gate = new object();
         public IReadOnlyList<FoundationDiagnosticEntry> Recent
         { get { lock (gate) return Array.AsReadOnly(recent.ToArray()); } }
+        /// <summary>Performs the write operation.</summary>
         public void Write(string modId, FoundationDiagnosticLevel level, string message)
         {
             var item = new FoundationDiagnosticEntry(DateTime.UtcNow, string.IsNullOrEmpty(modId) ? "Foundation" : modId, level, message ?? "");

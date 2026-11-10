@@ -7,6 +7,7 @@ using Assets.Source.Player;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the item quality changed event API.</summary>
     public sealed class ItemQualityChangedEvent
     {
         public InventoryItem Item { get; }

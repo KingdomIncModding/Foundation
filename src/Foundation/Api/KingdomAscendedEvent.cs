@@ -7,6 +7,7 @@ using Assets.Source.Player;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the kingdom ascended event API.</summary>
     public sealed class KingdomAscendedEvent
     {
         public GamePlayer Player { get; }

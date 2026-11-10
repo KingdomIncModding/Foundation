@@ -7,6 +7,7 @@ namespace KingdomFoundation.Api
 {
     internal sealed class NativeSignalBinder : INativeSignalBinder
     {
+        /// <summary>Performs the expose operation.</summary>
         public ISignalSource Expose(string modId, string id, string name, Type nativeType,
             Func<object> resolveTarget, IEnumerable<string> publicMembers, bool writable = false)
         {

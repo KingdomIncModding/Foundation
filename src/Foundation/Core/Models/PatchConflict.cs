@@ -1,5 +1,6 @@
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the patch conflict API.</summary>
     public sealed class PatchConflict
     {
         public string Method { get; }

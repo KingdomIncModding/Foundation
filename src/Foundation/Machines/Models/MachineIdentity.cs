@@ -12,6 +12,7 @@ namespace KingdomFoundation.Machines
             Guid = guid;
             FlowIndex = flowIndex;
         }
+        /// <summary>Performs the equals operation.</summary>
         public bool Equals(MachineIdentity other) => other != null && Guid == other.Guid && FlowIndex == other.FlowIndex;
         public override bool Equals(object obj) => Equals(obj as MachineIdentity);
         public override int GetHashCode() { unchecked { return (Guid.GetHashCode() * 397) ^ FlowIndex; } }

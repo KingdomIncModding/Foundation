@@ -12,6 +12,7 @@ namespace KingdomFoundation.Api
             readonly SignalPropertyDefinition def;
             object last;
             bool known;
+            /// <summary>Gets or sets the id value.</summary>
             public string Id => def.Id;
             public string Name => def.Name;
             public Type ValueType => def.ValueType;
@@ -26,6 +27,7 @@ namespace KingdomFoundation.Api
                     throw new InvalidOperationException("Signal getter returned wrong type: " + source.Id + "/" + Id);
                 return value;
             }
+            /// <summary>Performs the write operation.</summary>
             public void Write(object value)
             {
                 if (!CanWrite) throw new InvalidOperationException("Signal property is read-only: " + Id);

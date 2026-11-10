@@ -7,6 +7,7 @@ using Assets.Source.Player;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the machine filter changed event API.</summary>
     public sealed class MachineFilterChangedEvent
     {
         public Filter Machine { get; }

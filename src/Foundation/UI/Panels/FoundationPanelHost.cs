@@ -394,6 +394,7 @@ namespace KingdomFoundation
             }
         }
 
+        /// <summary>Performs the popup closed operation.</summary>
         public override void PopupClosed()
         {
             active = false;
@@ -490,6 +491,7 @@ namespace KingdomFoundation
     internal sealed class FoundationPanelDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
         internal FoundationPanelHost Host;
+        /// <summary>Performs the on begin drag operation.</summary>
         public void OnBeginDrag(PointerEventData data) { }
         public void OnDrag(PointerEventData data) { if (Host) Host.MoveBy(data); }
         public void OnEndDrag(PointerEventData data) { if (Host) Host.SavePosition(); }

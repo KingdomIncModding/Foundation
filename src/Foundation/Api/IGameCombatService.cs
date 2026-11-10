@@ -15,6 +15,7 @@ namespace KingdomFoundation.Api
         int CombatPower(CombatantItemData combatant);
         int BaseDamage(CombatantItemData combatant, object target);
         float DamageReduction(CombatantItemData combatant, Assets.Source.Adventure.AdventurerTrait resistance);
+        /// <summary>Performs the has trait operation.</summary>
         bool HasTrait(CombatantItemData combatant, Assets.Source.Adventure.AdventurerTrait trait);
         IReadOnlyList<Assets.Source.Adventure.ActiveTrait> Traits(CombatantItemData combatant);
         bool CanEquip(HumanItemData human, InventoryItem item, bool replace = true);
@@ -23,6 +24,7 @@ namespace KingdomFoundation.Api
 
         IReadOnlyList<InventoryItem> Equipment(HumanItemData human);
         bool TryEquip(HumanItemData human, InventoryItem item, bool replace = true);
+        /// <summary>Removes equipment.</summary>
         void RemoveEquipment(HumanItemData human, EquipmentSlot slot);
         void Heal(CombatantItemData combatant, float amount, object context = null);
         bool Damage(CombatantItemData combatant, float damage, object context = null, bool ignoreArmor = false);

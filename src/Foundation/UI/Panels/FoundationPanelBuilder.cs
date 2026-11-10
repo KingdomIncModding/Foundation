@@ -16,6 +16,7 @@ namespace KingdomFoundation
         private readonly FoundationPanelHost host;
         private readonly Transform root;
         private int ordinal;
+        /// <summary>Gets or sets the machine value.</summary>
         public FlowElement Machine => host.Machine;
         public string PanelId => host.PanelId;
 
@@ -29,6 +30,7 @@ namespace KingdomFoundation
         private RectTransform Row(float height, string name = "Row") => host.Row(root, height, name);
         private void Safe(Action handler) => host.Guard(handler);
 
+        /// <summary>Performs the text operation.</summary>
         public void Text(string value)
         {
             // Native pixel font remains legible at UI scale. Reserve enough
@@ -45,6 +47,7 @@ namespace KingdomFoundation
             }
         }
 
+        /// <summary>Performs the header operation.</summary>
         public void Header(string value)
         {
             var row = Row(44, "Header");
@@ -54,6 +57,7 @@ namespace KingdomFoundation
             label.fontStyle = FontStyles.Bold;
         }
 
+        /// <summary>Performs the button operation.</summary>
         public void Button(string title, Action clicked, string tooltip = null)
         {
             if (clicked == null) throw new ArgumentNullException(nameof(clicked));
@@ -62,6 +66,7 @@ namespace KingdomFoundation
             if (!string.IsNullOrEmpty(tooltip)) Tooltip(button.gameObject, tooltip);
         }
 
+        /// <summary>Performs the toggle operation.</summary>
         public void Toggle(string title, bool value, Action<bool> changed, string tooltip = null)
         {
             if (changed == null) throw new ArgumentNullException(nameof(changed));
@@ -70,6 +75,7 @@ namespace KingdomFoundation
             if (!string.IsNullOrEmpty(tooltip)) Tooltip(toggle.gameObject, tooltip);
         }
 
+        /// <summary>Performs the slider operation.</summary>
         public void Slider(string title, float min, float max, float value, float step, Action<float> changed)
         {
             if (changed == null) throw new ArgumentNullException(nameof(changed));
@@ -123,6 +129,7 @@ namespace KingdomFoundation
             host.AddDisposer(() => { if (slider) slider.onValueChanged.RemoveAllListeners(); });
         }
 
+        /// <summary>Performs the number operation.</summary>
         public void Number(string title, double value, double min, double max, double step, Action<double> changed)
         {
             if (changed == null) throw new ArgumentNullException(nameof(changed));
@@ -143,6 +150,7 @@ namespace KingdomFoundation
             });
         }
 
+        /// <summary>Performs the input operation.</summary>
         public void Input(string title, string value, Action<string> changed, int maxLength = 256)
         {
             if (changed == null) throw new ArgumentNullException(nameof(changed));
@@ -178,6 +186,7 @@ namespace KingdomFoundation
             return input;
         }
 
+        /// <summary>Performs the dropdown operation.</summary>
         public void Dropdown(string title, IReadOnlyList<string> items, int selected, Action<int> changed)
         {
             if (changed == null) throw new ArgumentNullException(nameof(changed));
@@ -189,6 +198,7 @@ namespace KingdomFoundation
             host.Context(row).CreateDropdown(items, selected, index => Safe(() => changed(index)));
         }
 
+        /// <summary>Performs the search operation.</summary>
         public void Search(string title, IReadOnlyList<string> items, int selected, Action<int> changed)
         {
             if (items == null) throw new ArgumentNullException(nameof(items));
@@ -260,6 +270,7 @@ namespace KingdomFoundation
             update();
         }
 
+        /// <summary>Performs the colors operation.</summary>
         public void Colors(string title, IReadOnlyList<Color> colors, int selected, Action<int> changed)
         {
             if (colors == null || colors.Count == 0) throw new ArgumentException("Color choices are required.", nameof(colors));
@@ -292,6 +303,7 @@ namespace KingdomFoundation
             }
         }
 
+        /// <summary>Performs the signal operation.</summary>
         public void Signal(string title, SignalSelection initial, Action<SignalSelection> changed)
         {
             if (changed == null) throw new ArgumentNullException(nameof(changed));
@@ -338,6 +350,7 @@ namespace KingdomFoundation
             else Text("No exposed properties available for this source.");
         }
 
+        /// <summary>Performs the tabs operation.</summary>
         public void Tabs(string key, IReadOnlyList<string> titles, Action<int, IFoundationPanelBuilder> build)
         {
             if (string.IsNullOrWhiteSpace(key)) throw new ArgumentException("Stable tab key required.", nameof(key));
@@ -361,6 +374,7 @@ namespace KingdomFoundation
             build(selected, this);
         }
 
+        /// <summary>Performs the columns operation.</summary>
         public void Columns(int count, Action<int, IFoundationPanelBuilder> build)
         {
             if (count < 2 || count > 4) throw new ArgumentOutOfRangeException(nameof(count), "Use 2, 3 or 4 columns.");
@@ -394,6 +408,7 @@ namespace KingdomFoundation
             layout.minHeight = maxHeight;
         }
 
+        /// <summary>Performs the reorder operation.</summary>
         public void Reorder(string title, IReadOnlyList<string> items, Action<int, int> onMove)
         {
             if (items == null) throw new ArgumentNullException(nameof(items));
@@ -423,6 +438,7 @@ namespace KingdomFoundation
             if (items.Count == 0) Text("Nothing to reorder.");
         }
 
+        /// <summary>Performs the section operation.</summary>
         public void Section(string key, string title, Action<IFoundationPanelBuilder> build, bool initiallyExpanded = true)
         {
             if (string.IsNullOrWhiteSpace(key)) throw new ArgumentException("Stable section key required.", nameof(key));
@@ -436,6 +452,7 @@ namespace KingdomFoundation
             if (expanded) build(this);
         }
 
+        /// <summary>Performs the confirm operation.</summary>
         public void Confirm(string question, Action accepted, Action rejected = null)
         {
             if (accepted == null) throw new ArgumentNullException(nameof(accepted));
@@ -480,6 +497,7 @@ namespace KingdomFoundation
             }
         }
 
+        /// <summary>Performs the live text operation.</summary>
         public void LiveText(string title, Func<string> read, float refreshSeconds = .4f)
         {
             if (read == null) throw new ArgumentNullException(nameof(read));
@@ -490,6 +508,7 @@ namespace KingdomFoundation
             host.AddLive(label, () => title + ": " + read(), refreshSeconds);
         }
 
+        /// <summary>Performs the rebuild operation.</summary>
         public void Rebuild() => host.Rebuild();
         public void Message(string value) => host.ShowMessage(value);
         private void Tooltip(GameObject target, string text)
@@ -504,6 +523,7 @@ namespace KingdomFoundation
     {
         internal FoundationPanelHost Host;
         internal string Message;
+        /// <summary>Performs the on pointer enter operation.</summary>
         public void OnPointerEnter(PointerEventData data) { if (Host) Host.Tooltip(Message); }
         public void OnPointerExit(PointerEventData data) { if (Host) Host.Tooltip(null); }
     }

@@ -9,6 +9,7 @@ namespace KingdomFoundation.Api
 {
     internal sealed class NativeGameBridge : INativeGameBridge
     {
+        /// <summary>Gets or sets the game assembly value.</summary>
         public Assembly GameAssembly => typeof(GamePlayer).Assembly;
         public Type FindType(string fullName) => string.IsNullOrEmpty(fullName) ? null : GameAssembly.GetType(fullName, false);
         public IReadOnlyList<Type> FindTypes(string namespacePrefix)
@@ -17,6 +18,7 @@ namespace KingdomFoundation.Api
             if (namespacePrefix == null) return Array.AsReadOnly(all);
             return Array.AsReadOnly(all.Where(t => (t.Namespace ?? "").StartsWith(namespacePrefix, StringComparison.Ordinal)).ToArray());
         }
+        /// <summary>Performs the methods operation.</summary>
         public IReadOnlyList<MethodInfo> Methods(Type type, bool includeStatic = true)
         {
             if (type == null) throw new ArgumentNullException(nameof(type));
@@ -30,6 +32,7 @@ namespace KingdomFoundation.Api
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Static | BindingFlags.Instance;
             return type.GetMethod(name, flags, null, parameters ?? Type.EmptyTypes, null);
         }
+        /// <summary>Performs the invoke operation.</summary>
         public object Invoke(object target, MethodInfo method, params object[] arguments)
         {
             if (method == null) throw new ArgumentNullException(nameof(method));
@@ -46,6 +49,7 @@ namespace KingdomFoundation.Api
             return nativeType;
         }
         const BindingFlags NativePublic = BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static;
+        /// <summary>Performs the members operation.</summary>
         public IReadOnlyList<MemberInfo> Members(Type nativeType)
         {
             return Array.AsReadOnly(RequireNative(nativeType).GetMembers(NativePublic));
@@ -54,6 +58,7 @@ namespace KingdomFoundation.Api
         {
             return Activator.CreateInstance(RequireNative(nativeType), arguments ?? Array.Empty<object>());
         }
+        /// <summary>Performs the read operation.</summary>
         public object Read(object target, Type nativeType, string member)
         {
             RequireNative(nativeType);
@@ -65,6 +70,7 @@ namespace KingdomFoundation.Api
             if (field != null) return field.GetValue(field.IsStatic ? null : target);
             throw new MissingMemberException(nativeType.FullName, member);
         }
+        /// <summary>Performs the write operation.</summary>
         public void Write(object target, Type nativeType, string member, object value)
         {
             RequireNative(nativeType);
@@ -83,6 +89,7 @@ namespace KingdomFoundation.Api
             }
             throw new MissingMemberException("No writable public member: " + nativeType.FullName + "." + member);
         }
+        /// <summary>Saves player snapshot.</summary>
         public JsonValue SavePlayerSnapshot() => GameWorldService.RequirePlayer().ToJson();
     }
 }

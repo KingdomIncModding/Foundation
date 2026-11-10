@@ -10,6 +10,7 @@ using UnityEngine.Networking;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the nexus update checker API.</summary>
     public static class NexusUpdateChecker
     {
         public static readonly Dictionary<string, int> KnownNexusModIds = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
@@ -36,6 +37,7 @@ namespace KingdomFoundation
         private static readonly Dictionary<string, int> customMappings = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         private static readonly List<ModItem> cachedMods = new List<ModItem>();
 
+        /// <summary>Gets or sets the cached mods value.</summary>
         public static IReadOnlyList<ModItem> CachedMods => cachedMods;
         public static bool IsCheckingAll { get; private set; }
         public static string LastCheckSummary { get; private set; } = "Not checked";
@@ -53,6 +55,7 @@ namespace KingdomFoundation
             }
         }
 
+        /// <summary>Performs the resolve nexus id operation.</summary>
         public static int? ResolveNexusId(string guid, PluginInfo plugin)
         {
             if (string.IsNullOrEmpty(guid)) return null;
@@ -111,6 +114,7 @@ namespace KingdomFoundation
             return null;
         }
 
+        /// <summary>Determines whether outdated.</summary>
         public static bool IsOutdated(string currentStr, string latestStr)
         {
             if (string.IsNullOrEmpty(currentStr) || string.IsNullOrEmpty(latestStr)) return false;
@@ -139,6 +143,7 @@ namespace KingdomFoundation
             return false;
         }
 
+        /// <summary>Performs the refresh installed list operation.</summary>
         public static void RefreshInstalledList()
         {
             var map = cachedMods.ToDictionary(m => m.Guid, StringComparer.OrdinalIgnoreCase);
@@ -178,6 +183,7 @@ namespace KingdomFoundation
             Changed?.Invoke();
         }
 
+        /// <summary>Performs the check all operation.</summary>
         public static void CheckAll(Action onDone = null)
         {
             RefreshInstalledList();

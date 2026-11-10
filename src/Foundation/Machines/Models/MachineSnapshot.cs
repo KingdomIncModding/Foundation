@@ -4,6 +4,7 @@ using Assets.Source.Flow;
 using UnityEngine;
 namespace KingdomFoundation.Machines
 {
+    /// <summary>Provides the machine port direction API.</summary>
     public enum MachinePortDirection { Input, Output }
 
     /// <summary>Immutable reading of a real native FlowIO. Item type is a native registered identifier.</summary>
@@ -15,6 +16,7 @@ namespace KingdomFoundation.Machines
         public string ItemTypeId { get; }
         public int BufferCapacity { get; }
         public int BufferCount { get; }
+        /// <summary>Gets or sets the is connected value.</summary>
         public bool IsConnected { get; }
         public string ConnectedMachineGuid { get; }
         public int ConnectedPortIndex { get; }
@@ -49,6 +51,7 @@ namespace KingdomFoundation.Machines
         public string LabelKey { get; }
         public string Category { get; }
         public Vector2Int Position { get; }
+        /// <summary>Gets or sets the size value.</summary>
         public Vector2Int Size { get; }
         public int StackSize { get; }
         public bool Mirrored { get; }
@@ -57,6 +60,7 @@ namespace KingdomFoundation.Machines
         public float SpeedMultiplier { get; }
         public float QualityMultiplier { get; }
         public float Productivity { get; }
+        /// <summary>Gets or sets the can auto craft value.</summary>
         public bool CanAutoCraft { get; }
         public bool CanManualCraft { get; }
         public int UpgradeSlots { get; }
@@ -65,6 +69,7 @@ namespace KingdomFoundation.Machines
         public int TotalInputBuffered { get; }
         public int TotalOutputBuffered { get; }
         public IReadOnlyList<MachinePortSnapshot> Inputs { get; }
+        /// <summary>Gets or sets the outputs value.</summary>
         public IReadOnlyList<MachinePortSnapshot> Outputs { get; }
         /// <summary>Exact native class from the source-backed type inventory, or null for mod-created types.</summary>
         public NativeMachineTypeDescriptor NativeType { get; }

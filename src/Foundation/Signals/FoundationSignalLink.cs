@@ -45,6 +45,7 @@ namespace KingdomFoundation.Api
             catch { link.Dispose(); throw; }
             return link;
         }
+        /// <summary>Removes owner.</summary>
         public int RemoveOwner(string ownerId)
         {
             var targets = connections.Where(l => l.OwnerId == ownerId).ToArray();
@@ -61,6 +62,7 @@ namespace KingdomFoundation.Api
                 });
             return items;
         }
+        /// <summary>Performs the import owner operation.</summary>
         public IReadOnlyList<IFoundationSignalLink> ImportOwner(string ownerId, JsonValue stored)
         {
             if (!stored.IsJsonArray) throw new ArgumentException("Signal bindings must be an array.", nameof(stored));
@@ -87,6 +89,7 @@ namespace KingdomFoundation.Api
             ISignalProperty input;
             ISignalProperty output;
             bool disposed;
+            /// <summary>Gets or sets the owner id value.</summary>
             public string OwnerId { get; }
             public SignalSelection Source { get; }
             public SignalSelection Destination { get; }
@@ -128,6 +131,7 @@ namespace KingdomFoundation.Api
                         "Signal binding failed: " + Source + " -> " + Destination + " / " + error.Message);
                 }
             }
+            /// <summary>Performs the dispose operation.</summary>
             public void Dispose()
             {
                 if (disposed) return;

@@ -52,6 +52,7 @@ namespace KingdomFoundation.Core
                 if (list.Count == 0) byType.Remove(subscription.EventType);
             }
         }
+        /// <summary>Performs the release owner operation.</summary>
         public void ReleaseOwner(string ownerId)
         {
             ICoreEventSubscription[] snapshot;

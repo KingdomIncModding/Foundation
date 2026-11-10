@@ -17,6 +17,7 @@ namespace KingdomFoundation.Api
         bool IsOpen(GameUIType type);
         void ShowBuildMenu(bool visible);
         void ShowItems(bool visible);
+        /// <summary>Performs the show research operation.</summary>
         void ShowResearch(bool visible);
         void ShowResources(bool visible);
         void ShowDecorationMenu(bool visible);
@@ -25,6 +26,7 @@ namespace KingdomFoundation.Api
         void ShowFarm(bool visible);
         void ShowDungeons(bool visible);
         void ShowWar(WarType war);
+        /// <summary>Performs the show dungeon operation.</summary>
         void ShowDungeon(DungeonType dungeon);
         void ShowCharacter(HumanItemData character, Action onClose = null);
         void ShowDeconstruction(bool visible);

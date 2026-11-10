@@ -20,6 +20,7 @@ namespace KingdomFoundation.Api
                 if (!visited.Add(this)) return false;
                 return Requires.Any(parent => parent.DependsOn(other, visited));
             }
+            /// <summary>Gets or sets the dependencies value.</summary>
             public IReadOnlyList<IFoundationAsset> Dependencies => Array.AsReadOnly(
                 Requires.Where(h => h.IsLoaded).Cast<IFoundationAsset>().ToArray());
             internal Sprite SpriteValue;
@@ -28,6 +29,7 @@ namespace KingdomFoundation.Api
             public string ModId { get; }
             public string AssetId { get; }
             public Sprite Sprite => IsLoaded ? SpriteValue : null;
+            /// <summary>Gets or sets the bundle value.</summary>
             public AssetBundle Bundle => IsLoaded ? BundleValue : null;
             public bool IsLoaded { get; private set; } = true;
             internal Handle(FoundationAssets owner, string modId, string assetId)

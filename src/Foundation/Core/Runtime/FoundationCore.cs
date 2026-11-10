@@ -17,6 +17,7 @@ namespace KingdomFoundation.Core
         readonly CoreModDirectory modDirectory;
         bool shuttingDown;
         GamePlayer latestWorld;
+        /// <summary>Gets or sets the api version value.</summary>
         public Version ApiVersion => CoreApiVersion.Current;
         public ICoreModules Modules => modules;
         public ICoreServices Services => services;
@@ -25,6 +26,7 @@ namespace KingdomFoundation.Core
         public ICoreEventBus Events => events;
         public ICorePatchManager Patches => patches;
         public ICorePluginCatalog Plugins => plugins;
+        /// <summary>Gets or sets the mods value.</summary>
         public ICoreModDirectory Mods => modDirectory;
         public ICoreServiceDirectory ServiceDirectory => services;
         public ICoreDiagnostics Diagnostics => diagnostics;

@@ -4,6 +4,7 @@ using Assets.Source.Player;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the dungeon stage changed event API.</summary>
     public sealed class DungeonStageChangedEvent
     {
         public DungeonProgress Progress { get; }

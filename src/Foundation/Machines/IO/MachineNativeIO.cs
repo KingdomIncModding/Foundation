@@ -24,6 +24,7 @@ namespace KingdomFoundation.Machines
             private Action<NativeIOConnectionEvent> _callback;
             internal ListenerToken(MachineNativeIO owner, Action<NativeIOConnectionEvent> callback)
             { _owner = owner; _callback = callback; }
+            /// <summary>Performs the dispose operation.</summary>
             public void Dispose()
             {
                 MachineThread.Verify();
@@ -71,6 +72,7 @@ namespace KingdomFoundation.Machines
         private static KingdomFoundation.Api.FlowPipeMetrics GetMetrics(FlowPipe pipe)
             => KingdomFoundation.Api.FoundationApi.IO.GetMeasuredThroughput(pipe);
 
+        /// <summary>Performs the ports operation.</summary>
         public IReadOnlyList<NativeIOPortSnapshot> Ports(FlowElement machine)
         {
             MachineThread.Verify();
@@ -81,6 +83,7 @@ namespace KingdomFoundation.Machines
             foreach (var p in machine.Outputs) result.Add(new NativeIOPortSnapshot(p, flow));
             return result.AsReadOnly();
         }
+        /// <summary>Performs the port operation.</summary>
         public NativeIOPortSnapshot Port(FlowIO port)
         {
             MachineThread.Verify();
@@ -91,6 +94,7 @@ namespace KingdomFoundation.Machines
                 throw new InvalidOperationException("Port is not an active native machine port.");
             return new NativeIOPortSnapshot(port, flow);
         }
+        /// <summary>Performs the pipe operation.</summary>
         public NativeIOPipeSnapshot Pipe(FlowPipe pipe)
         {
             MachineThread.Verify();
@@ -99,6 +103,7 @@ namespace KingdomFoundation.Machines
             var metrics = GetMetrics(pipe);
             return new NativeIOPipeSnapshot(pipe, flow, metrics.TotalTransfers, metrics.AverageTransfersPerSecond);
         }
+        /// <summary>Performs the pipes operation.</summary>
         public IReadOnlyList<NativeIOPipeSnapshot> Pipes(int flowIndex)
         {
             MachineThread.Verify();
@@ -137,6 +142,7 @@ namespace KingdomFoundation.Machines
             return new NativeIOMachineThroughputSnapshot(machine.Guid, index, input, output, inRate, outRate, nativeProduction);
         }
 
+        /// <summary>Performs the validate connection operation.</summary>
         public NativeIOValidation ValidateConnection(FlowOutput output, FlowInput input)
         {
             MachineThread.Verify();
@@ -171,6 +177,7 @@ namespace KingdomFoundation.Machines
             if (!input.CanBuffer) return NativeIOValidation.No("Native input buffer is full.");
             return NativeIOValidation.Yes();
         }
+        /// <summary>Performs the connect operation.</summary>
         public MachineOperationResult Connect(FlowOutput output, FlowInput input, IEnumerable<Vector2Int> route = null)
         {
             var check = ValidateConnection(output, input);
@@ -184,6 +191,7 @@ namespace KingdomFoundation.Machines
             }
             catch (Exception error) { MachineRuntime.ReportCallbackError("Native pipe connect", error); return MachineOperationResult.Reject(error.Message); }
         }
+        /// <summary>Performs the disconnect operation.</summary>
         public MachineOperationResult Disconnect(FlowPipe pipe)
         {
             MachineThread.Verify();
@@ -211,6 +219,7 @@ namespace KingdomFoundation.Machines
             try { KingdomFoundation.Api.FoundationApi.IO.InsertRouteNode(pipe, index, position); return MachineOperationResult.Ok(); }
             catch (Exception error) { MachineRuntime.ReportCallbackError("Insert native route node", error); return MachineOperationResult.Reject(error.Message); }
         }
+        /// <summary>Removes route node.</summary>
         public MachineOperationResult RemoveRouteNode(FlowPipe pipe, int index)
         {
             MachineThread.Verify();

@@ -15,6 +15,7 @@ namespace KingdomFoundation.Machines
             if(!MachineThread.IsPlaced(machine)) throw new InvalidOperationException("Machine not in active kingdom.");
             return new List<CraftingRecipe>(machine.GetAvailableRecipes()).AsReadOnly();
         }
+        /// <summary>Performs the available resources operation.</summary>
         public IReadOnlyList<ResourceItemType> AvailableResources(ResourceElement machine)
         {
             MachineThread.Verify();
@@ -29,6 +30,7 @@ namespace KingdomFoundation.Machines
             if(machine is Forest forest) return forest.OutputPerSecond;
             return null; // Not asserted for types where vanilla has no single comparable rate.
         }
+        /// <summary>Performs the selected crafting time operation.</summary>
         public float? SelectedCraftingTime(FlowElement machine)
         {
             MachineThread.Verify();

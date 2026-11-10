@@ -8,6 +8,7 @@ namespace KingdomFoundation.Api
     {
         Action refresh, dispose;
         internal ModBarControlView(Action refresh, Action dispose = null) { this.refresh = refresh; this.dispose = dispose; }
+        /// <summary>Performs the refresh operation.</summary>
         public void Refresh() => refresh?.Invoke();
         public void Dispose() { refresh = null; var release = dispose; dispose = null; release?.Invoke(); }
     }

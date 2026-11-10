@@ -10,6 +10,7 @@ using UnityEngine.Networking;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the mod item API.</summary>
     public sealed class ModItem
     {
         public string Guid { get; set; }
@@ -18,6 +19,7 @@ namespace KingdomFoundation
         public string Location { get; set; }
         public int? NexusId { get; set; }
         public string LatestVersion { get; set; }
+        /// <summary>Gets or sets the is outdated value.</summary>
         public bool IsOutdated { get; set; }
         public bool IsChecking { get; set; }
         public bool Checked { get; set; }

@@ -11,6 +11,7 @@ namespace KingdomFoundation.Core
         readonly Dictionary<string, CorePatchSession> sessions = new Dictionary<string, CorePatchSession>(StringComparer.Ordinal);
         readonly CoreDiagnostics diagnostics;
         internal CorePatchManager(CoreDiagnostics diagnostics) { this.diagnostics = diagnostics; }
+        /// <summary>Performs the patch class operation.</summary>
         public void PatchClass(string ownerId, Type patchContainer)
         {
             ModIdentity.Validate(ownerId);
@@ -47,6 +48,7 @@ namespace KingdomFoundation.Core
                 throw;
             }
         }
+        /// <summary>Performs the conflicts operation.</summary>
         public IReadOnlyList<PatchConflict> Conflicts(string ownerId)
         {
             ModIdentity.Validate(ownerId);
@@ -64,6 +66,7 @@ namespace KingdomFoundation.Core
             }
             return result.AsReadOnly();
         }
+        /// <summary>Performs the release owner operation.</summary>
         public void ReleaseOwner(string ownerId)
         {
             CorePatchSession session;

@@ -11,6 +11,7 @@ namespace KingdomFoundation.Api
     internal sealed class FoundationResearchRecovery : IFoundationResearchRecovery
     {
         public IReadOnlyList<string> RetainedTechIds => MissingResearchRecovery.RetainedIds;
+        /// <summary>Gets or sets the retained notification ids value.</summary>
         public IReadOnlyList<string> RetainedNotificationIds => MissingResearchRecovery.RetainedNotificationIds;
     }
 }

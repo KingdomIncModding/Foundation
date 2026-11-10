@@ -13,6 +13,7 @@ namespace KingdomFoundation.Machines
             foreach (var slot in slots) if (slot != null) count++;
             return count;
         }
+        /// <summary>Performs the read operation.</summary>
         public IReadOnlyDictionary<string,object> Read(FlowElement machine)
         {
             MachineThread.Verify();

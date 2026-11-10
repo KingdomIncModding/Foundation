@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the mod config dropdown API.</summary>
     public class ModConfigDropdown : IModConfigDropdown, IModConfigEditSession
     {
         public string Id { get; }
@@ -39,6 +40,7 @@ namespace KingdomFoundation.Api
             Id = id ?? Guid.NewGuid().ToString("N");
         }
 
+        /// <summary>Creates view.</summary>
         public GameObject CreateView(IModConfigContext context)
         {
             var go = context.Templates.CreateDropdownRow(context.Container, Label, Options, pendingIndex, idx => {
@@ -48,6 +50,7 @@ namespace KingdomFoundation.Api
             return go;
         }
 
+        /// <summary>Performs the begin edit operation.</summary>
         public void BeginEdit()
         {
             if (getter != null) committedIndex = getter();
@@ -62,6 +65,7 @@ namespace KingdomFoundation.Api
             SelectedIndex = committedIndex;
         }
 
+        /// <summary>Performs the cancel operation.</summary>
         public void Cancel() => BeginEdit();
     }
 }

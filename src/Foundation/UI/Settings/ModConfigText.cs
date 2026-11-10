@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the mod config text API.</summary>
     public class ModConfigText : IModConfigText
     {
         public string Id { get; }
@@ -21,6 +22,7 @@ namespace KingdomFoundation.Api
             Id = id ?? Guid.NewGuid().ToString("N");
         }
 
+        /// <summary>Creates view.</summary>
         public GameObject CreateView(IModConfigContext context)
         {
             var go = context.Templates.CreateTextRow(context.Container, Text, IsHeader, out activeText);
@@ -29,6 +31,7 @@ namespace KingdomFoundation.Api
         }
 
         public void Commit() { }
+        /// <summary>Performs the cancel operation.</summary>
         public void Cancel() { }
     }
 }

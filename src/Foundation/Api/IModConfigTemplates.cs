@@ -15,6 +15,7 @@ namespace KingdomFoundation.Api
         GameObject CreateDropdownRow(Transform parent, string label, IReadOnlyList<string> options, int initialIndex, Action<int> onChanged, out TMP_Dropdown dropdown);
         GameObject CreateInputRow(Transform parent, string label, string currentValue, int maxLength, Action<string> onEdited, out TMP_InputField input);
         GameObject CreateTextRow(Transform parent, string text, bool isHeader, out TMP_Text textComponent);
+        /// <summary>Creates empty row.</summary>
         GameObject CreateEmptyRow(Transform parent, float height = 38f);
     }
 }

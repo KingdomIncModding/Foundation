@@ -2,6 +2,7 @@ using System;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the mod snapshot API.</summary>
     public sealed class ModSnapshot
     {
         public ModDescriptor Descriptor { get; }

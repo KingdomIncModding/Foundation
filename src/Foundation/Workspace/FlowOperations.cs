@@ -12,6 +12,7 @@ namespace KingdomFoundation.Api
     {
 
         readonly ConditionalWeakTable<FlowPipe, Counter> meters = new ConditionalWeakTable<FlowPipe, Counter>();
+        /// <summary>Determines whether connected.</summary>
         public bool IsConnected(FlowIO port) => port?.ConnectedPipe != null;
         public FlowPipe Connect(FlowOutput output, FlowInput input, IEnumerable<Vector2Int> route = null)
         {
@@ -39,6 +40,7 @@ namespace KingdomFoundation.Api
             }
             return pipe;
         }
+        /// <summary>Performs the disconnect operation.</summary>
         public void Disconnect(FlowPipe pipe)
         {
             if (pipe == null) throw new ArgumentNullException(nameof(pipe));
@@ -50,6 +52,7 @@ namespace KingdomFoundation.Api
                 if (diagram.Pipes.Contains(pipe)) { manager.DisconnectPipe(pipe, diagram); return; }
             throw new InvalidOperationException("Pipe is not present in any loaded diagram.");
         }
+        /// <summary>Finds pipes.</summary>
         public IReadOnlyList<FlowPipe> FindPipes(FlowElement element)
         {
             if (element == null) throw new ArgumentNullException(nameof(element));
@@ -69,6 +72,7 @@ namespace KingdomFoundation.Api
             if (player == null || !player.Flows.Any(flow => flow.Pipes.Contains(pipe)))
                 throw new InvalidOperationException("Pipe must belong to a loaded kingdom workspace.");
         }
+        /// <summary>Performs the replace route operation.</summary>
         public void ReplaceRoute(FlowPipe pipe, IEnumerable<Vector2Int> nodes)
         {
             RequireLivePipe(pipe);
@@ -87,6 +91,7 @@ namespace KingdomFoundation.Api
                 throw;
             }
         }
+        /// <summary>Performs the insert route node operation.</summary>
         public void InsertRouteNode(FlowPipe pipe, int index, Vector2Int position)
         {
             RequireLivePipe(pipe);
@@ -95,6 +100,7 @@ namespace KingdomFoundation.Api
             route.Insert(index, position);
             ReplaceRoute(pipe, route);
         }
+        /// <summary>Removes route node.</summary>
         public void RemoveRouteNode(FlowPipe pipe, int index)
         {
             RequireLivePipe(pipe);
@@ -115,6 +121,7 @@ namespace KingdomFoundation.Api
             counter.BucketCounts[bucket]++;
             counter.Total++;
         }
+        /// <summary>Gets measured throughput.</summary>
         public FlowPipeMetrics GetMeasuredThroughput(FlowPipe pipe)
         {
             if (pipe == null) throw new ArgumentNullException(nameof(pipe));

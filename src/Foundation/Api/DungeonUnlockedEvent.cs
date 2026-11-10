@@ -4,6 +4,7 @@ using Assets.Source.Player;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the dungeon unlocked event API.</summary>
     public sealed class DungeonUnlockedEvent
     {
         public GamePlayer Player { get; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the icore patch manager API.</summary>
     public interface ICorePatchManager
     {
         void PatchClass(string ownerId, Type patchContainer);

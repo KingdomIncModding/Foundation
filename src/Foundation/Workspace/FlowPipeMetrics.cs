@@ -8,6 +8,7 @@ using UnityEngine;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the flow pipe metrics API.</summary>
     public sealed class FlowPipeMetrics
     {
         public long TotalTransfers { get; }

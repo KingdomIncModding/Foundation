@@ -2,6 +2,7 @@ using System;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the core api version API.</summary>
     public static class CoreApiVersion
     {
         public static Version Current => new Version(1, 0, 0);

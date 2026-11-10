@@ -34,6 +34,7 @@ namespace KingdomFoundation.Core
         {
             get { lock (gate) return Array.AsReadOnly(modules.Values.Select(x => x.Snapshot()).OrderBy(x => x.Descriptor.Id, StringComparer.Ordinal).ToArray()); }
         }
+        /// <summary>Performs the register operation.</summary>
         public IModRegistration Register(IFoundationModule module)
         {
             if (module == null) throw new ArgumentNullException(nameof(module));
@@ -51,6 +52,7 @@ namespace KingdomFoundation.Core
                 return registration;
             }
         }
+        /// <summary>Attempts to get.</summary>
         public bool TryGet(string modId, out ModSnapshot snapshot)
         {
             lock (gate)
@@ -162,6 +164,7 @@ namespace KingdomFoundation.Core
             entry.SetState(state, reason);
             events.Publish(new ModuleStateChangedEvent(entry.Snapshot()));
         }
+        /// <summary>Performs the unregister operation.</summary>
         public void Unregister(string modId)
         {
             ModRegistration item;

@@ -11,6 +11,7 @@ namespace KingdomFoundation.Api
 {
     internal sealed class GameWorldService : IGameWorldService
     {
+        /// <summary>Gets or sets the player value.</summary>
         public GamePlayer Player => GamePlayer.Current;
         public bool IsInKingdom => GamePlayer.Current != null && GamePlayer.Current.Flows.Count != 0;
         public int GameTime => RequirePlayer().GameTime;
@@ -19,6 +20,7 @@ namespace KingdomFoundation.Api
         public int NativeMachineCount(FlowDiagram flow) => (flow ?? throw new ArgumentNullException(nameof(flow))).Elements.Count;
         public int NativePipeCount(FlowDiagram flow) => (flow ?? throw new ArgumentNullException(nameof(flow))).Pipes.Count;
         public int NativeDecorationCount(FlowDiagram flow) => (flow ?? throw new ArgumentNullException(nameof(flow))).Decorations.Count;
+        /// <summary>Performs the elements in operation.</summary>
         public IReadOnlyList<FlowElement> ElementsIn(FlowDiagram flow)
             => Array.AsReadOnly((flow ?? throw new ArgumentNullException(nameof(flow))).Elements.ToArray());
 
@@ -36,6 +38,7 @@ namespace KingdomFoundation.Api
             RequirePlayer();
             return manager;
         }
+        /// <summary>Gets flow.</summary>
         public FlowDiagram GetFlow(int index)
         {
             var player = RequirePlayer();
@@ -52,6 +55,7 @@ namespace KingdomFoundation.Api
                     if (element != null && string.Equals(element.Guid, guid, StringComparison.Ordinal)) return element;
             return null;
         }
+        /// <summary>Finds elements.</summary>
         public IReadOnlyList<FlowElement> FindElements(Func<FlowElement, bool> predicate = null)
         {
             var player = GamePlayer.Current;
@@ -62,6 +66,7 @@ namespace KingdomFoundation.Api
                     if (element != null && (predicate == null || predicate(element))) results.Add(element);
             return results.AsReadOnly();
         }
+        /// <summary>Performs the select flow operation.</summary>
         public void SelectFlow(int index)
         {
             GetFlow(index);
@@ -91,6 +96,7 @@ namespace KingdomFoundation.Api
                 throw;
             }
         }
+        /// <summary>Performs the rename flow operation.</summary>
         public void RenameFlow(int index, string label, string iconName = null)
         {
             var flow = GetFlow(index);
@@ -99,6 +105,7 @@ namespace KingdomFoundation.Api
             if (iconName != null) flow.IconName = iconName;
             if (GameUI.Instance) GameUI.Instance.UpdateFlowMenu();
         }
+        /// <summary>Sets camera.</summary>
         public void SetCamera(Vector2Int position)
         {
             var player = RequirePlayer();

@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the signal property definition API.</summary>
     public sealed class SignalPropertyDefinition
     {
         public string Id { get; }
@@ -20,6 +21,7 @@ namespace KingdomFoundation.Api
             if (!IsSupportedType(valueType)) throw new ArgumentException("Unsupported property type: " + valueType.FullName, nameof(valueType));
             Id = id; Name = name; ValueType = valueType; Getter = getter; Setter = setter;
         }
+        /// <summary>Determines whether supported type.</summary>
         public static bool IsSupportedType(Type type) => type == typeof(bool) || type == typeof(string) ||
             type == typeof(int) || type == typeof(long) || type == typeof(float) || type == typeof(double) ||
             type == typeof(UnityEngine.Color) || type == typeof(UnityEngine.Vector2) ||

@@ -4,6 +4,7 @@ using Assets.Source.Player;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the prestige changed event API.</summary>
     public sealed class PrestigeChangedEvent
     {
         public GamePlayer Player { get; }

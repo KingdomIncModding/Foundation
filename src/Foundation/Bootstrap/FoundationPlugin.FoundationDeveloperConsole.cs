@@ -9,6 +9,7 @@ using UnityEngine.InputSystem;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the foundation plugin API.</summary>
     public sealed partial class FoundationPlugin
     {
         ConfigEntry<bool> enableDeveloperConsole;

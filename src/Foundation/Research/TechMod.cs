@@ -6,6 +6,7 @@ namespace KingdomFoundation.Api
     internal sealed class TechMod : ITechMod
     {
         readonly TechNodeRegistry registry;
+        /// <summary>Gets or sets the id value.</summary>
         public string Id { get; }
         public string Name { get; }
         public IReadOnlyList<ITechNode> Nodes => registry.NodesFor(Id);

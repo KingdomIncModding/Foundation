@@ -8,6 +8,7 @@ namespace KingdomFoundation.Api
     internal sealed class GameUpgradeRegistry : IGameUpgradeRegistry
     {
         readonly Dictionary<string, Func<FlowUpgrade>> factories = new Dictionary<string, Func<FlowUpgrade>>(StringComparer.Ordinal);
+        /// <summary>Gets or sets the registered types value.</summary>
         public IReadOnlyList<string> RegisteredTypes => Array.AsReadOnly(new List<string>(factories.Keys).ToArray());
         public void Register(string modId, string typeId, Func<FlowUpgrade> factory)
         {
@@ -22,6 +23,7 @@ namespace KingdomFoundation.Api
                 throw new ArgumentException("Upgrade.UpgradeType must return the registered type ID (" + typeId + ").");
             factories.Add(typeId, factory);
         }
+        /// <summary>Attempts to create.</summary>
         public bool TryCreate(string typeId, out FlowUpgrade upgrade)
         {
             upgrade = null;

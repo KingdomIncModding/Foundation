@@ -11,6 +11,7 @@ namespace KingdomFoundation.Core
         public PluginSnapshot Plugin { get; }
         public ModSnapshot Module { get; }
         public bool IsPluginLoaded => Plugin != null;
+        /// <summary>Gets or sets the is module registered value.</summary>
         public bool IsModuleRegistered => Module != null;
         public ModDirectoryEntry(string id, PluginSnapshot plugin, ModSnapshot module)
         {

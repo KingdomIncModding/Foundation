@@ -10,6 +10,7 @@ namespace KingdomFoundation.Core
         readonly ModScope scope;
         internal OwnedPatches(string owner, CorePatchManager patches, ModScope scope)
         { this.owner = owner; this.patches = patches; this.scope = scope; }
+        /// <summary>Performs the patch class operation.</summary>
         public void PatchClass(Type patchContainer)
         {
             scope.EnsureActive();

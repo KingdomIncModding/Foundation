@@ -5,6 +5,7 @@ using BepInEx.Configuration;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the mod config section API.</summary>
     public class ModConfigSection : IModConfigSection
     {
         readonly ModConfigRegistry registry;
@@ -13,6 +14,7 @@ namespace KingdomFoundation.Api
         public string ModId { get; }
         public string ModName { get; internal set; }
         public string Description { get; set; }
+        /// <summary>Gets or sets the elements value.</summary>
         public IReadOnlyList<IModConfigElement> Elements => elements.ToArray();
 
         public event Action Changed;
@@ -27,6 +29,7 @@ namespace KingdomFoundation.Api
             Description = description ?? "";
         }
 
+        /// <summary>Performs the add element operation.</summary>
         public IModConfigSection AddElement(IModConfigElement element)
         {
             if (element == null) throw new ArgumentNullException(nameof(element));
@@ -35,6 +38,7 @@ namespace KingdomFoundation.Api
             return this;
         }
 
+        /// <summary>Removes element.</summary>
         public bool RemoveElement(IModConfigElement element)
         {
             if (element != null && elements.Remove(element))
@@ -45,6 +49,7 @@ namespace KingdomFoundation.Api
             return false;
         }
 
+        /// <summary>Performs the clear elements operation.</summary>
         public void ClearElements()
         {
             elements.Clear();
@@ -59,6 +64,7 @@ namespace KingdomFoundation.Api
             return value;
         }
 
+        /// <summary>Performs the add number operation.</summary>
         public ModConfigNumber AddNumber(string label, double minimum, double maximum, double value,
             double step, Action<double> onChanged, Func<double> getter = null)
         {
@@ -67,6 +73,7 @@ namespace KingdomFoundation.Api
             return number;
         }
 
+        /// <summary>Performs the add search operation.</summary>
         public ModConfigSearch AddSearch(string label, IReadOnlyList<string> options,
             int initialIndex, Action<int> onChanged, Func<int> getter = null)
         {
@@ -75,6 +82,7 @@ namespace KingdomFoundation.Api
             return search;
         }
 
+        /// <summary>Performs the add text operation.</summary>
         public IModConfigText AddText(string text, bool isHeader = false)
         {
             var el = new ModConfigText(text, isHeader);
@@ -89,6 +97,7 @@ namespace KingdomFoundation.Api
             return el;
         }
 
+        /// <summary>Performs the add toggle operation.</summary>
         public IModConfigToggle AddToggle(string label, bool initialValue, Action<bool> onValueChanged, Func<bool> getter = null)
         {
             var el = new ModConfigToggle(label, initialValue, onValueChanged, getter);
@@ -103,6 +112,7 @@ namespace KingdomFoundation.Api
             return el;
         }
 
+        /// <summary>Performs the add color swatches operation.</summary>
         public IModConfigColorSwatches AddColorSwatches(string label, IReadOnlyList<UnityEngine.Color> colors,
             UnityEngine.Color initialValue, Action<UnityEngine.Color> onValueChanged, Func<UnityEngine.Color> getter = null)
         {
@@ -111,6 +121,7 @@ namespace KingdomFoundation.Api
             return control;
         }
 
+        /// <summary>Performs the add dropdown operation.</summary>
         public IModConfigDropdown AddDropdown(string label, IReadOnlyList<string> options, int initialIndex, Action<int> onSelectionChanged, Func<int> getter = null)
         {
             var el = new ModConfigDropdown(label, options, initialIndex, onSelectionChanged, getter);
@@ -130,6 +141,7 @@ namespace KingdomFoundation.Api
             return el;
         }
 
+        /// <summary>Performs the add slider operation.</summary>
         public IModConfigSlider AddSlider(ConfigEntry<int> entry, int min, int max, string customLabel = null)
         {
             if (entry == null) throw new ArgumentNullException(nameof(entry));
@@ -142,6 +154,7 @@ namespace KingdomFoundation.Api
             return el;
         }
 
+        /// <summary>Performs the add slider operation.</summary>
         public IModConfigSlider AddSlider(ConfigEntry<float> entry, float min, float max, float step = 0.05f, string customLabel = null, Func<float, string> formatValue = null)
         {
             if (entry == null) throw new ArgumentNullException(nameof(entry));
@@ -164,6 +177,7 @@ namespace KingdomFoundation.Api
             return -1;
         }
 
+        /// <summary>Performs the add dropdown operation.</summary>
         public IModConfigDropdown AddDropdown(ConfigEntry<string> entry, IReadOnlyList<string> options, string customLabel = null)
         {
             if (entry == null) throw new ArgumentNullException(nameof(entry));
@@ -192,6 +206,7 @@ namespace KingdomFoundation.Api
             }
         }
 
+        /// <summary>Performs the commit operation.</summary>
         public void Commit()
         {
             foreach (var el in elements)
@@ -203,6 +218,7 @@ namespace KingdomFoundation.Api
             catch (Exception error) { FoundationApi.Report(error); }
         }
 
+        /// <summary>Performs the cancel operation.</summary>
         public void Cancel()
         {
             foreach (var el in elements)

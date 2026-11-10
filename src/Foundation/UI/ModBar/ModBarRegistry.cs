@@ -15,6 +15,7 @@ namespace KingdomFoundation.Api
             .ThenBy(r => r.Id, StringComparer.Ordinal)
             .Cast<IModBarRegistration>()
             .ToArray());
+        /// <summary>Occurs when changed is raised.</summary>
         public event Action Changed;
         public IModBarRegistration Register(IModBarElement element)
         {
@@ -27,6 +28,7 @@ namespace KingdomFoundation.Api
             var registration = new ModBarRegistration(this, element);
             items.Add(key, registration); Notify(); return registration;
         }
+        /// <summary>Registers separator.</summary>
         public IModBarRegistration RegisterSeparator(string modId, string id, ModBarAlignment alignment = ModBarAlignment.Left, int order = 0, float width = 16)
             => Register(new ModBarSeparator(modId, id, width, order, alignment));
         public bool TryGet(string modId, string id, out IModBarRegistration registration)

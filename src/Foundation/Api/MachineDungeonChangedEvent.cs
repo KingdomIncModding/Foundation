@@ -7,6 +7,7 @@ using Assets.Source.Player;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the machine dungeon changed event API.</summary>
     public sealed class MachineDungeonChangedEvent
     {
         public Dungeon Machine { get; }

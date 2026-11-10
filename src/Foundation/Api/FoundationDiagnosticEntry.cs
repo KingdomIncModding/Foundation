@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the foundation diagnostic entry API.</summary>
     public sealed class FoundationDiagnosticEntry
     {
         public DateTime TimestampUtc { get; }

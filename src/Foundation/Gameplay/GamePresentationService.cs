@@ -22,6 +22,7 @@ namespace KingdomFoundation.Api
             if (local.Contains(":")) throw new ArgumentException("Local name may not contain ':'.", nameof(local));
             return owner + ":" + local;
         }
+        /// <summary>Gets or sets the current locale value.</summary>
         public string CurrentLocale => Translation.Current == null ? Translation.DefaultLanguage : Translation.CurrentLocale;
         public IReadOnlyList<string> NativeLocales
             => Array.AsReadOnly(Translation.All.Select(locale => locale.Locale).OrderBy(id => id, StringComparer.Ordinal).ToArray());
@@ -34,6 +35,7 @@ namespace KingdomFoundation.Api
             if (string.IsNullOrEmpty(iconName)) return null;
             return NativeSprites.TryGetValue(iconName, out var sprite) ? sprite : null;
         }
+        /// <summary>Gets or sets the icon names value.</summary>
         public IReadOnlyList<string> IconNames => Array.AsReadOnly(NativeSprites.Keys.OrderBy(k => k, StringComparer.Ordinal).ToArray());
         public void RegisterSprite(string modId, string iconName, Sprite sprite)
         {
@@ -42,6 +44,7 @@ namespace KingdomFoundation.Api
             if (NativeSprites.ContainsKey(id) || !imageIds.Add(id)) throw new ArgumentException("Duplicate icon: " + id);
             NativeSprites.Add(id, sprite);
         }
+        /// <summary>Registers text.</summary>
         public void RegisterText(string modId, string key, string locale, string value)
         {
             string id = Name(modId, key);

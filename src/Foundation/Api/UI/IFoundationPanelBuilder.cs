@@ -14,6 +14,7 @@ namespace KingdomFoundation.Api
         void Header(string value);
         void Button(string title, Action clicked, string tooltip = null);
         void Toggle(string title, bool value, Action<bool> changed, string tooltip = null);
+        /// <summary>Performs the slider operation.</summary>
         void Slider(string title, float min, float max, float value, float step, Action<float> changed);
         void Number(string title, double value, double min, double max, double step, Action<double> changed);
         void Input(string title, string value, Action<string> changed, int maxLength = 256);
@@ -22,6 +23,7 @@ namespace KingdomFoundation.Api
         void Colors(string title, IReadOnlyList<Color> colors, int selected, Action<int> changed);
         void Signal(string title, SignalSelection initial, Action<SignalSelection> changed);
         void Tabs(string key, IReadOnlyList<string> titles, Action<int, IFoundationPanelBuilder> build);
+        /// <summary>Performs the columns operation.</summary>
         void Columns(int count, Action<int, IFoundationPanelBuilder> build);
         void Reorder(string title, IReadOnlyList<string> items, Action<int, int> onMove);
         void Section(string key, string title, Action<IFoundationPanelBuilder> build, bool initiallyExpanded = true);

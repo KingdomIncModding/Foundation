@@ -7,6 +7,7 @@ using KingdomFoundation.Machines;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the foundation panel registry API.</summary>
     public sealed class FoundationPanelRegistry : IFoundationPanelRegistry
     {
         private readonly Dictionary<(string, string), PanelRegistration> panels =
@@ -17,6 +18,7 @@ namespace KingdomFoundation
             .ThenBy(p => p.Id, StringComparer.Ordinal)
             .Cast<IFoundationPanelRegistration>().ToArray();
 
+        /// <summary>Occurs when changed is raised.</summary>
         public event Action Changed;
         public bool IsOpen => FoundationPanelHost.IsShowing;
 
@@ -31,6 +33,7 @@ namespace KingdomFoundation
             return token;
         }
 
+        /// <summary>Attempts to get.</summary>
         public bool TryGet(string modId, string id, out FoundationPanelDefinition panel)
         {
             panel = null;
@@ -39,6 +42,7 @@ namespace KingdomFoundation
             return true;
         }
 
+        /// <summary>Attempts to resolve machine.</summary>
         public bool TryResolveMachine(Type nativeMachineType, out FoundationPanelDefinition panel)
         {
             if (nativeMachineType == null) throw new ArgumentNullException(nameof(nativeMachineType));
@@ -62,6 +66,7 @@ namespace KingdomFoundation
             return int.MaxValue;
         }
 
+        /// <summary>Performs the open operation.</summary>
         public bool Open(string modId, string id)
         {
             MachineThread.Verify();
@@ -78,6 +83,7 @@ namespace KingdomFoundation
             return FoundationPanelHost.Open(definition, machine);
         }
 
+        /// <summary>Performs the close operation.</summary>
         public void Close()
         {
             MachineThread.Verify();
@@ -92,6 +98,7 @@ namespace KingdomFoundation
             return matches.Length;
         }
 
+        /// <summary>Performs the for mod operation.</summary>
         public IFoundationPanelModContext ForMod(string modId) => new PanelModContext(this, modId);
 
         private void Remove(PanelRegistration token)
@@ -118,6 +125,7 @@ namespace KingdomFoundation
         private sealed class PanelRegistration : IFoundationPanelRegistration
         {
             private FoundationPanelRegistry registry;
+            /// <summary>Gets or sets the mod id value.</summary>
             public string ModId => Definition.ModId;
             public string Id => Definition.Id;
             public bool IsRegistered => registry != null;
@@ -138,6 +146,7 @@ namespace KingdomFoundation
             private readonly FoundationPanelRegistry registry;
             private readonly List<IFoundationPanelRegistration> owned = new List<IFoundationPanelRegistration>();
             private bool disposed;
+            /// <summary>Gets or sets the mod id value.</summary>
             public string ModId { get; }
             public PanelModContext(FoundationPanelRegistry registry, string modId)
             {
@@ -153,6 +162,7 @@ namespace KingdomFoundation
                 owned.Add(token);
                 return token;
             }
+            /// <summary>Performs the open operation.</summary>
             public bool Open(string id)
             {
                 if (disposed) throw new ObjectDisposedException(nameof(PanelModContext));

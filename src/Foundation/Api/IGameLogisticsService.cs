@@ -15,6 +15,7 @@ namespace KingdomFoundation.Api
         void StoreInArmory(int channel, InventoryItem item);
         int PortalCount(int channel, int index);
         InventoryItem PeekPortal(int channel, int index);
+        /// <summary>Attempts to store in portal.</summary>
         bool TryStoreInPortal(int channel, int index, InventoryItem item);
     }
 }

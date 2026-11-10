@@ -2,6 +2,7 @@ using System;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the core diagnostic record API.</summary>
     public sealed class CoreDiagnosticRecord
     {
         public DateTime TimestampUtc { get; }

@@ -20,6 +20,7 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the foundation plugin API.</summary>
     public sealed partial class FoundationPlugin
     {
         readonly List<string> checks = new List<string>();

@@ -2,6 +2,7 @@ using Assets.Source.Flow;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the workspace changed event API.</summary>
     public sealed class WorkspaceChangedEvent
     {
         public WorkspaceChangeKind Kind { get; }

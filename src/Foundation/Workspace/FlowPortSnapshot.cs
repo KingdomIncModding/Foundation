@@ -15,6 +15,7 @@ namespace KingdomFoundation.Api
         public int Index { get; }
         public int Position { get; }
         public string AcceptedItemTypeId { get; }
+        /// <summary>Gets or sets the has custom filter value.</summary>
         public bool HasCustomFilter { get; }
         public bool FilterPreview { get; }
         public int BufferCapacity { get; }

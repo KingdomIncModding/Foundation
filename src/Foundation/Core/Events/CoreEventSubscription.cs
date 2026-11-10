@@ -10,6 +10,7 @@ namespace KingdomFoundation.Core
         readonly Predicate<T> filter;
         readonly bool once;
         int active = 1;
+        /// <summary>Gets or sets the owner id value.</summary>
         public string OwnerId { get; }
         public Type EventType => typeof(T);
         public int Priority { get; }
@@ -26,6 +27,7 @@ namespace KingdomFoundation.Core
             Priority = priority;
             Sequence = sequence;
         }
+        /// <summary>Performs the invoke operation.</summary>
         public void Invoke(object evt)
         {
             if (!IsActive) return;

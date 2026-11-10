@@ -16,6 +16,7 @@ namespace KingdomFoundation.Core
         {
             get { lock (gate) return Array.AsReadOnly(entries.Values.Select(x => x.Descriptor).ToArray()); }
         }
+        /// <summary>Performs the register operation.</summary>
         public IDisposable Register(string ownerId, string localId, string kind, Version version = null,
             ContentLifetime lifetime = ContentLifetime.NativePermanent)
         {
@@ -36,6 +37,7 @@ namespace KingdomFoundation.Core
             events.Publish(new ContentRegisteredEvent(entry.Descriptor));
             return entry;
         }
+        /// <summary>Attempts to get.</summary>
         public bool TryGet(string id, out ContentDescriptor descriptor)
         {
             lock (gate)
@@ -56,6 +58,7 @@ namespace KingdomFoundation.Core
             }
             if (removed) events.Publish(new ContentReleasedEvent(entry.Descriptor));
         }
+        /// <summary>Performs the release owner operation.</summary>
         public void ReleaseOwner(string ownerId)
         {
             CoreContentEntry[] remove;

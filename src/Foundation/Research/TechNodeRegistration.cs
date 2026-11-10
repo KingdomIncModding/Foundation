@@ -8,6 +8,7 @@ namespace KingdomFoundation.Api
     internal sealed class TechNodeRegistration : INativeTechNode, IModTechNode
     {
         readonly TechNodeRegistry owner;
+        /// <summary>Gets or sets the id value.</summary>
         public string Id { get; }
         public ITechMod Mod { get; }
         public ITechNodeDefinition Definition { get; private set; }
@@ -17,6 +18,7 @@ namespace KingdomFoundation.Api
         internal TechNodeRegistration(TechNodeRegistry owner, TechNodeDefinition definition, ITechMod mod)
         { this.owner = owner; Id = definition.Id; Definition = definition; Mod = mod; }
 
+        /// <summary>Performs the update operation.</summary>
         public void Update(ITechNodeDefinition definition)
         {
             if (!IsRegistered) throw new ObjectDisposedException(nameof(ITechNode));
@@ -26,6 +28,7 @@ namespace KingdomFoundation.Api
             if (NativeNode != null) NativeResearch.Apply(this, snapshot);
             Definition = snapshot; owner.Notify();
         }
+        /// <summary>Performs the dispose operation.</summary>
         public void Dispose()
         {
             if (!IsRegistered) return;

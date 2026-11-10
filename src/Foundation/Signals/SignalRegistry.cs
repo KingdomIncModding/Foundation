@@ -7,6 +7,7 @@ namespace KingdomFoundation.Api
     internal sealed partial class SignalRegistry : ISignalDirectory
     {
         readonly Dictionary<string, Source> registered = new Dictionary<string, Source>(StringComparer.Ordinal);
+        /// <summary>Gets or sets the sources value.</summary>
         public IReadOnlyList<ISignalSource> Sources => Array.AsReadOnly(registered.Values.Cast<ISignalSource>().OrderBy(v => v.Name, StringComparer.OrdinalIgnoreCase).ThenBy(v => v.Id, StringComparer.Ordinal).ToArray());
         public event Action Changed;
         public ISignalSource Register(SignalSourceDefinition definition)
@@ -18,6 +19,7 @@ namespace KingdomFoundation.Api
             Notify();
             return source;
         }
+        /// <summary>Attempts to get.</summary>
         public bool TryGet(string id, out ISignalSource source)
         {
             if (id != null && registered.TryGetValue(id, out var found)) { source = found; return true; }
@@ -32,6 +34,7 @@ namespace KingdomFoundation.Api
                  x.Id.IndexOf(query, StringComparison.OrdinalIgnoreCase) >= 0))
                 .ToArray());
         }
+        /// <summary>Attempts to resolve.</summary>
         public bool TryResolve(SignalSelection selection, out ISignalProperty property)
         {
             property = null;
@@ -45,6 +48,7 @@ namespace KingdomFoundation.Api
                 (valueType == null || valueType == property.ValueType) &&
                 (!writable || property.CanWrite)).ToArray());
         }
+        /// <summary>Removes owner.</summary>
         public int RemoveOwner(string modId)
         {
             if (string.IsNullOrWhiteSpace(modId)) return 0;

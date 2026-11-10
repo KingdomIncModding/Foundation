@@ -7,6 +7,7 @@ using LightJson;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the foundation plugin API.</summary>
     public sealed partial class FoundationPlugin
     {
         void VerifyFoundationCore()

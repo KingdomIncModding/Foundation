@@ -17,6 +17,7 @@ namespace KingdomFoundation.Core
                     .OrderBy(x => x.Id, StringComparer.Ordinal).ToArray());
             }
         }
+        /// <summary>Attempts to get.</summary>
         public bool TryGet(string id, out PluginSnapshot plugin)
         {
             plugin = Plugins.FirstOrDefault(x => x.Id == id);

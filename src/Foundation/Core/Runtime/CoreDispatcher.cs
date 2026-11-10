@@ -14,6 +14,7 @@ namespace KingdomFoundation.Core
         bool stopped;
         internal CoreDispatcher(CoreDiagnostics diagnostics) { this.diagnostics = diagnostics; }
         internal void AttachMainThread() => mainThread = Thread.CurrentThread.ManagedThreadId;
+        /// <summary>Gets or sets the is main thread value.</summary>
         public bool IsMainThread => mainThread != 0 && Thread.CurrentThread.ManagedThreadId == mainThread;
         public void RequireMainThread()
         {
@@ -50,6 +51,7 @@ namespace KingdomFoundation.Core
                 }
             }
         }
+        /// <summary>Performs the cancel owner operation.</summary>
         public void CancelOwner(string ownerId)
         {
             lock (gate)

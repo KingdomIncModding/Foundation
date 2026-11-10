@@ -13,6 +13,7 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the foundation plugin API.</summary>
     public sealed partial class FoundationPlugin
     {
         sealed class ProbeBarElement : IModBarElement
@@ -21,6 +22,7 @@ namespace KingdomFoundation
             public string ModId => "foundation.diagnostics";
             public float Width => 180;
             public int Order => 10;
+            /// <summary>Gets or sets the alignment value.</summary>
             public ModBarAlignment Alignment => ModBarAlignment.Right;
             public bool IsVisible => true;
             internal int Creates, Refreshes, Disposes;
@@ -31,6 +33,7 @@ namespace KingdomFoundation
                 readonly ProbeBarElement element;
                 readonly TMP_Text text;
                 internal ProbeView(ProbeBarElement element, IModBarContext context) { this.element = element; text = context.CreateText("Custom contract"); }
+                /// <summary>Performs the refresh operation.</summary>
                 public void Refresh() { element.Refreshes++; text.text = "Custom contract"; }
                 public void Dispose() { element.Disposes++; }
             }

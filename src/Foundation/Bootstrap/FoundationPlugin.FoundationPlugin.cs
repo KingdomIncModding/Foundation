@@ -18,6 +18,7 @@ using UnityEngine;
 namespace KingdomFoundation
 {
     [BepInPlugin(Id, "Foundation", Version)]
+    /// <summary>Provides the foundation plugin API.</summary>
     public sealed partial class FoundationPlugin : BaseUnityPlugin
     {
         public const string Id = "urakka.kingdominc.foundation", Version = "0.11.0";
@@ -26,6 +27,7 @@ namespace KingdomFoundation
         internal Harmony hooks;
         internal static bool Diagnostic => Environment.GetCommandLineArgs().Contains("-foundation-smoke");
 
+        /// <summary>Gets nexus api key.</summary>
         public static string GetNexusApiKey()
         {
             string key = NexusApiKeyConfig?.Value;

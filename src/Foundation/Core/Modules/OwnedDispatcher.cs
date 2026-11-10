@@ -9,6 +9,7 @@ namespace KingdomFoundation.Core
         readonly CoreDispatcher dispatcher;
         internal OwnedDispatcher(string ownerId, CoreDispatcher dispatcher, ModScope scope)
         { this.ownerId = ownerId; this.dispatcher = dispatcher; this.scope = scope; }
+        /// <summary>Gets or sets the is main thread value.</summary>
         public bool IsMainThread => dispatcher.IsMainThread;
         public void RequireMainThread() => dispatcher.RequireMainThread();
         public IDisposable Post(Action callback)

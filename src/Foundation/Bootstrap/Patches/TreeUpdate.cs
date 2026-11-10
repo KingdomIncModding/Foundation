@@ -16,6 +16,7 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the foundation plugin API.</summary>
     public sealed partial class FoundationPlugin
     {
         // Mods has its own camera state; keep the vanilla saved position on Base Game.

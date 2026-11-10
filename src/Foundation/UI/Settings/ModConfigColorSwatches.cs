@@ -19,6 +19,7 @@ namespace KingdomFoundation.Api
         Color committed;
         Color pending;
         public string Id { get; }
+        /// <summary>Gets or sets the is visible value.</summary>
         public bool IsVisible { get; set; } = true;
         public string Label { get; set; }
         public IReadOnlyList<Color> Palette => palette;
@@ -62,6 +63,7 @@ namespace KingdomFoundation.Api
                 if (outlines[i]) outlines[i].effectColor = palette[i] == pending
                     ? new Color(1f, 0.81f, 0.30f, 1f) : new Color(0.17f, 0.14f, 0.11f, 0.8f);
         }
+        /// <summary>Creates view.</summary>
         public GameObject CreateView(IModConfigContext context)
         {
             if (context == null) throw new ArgumentNullException(nameof(context));
@@ -115,6 +117,7 @@ namespace KingdomFoundation.Api
             UpdateSelection();
             return root;
         }
+        /// <summary>Performs the begin edit operation.</summary>
         public void BeginEdit() { committed = Select(getter != null ? getter() : committed); Value = committed; }
         public void Commit()
         {
@@ -123,6 +126,7 @@ namespace KingdomFoundation.Api
             committed = Select(getter != null ? getter() : pending);
             Value = committed;
         }
+        /// <summary>Performs the cancel operation.</summary>
         public void Cancel() => BeginEdit();
     }
 }

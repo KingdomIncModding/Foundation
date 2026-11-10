@@ -4,6 +4,7 @@ using Assets.Source.Player;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the war stage changed event API.</summary>
     public sealed class WarStageChangedEvent
     {
         public WarProgress Progress { get; }

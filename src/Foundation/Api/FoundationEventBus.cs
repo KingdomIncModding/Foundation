@@ -41,6 +41,7 @@ namespace KingdomFoundation.Api
             return entry;
         }
         public void Publish<T>(T message) => FoundationCoreApi.Core.Events.Publish(message);
+        /// <summary>Removes owner.</summary>
         public int RemoveOwner(string modId)
         {
             if (string.IsNullOrWhiteSpace(modId)) return 0;

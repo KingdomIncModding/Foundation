@@ -21,6 +21,7 @@ namespace KingdomFoundation.Api
         bool hasLoaded;
 
 
+        /// <summary>Gets or sets the retained mod ids value.</summary>
         public IReadOnlyList<string> RetainedModIds => Array.AsReadOnly(retained.Keys.Concat(opaque.Keys).Distinct(StringComparer.Ordinal)
             .OrderBy(x => x, StringComparer.Ordinal).ToArray());
         public IDisposable Register(string modId, int schemaVersion, Func<JsonValue> save, Action<int, JsonValue> load)
@@ -40,6 +41,7 @@ namespace KingdomFoundation.Api
             }
             return registration;
         }
+        /// <summary>Registers migrating.</summary>
         public IDisposable RegisterMigrating(string modId, int schemaVersion, Func<JsonValue> save,
             Action<int, JsonValue> load, Func<int, JsonValue, JsonValue> migrate)
         {
@@ -60,6 +62,7 @@ namespace KingdomFoundation.Api
                 load(schemaVersion, Clone(converted));
             });
         }
+        /// <summary>Attempts to get last loaded.</summary>
         public bool TryGetLastLoaded(string modId, out int schemaVersion, out JsonValue state)
         {
             if (modId != null && retained.TryGetValue(modId, out var saved))

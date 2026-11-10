@@ -14,6 +14,7 @@ namespace KingdomFoundation.Api
         public override string Label => Definition.Title;
         public override ElementCategory Category => Definition.Category;
         public override string IconName => Definition.IconName;
+        /// <summary>Gets or sets the icon value.</summary>
         public override Sprite Icon => Definition.Icon ? Definition.Icon : base.Icon;
         public override bool HasCraftButton => false;
         public override int UpgradeSlots => 0;
@@ -26,6 +27,7 @@ namespace KingdomFoundation.Api
             CostCurrency = CurrencyCollection.GetDefaultCostCurrency(RequiredTech.CostTier).ToArray();
             CostMultiplier = Definition.CostMultiplier; GoldMultiplier = Definition.GoldMultiplier;
         }
+        /// <summary>Determines whether purchaseable.</summary>
         public override bool IsPurchaseable(GamePlayer player) => registration.IsRegistered && player != null &&
             (!NativeResearch.Owns(RequiredTech) || NativeResearch.Active(RequiredTech)) && base.IsPurchaseable(player);
         public override CurrencyCollection GetPurchaseCost(int numElements) => Definition.FixedCost ?? base.GetPurchaseCost(numElements);

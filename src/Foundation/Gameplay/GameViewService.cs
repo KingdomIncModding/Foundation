@@ -10,6 +10,7 @@ namespace KingdomFoundation.Api
     {
         static WorldFlowCamera Camera => WorldFlowCamera.Instance
             ? WorldFlowCamera.Instance : throw new InvalidOperationException("The native flow camera is not active.");
+        /// <summary>Gets or sets the is ready value.</summary>
         public bool IsReady => WorldFlowCamera.Instance && GamePlayerInput.Instance;
         public Vector2Int MouseWorld => GamePlayerInput.MouseWorld;
         public Vector2Int MouseUi => GamePlayerInput.MouseUI;
@@ -18,6 +19,7 @@ namespace KingdomFoundation.Api
         public bool CancelPressed => GamePlayerInput.Instance && GamePlayerInput.CancelPressed;
         public bool GameInputEnabled => GamePlayerInput.Enabled;
         public InputActionAsset NativeActionAsset => GamePlayerInput.Instance ? GamePlayerInput.Asset : null;
+        /// <summary>Gets or sets the native input value.</summary>
         public GamePlayerInput NativeInput => GamePlayerInput.Instance;
         public WorldFlowCamera NativeCamera => WorldFlowCamera.Instance;
 
@@ -30,6 +32,7 @@ namespace KingdomFoundation.Api
             if (level < 0 || level > cam.MaxZoom) throw new ArgumentOutOfRangeException(nameof(level));
             cam.SetZoomLevel(level);
         }
+        /// <summary>Performs the change camera zoom operation.</summary>
         public void ChangeCameraZoom(int change)
         {
             var cam = Camera;
@@ -38,6 +41,7 @@ namespace KingdomFoundation.Api
             int count = Math.Min(4, Math.Abs(change));
             for (int i = 0; i < count; i++) cam.ChangeZoomLevel(Math.Sign(change));
         }
+        /// <summary>Performs the pan camera operation.</summary>
         public void PanCamera(float deltaX, float deltaY)
         {
             if (float.IsNaN(deltaX) || float.IsInfinity(deltaX) ||

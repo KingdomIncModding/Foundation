@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the mod bar separator API.</summary>
     public sealed class ModBarSeparator : ModBarElement
     {
         public ModBarSeparator(string modId, string id, float width = 16, int order = 0, ModBarAlignment alignment = ModBarAlignment.Left)

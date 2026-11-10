@@ -15,6 +15,7 @@ namespace KingdomFoundation.Api
         public int InputPortIndex { get; }
         public bool IsItemRejected { get; }
         public bool IsConnected { get; }
+        /// <summary>Gets or sets the route nodes value.</summary>
         public IReadOnlyList<Vector2Int> RouteNodes { get; }
 
         internal FlowPipeSnapshot(FlowPipe pipe)

@@ -14,6 +14,7 @@ namespace KingdomFoundation.Core
         internal ModState CurrentState;
         internal string CurrentMessage;
         internal DateTime LastChanged;
+        /// <summary>Gets or sets the descriptor value.</summary>
         public ModDescriptor Descriptor => descriptor;
         public ModState State => CurrentState;
         public string Message => CurrentMessage;
@@ -32,6 +33,7 @@ namespace KingdomFoundation.Core
             LastChanged = DateTime.UtcNow;
         }
         internal ModSnapshot Snapshot() => new ModSnapshot(Descriptor, State, Message, LastChanged);
+        /// <summary>Performs the dispose operation.</summary>
         public void Dispose() => registry.Unregister(this);
     }
 }

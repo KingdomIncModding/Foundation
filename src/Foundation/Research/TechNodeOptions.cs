@@ -14,6 +14,7 @@ namespace KingdomFoundation.Api
         public double GoldMultiplier { get; }
         public string PreviousId { get; }
         public string RootId { get; }
+        /// <summary>Gets or sets the requirements value.</summary>
         public IReadOnlyList<string> Requirements { get; }
         readonly CurrencyCollection fixedCost;
         /// <summary>Copy of a fixed cost, or null to use the native cost formula.</summary>

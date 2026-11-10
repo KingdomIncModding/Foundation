@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the signal source definition API.</summary>
     public sealed class SignalSourceDefinition
     {
         public string ModId { get; }

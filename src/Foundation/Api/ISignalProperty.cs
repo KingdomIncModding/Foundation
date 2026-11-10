@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the isignal property API.</summary>
     public interface ISignalProperty
     {
         string Id { get; }
@@ -12,6 +13,7 @@ namespace KingdomFoundation.Api
         bool CanWrite { get; }
         object Read();
         void Write(object value);
+        /// <summary>Occurs when changed is raised.</summary>
         event Action<SignalPropertyChanged> Changed;
     }
 }

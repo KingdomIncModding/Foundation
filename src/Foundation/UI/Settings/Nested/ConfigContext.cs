@@ -14,6 +14,7 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the foundation config menu API.</summary>
     public sealed partial class FoundationConfigMenu
     {
         sealed class ConfigContext : IModConfigContext

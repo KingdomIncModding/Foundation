@@ -18,6 +18,7 @@ namespace KingdomFoundation.Api
         FlowDiagram ActiveFlow { get; }
         IReadOnlyList<FlowDiagram> Flows { get; }
         FlowDiagram GetFlow(int index);
+        /// <summary>Gets or sets the active flow index value.</summary>
         int ActiveFlowIndex { get; }
         int NativeMachineCount(FlowDiagram flow);
         int NativePipeCount(FlowDiagram flow);
@@ -26,6 +27,7 @@ namespace KingdomFoundation.Api
 
         FlowElement FindElement(string guid);
         IReadOnlyList<FlowElement> FindElements(Func<FlowElement, bool> predicate = null);
+        /// <summary>Performs the select flow operation.</summary>
         void SelectFlow(int index);
         bool TryBuyFlow(out FlowDiagram created);
         void RenameFlow(int index, string label, string iconName = null);

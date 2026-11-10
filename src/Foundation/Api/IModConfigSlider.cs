@@ -15,6 +15,7 @@ namespace KingdomFoundation.Api
         float Step { get; set; }
         float Value { get; set; }
         Action<float> OnValueChanged { get; set; }
+        /// <summary>Gets or sets the format value value.</summary>
         Func<float, string> FormatValue { get; set; }
     }
 }

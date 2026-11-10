@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the icore content catalog API.</summary>
     public interface ICoreContentCatalog
     {
         IReadOnlyList<ContentDescriptor> Registered { get; }

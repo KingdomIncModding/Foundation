@@ -3,6 +3,7 @@ using Assets.Source.Player;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the foundation lifecycle event API.</summary>
     public sealed class FoundationLifecycleEvent
     {
         public FoundationLifecyclePhase Phase { get; }

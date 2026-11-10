@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the mod bar text API.</summary>
     public sealed class ModBarText : ModBarElement
     {
         public string Text { get; set; }

@@ -15,6 +15,7 @@ namespace KingdomFoundation.Api
         int Order { get; }
         ModBarAlignment Alignment { get; }
         bool IsVisible { get; }
+        /// <summary>Creates view.</summary>
         IModBarView CreateView(IModBarContext context);
     }
 }

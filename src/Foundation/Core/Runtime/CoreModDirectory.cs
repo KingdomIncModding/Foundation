@@ -27,6 +27,7 @@ namespace KingdomFoundation.Core
                 return Array.AsReadOnly(unique.Values.OrderBy(x => x.Id, StringComparer.Ordinal).ToArray());
             }
         }
+        /// <summary>Attempts to get.</summary>
         public bool TryGet(string modId, out ModDirectoryEntry entry)
         {
             entry = string.IsNullOrWhiteSpace(modId) ? null

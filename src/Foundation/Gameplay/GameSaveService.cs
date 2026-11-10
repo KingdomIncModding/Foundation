@@ -8,6 +8,7 @@ namespace KingdomFoundation.Api
 {
     internal sealed class GameSaveService : IGameSaveService
     {
+        /// <summary>Performs the saved games operation.</summary>
         public IReadOnlyList<SaveGameFile> SavedGames()
             => Array.AsReadOnly(SaveGame.GetSaveGames().ToArray());
         public SaveGameFile FindSave(string name)
@@ -20,6 +21,7 @@ namespace KingdomFoundation.Api
             var save = FindSave(name) ?? throw new ArgumentException("Save not found: " + name, nameof(name));
             return save.Recall();
         }
+        /// <summary>Creates snapshot.</summary>
         public JsonObject CreateSnapshot()
         {
             GameWorldService.RequirePlayer();
@@ -33,6 +35,7 @@ namespace KingdomFoundation.Api
                 throw new ArgumentException("Use a safe simple save name.", nameof(name));
             return name;
         }
+        /// <summary>Performs the save operation.</summary>
         public void Save(string name)
         {
             GameWorldService.RequirePlayer();

@@ -5,6 +5,7 @@ using BepInEx.Configuration;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the mod config registry API.</summary>
     public class ModConfigRegistry : IModConfigRegistry
     {
         readonly Dictionary<string, ModConfigSection> sections = new Dictionary<string, ModConfigSection>(StringComparer.Ordinal);
@@ -13,6 +14,7 @@ namespace KingdomFoundation.Api
         public IReadOnlyList<IModConfigSection> Sections => ordered.ToArray();
         public event Action Changed;
 
+        /// <summary>Gets or create section.</summary>
         public IModConfigSection GetOrCreateSection(string modId, string modName = null, string description = null)
         {
             if (string.IsNullOrEmpty(modId)) throw new ArgumentException("ModId cannot be empty.", nameof(modId));
@@ -39,6 +41,7 @@ namespace KingdomFoundation.Api
             return section;
         }
 
+        /// <summary>Attempts to get section.</summary>
         public bool TryGetSection(string modId, out IModConfigSection section)
         {
             if (modId != null && sections.TryGetValue(modId, out var found))
@@ -50,6 +53,7 @@ namespace KingdomFoundation.Api
             return false;
         }
 
+        /// <summary>Removes section.</summary>
         public void RemoveSection(string modId)
         {
             if (modId != null && sections.TryGetValue(modId, out var found))

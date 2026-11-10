@@ -8,6 +8,7 @@ using Assets.Source.Player;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the resource availability API.</summary>
     public sealed class ResourceAvailability
     {
         public ResourceItemType Resource { get; }

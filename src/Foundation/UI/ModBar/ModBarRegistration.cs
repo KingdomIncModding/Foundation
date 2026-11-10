@@ -7,6 +7,7 @@ namespace KingdomFoundation.Api
     internal sealed class ModBarRegistration : IModBarRegistration
     {
         readonly ModBarRegistry owner;
+        /// <summary>Gets or sets the id value.</summary>
         public string Id { get; }
         public string ModId { get; }
         public IModBarElement Element { get; }
@@ -21,6 +22,7 @@ namespace KingdomFoundation.Api
             ModBarRegistry.ValidateAlignment(Element.Alignment);
             owner.Notify();
         }
+        /// <summary>Performs the dispose operation.</summary>
         public void Dispose() { if (!IsRegistered) return; IsRegistered = false; owner.Remove(this); }
     }
 }

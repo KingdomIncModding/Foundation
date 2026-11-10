@@ -2,6 +2,7 @@ using System;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the mod identity API.</summary>
     public static class ModIdentity
     {
         public static void Validate(string id)

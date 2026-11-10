@@ -21,6 +21,7 @@ namespace KingdomFoundation.Api
         long NativeBaseValue(ItemType type);
         long NativeSellValue(InventoryItem item);
         int AppraiserStat(InventoryItem item, AppraiserStat stat);
+        /// <summary>Determines whether enhance.</summary>
         bool CanEnhance(InventoryItem item, EnhancementType type);
         /// <summary>Native recipe gating, costs, rewards, requirements and outputs.</summary>
         bool RecipeAvailable(CraftingRecipe recipe);
@@ -32,6 +33,7 @@ namespace KingdomFoundation.Api
         int ProducedQuantity(CraftingRecipe recipe, ItemType item);
         IReadOnlyList<string> NativeItemSources(ItemType item);
 
+        /// <summary>Finds item.</summary>
         ItemType FindItem(string id);
         CraftingRecipe FindRecipe(string id);
         InventoryItem CreateItem(string itemId, float quality = 1f, bool initialize = true);
@@ -40,6 +42,7 @@ namespace KingdomFoundation.Api
         JsonValue Serialize(InventoryItem item);
         IReadOnlyList<CraftingRecipe> Producing(ItemType type);
         IReadOnlyList<CraftingRecipe> Requiring(ItemType type);
+        /// <summary>Determines whether accept.</summary>
         bool CanAccept(Assets.Source.Flow.FlowInput input, InventoryItem item);
         bool TryInsert(Assets.Source.Flow.FlowInput input, InventoryItem item);
         InventoryItem Extract(Assets.Source.Flow.FlowIO port);

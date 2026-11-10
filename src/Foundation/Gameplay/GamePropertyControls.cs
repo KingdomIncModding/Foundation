@@ -8,6 +8,7 @@ namespace KingdomFoundation.Api
 {
     internal sealed class GamePropertyControls : IGamePropertyControls
     {
+        /// <summary>Performs the build operation.</summary>
         public int Build(IModConfigSection section, ISignalSource source, PropertyEditorOptions options = null)
         {
             if (section == null) throw new ArgumentNullException(nameof(section));

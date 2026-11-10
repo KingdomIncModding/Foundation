@@ -2,6 +2,7 @@ using System;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the imod services API.</summary>
     public interface IModServices
     {
         IDisposable Register<T>(string serviceId, T instance, Version version = null,

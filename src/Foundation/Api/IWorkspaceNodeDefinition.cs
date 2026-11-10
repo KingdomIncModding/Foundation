@@ -16,6 +16,7 @@ namespace KingdomFoundation.Api
         string RequiredTechId { get; }
         ElementCategory Category { get; }
         Vector2Int Size { get; }
+        /// <summary>Gets or sets the icon name value.</summary>
         string IconName { get; }
         Sprite Icon { get; }
         double CostMultiplier { get; }

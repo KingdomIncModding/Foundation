@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the mod descriptor API.</summary>
     public sealed class ModDescriptor
     {
         public string Id { get; }
@@ -12,6 +13,7 @@ namespace KingdomFoundation.Core
         public string Description { get; }
         public Version Version { get; }
         public Version MinimumCoreApiVersion { get; }
+        /// <summary>Gets or sets the dependencies value.</summary>
         public IReadOnlyList<ModDependency> Dependencies { get; }
 
         public ModDescriptor(string id, string name, Version version, string author = "",

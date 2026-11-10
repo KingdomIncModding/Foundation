@@ -33,6 +33,7 @@ namespace KingdomFoundation.Core
                 .Select(x => x.Info).OrderBy(x => x.OwnerId, StringComparer.Ordinal)
                 .ThenBy(x => x.Id, StringComparer.Ordinal).ToArray());
         }
+        /// <summary>Finds owner.</summary>
         public IReadOnlyList<RegisteredServiceInfo> FindOwner(string ownerId)
         {
             if (string.IsNullOrWhiteSpace(ownerId)) return Array.AsReadOnly(Array.Empty<RegisteredServiceInfo>());
@@ -96,6 +97,7 @@ namespace KingdomFoundation.Core
             if (TryResolve<T>(serviceId, out var service, minimumVersion)) return service;
             throw new KeyNotFoundException("Service not registered or incompatible: " + serviceId);
         }
+        /// <summary>Attempts to resolve.</summary>
         public bool TryResolve(Type contractType, string serviceId, out object service, Version minimumVersion = null)
         {
             if (contractType == null) throw new ArgumentNullException(nameof(contractType));
@@ -123,6 +125,7 @@ namespace KingdomFoundation.Core
             }
             if (removed) events.Publish(new ServiceRemovedEvent(entry.Info));
         }
+        /// <summary>Performs the release owner operation.</summary>
         public void ReleaseOwner(string ownerId) => ReleaseWhere(x => x.Info.OwnerId == ownerId);
         internal void ReleaseWorld() => ReleaseWhere(x => x.Info.Lifetime == CoreLifetime.World);
         internal void ReleaseAll() => ReleaseWhere(x => true);

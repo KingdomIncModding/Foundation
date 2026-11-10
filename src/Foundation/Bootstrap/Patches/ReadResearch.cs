@@ -16,6 +16,7 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the foundation plugin API.</summary>
     public sealed partial class FoundationPlugin
     {
         // Native research uses a fixed-size array. Other consumers can retain player

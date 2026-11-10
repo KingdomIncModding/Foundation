@@ -11,6 +11,7 @@ namespace KingdomFoundation.Api
     {
 
         readonly List<Registration> callbacks = new List<Registration>();
+        /// <summary>Gets or sets the registration counts value.</summary>
         public IReadOnlyDictionary<string, int> RegistrationCounts => callbacks.Where(x => x.Active)
             .GroupBy(x => x.ModId).ToDictionary(x => x.Key, x => x.Count());
         static void Validate(string modId)
@@ -24,6 +25,7 @@ namespace KingdomFoundation.Api
             var reg = new Registration { Owner = this, ModId = modId, Frame = callback };
             callbacks.Add(reg); return reg;
         }
+        /// <summary>Performs the key pressed operation.</summary>
         public IDisposable KeyPressed(string modId, Key key, Action callback, bool allowWhileTyping = false)
         {
             Validate(modId);

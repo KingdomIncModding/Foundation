@@ -12,6 +12,7 @@ namespace KingdomFoundation.Api
     {
         internal static readonly WorkspaceNodeRegistry Shared = new WorkspaceNodeRegistry();
         readonly Dictionary<string, WorkspaceNodeType> types = new Dictionary<string, WorkspaceNodeType>(StringComparer.Ordinal);
+        /// <summary>Gets or sets the nodes value.</summary>
         public IReadOnlyList<IWorkspaceNodeType> Nodes => Array.AsReadOnly(types.Values.Where(n => n.IsRegistered).Cast<IWorkspaceNodeType>().ToArray());
         public event Action Changed;
         public IWorkspaceNodeType RegisterWorkspaceNode(IWorkspaceNodeDefinition definition)
@@ -31,6 +32,7 @@ namespace KingdomFoundation.Api
             catch { if (previous == null) types.Remove(snapshot.Id); else types[snapshot.Id] = previous; throw; }
             Notify(); return registration;
         }
+        /// <summary>Attempts to get.</summary>
         public bool TryGet(string id, out IWorkspaceNodeType nodeType)
         {
             if (id != null && types.TryGetValue(id, out var found) && found.IsRegistered) { nodeType = found; return true; }

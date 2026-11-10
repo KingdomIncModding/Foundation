@@ -9,6 +9,7 @@ namespace KingdomFoundation.Api
     internal sealed class GameProgressService : IGameProgressService
     {
         static GamePlayer Player => GameWorldService.RequirePlayer();
+        /// <summary>Gets or sets the research value.</summary>
         public IReadOnlyList<TechNode> Research => Array.AsReadOnly(TechNode.Nodes.ToArray());
         public TechNode FindTech(string id) => id == null ? null : TechNode.Get(id);
         public bool HasTech(string id) => FindTech(id) is TechNode node && Player.HasTech(node);
@@ -18,6 +19,7 @@ namespace KingdomFoundation.Api
             => Array.AsReadOnly((node ?? throw new ArgumentNullException(nameof(node))).AvailableTech.ToArray());
         public bool ResearchAvailable(TechNode node)
             => (node ?? throw new ArgumentNullException(nameof(node))).IsAvailable;
+        /// <summary>Performs the research locked operation.</summary>
         public bool ResearchLocked(TechNode node)
             => (node ?? throw new ArgumentNullException(nameof(node))).IsLocked;
         public CurrencyCollection ResearchCost(TechNode node)
@@ -34,6 +36,7 @@ namespace KingdomFoundation.Api
             Player.AddTech(node, notify);
             return true;
         }
+        /// <summary>Performs the upgrade slots operation.</summary>
         public int UpgradeSlots(string elementType) => Player.GetUpgradeSlotCount(elementType ?? throw new ArgumentNullException(nameof(elementType)));
         public void SetUpgradeSlots(string elementType, int slots)
         {
@@ -47,6 +50,7 @@ namespace KingdomFoundation.Api
             if (string.IsNullOrWhiteSpace(upgradeType)) throw new ArgumentException("Upgrade type required.", nameof(upgradeType));
             Player.AddAvailableFlowUpgrade(elementType, upgradeType);
         }
+        /// <summary>Performs the unlocked upgrades operation.</summary>
         public IReadOnlyList<string> UnlockedUpgrades(string elementType)
         {
             if (elementType == null) throw new ArgumentNullException(nameof(elementType));
@@ -56,6 +60,7 @@ namespace KingdomFoundation.Api
                 ? Array.AsReadOnly(set.OrderBy(s => s, StringComparer.Ordinal).ToArray())
                 : Array.Empty<string>();
         }
+        /// <summary>Gets or sets the prestige value.</summary>
         public IReadOnlyList<PrestigeNode> Prestige => Array.AsReadOnly(PrestigeNode.All.ToArray());
         public int PrestigePoints(PrestigeNode node) => Player.GetPrestigePoints(node ?? throw new ArgumentNullException(nameof(node)));
         public void SetPrestigePoints(PrestigeNode node, int points)
@@ -64,6 +69,7 @@ namespace KingdomFoundation.Api
             if (points < 0) throw new ArgumentOutOfRangeException(nameof(points));
             Player.SetPrestigePoints(node, points);
         }
+        /// <summary>Gets or sets the ascensions value.</summary>
         public int Ascensions => Player.AscensionCount;
         public int AvailableNightmarePoints => Player.NightmareAvailable;
         public bool NightmareEnabled { get => Player.NightmareActive; set => Player.NightmareActive = value; }

@@ -2,6 +2,7 @@ using System;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the plugin snapshot API.</summary>
     public sealed class PluginSnapshot
     {
         public string Id { get; }

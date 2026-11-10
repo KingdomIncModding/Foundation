@@ -7,6 +7,7 @@ using Assets.Source.Player;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the machine upgrade changed event API.</summary>
     public sealed class MachineUpgradeChangedEvent
     {
         public FlowElement Machine { get; }

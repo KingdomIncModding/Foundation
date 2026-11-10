@@ -12,6 +12,7 @@ namespace KingdomFoundation.Api
         public Type MachineType { get; }
         public int Priority { get; }
         public Action<IFoundationPanelBuilder> Build { get; }
+        /// <summary>Gets or sets the allow drag value.</summary>
         public bool AllowDrag { get; }
 
         public FoundationPanelDefinition(string modId, string id, string title,

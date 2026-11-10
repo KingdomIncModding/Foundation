@@ -2,6 +2,7 @@ using System;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the imod events API.</summary>
     public interface IModEvents
     {
         IDisposable Subscribe<T>(Action<T> handler, CoreEventPriority priority = CoreEventPriority.Normal,

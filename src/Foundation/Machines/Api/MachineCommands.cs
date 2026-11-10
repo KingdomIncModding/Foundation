@@ -27,6 +27,7 @@ namespace KingdomFoundation.Machines
             private readonly Entry _entry;
             private bool _disposed;
             public Token(MachineCommands registry,string id,Entry entry) { _registry=registry;_id=id;_entry=entry; }
+            /// <summary>Performs the dispose operation.</summary>
             public void Dispose()
             {
                 MachineThread.Verify();
@@ -35,6 +36,7 @@ namespace KingdomFoundation.Machines
             }
         }
         private readonly Dictionary<string,Entry> _commands=new Dictionary<string,Entry>(StringComparer.Ordinal);
+        /// <summary>Performs the register operation.</summary>
         public IDisposable Register(string modGuid, MachineCommandDefinition command)
         {
             MachineThread.Verify();
@@ -46,6 +48,7 @@ namespace KingdomFoundation.Machines
             _commands.Add(id,entry);
             return new Token(this,id,entry);
         }
+        /// <summary>Performs the for machine operation.</summary>
         public IReadOnlyList<string> ForMachine(FlowElement native)
         {
             MachineThread.Verify();
@@ -55,6 +58,7 @@ namespace KingdomFoundation.Machines
                 if(pair.Value.Definition.MachineType.IsInstanceOfType(native)) list.Add(pair.Key);
             return list.AsReadOnly();
         }
+        /// <summary>Performs the execute operation.</summary>
         public MachineOperationResult Execute(string qualifiedCommandId,FlowElement native,object argument)
         {
             MachineThread.Verify();

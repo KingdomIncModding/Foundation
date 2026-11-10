@@ -12,6 +12,7 @@ namespace KingdomFoundation.Api
             GameWorldService.RequirePlayer();
             return "foundation:" + modId + ":" + key;
         }
+        /// <summary>Performs the has flag operation.</summary>
         public bool HasFlag(string modId, string key, bool defaultValue = false) => Register.HasFlag(Key(modId, key), defaultValue);
         public void SetFlag(string modId, string key, bool value = true) => Register.SetFlag(Key(modId, key), value);
         public int GetCounter(string modId, string key, int defaultValue = 0) => Register.GetCounter(Key(modId, key), defaultValue);

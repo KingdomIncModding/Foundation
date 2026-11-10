@@ -33,6 +33,7 @@ namespace KingdomFoundation.Machines
             private readonly Entry _entry;
             private bool _disposed;
             public Registration(MachineExtensions registry, string id, Entry entry) { _registry = registry; _id = id; _entry = entry; }
+            /// <summary>Performs the dispose operation.</summary>
             public void Dispose()
             {
                 MachineThread.Verify();
@@ -43,6 +44,7 @@ namespace KingdomFoundation.Machines
             }
         }
         private readonly Dictionary<string,Entry> _entries = new Dictionary<string, Entry>(StringComparer.Ordinal);
+        /// <summary>Performs the register operation.</summary>
         public IDisposable Register(string modGuid, MachinePropertyDefinition definition)
         {
             MachineThread.Verify();
@@ -54,6 +56,7 @@ namespace KingdomFoundation.Machines
             _entries.Add(key, entry);
             return new Registration(this, key, entry);
         }
+        /// <summary>Performs the read properties operation.</summary>
         public IReadOnlyDictionary<string,object> ReadProperties(FlowElement machine)
         {
             MachineThread.Verify();
@@ -67,6 +70,7 @@ namespace KingdomFoundation.Machines
             }
             return new System.Collections.ObjectModel.ReadOnlyDictionary<string,object>(props);
         }
+        /// <summary>Attempts to write.</summary>
         public MachineOperationResult TryWrite(string owner, string id, FlowElement machine, object value)
         {
             MachineThread.Verify();

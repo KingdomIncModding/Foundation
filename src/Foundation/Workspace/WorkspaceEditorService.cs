@@ -17,6 +17,7 @@ namespace KingdomFoundation.Api
             var flow = GameWorldService.RequireManager().CurrentFlow;
             if (!flow.Elements.Contains(element)) throw new InvalidOperationException("Element is not in the active workspace.");
         }
+        /// <summary>Attempts to purchase.</summary>
         public bool TryPurchase(FlowElement element, Vector2Int position)
         {
             if (element == null) throw new ArgumentNullException(nameof(element));
@@ -29,6 +30,7 @@ namespace KingdomFoundation.Api
             try { AddWithoutPurchase(element, position); return true; }
             catch { player.AddCurrency(cost, false); throw; }
         }
+        /// <summary>Performs the add without purchase operation.</summary>
         public void AddWithoutPurchase(FlowElement element, Vector2Int position)
         {
             if (element == null) throw new ArgumentNullException(nameof(element));
@@ -39,6 +41,7 @@ namespace KingdomFoundation.Api
             element.Position = position;
             manager.CreateNewElement(element);
         }
+        /// <summary>Performs the remove operation.</summary>
         public void Remove(FlowElement element, bool grantNativeRefund = false)
         {
             RequireInActiveFlow(element);
@@ -57,6 +60,7 @@ namespace KingdomFoundation.Api
                     GameWorldService.RequirePlayer().ActiveFlow, element, GameWorldService.RequirePlayer().CurrentFlow));
             }
         }
+        /// <summary>Performs the move to flow operation.</summary>
         public void MoveToFlow(FlowElement element, int destinationFlowIndex)
         {
             if (element == null) throw new ArgumentNullException(nameof(element));
@@ -74,6 +78,7 @@ namespace KingdomFoundation.Api
                 throw new InvalidOperationException("Disconnect native pipes before moving the machine to another workspace.");
             manager.MoveToFlow(element.World, origin, destinationFlowIndex);
         }
+        /// <summary>Performs the move decoration to flow operation.</summary>
         public void MoveDecorationToFlow(FlowDeco decoration, int destinationFlowIndex)
         {
             if (decoration == null) throw new ArgumentNullException(nameof(decoration));
@@ -88,6 +93,7 @@ namespace KingdomFoundation.Api
             manager.MoveToFlow(decoration.World, origin, destinationFlowIndex);
         }
 
+        /// <summary>Performs the add decoration operation.</summary>
         public FlowDeco AddDecoration(FlowDeco decoration)
         {
             if (decoration == null) throw new ArgumentNullException(nameof(decoration));
@@ -96,6 +102,7 @@ namespace KingdomFoundation.Api
             GameWorldService.RequireManager().CreateNewDeco(decoration);
             return decoration;
         }
+        /// <summary>Removes decoration.</summary>
         public void RemoveDecoration(FlowDeco decoration)
         {
             if (decoration == null) throw new ArgumentNullException(nameof(decoration));
@@ -104,6 +111,7 @@ namespace KingdomFoundation.Api
             if (!decoration.World) throw new InvalidOperationException("Decoration's native world view is unavailable.");
             GameWorldService.RequireManager().RemoveDecoration(decoration.World);
         }
+        /// <summary>Attempts to craft.</summary>
         public bool TryCraft(FlowElement element)
         {
             RequireInActiveFlow(element);
@@ -116,6 +124,7 @@ namespace KingdomFoundation.Api
             if (element == null) throw new ArgumentNullException(nameof(element));
             return Array.AsReadOnly(element.GetAvailableUpgrades().ToArray());
         }
+        /// <summary>Attempts to set upgrade.</summary>
         public bool TrySetUpgrade(FlowElement element, int slot, FlowUpgrade upgrade, bool payCost = true)
         {
             RequireInActiveFlow(element);

@@ -2,6 +2,7 @@ using Assets.Source.Player;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the world changed event API.</summary>
     public sealed class WorldChangedEvent
     {
         public GamePlayer Previous { get; }

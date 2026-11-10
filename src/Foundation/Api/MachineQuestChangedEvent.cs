@@ -7,6 +7,7 @@ using Assets.Source.Player;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the machine quest changed event API.</summary>
     public sealed class MachineQuestChangedEvent
     {
         public QuestBoard Machine { get; }

@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the foundation plugin API.</summary>
     public sealed partial class FoundationPlugin
     {
         IEnumerator VerifyRequirementNavigation(TechTreeMenu menu, TechTreeTabs tabs, Camera camera, string directory)

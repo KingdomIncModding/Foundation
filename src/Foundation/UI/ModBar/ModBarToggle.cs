@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the mod bar toggle API.</summary>
     public sealed class ModBarToggle : ModBarElement
     {
         public string Text { get; set; }
@@ -14,6 +15,7 @@ namespace KingdomFoundation.Api
             float width = 180, int order = 0, ModBarAlignment alignment = ModBarAlignment.Left)
             : base(modId, id, width, order, alignment)
         { Text = text; Value = value; if (changed != null) ValueChanged += changed; }
+        /// <summary>Sets value.</summary>
         public void SetValue(bool value) { Value = value; }
         public override IModBarView CreateView(IModBarContext context)
         {

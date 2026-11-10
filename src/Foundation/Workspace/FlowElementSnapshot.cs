@@ -15,6 +15,7 @@ namespace KingdomFoundation.Api
         public Vector2Int Position { get; }
         public Vector2Int Size { get; }
         public int StackSize { get; }
+        /// <summary>Gets or sets the progress value.</summary>
         public float Progress { get; }
         public float ProductivityProgress { get; }
         public IReadOnlyList<FlowPortSnapshot> Inputs { get; }

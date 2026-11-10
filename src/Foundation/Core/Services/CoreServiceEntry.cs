@@ -17,6 +17,7 @@ namespace KingdomFoundation.Core
             Info = info;
             Instance = instance;
         }
+        /// <summary>Performs the dispose operation.</summary>
         public void Dispose()
         {
             if (Interlocked.Exchange(ref disposed, 1) != 0) return;

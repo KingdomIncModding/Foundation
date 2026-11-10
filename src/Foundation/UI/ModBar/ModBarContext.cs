@@ -38,6 +38,7 @@ namespace KingdomFoundation
         void Invoke(Action callback) { if (alive) try { callback?.Invoke(); } catch (Exception error) { FoundationApi.Report(error); } }
         internal static void Fill(RectTransform rect, float x = 0, float y = 0)
         { rect.anchorMin = Vector2.zero; rect.anchorMax = Vector2.one; rect.offsetMin = new Vector2(x, y); rect.offsetMax = new Vector2(-x, -y); }
+        /// <summary>Creates text.</summary>
         public TMP_Text CreateText(string value)
         {
             RequireAlive();
@@ -51,6 +52,7 @@ namespace KingdomFoundation
             if (panelTheme) FoundationGameTheme.ApplyText(text, 18f);
             text.text = value ?? ""; text.raycastTarget = false; return text;
         }
+        /// <summary>Creates button.</summary>
         public Button CreateButton(string value, Action clicked)
         {
             RequireAlive();
@@ -66,6 +68,7 @@ namespace KingdomFoundation
             var text = CreateText(value); text.transform.SetParent(rect, false); Fill(text.rectTransform, 10, 2); text.alignment = TextAlignmentOptions.Center;
             return button;
         }
+        /// <summary>Creates dropdown.</summary>
         public TMP_Dropdown CreateDropdown(IReadOnlyList<string> options, int selectedIndex, Action<int> selected)
         {
             RequireAlive();
@@ -84,6 +87,7 @@ namespace KingdomFoundation
             if (panelTheme) FoundationGameTheme.ApplyDropdown(dropdown);
             dropdown.gameObject.SetActive(true); return dropdown;
         }
+        /// <summary>Creates toggle.</summary>
         public Toggle CreateToggle(string value, bool initialValue, Action<bool> changed)
         {
             RequireAlive();
@@ -141,6 +145,7 @@ namespace KingdomFoundation
             cleanup.Add(() => { if (toggle) toggle.onValueChanged.RemoveAllListeners(); });
             toggle.gameObject.SetActive(true); return toggle;
         }
+        /// <summary>Creates separator.</summary>
         public Image CreateSeparator()
         {
             RequireAlive();
@@ -169,6 +174,7 @@ namespace KingdomFoundation
             foreach (var dropdown in dropdowns) if (dropdown && dropdown.IsExpanded) { dropdown.Hide(); open = true; }
             return open;
         }
+        /// <summary>Performs the dispose operation.</summary>
         public void Dispose()
         {
             if (!alive) return; alive = false; HidePopups();

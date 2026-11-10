@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the flow port direction API.</summary>
     public enum FlowPortDirection
     {
         Input,

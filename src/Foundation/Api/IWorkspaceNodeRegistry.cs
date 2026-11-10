@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the iworkspace node registry API.</summary>
     public interface IWorkspaceNodeRegistry
     {
         IReadOnlyList<IWorkspaceNodeType> Nodes { get; }

@@ -2,6 +2,7 @@ using System;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the mod dependency API.</summary>
     public sealed class ModDependency
     {
         public string Id { get; }

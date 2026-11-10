@@ -1,5 +1,6 @@
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the mod state API.</summary>
     public enum ModState
     {
         Registered,

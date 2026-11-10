@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the mod config signal selector extensions API.</summary>
     public static class ModConfigSignalSelectorExtensions
     {
         public static ModConfigSignalSelector AddSignalSelector(this IModConfigSection section, string label,

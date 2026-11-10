@@ -21,6 +21,7 @@ namespace KingdomFoundation.Api
         private readonly List<int> indexes = new List<int>();
         private TMP_Dropdown active;
         private TMP_InputField search;
+        /// <summary>Gets or sets the selected index value.</summary>
         public int SelectedIndex { get => pending; set => pending = value; }
 
         public ModConfigSearch(string label, IReadOnlyList<string> options, int index,
@@ -37,6 +38,7 @@ namespace KingdomFoundation.Api
             this.getter = getter;
         }
 
+        /// <summary>Creates view.</summary>
         public GameObject CreateView(IModConfigContext context)
         {
             var holder = new GameObject("ConfigSearch", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
@@ -71,6 +73,7 @@ namespace KingdomFoundation.Api
             active.SetValueWithoutNotify(Math.Max(0, selected));
             active.RefreshShownValue();
         }
+        /// <summary>Performs the begin edit operation.</summary>
         public void BeginEdit() { committed = getter?.Invoke() ?? committed; pending = committed; RefreshOptions(); }
         public void Commit()
         {
@@ -81,6 +84,7 @@ namespace KingdomFoundation.Api
             pending = committed;
             RefreshOptions();
         }
+        /// <summary>Performs the cancel operation.</summary>
         public void Cancel() => BeginEdit();
     }
 }

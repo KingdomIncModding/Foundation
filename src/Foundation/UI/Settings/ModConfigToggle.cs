@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the mod config toggle API.</summary>
     public class ModConfigToggle : IModConfigToggle, IModConfigEditSession
     {
         public string Id { get; }
@@ -37,6 +38,7 @@ namespace KingdomFoundation.Api
             Id = id ?? Guid.NewGuid().ToString("N");
         }
 
+        /// <summary>Creates view.</summary>
         public GameObject CreateView(IModConfigContext context)
         {
             var go = context.Templates.CreateToggleRow(context.Container, Label, pendingValue, val => {
@@ -46,6 +48,7 @@ namespace KingdomFoundation.Api
             return go;
         }
 
+        /// <summary>Performs the begin edit operation.</summary>
         public void BeginEdit()
         {
             if (getter != null) committedValue = getter();
@@ -61,6 +64,7 @@ namespace KingdomFoundation.Api
             pendingValue = committedValue;
         }
 
+        /// <summary>Performs the cancel operation.</summary>
         public void Cancel() => BeginEdit();
     }
 }

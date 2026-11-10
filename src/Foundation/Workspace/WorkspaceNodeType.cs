@@ -13,6 +13,7 @@ namespace KingdomFoundation.Api
         readonly WorkspaceNodeRegistry owner;
         readonly ConditionalWeakTable<WorkspaceNode, object> instances = new ConditionalWeakTable<WorkspaceNode, object>();
         Type modelType;
+        /// <summary>Gets or sets the id value.</summary>
         public string Id => Definition.Id;
         public IWorkspaceNodeDefinition Definition { get; }
         public bool IsRegistered { get; private set; } = true;
@@ -33,6 +34,7 @@ namespace KingdomFoundation.Api
             if (port == null || !ReferenceEquals(port.Parent, node) || port.ParentIndex != index || port.BufferSize < 0 || port.Position == 0 || Math.Abs((long)port.Position) >= node.Size.y)
                 throw new InvalidOperationException("Use native ports with matching parent/index, nonnegative capacity and a position within the node height.");
         }
+        /// <summary>Creates instance.</summary>
         public WorkspaceNode CreateInstance()
         { if (!IsRegistered) throw new ObjectDisposedException(nameof(IWorkspaceNodeType)); return CreateModel(); }
         public WorldFlowGhost BeginPlacement(bool hold = false)
@@ -43,6 +45,7 @@ namespace KingdomFoundation.Api
             if (!GamePlayer.Current.CanAfford(Preview.GetPurchaseCost())) throw new InvalidOperationException("Insufficient currency for this building.");
             return WorldFlowManager.Instance.ShowPurchaseBlueprint(Preview, hold);
         }
+        /// <summary>Performs the dispose operation.</summary>
         public void Dispose() { if (!IsRegistered) return; IsRegistered = false; owner.Notify(); }
     }
 }

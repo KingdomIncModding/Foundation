@@ -4,6 +4,7 @@ using Assets.Source.Player;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the research unlocked event API.</summary>
     public sealed class ResearchUnlockedEvent
     {
         public GamePlayer Player { get; }

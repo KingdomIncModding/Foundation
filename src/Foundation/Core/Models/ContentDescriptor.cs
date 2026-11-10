@@ -2,6 +2,7 @@ using System;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the content descriptor API.</summary>
     public sealed class ContentDescriptor
     {
         public string Id { get; }

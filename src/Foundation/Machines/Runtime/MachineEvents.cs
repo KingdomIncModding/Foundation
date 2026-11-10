@@ -4,6 +4,7 @@ using Assets.Source.Flow;
 using Assets.Source.Player;
 namespace KingdomFoundation.Machines
 {
+    /// <summary>Provides the machine change kind API.</summary>
     public enum MachineChangeKind { Added, Removed, SettingsChanged, PortsChanged, MovedFlow }
     public sealed class MachineChangeEvent
     {
@@ -32,6 +33,7 @@ namespace KingdomFoundation.Machines
             private readonly List<Action<MachineChangeEvent>> _list; private readonly Action<MachineChangeEvent> _observer;
             private bool _disposed;
             public Token(List<Action<MachineChangeEvent>> list,Action<MachineChangeEvent> observer) { _list=list;_observer=observer; }
+            /// <summary>Performs the dispose operation.</summary>
             public void Dispose() { MachineThread.Verify();if (_disposed) return;_disposed=true;_list.Remove(_observer); }
         }
         public IDisposable Subscribe(Action<MachineChangeEvent> observer)

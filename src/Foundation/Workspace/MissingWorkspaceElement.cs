@@ -20,6 +20,7 @@ namespace KingdomFoundation.Api
         public override string ElementType => missingType;
         public override string Label => "Missing mod: " + missingType;
         public override ElementCategory Category => ElementCategory.Utility;
+        /// <summary>Gets or sets the icon name value.</summary>
         public override string IconName => "Icons_104";
         public override bool HasCraftButton => false;
         public override int UpgradeSlots => 0;

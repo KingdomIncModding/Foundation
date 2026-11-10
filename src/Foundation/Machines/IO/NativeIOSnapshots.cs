@@ -14,6 +14,7 @@ namespace KingdomFoundation.Machines
         public MachinePortDirection Direction { get; }
         public int Index { get; }
         public int NativePosition { get; }
+        /// <summary>Gets or sets the item type id value.</summary>
         public string ItemTypeId { get; }
         public int BufferCapacity { get; }
         public int BufferedCount { get; }
@@ -105,6 +106,7 @@ namespace KingdomFoundation.Machines
         public int OutputCount { get; }
         public int? CurrentInputIndex { get; }
         public int? CurrentOutputIndex { get; }
+        /// <summary>Gets or sets the last item type id value.</summary>
         public string LastItemTypeId { get; }
         /// <summary>Four is the observed in-game UI expansion limit, not a transfer rate.</summary>
         public int NativeUiPortLimit { get; }
@@ -143,6 +145,7 @@ namespace KingdomFoundation.Machines
         }
     }
 
+    /// <summary>Provides the native iovalidation API.</summary>
     public sealed class NativeIOValidation
     {
         public bool Allowed { get; }

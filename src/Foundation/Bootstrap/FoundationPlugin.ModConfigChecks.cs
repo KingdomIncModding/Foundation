@@ -7,6 +7,7 @@ using KingdomFoundation.Api;
 
 namespace KingdomFoundation
 {
+    /// <summary>Provides the foundation plugin API.</summary>
     public sealed partial class FoundationPlugin
     {
         void VerifyModConfig()

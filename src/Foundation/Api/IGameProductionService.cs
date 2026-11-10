@@ -15,6 +15,7 @@ namespace KingdomFoundation.Api
         IReadOnlyList<FarmItemType> FarmResources { get; }
         int ForestWorkers(ForestWorker type);
         int TotalForestWorkers { get; }
+        /// <summary>Gets or sets the forest blocked value.</summary>
         bool ForestBlocked { get; }
         bool FarmBlocked { get; }
         float ForestUtilization(ForestWorker role);
@@ -24,6 +25,7 @@ namespace KingdomFoundation.Api
         CurrencyCollection NextForestWorkerCost { get; }
         CurrencyCollection FarmExpansionCost(int addedPlots);
 
+        /// <summary>Attempts to hire forest worker.</summary>
         bool TryHireForestWorker();
         bool AssignForestWorkers(ForestWorker role, int number);
         bool UnassignForestWorkers(ForestWorker role, int number);

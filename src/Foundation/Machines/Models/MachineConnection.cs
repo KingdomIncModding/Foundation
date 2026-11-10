@@ -13,6 +13,7 @@ namespace KingdomFoundation.Machines
         public int DestinationInput { get; }
         public IReadOnlyList<Vector2Int> Path { get; }
         public bool LastItemRejected { get; }
+        /// <summary>Gets or sets the observed items value.</summary>
         public long ObservedItems { get; }
         public double ObservedItemsPerSecond { get; }
         internal MachineConnection(FlowPipe pipe, long count, double rate)
@@ -28,6 +29,7 @@ namespace KingdomFoundation.Machines
         }
     }
 
+    /// <summary>Provides the machine operation result API.</summary>
     public sealed class MachineOperationResult
     {
         public bool Succeeded { get; }

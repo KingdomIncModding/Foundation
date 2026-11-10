@@ -13,6 +13,7 @@ namespace KingdomFoundation
         internal Action<int, int> Move;
         internal Transform Container;
 
+        /// <summary>Performs the on begin drag operation.</summary>
         public void OnBeginDrag(PointerEventData data)
         {
             dragging = this;
@@ -26,6 +27,7 @@ namespace KingdomFoundation
             try { source.Move?.Invoke(source.Index, Index); }
             catch (Exception error) { Api.FoundationApi.Report(error); }
         }
+        /// <summary>Performs the on end drag operation.</summary>
         public void OnEndDrag(PointerEventData data)
         {
             if (dragging == this) dragging = null;

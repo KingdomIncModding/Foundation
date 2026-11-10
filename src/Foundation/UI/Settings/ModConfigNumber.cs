@@ -14,6 +14,7 @@ namespace KingdomFoundation.Api
         public double Minimum { get; }
         public double Maximum { get; }
         public double Step { get; }
+        /// <summary>Gets or sets the on changed value.</summary>
         public Action<double> OnChanged { get; set; }
         private readonly Func<double> getter;
         private double committed;
@@ -49,6 +50,7 @@ namespace KingdomFoundation.Api
             committed = pending;
         }
 
+        /// <summary>Creates view.</summary>
         public GameObject CreateView(IModConfigContext context)
         {
             var row = context.Templates.CreateInputRow(context.Container, Label, editing, 48,
@@ -61,6 +63,7 @@ namespace KingdomFoundation.Api
             Value = getter?.Invoke() ?? committed;
             committed = pending;
         }
+        /// <summary>Performs the commit operation.</summary>
         public void Commit()
         {
             if (!double.TryParse(editing, NumberStyles.Float, CultureInfo.InvariantCulture, out var candidate)
@@ -74,6 +77,7 @@ namespace KingdomFoundation.Api
             committed = getter?.Invoke() ?? pending;
             Value = committed;
         }
+        /// <summary>Performs the cancel operation.</summary>
         public void Cancel() => BeginEdit();
     }
 }

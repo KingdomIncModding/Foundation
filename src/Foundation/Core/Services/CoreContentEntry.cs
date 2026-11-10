@@ -8,6 +8,7 @@ namespace KingdomFoundation.Core
         internal ContentDescriptor Descriptor { get; }
         internal CoreContentEntry(CoreContentCatalog owner, ContentDescriptor descriptor)
         { this.owner = owner; Descriptor = descriptor; }
+        /// <summary>Performs the dispose operation.</summary>
         public void Dispose()
         {
             // Native content is backed by static game registries and persistent IDs.

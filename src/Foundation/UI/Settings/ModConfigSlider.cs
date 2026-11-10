@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the mod config slider API.</summary>
     public class ModConfigSlider : IModConfigSlider, IModConfigEditSession
     {
         public string Id { get; }
@@ -14,6 +15,7 @@ namespace KingdomFoundation.Api
         public float MinValue { get; set; }
         public float MaxValue { get; set; }
         public float Step { get; set; }
+        /// <summary>Gets or sets the on value changed value.</summary>
         public Action<float> OnValueChanged { get; set; }
         public Func<float, string> FormatValue { get; set; }
         readonly Func<float> getter;
@@ -47,6 +49,7 @@ namespace KingdomFoundation.Api
             Id = id ?? Guid.NewGuid().ToString("N");
         }
 
+        /// <summary>Creates view.</summary>
         public GameObject CreateView(IModConfigContext context)
         {
             var go = context.Templates.CreateSliderRow(context.Container, Label, MinValue, MaxValue, pendingValue, Step, val => {
@@ -56,6 +59,7 @@ namespace KingdomFoundation.Api
             return go;
         }
 
+        /// <summary>Performs the begin edit operation.</summary>
         public void BeginEdit()
         {
             if (getter != null) committedValue = getter();
@@ -70,6 +74,7 @@ namespace KingdomFoundation.Api
             Value = committedValue;
         }
 
+        /// <summary>Performs the cancel operation.</summary>
         public void Cancel() => BeginEdit();
     }
 }

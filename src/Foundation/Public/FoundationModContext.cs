@@ -54,6 +54,7 @@ namespace KingdomFoundation.Api
             if (definition.ModId != ModId) throw new ArgumentException("Source ownership does not match the mod context.", nameof(definition));
             return Track(FoundationApi.Signals.Register(definition));
         }
+        /// <summary>Loads sprite.</summary>
         public IFoundationAsset LoadSprite(string id, string absolutePngPath, float pixelsPerUnit = 100f)
             => Track(FoundationApi.Assets.LoadSprite(ModId, id, absolutePngPath, pixelsPerUnit));
         public IFoundationAsset LoadBundle(string id, string absoluteBundlePath)
@@ -63,6 +64,7 @@ namespace KingdomFoundation.Api
         // Native catalog registration is intentionally process-lifetime: Kingdom Inc saves
         // use native IDs/indices, so removing a registered item or quest during the same
         // session would corrupt deserialization. These convenience methods are NOT Track()ed.
+        /// <summary>Registers item.</summary>
         public Assets.Source.Items.ItemType RegisterItem(Assets.Source.Items.ItemType item)
         {
             EnsureActive();
@@ -73,6 +75,7 @@ namespace KingdomFoundation.Api
             EnsureActive();
             return FoundationApi.Content.RegisterRecipe(ModId, recipe);
         }
+        /// <summary>Registers quest.</summary>
         public Assets.Source.Adventure.Quest RegisterQuest(Assets.Source.Adventure.Quest quest)
         {
             EnsureActive();
@@ -83,6 +86,7 @@ namespace KingdomFoundation.Api
             EnsureActive();
             return FoundationApi.Content.RegisterDungeon(ModId, dungeon);
         }
+        /// <summary>Registers war.</summary>
         public Assets.Source.Adventure.WarType RegisterWar(Assets.Source.Adventure.WarType war)
         {
             EnsureActive();
@@ -93,6 +97,7 @@ namespace KingdomFoundation.Api
             EnsureActive();
             return FoundationApi.Content.RegisterPrestige(ModId, node);
         }
+        /// <summary>Registers enhancement.</summary>
         public Assets.Source.Items.ItemEnhancement RegisterEnhancement(Assets.Source.Items.ItemEnhancement enhancement)
         {
             EnsureActive();
@@ -103,6 +108,7 @@ namespace KingdomFoundation.Api
             EnsureActive();
             FoundationApi.Upgrades.Register(ModId, typeId, factory);
         }
+        /// <summary>Registers sprite.</summary>
         public void RegisterSprite(string localName, UnityEngine.Sprite sprite)
         {
             EnsureActive();
@@ -118,6 +124,7 @@ namespace KingdomFoundation.Api
             if (disposed) throw new ObjectDisposedException(nameof(FoundationModContext));
         }
 
+        /// <summary>Performs the register operation.</summary>
         public ITechNode Register(ITechNodeDefinition definition)
         {
             if (definition == null) throw new ArgumentNullException(nameof(definition));
@@ -126,6 +133,7 @@ namespace KingdomFoundation.Api
             var node = FoundationApi.CreateTechNode(definition);
             return Track(node);
         }
+        /// <summary>Performs the register operation.</summary>
         public IWorkspaceNodeType Register(IWorkspaceNodeDefinition definition) => Track(FoundationApi.RegisterWorkspaceNode(definition));
         public IModBarRegistration Register(IModBarElement element)
         {
@@ -138,6 +146,7 @@ namespace KingdomFoundation.Api
             if (disposed) throw new ObjectDisposedException(nameof(FoundationModContext));
             return FoundationApi.ModConfig.GetOrCreateSection(ModId, title, description);
         }
+        /// <summary>Performs the dispose operation.</summary>
         public void Dispose()
         {
             if (disposed) return;

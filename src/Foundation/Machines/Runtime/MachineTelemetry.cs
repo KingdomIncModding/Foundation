@@ -16,6 +16,7 @@ namespace KingdomFoundation.Machines
             private readonly Action<MachineTransferEvent> _action;
             private bool _disposed;
             public CallbackToken(List<Action<MachineTransferEvent>> listeners,Action<MachineTransferEvent> action) { _listeners=listeners;_action=action; }
+            /// <summary>Performs the dispose operation.</summary>
             public void Dispose() { MachineThread.Verify(); if (_disposed) return;_disposed=true;_listeners.Remove(_action); }
         }
         public IDisposable ObserveTransfers(Action<MachineTransferEvent> observer)
@@ -41,6 +42,7 @@ namespace KingdomFoundation.Machines
         {
             while (sample.Recent.Count>0 && now - sample.Recent.Peek() > 5f) sample.Recent.Dequeue();
         }
+        /// <summary>Attempts to read.</summary>
         public bool TryRead(FlowPipe pipe,out long total,out double observedRate)
         {
             MachineThread.Verify();
@@ -62,6 +64,7 @@ namespace KingdomFoundation.Machines
             foreach(var pipe in new List<FlowPipe>(_samples.Keys)) if(!living.Contains(pipe)) _samples.Remove(pipe);
         }
     }
+    /// <summary>Provides the machine transfer event API.</summary>
     public sealed class MachineTransferEvent
     {
         public string SourceGuid { get; }

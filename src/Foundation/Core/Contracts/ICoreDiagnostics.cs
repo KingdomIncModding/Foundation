@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the icore diagnostics API.</summary>
     public interface ICoreDiagnostics
     {
         IReadOnlyList<CoreDiagnosticRecord> Recent { get; }

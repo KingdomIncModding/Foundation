@@ -34,6 +34,7 @@ namespace KingdomFoundation.Core
             item.Dispose();
             throw new ObjectDisposedException("Foundation mod scope: " + modId);
         }
+        /// <summary>Performs the dispose operation.</summary>
         public void Dispose()
         {
             IDisposable[] snapshot;

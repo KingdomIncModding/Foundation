@@ -4,6 +4,7 @@ using Assets.Source.Player;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the quest completed event API.</summary>
     public sealed class QuestCompletedEvent
     {
         public QuestProgress Progress { get; }

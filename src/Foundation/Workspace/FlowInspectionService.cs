@@ -8,6 +8,7 @@ namespace KingdomFoundation.Api
 {
     internal sealed class FlowInspectionService : IFlowInspectionService
     {
+        /// <summary>Occurs when pipe connected is raised.</summary>
         public event Action<FlowPipeSnapshot> PipeConnected;
         public event Action<FlowPipeSnapshot> PipeDisconnected;
         public event Action<FlowItemTransferSnapshot> ItemTransferred;
@@ -16,6 +17,7 @@ namespace KingdomFoundation.Api
         public FlowPortSnapshot Inspect(FlowIO port) => new FlowPortSnapshot(port);
         public FlowPipeSnapshot Inspect(FlowPipe pipe) => new FlowPipeSnapshot(pipe);
 
+        /// <summary>Performs the inspect elements operation.</summary>
         public IReadOnlyList<FlowElementSnapshot> InspectElements(FlowDiagram diagram)
         {
             if (diagram == null) throw new ArgumentNullException(nameof(diagram));
@@ -25,6 +27,7 @@ namespace KingdomFoundation.Api
             return snapshots.AsReadOnly();
         }
 
+        /// <summary>Performs the inspect pipes operation.</summary>
         public IReadOnlyList<FlowPipeSnapshot> InspectPipes(FlowDiagram diagram)
         {
             if (diagram == null) throw new ArgumentNullException(nameof(diagram));

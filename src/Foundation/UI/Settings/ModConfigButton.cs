@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the mod config button API.</summary>
     public class ModConfigButton : IModConfigButton
     {
         public string Id { get; }
@@ -22,6 +23,7 @@ namespace KingdomFoundation.Api
             Id = id ?? Guid.NewGuid().ToString("N");
         }
 
+        /// <summary>Creates view.</summary>
         public GameObject CreateView(IModConfigContext context)
         {
             var go = context.Templates.CreateButtonRow(context.Container, Label, ButtonText, () => OnClick?.Invoke(), out _, out _);
@@ -30,6 +32,7 @@ namespace KingdomFoundation.Api
         }
 
         public void Commit() { }
+        /// <summary>Performs the cancel operation.</summary>
         public void Cancel() { }
     }
 }

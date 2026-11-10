@@ -29,6 +29,7 @@ namespace KingdomFoundation.Machines
             try { action(); return MachineOperationResult.Ok(); }
             catch (Exception ex) { MachineRuntime.ReportCallbackError("Native machine operation", ex); return MachineOperationResult.Reject(ex.Message); }
         }
+        /// <summary>Sets recipe.</summary>
         public MachineOperationResult SetRecipe(RecipeElement machine, CraftingRecipe recipe)
         {
             var bad = Guard(machine); if (bad != null) return bad;
@@ -41,6 +42,7 @@ namespace KingdomFoundation.Machines
             if (!view) return MachineOperationResult.Reject("WorldFlowRecipe component not found.");
             return Call(() => view.SetRecipe(recipe));
         }
+        /// <summary>Sets resource.</summary>
         public MachineOperationResult SetResource(ResourceElement machine, ResourceItemType resource)
         {
             var bad = Guard(machine); if (bad != null) return bad;
@@ -52,6 +54,7 @@ namespace KingdomFoundation.Machines
             if (!view) return MachineOperationResult.Reject("WorldFlowResource component not found.");
             return Call(() => view.SetResource(resource));
         }
+        /// <summary>Sets forest resource.</summary>
         public MachineOperationResult SetForestResource(Forest machine, ForestItemType resource)
         {
             var bad = Guard(machine); if (bad != null) return bad;
@@ -61,6 +64,7 @@ namespace KingdomFoundation.Machines
             // The game's own resource selection UI owns unlock filtering.
             return Call(() => view.SetResource(resource));
         }
+        /// <summary>Sets filter.</summary>
         public MachineOperationResult SetFilter(MachineFilter machine, ItemType type)
         {
             var bad = Guard(machine); if (bad != null) return bad;
@@ -77,6 +81,7 @@ namespace KingdomFoundation.Machines
                 if (control) control.SendMessage("UpdateSprite", SendMessageOptions.DontRequireReceiver);
             });
         }
+        /// <summary>Performs the press button operation.</summary>
         public MachineOperationResult PressButton(SingleButton machine, int times = 1)
         {
             var bad = Guard(machine); if (bad != null) return bad;
@@ -90,6 +95,7 @@ namespace KingdomFoundation.Machines
             if (!GamePlayer.Current.HasTech("outfitter_timeout")) return MachineOperationResult.Reject("Native timer configuration requires outfitter_timeout research.");
             return Call(() => { machine.MaxTime = seconds; machine.TimeLeft = seconds; });
         }
+        /// <summary>Sets refiner mana.</summary>
         public MachineOperationResult SetRefinerMana(Refiner machine, bool useMana)
         {
             var bad = Guard(machine); if (bad != null) return bad;
@@ -108,6 +114,7 @@ namespace KingdomFoundation.Machines
                 ? result
                 : MachineOperationResult.Reject("Native refiner control did not apply the requested mana setting.");
         }
+        /// <summary>Sets stockpile capacity.</summary>
         public MachineOperationResult SetStockpileCapacity(Stockpile machine, int capacity)
         {
             var bad = Guard(machine); if (bad != null) return bad;
@@ -127,6 +134,7 @@ namespace KingdomFoundation.Machines
                 return m.InputCount < 4 ? Call(m.AddInputSlot) : MachineOperationResult.Reject("Native manifold input limit is 4.");
             return MachineOperationResult.Reject("This native machine has no expandable slots.");
         }
+        /// <summary>Performs the collapse ports operation.</summary>
         public MachineOperationResult CollapsePorts(FlowElement machine)
         {
             var bad = Guard(machine); if (bad != null) return bad;
@@ -135,6 +143,7 @@ namespace KingdomFoundation.Machines
             if (machine is Manifold m) return Call(m.Collapse);
             return MachineOperationResult.Reject("This native machine has no collapsible slots.");
         }
+        /// <summary>Sets portal direction.</summary>
         public MachineOperationResult SetPortalDirection(Portal machine, bool isOutput)
         {
             var bad = Guard(machine); if (bad != null) return bad;
@@ -149,6 +158,7 @@ namespace KingdomFoundation.Machines
                 return MachineOperationResult.Reject("Disconnect all armory pipes before changing output mode.");
             return Call(() => { machine.SetOutputType(type); machine.World.UpdateIO(); machine.World.UpdateIcon(); });
         }
+        /// <summary>Performs the start manual craft operation.</summary>
         public MachineOperationResult StartManualCraft(FlowElement machine)
         {
             var bad = Guard(machine); if (bad != null) return bad;
@@ -161,6 +171,7 @@ namespace KingdomFoundation.Machines
             if (quest == null || !quest.IsUnlocked) return MachineOperationResult.Reject("Null or locked quest not supported.");
             return Call(() => { machine.UpdateQuest(quest);machine.World.UpdateIO(); });
         }
+        /// <summary>Sets dungeon.</summary>
         public MachineOperationResult SetDungeon(Dungeon machine, Assets.Source.Adventure.DungeonType dungeon)
         {
             var bad = Guard(machine); if (bad != null) return bad;
@@ -300,6 +311,7 @@ namespace KingdomFoundation.Machines
                 }
             });
         }
+        /// <summary>Performs the disconnect operation.</summary>
         public MachineOperationResult Disconnect(FlowPipe pipe)
         {
             MachineThread.Verify();

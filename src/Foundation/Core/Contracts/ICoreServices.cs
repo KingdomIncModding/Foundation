@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the icore services API.</summary>
     public interface ICoreServices
     {
         IReadOnlyList<RegisteredServiceInfo> Registered { get; }
@@ -11,6 +12,7 @@ namespace KingdomFoundation.Core
         bool TryResolve<T>(string serviceId, out T service, Version minimumVersion = null) where T : class;
         T Resolve<T>(string serviceId, Version minimumVersion = null) where T : class;
         bool TryResolve(Type contractType, string serviceId, out object service, Version minimumVersion = null);
+        /// <summary>Performs the release owner operation.</summary>
         void ReleaseOwner(string ownerId);
     }
 }

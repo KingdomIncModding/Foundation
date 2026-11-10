@@ -14,6 +14,7 @@ namespace KingdomFoundation.Api
         readonly bool native;
         public TechNodeRegistry() { }
         internal TechNodeRegistry(bool native) { this.native = native; }
+        /// <summary>Gets or sets the nodes value.</summary>
         public IReadOnlyList<ITechNode> Nodes => Array.AsReadOnly(ordered.ToArray());
         public IReadOnlyList<ITechMod> Mods => Array.AsReadOnly(mods.Values.Where(m => m.Nodes.Count > 0)
             .OrderBy(m => m.Name, StringComparer.OrdinalIgnoreCase).ThenBy(m => m.Id, StringComparer.Ordinal).Cast<ITechMod>().ToArray());
@@ -34,6 +35,7 @@ namespace KingdomFoundation.Api
             return registration;
         }
 
+        /// <summary>Attempts to get.</summary>
         public bool TryGet(string id, out ITechNode node)
         {
             if (id != null && byId.TryGetValue(id, out var found)) { node = found; return true; }

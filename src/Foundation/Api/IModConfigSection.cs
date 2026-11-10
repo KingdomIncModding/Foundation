@@ -15,6 +15,7 @@ namespace KingdomFoundation.Api
         IReadOnlyList<IModConfigElement> Elements { get; }
         event Action Changed;
 
+        /// <summary>Performs the add element operation.</summary>
         IModConfigSection AddElement(IModConfigElement element);
         bool RemoveElement(IModConfigElement element);
         void ClearElements();
@@ -24,6 +25,7 @@ namespace KingdomFoundation.Api
             Func<string> getter = null, int maxLength = 256);
         ModConfigNumber AddNumber(string label, double minimum, double maximum, double value,
             double step, Action<double> onChanged, Func<double> getter = null);
+        /// <summary>Performs the add search operation.</summary>
         ModConfigSearch AddSearch(string label, IReadOnlyList<string> options,
             int initialIndex, Action<int> onChanged, Func<int> getter = null);
         IModConfigText AddText(string text, bool isHeader = false);
@@ -33,6 +35,7 @@ namespace KingdomFoundation.Api
         IModConfigDropdown AddDropdown(string label, IReadOnlyList<string> options, int initialIndex, Action<int> onSelectionChanged, Func<int> getter = null);
 
         // BepInEx ConfigEntry bindings:
+        /// <summary>Performs the add toggle operation.</summary>
         IModConfigToggle AddToggle(BepInEx.Configuration.ConfigEntry<bool> entry, string customLabel = null);
         IModConfigSlider AddSlider(BepInEx.Configuration.ConfigEntry<int> entry, int min, int max, string customLabel = null);
         IModConfigSlider AddSlider(BepInEx.Configuration.ConfigEntry<float> entry, float min, float max, float step = 0.05f, string customLabel = null, Func<float, string> formatValue = null);
@@ -42,6 +45,7 @@ namespace KingdomFoundation.Api
         // Callbacks run only for values that changed at commit time, not on each
         // interaction. Cancel restores the previously committed values.
         // Lifecycle notifications:
+        /// <summary>Occurs when on commit is raised.</summary>
         event Action OnCommit;
         event Action OnCancel;
         void Commit();

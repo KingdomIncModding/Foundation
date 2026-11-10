@@ -12,6 +12,7 @@ namespace KingdomFoundation.Api
         readonly Dictionary<string, string> owned = new Dictionary<string, string>(StringComparer.Ordinal);
         readonly List<string> registeredItems = new List<string>();
         internal IReadOnlyList<string> NamespacedItemIds => registeredItems;
+        /// <summary>Gets or sets the ownership value.</summary>
         public IReadOnlyDictionary<string, string> Ownership => new Dictionary<string, string>(owned);
         public bool TryGetOwner(string kind, string nativeId, out string ownerId)
         {
@@ -33,6 +34,7 @@ namespace KingdomFoundation.Api
             if (GamePlayer.Current != null) throw new InvalidOperationException("Register game content in plugin Awake before a kingdom exists.");
         }
         void Remember(string type, string id, string modId) => owned.Add(type + ":" + id, modId);
+        /// <summary>Registers item.</summary>
         public ItemType RegisterItem(string modId, ItemType item)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
@@ -43,6 +45,7 @@ namespace KingdomFoundation.Api
             Remember("item", item.Identifier, modId);
             return item;
         }
+        /// <summary>Registers recipe.</summary>
         public CraftingRecipe RegisterRecipe(string modId, CraftingRecipe recipe)
         {
             if (recipe == null) throw new ArgumentNullException(nameof(recipe));
@@ -54,6 +57,7 @@ namespace KingdomFoundation.Api
             Remember("recipe", recipe.Identifier, modId);
             return recipe;
         }
+        /// <summary>Registers quest.</summary>
         public Quest RegisterQuest(string modId, Quest quest)
         {
             if (quest == null) throw new ArgumentNullException(nameof(quest));
@@ -64,6 +68,7 @@ namespace KingdomFoundation.Api
             Remember("quest", quest.Identifier, modId);
             return quest;
         }
+        /// <summary>Registers dungeon.</summary>
         public DungeonType RegisterDungeon(string modId, DungeonType dungeon)
         {
             if (dungeon == null) throw new ArgumentNullException(nameof(dungeon));
@@ -74,6 +79,7 @@ namespace KingdomFoundation.Api
             Remember("dungeon", dungeon.Identifier, modId);
             return dungeon;
         }
+        /// <summary>Registers war.</summary>
         public WarType RegisterWar(string modId, WarType war)
         {
             if (war == null) throw new ArgumentNullException(nameof(war));
@@ -85,6 +91,7 @@ namespace KingdomFoundation.Api
             Remember("war", war.Identifier, modId);
             return war;
         }
+        /// <summary>Registers enhancement.</summary>
         public ItemEnhancement RegisterEnhancement(string modId, ItemEnhancement enhancement)
         {
             if (enhancement == null) throw new ArgumentNullException(nameof(enhancement));
@@ -102,6 +109,7 @@ namespace KingdomFoundation.Api
             Remember("enhancement", enhancement.Identifier, modId);
             return enhancement;
         }
+        /// <summary>Registers prestige.</summary>
         public PrestigeNode RegisterPrestige(string modId, PrestigeNode node)
         {
             if (node == null) throw new ArgumentNullException(nameof(node));

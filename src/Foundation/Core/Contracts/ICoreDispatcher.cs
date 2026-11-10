@@ -2,6 +2,7 @@ using System;
 
 namespace KingdomFoundation.Core
 {
+    /// <summary>Provides the icore dispatcher API.</summary>
     public interface ICoreDispatcher
     {
         bool IsMainThread { get; }

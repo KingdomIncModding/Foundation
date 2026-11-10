@@ -11,6 +11,7 @@ namespace KingdomFoundation.Api
         void SetCounter(string modId, string key, int value);
         int AddCounter(string modId, string key, int count = 1);
         string GetString(string modId, string key, string defaultValue = null);
+        /// <summary>Sets string.</summary>
         void SetString(string modId, string key, string value);
     }
 }

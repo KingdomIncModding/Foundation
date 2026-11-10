@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the signal property changed API.</summary>
     public sealed class SignalPropertyChanged
     {
         public string SourceId { get; }

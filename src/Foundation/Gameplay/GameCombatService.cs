@@ -8,6 +8,7 @@ namespace KingdomFoundation.Api
 {
     internal sealed class GameCombatService : IGameCombatService
     {
+        /// <summary>Gets combatant.</summary>
         public CombatantItemData GetCombatant(InventoryItem item)
             => (item ?? throw new ArgumentNullException(nameof(item))).Data as CombatantItemData;
         public HumanItemData GetHuman(InventoryItem item)
@@ -16,6 +17,7 @@ namespace KingdomFoundation.Api
             => (combatant ?? throw new ArgumentNullException(nameof(combatant))).GetStat(stat);
         public int CombatPower(CombatantItemData combatant)
             => (combatant ?? throw new ArgumentNullException(nameof(combatant))).GetCombatPower();
+        /// <summary>Performs the base damage operation.</summary>
         public int BaseDamage(CombatantItemData combatant, object target)
             => (combatant ?? throw new ArgumentNullException(nameof(combatant))).GetBaseDamage(target);
         public float DamageReduction(CombatantItemData combatant, Assets.Source.Adventure.AdventurerTrait resistance)
@@ -24,6 +26,7 @@ namespace KingdomFoundation.Api
             => (combatant ?? throw new ArgumentNullException(nameof(combatant))).HasTrait(trait);
         public IReadOnlyList<Assets.Source.Adventure.ActiveTrait> Traits(CombatantItemData combatant)
             => Array.AsReadOnly((combatant ?? throw new ArgumentNullException(nameof(combatant))).GetTraits(false).ToArray());
+        /// <summary>Determines whether equip.</summary>
         public bool CanEquip(HumanItemData human, InventoryItem item, bool replace = true)
             => (human ?? throw new ArgumentNullException(nameof(human))).CanEquipItem(item ?? throw new ArgumentNullException(nameof(item)), replace);
         public IReadOnlyList<InventoryItem> ConflictingEquipment(HumanItemData human, InventoryItem item)
@@ -33,6 +36,7 @@ namespace KingdomFoundation.Api
 
         public IReadOnlyList<InventoryItem> Equipment(HumanItemData human)
             => Array.AsReadOnly((human ?? throw new ArgumentNullException(nameof(human))).Equipment.ToArray());
+        /// <summary>Attempts to equip.</summary>
         public bool TryEquip(HumanItemData human, InventoryItem item, bool replace = true)
         {
             if (human == null) throw new ArgumentNullException(nameof(human));
@@ -41,6 +45,7 @@ namespace KingdomFoundation.Api
             human.AddEquipment(item);
             return true;
         }
+        /// <summary>Removes equipment.</summary>
         public void RemoveEquipment(HumanItemData human, EquipmentSlot slot)
             => (human ?? throw new ArgumentNullException(nameof(human))).RemoveEquipment(slot);
         public void Heal(CombatantItemData combatant, float amount, object context = null)
@@ -53,6 +58,7 @@ namespace KingdomFoundation.Api
             if (float.IsNaN(damage) || damage < 0) throw new ArgumentOutOfRangeException(nameof(damage));
             return (combatant ?? throw new ArgumentNullException(nameof(combatant))).TakeDamage(damage, context, ignoreArmor);
         }
+        /// <summary>Performs the spend energy operation.</summary>
         public bool SpendEnergy(CombatantItemData combatant, float amount, object context = null)
         {
             if (float.IsNaN(amount) || amount < 0) throw new ArgumentOutOfRangeException(nameof(amount));

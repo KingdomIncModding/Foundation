@@ -10,6 +10,7 @@ namespace FoundationExamples
     // Reference Foundation.dll in your project, but don't distribute a second copy.
     [BepInPlugin("urakka.foundation.example", "Foundation Example", "0.9.2")]
     [BepInDependency("urakka.kingdominc.foundation", "0.9.2")]
+    /// <summary>Provides the example plugin API.</summary>
     public sealed class ExamplePlugin : BaseUnityPlugin
     {
         ITechNode first, second, upgrade;
@@ -78,6 +79,7 @@ namespace FoundationExamples
 
     // A custom implementation uses the same contract as the built-in controls.
     // The context also exposes Root for icons, progress bars or other Unity UI children.
+    /// <summary>Provides the custom bar element API.</summary>
     public sealed class CustomBarElement : IModBarElement
     {
         public string Id => "custom";
@@ -86,6 +88,7 @@ namespace FoundationExamples
         public int Order => 0;
         public ModBarAlignment Alignment => ModBarAlignment.Right;
         public bool IsVisible => true;
+        /// <summary>Creates view.</summary>
         public IModBarView CreateView(IModBarContext context) => new CustomBarView(context);
         sealed class CustomBarView : IModBarView
         {
@@ -98,6 +101,7 @@ namespace FoundationExamples
 
     // Normal native model hooks: the framework handles registration, prefab lookup,
     // purchase menus and factory routing; the mod owns behavior and custom state.
+    /// <summary>Provides the relay API.</summary>
     public sealed class Relay : WorkspaceNode
     {
         public const string TypeId = "urakka.foundation.example.relay";
@@ -107,6 +111,7 @@ namespace FoundationExamples
             Inputs.Add(new FlowInput(this, 0) { Position = -40, BufferSize = 1, Filter = item => true });
             Outputs.Add(new FlowOutput(this, 0) { Position = 40, BufferSize = 1 });
         }
+        /// <summary>Performs the update operation.</summary>
         public override void Update(float delta)
         {
             if (!Inputs[0].HasBuffer || !Outputs[0].CanBuffer) return;

@@ -9,6 +9,7 @@ using UnityEngine;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the kingdom flow created event API.</summary>
     public sealed class KingdomFlowCreatedEvent
     {
         public FlowDiagram Flow { get; }

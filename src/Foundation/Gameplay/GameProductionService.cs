@@ -9,6 +9,7 @@ namespace KingdomFoundation.Api
     internal sealed class GameProductionService : IGameProductionService
     {
         static GamePlayer Player => GameWorldService.RequirePlayer();
+        /// <summary>Gets or sets the forest value.</summary>
         public ForestSettings Forest => Player.ForestSettings;
         public FarmSettings Farm => Player.FarmSettings;
         public IReadOnlyList<ForestItemType> ForestResources => Array.AsReadOnly(Forest?.Resources.ToArray() ?? Array.Empty<ForestItemType>());
@@ -17,6 +18,7 @@ namespace KingdomFoundation.Api
             throw new InvalidOperationException("The native forest has not been unlocked.");
         static FarmSettings RequireFarm() => GameWorldService.RequirePlayer().FarmSettings ??
             throw new InvalidOperationException("The native farm has not been unlocked.");
+        /// <summary>Performs the forest workers operation.</summary>
         public int ForestWorkers(ForestWorker type) => RequireForest().GetWorkerCount(type);
         public int TotalForestWorkers => RequireForest().TotalWorkers;
         public bool ForestBlocked => RequireForest().IsBlocked;
@@ -25,6 +27,7 @@ namespace KingdomFoundation.Api
         public float ForestQuotaMultiplier(ForestWorker role) => RequireForest().GetResourceQuotaMultiplier(role);
         public bool ForestResourceUnlocked(ForestItemType resource)
             => RequireForest().ItemUnlocked(resource ?? throw new ArgumentNullException(nameof(resource)));
+        /// <summary>Performs the farm resource unlocked operation.</summary>
         public bool FarmResourceUnlocked(FarmItemType resource)
             => RequireFarm().ItemUnlocked(resource ?? throw new ArgumentNullException(nameof(resource)));
         public CurrencyCollection NextForestWorkerCost => RequireForest().NextWorkerCost;
@@ -34,6 +37,7 @@ namespace KingdomFoundation.Api
             return RequireFarm().GetPlotCost(addedPlots);
         }
 
+        /// <summary>Attempts to hire forest worker.</summary>
         public bool TryHireForestWorker()
         {
             var forest = RequireForest();
@@ -51,6 +55,7 @@ namespace KingdomFoundation.Api
                 throw;
             }
         }
+        /// <summary>Performs the assign forest workers operation.</summary>
         public bool AssignForestWorkers(ForestWorker role, int number)
         {
             if (role == ForestWorker.Unassigned) throw new ArgumentException("Select a worker role.", nameof(role));
@@ -63,6 +68,7 @@ namespace KingdomFoundation.Api
             if (number < 0) throw new ArgumentOutOfRangeException(nameof(number));
             return RequireForest().AddWorkerCount(role, -number);
         }
+        /// <summary>Performs the unlock forest resource operation.</summary>
         public void UnlockForestResource(ForestItemType type)
             => RequireForest().UnlockItem(type ?? throw new ArgumentNullException(nameof(type)));
         public void UnlockFarmResource(FarmItemType type)
@@ -78,6 +84,7 @@ namespace KingdomFoundation.Api
             if (x < 0 || x >= farm.Width) throw new ArgumentOutOfRangeException(nameof(x));
             if (y < 0 || y >= farm.Height) throw new ArgumentOutOfRangeException(nameof(y));
         }
+        /// <summary>Performs the plant crop operation.</summary>
         public void PlantCrop(int x, int y, FarmItemType type)
         {
             var farm = RequireFarm();
@@ -86,6 +93,7 @@ namespace KingdomFoundation.Api
             farm.SetItem(x, y, type);
             farm.UpdateResourceQuota();
         }
+        /// <summary>Attempts to expand farm.</summary>
         public bool TryExpandFarm(int width, int height)
         {
             var farm = RequireFarm();

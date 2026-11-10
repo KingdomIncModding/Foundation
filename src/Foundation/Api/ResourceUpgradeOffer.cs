@@ -8,6 +8,7 @@ using Assets.Source.Player;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the resource upgrade offer API.</summary>
     public sealed class ResourceUpgradeOffer
     {
         public double AdditionalQuota { get; }

@@ -17,6 +17,7 @@ namespace KingdomFoundation.Api
         bool TrySpend(CurrencyCollection price);
         bool TrySpend(Currency currency, long amount);
         void Grant(Currency currency, long amount, bool countAsIncome = false);
+        /// <summary>Performs the grant operation.</summary>
         void Grant(CurrencyCollection amounts, bool countAsIncome = false);
         float ExchangeTax(Currency currency);
         bool CanAfford(Currency currency, long amount);
@@ -25,6 +26,7 @@ namespace KingdomFoundation.Api
 
         double ResourceAvailable(ResourceItemType resource);
         double ResourceDemand(ResourceItemType resource);
+        /// <summary>Performs the resource quota multiplier operation.</summary>
         float ResourceQuotaMultiplier(ResourceItemType resource);
         float ResourceOutput(ResourceElement producer);
         IReadOnlyList<ResourceAvailability> Resources();

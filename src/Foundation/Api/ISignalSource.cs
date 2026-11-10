@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Provides the isignal source API.</summary>
     public interface ISignalSource : IDisposable
     {
         string ModId { get; }
