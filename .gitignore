@@ -64,3 +64,15 @@
 **/NativeGameSource/
 # Generated top-level release/export manifests.
 /*-MANIFEST.json
+
+/_AI/
+/Nexus/
+/.github/
+/.agents/
+/.claude/
+/.codex/
+/AGENTS.md
+/CLAUDE.md
+/GEMINI.md
+/~tmp/
+/AI_SETUP_PROMPT.md

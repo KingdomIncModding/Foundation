@@ -1,171 +1,135 @@
 # Foundation
 
-### A unified modding framework for Kingdom Inc.
+**A shared modding framework for Kingdom Inc.**
 
-**Foundation** gives mod developers a shared C# API for extending *Kingdom Inc* without rebuilding the game's systems from scratch. It brings native gameplay access, custom content registration, in-game interfaces, mod-to-mod services, and persistence together in one framework.
+Foundation lets other mods extend *Kingdom Inc* through reusable game integrations. It provides native research and workspace registration, machine and logistics access, in-game mod settings, a shared Mod Bar, events, and services for mods that work together. The framework uses the game's existing systems wherever possible instead of replacing how the game plays.
 
-Instead of every mod maintaining its own UI, event hooks, machine discovery, and save integration, Foundation provides reusable interfaces that mods can build on.
+The current source version is **0.11.0**. Foundation uses BepInEx 5 and ships its Core and Machines components together in **Foundation.dll**.
 
-> **Foundation 1.0 Alpha** · C# · Unity · BepInEx 5  
-> One runtime assembly: `Foundation.dll`
+## Features
 
-## What can you do with Foundation?
+### Research and custom content
 
-### Create content that belongs in the game
+- A **Base Game / Mods** research view with a separate list and layout for each mod that registers technologies.
+- Technology nodes, upgrade branches, research costs, prerequisites, and clickable links to required technologies.
+- Custom workspace node types using the game's build menu, placement, connections, and save format.
+- Registration support for compatible items, recipes, upgrades, quests, dungeons, and wars.
+- Recovery handling for saved custom node types when their defining mod is unavailable; those nodes remain inert until their mod is restored.
 
-Register mod-owned content through the game's existing systems, including:
+### Machines and native logistics
 
-- **Research and technology** — add technologies and upgrade branches to the native research tree, with costs, prerequisites, and unlock callbacks.
-- **Workspace nodes** — introduce custom node types with their own factories, settings, and native workspace integration.
-- **Items and production content** — register items, crafting recipes, upgrades, and other supported native definitions.
-- **Adventures and progression** — work with quests, dungeons, wars, prestige, and other game-backed progression data.
+- Machine discovery, inspection, available operations, and production information for supported game machines.
+- Native input/output port inspection, connections, item transfers, and observed throughput.
+- Machine-specific panels for supported types, including switches, buttons, timers, filters, crafting machines, and others.
+- Native gameplay access for items, economy, research, quests, combat, and world/workspace data.
 
-Foundation keeps the game's original models and identifiers at the center of these integrations. It is not a second gameplay simulation.
+### In-game mod controls
 
-### Work with machines and logistics
+- A shared **Mod Bar** that other mods can populate with buttons, toggles, dropdowns, and status text.
+- A **Mod Settings** area integrated into the game's Options menu, with controls registered by installed mods.
+- Native-themed windows, controls, and panels that mods can reuse.
 
-Inspect native machines and their behavior through structured APIs instead of scattering game-specific reflection throughout a mod.
+### Shared services
 
-- Discover machine types and instances in the current kingdom.
-- Read machine properties, recipes, capabilities, and production information.
-- Inspect input/output ports, connections, buffers, and observed throughput.
-- Interact with supported native machine operations while respecting game rules.
-- Respond to machine, workspace, and item-transfer events.
+- Mod lifecycle and cross-mod service discovery.
+- Game-backed events and separately registered signal sources and property bindings.
+- Mod-owned data stored with the game's saves, with support for versioned migration.
+- Loading helpers for mod-owned assets and game-provided UI resources.
 
-**Native item flow and Foundation signals are different systems.** Native pipes continue to use the game's own logistics rules; Foundation's signal system is for mod-defined values and bindings.
+The framework itself does **not** add demonstration buildings or technologies to your kingdom. Those appear when an installed mod registers them.
 
-### Make interfaces that feel native
+## Requirements
 
-Foundation's UI APIs are designed to sit alongside *Kingdom Inc*, not on top of it as an unrelated-looking overlay.
+- **Kingdom Inc.** for PC (Unity Mono build).
+- **BepInEx 5** with its bundled Harmony library.
+- Mods using Foundation must be compatible with the installed Foundation version.
 
-- Mod Bar buttons, toggles, dropdowns, labels, and custom elements.
-- Custom panels and machine-specific configuration interfaces.
-- Mod settings integrated with the game's options UI.
-- Reusable controls for input, selection, tabs, collapsible sections, dialogs, and property editing.
-- Game-derived styling and assets where available.
+## Installation
 
-Mods can share a consistent visual language while still creating interfaces suited to their own features.
+1. Install BepInEx 5 for Kingdom Inc.
+2. Close the game.
+3. Install the Foundation player package so that the runtime file is at `BepInEx/plugins/Foundation/Foundation.dll` in your Kingdom Inc game folder.
+4. Start the game, then install or enable mods that depend on Foundation.
 
-### Connect mods to each other
+If updating, close the game before replacing Foundation. Back up existing kingdoms before changing framework versions or removing mods that supply saved content. No separate `Foundation.Machines.dll` is needed. Mods built against that older separate assembly must be rebuilt for the unified runtime.
 
-Foundation also provides the infrastructure behind more complex mod ecosystems:
+## Using Foundation
 
-| Capability | What it provides |
-| --- | --- |
-| **Mod lifecycle** | Registration, initialization, dependencies, and cleanup. |
-| **Shared services** | Discover and consume services published by other mods. |
-| **Event system** | Owner-scoped subscriptions to Foundation and game-backed events. |
-| **Signals** | Expose typed properties and connect compatible sources and destinations. |
-| **Persistence** | Save mod-owned data with versioned schemas and migration support. |
-| **Assets** | Load and manage mod-owned sprites and asset bundles. |
-| **Game services** | Access supported world, machine, item, economy, progression, combat, UI, camera, and audio information. |
+Open the game's research tree to access **Base Game** and **Mods** categories when mods register research. Open **Options** to access settings registered by installed mods. The Mod Bar displays controls supplied by participating mods; it can be empty when no mod adds controls.
 
-## Your first Foundation mod
+If a saved kingdom contains custom buildings from a mod you remove, reinstall that mod to restore the original behavior of those buildings. Foundation can preserve missing node data as placeholders, but a missing mod's gameplay functionality is not available.
 
-A Foundation mod is a regular BepInEx plugin that depends on the Foundation runtime. The simplest approach is to create an **owner-scoped mod context** and let it manage your registrations.
+## Compatibility
 
-```csharp
-using BepInEx;
-using KingdomFoundation.Api;
+Foundation uses Harmony hooks to integrate with native game methods. These are the hooks registered during normal gameplay by this source version. Their effects are listed below; compatibility with any particular third-party mod depends on that mod's changes to the same methods.
 
-[BepInPlugin(ModId, "My Foundation Mod", "1.0.0")]
-[BepInDependency("urakka.kingdominc.foundation")]
-public sealed class MyFoundationMod : BaseUnityPlugin
-{
-    private const string ModId = "example.myfoundationmod";
-    private FoundationModContext context;
+| Class.Method | Hook Type | Impact |
+|---|---|---|
+| TechTreeMenu.OnEnable | Postfix | Adds the Base Game/Mods research navigation. |
+| TechTreeMenu.OnDisable | Prefix | Closes the mod research navigation. |
+| TechTreeMenu.ShowTechTree | Prefix / Postfix / Transpiler | Selects the right research category and displays its registered nodes. |
+| TechTreeMenu.UpdateTechTree | Postfix | Lays out registered research when the Mods category is open. |
+| TechTreeMenu.Update | Prefix | Keeps Mods research camera movement separate from the base tree. |
+| TechTreeMenu.FocusNode | Prefix | Focuses research in the correct category, including custom root nodes. |
+| TechTreeListView._addNodes.MoveNext | Transpiler | Filters research listings for the selected category. |
+| UIElementTechNode.UpdateNodeStatus | Postfix | Makes displayed research prerequisites navigable. |
+| WorldFlowCamera.RecalculateBounds | Postfix | Allows camera movement in empty mod research categories. |
+| TechNode.ResetCost | Postfix | Restores configured fixed costs on registered research. |
+| SpriteLibrary.Get | Prefix | Resolves registered custom research icons. |
+| GamePlayer.HasTech | Prefix | Keeps native research storage sized for registered technologies. |
+| GamePlayer.ToJson | Postfix | Omits mod-only research notification counters from saves. |
+| FlowElement.GetAllTypes | Postfix | Includes registered custom workspace node types in the build catalog. |
+| FlowElement.Create | Prefix | Creates registered node types and placeholders for missing saved types. |
+| FlowElement.FromJson | Prefix / Finalizer | Loads custom workspace nodes or retains missing types as placeholders. |
+| FlowElement.ToJson | Postfix | Preserves saved port data for missing workspace node types. |
+| FlowPrefabManager.Get | Prefix | Supplies game-style previews for registered or missing custom node types. |
+| FlowUpgrade.Create | Prefix | Creates registered custom upgrade types when requested. |
+| InventoryItem.FromTypeString | Prefix | Restores registered namespaced items from saved strings. |
+| WorldFlowManager.CreateNewElement | Postfix | Notifies mods when a native workspace element is placed. |
+| WorldFlowManager.RemoveElement | Prefix / Postfix | Notifies mods when a native workspace element is removed. |
+| WorldFlowManager.ShowFlow | Prefix / Postfix | Notifies mods when the selected workspace changes. |
+| WorldFlowElement.UpdatePosition | Prefix / Postfix | Notifies mods when a workspace element moves. |
+| FlowPipe.Connect | Postfix | Reports successful native pipe connections. |
+| FlowDiagram.DisconnectPipe | Prefix / Postfix | Reports successful native pipe disconnections. |
+| WorldFlowManager.CreateNewPipe | Postfix | Reports completed native pipe placements. |
+| WorldFlowPipe.ItemTransferred | Postfix | Reports item transfers and records observed throughput. |
+| FlowPipe.Update | Prefix | Pauses item flow through placeholders for missing node types. |
+| GameUI.Start | Postfix | Attaches the shared Mod Bar to the game interface. |
+| GameUI.ToggleUI | Postfix | Closes Mod Bar popups when the HUD is hidden. |
+| GameUI.ProcessEscape | Prefix | Lets Escape close Mod Bar popups before other game menus. |
+| GameUI.TogglePopupMenu | Prefix / Postfix | Reports native popup visibility changes. |
+| OptionsUI.Start | Postfix | Attaches mod settings to the game Options menu. |
+| OptionsUI.OnEnable | Postfix | Refreshes mod settings when the Options menu opens. |
+| OptionsUI.ApplyAndClose | Prefix | Applies pending mod settings with game options. |
+| OptionsUI.CancelOptions | Prefix | Discards pending mod settings when options are canceled. |
+| SaveGame.SaveCurrentState | Postfix | Embeds mod-owned data in native saves and emits save lifecycle events. |
+| SaveGame.LoadState | Prefix / Postfix / Finalizer | Restores mod data, handles missing research notices, and emits load events. |
+| SaveGame.Store | Postfix | Reports completion of native save storage. |
+| GamePlayer.CreateNewPlayer | Postfix | Initializes mod-owned data for a new kingdom. |
+| GameManager.Start | Postfix | Notifies mods when the game world is ready. |
+| GameManager.OnApplicationQuit | Prefix | Notifies mods before the game world closes. |
+| RecipeElement.SetupRecipe | Prefix / Postfix | Reports changes to a machine’s selected recipe. |
+| Filter.SetFilterType | Prefix / Postfix | Reports changes to a native filter’s type. |
+| FlowElement.SetUpgrade | Prefix / Postfix | Reports changes to a machine’s native upgrade. |
+| QuestBoard.UpdateQuest | Prefix / Postfix | Reports selected quest changes. |
+| Dungeon.SetDungeonType | Prefix / Postfix | Reports selected dungeon changes. |
+| InventoryItem.SetQuality | Prefix / Postfix | Reports changes to item quality. |
+| GamePlayer.AddCurrency | Prefix / Postfix | Reports currency gained through the native game. |
+| GamePlayer.SpendCurrency | Prefix / Postfix | Reports currency spending through the native game. |
+| GamePlayer.AddResource | Prefix / Postfix | Reports changes to native resources. |
+| GamePlayer.SetFarmResource | Prefix / Postfix | Reports changes to farm resources. |
+| GamePlayer.AddTech | Prefix / Postfix | Reports native research unlocks. |
+| GamePlayer.UnlockDungeon | Prefix / Postfix | Reports newly unlocked dungeons. |
+| GamePlayer.UnlockWar | Prefix / Postfix | Reports newly unlocked wars. |
+| GamePlayer.SetPrestigePoints | Prefix / Postfix | Reports changes to prestige points. |
+| GamePlayer.DoAscension | Postfix | Reports completed native ascensions. |
+| QuestProgress.QuestCompleted | Postfix | Reports native quest completion. |
+| DungeonProgress.DungeonTick | Prefix / Postfix | Reports dungeon stage changes. |
+| WarProgress.UpdateWar | Prefix / Postfix | Reports war stage changes. |
+| HumanItemData.AddEquipment | Prefix / Postfix | Reports native equipment additions. |
+| HumanItemData.RemoveEquipment | Prefix / Postfix | Reports native equipment removals. |
+| CombatantItemData.TakeDamage | Prefix / Postfix | Reports changes to combatant health or energy after damage. |
+| CombatantItemData.Heal | Prefix / Postfix | Reports changes to combatant health or energy after healing. |
+| CombatantItemData.LoseEnergy | Prefix / Postfix | Reports changes to combatant energy. |
 
-    private void Awake()
-    {
-        context = FoundationApi.ForMod(ModId);
-
-        var settings = context.Settings(
-            "My Foundation Mod",
-            "Settings provided through Foundation.");
-
-        settings.AddToggle("Enable feature", true, enabled =>
-            Logger.LogInfo("Feature enabled: " + enabled));
-
-        context.Listen<WorkspaceChangedEvent>(change =>
-            Logger.LogInfo("Workspace changed: " + change.Kind));
-    }
-
-    private void OnDestroy() => context?.Dispose();
-}
-```
-
-This example adds a mod settings entry and listens for workspace changes. The context tracks subscriptions and other disposable registrations so they can be released when the plugin unloads.
-
-For more complete examples, browse [`Examples/`](Examples/) — including Core modules, game services, research, gameplay events, and UI integrations.
-
-## The API at a glance
-
-Foundation exposes three complementary entry points:
-
-| Entry point | Use it for |
-| --- | --- |
-| `FoundationApi` | High-level access to gameplay services, UI, content, signals, assets, and persistence. |
-| `FoundationApi.ForMod(modId)` | Owner-scoped registrations, event subscriptions, settings, and cleanup. |
-| `FoundationCoreApi.Core` | Core module registration, lifecycle, shared services, dependencies, and inter-mod infrastructure. |
-
-Machine APIs also live in the **same** `Foundation.dll` under the `KingdomFoundation.Machines` namespace. A separate machine-framework runtime is not required.
-
-### Architecture
-
-```text
-Your BepInEx Mod
-       │
-       ▼
-  Foundation.dll
-       │
-       ├── Core: modules, services, lifecycle, events
-       ├── Game API: native world, machines, IO, progression
-       ├── Content: research, items, recipes, workspace nodes
-       ├── UI: Mod Bar, panels, settings, native-themed controls
-       └── Extensions: signals, assets, mod-owned persistence
-       │
-       ▼
-Kingdom Inc's existing game systems
-```
-
-**Design principle:** Foundation should expose and extend the game's behavior wherever possible, not replace its authoritative mechanics.
-
-## Documentation
-
-Developer documentation is organized by capability:
-
-| Guide | Description |
-| --- | --- |
-| [Documentation index](Docs/README.md) | Start here |
-| [Getting started](Docs/Getting-Started.md) | Create a Foundation mod |
-| [API reference](Docs/API-Reference.md) | Public service map |
-| [Core framework](Docs/Core/README.md) | Modules, events and inter-mod services |
-| [Game API](Docs/GameAPI/README.md) | Native Kingdom Inc systems |
-| [Machines](Docs/GameAPI/Machines.md) | Machine capabilities and operations |
-| [Logistics](Docs/GameAPI/Logistics.md) | Native pipes, ports and throughput |
-| [Gameplay](Docs/GameAPI/Gameplay.md) | Items, research, adventures and world state |
-| [UI](Docs/UI/README.md) | Panels, HUD controls and settings |
-| [Signals](Docs/Signals.md) | Typed source/property bindings |
-| [Content and persistence](Docs/Content-And-Persistence.md) | Mod content and saved data |
-| [Migration](Docs/Migration.md) | Updating older mods |
-
-### Repository layout
-
-```text
-src/Foundation/   Framework and game API source
-SDK/              Public SDK documentation
-Examples/         Example Foundation-powered mods
-Docs/             Architecture, feature guides, and API references
-```
-
-## Compatibility and design notes
-
-- Foundation is intended for the **PC version of Kingdom Inc** running through **BepInEx 5**.
-- Register content using **stable mod and content IDs**. The game may store references to those IDs in saved kingdoms.
-- Some native content registrations have **process-lifetime constraints**; removing a registration while its content is in use is not the same as removing an ordinary event subscription.
-- Mods previously referencing the separate `Foundation.Machines.dll` need to reference the unified `Foundation.dll` instead.
-- Foundation 1.0 is currently labeled **Alpha**. Public APIs may evolve; consult the migration guide when updating an existing mod.
-
----
-
-**Foundation is a community modding project for Kingdom Inc.** It is not an official game component or a replacement for the game itself.
+Foundation is a community-made modding framework, not an official component of Kingdom Inc.
