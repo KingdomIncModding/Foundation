@@ -9,10 +9,11 @@ namespace KingdomFoundation.Api
     {
         IDisposable Subscribe<T>(string modId, Action<T> handler);
         void Publish<T>(T message);
-        /// <summary>Provides the remove owner operation.</summary>
-        /// <param name="modId">The mod id argument.</param>
-        /// <returns>The operation result.</returns>
+        /// <summary>Removes subscriptions registered by the specified mod and returns the number removed.</summary>
+        /// <param name="modId">The mod id value.</param>
+        /// <returns>The requested native or Foundation result.</returns>
         int RemoveOwner(string modId);
+        /// <summary>Returns the currently registered event subscriptions.</summary>
         IReadOnlyList<FoundationEventSubscription> Subscriptions { get; }
     }
 }
