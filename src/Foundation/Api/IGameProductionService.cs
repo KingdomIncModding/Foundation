@@ -11,6 +11,7 @@ namespace KingdomFoundation.Api
     {
         ForestSettings Forest { get; }
         FarmSettings Farm { get; }
+        /// <summary>Exposes the forest resources value.</summary>
         IReadOnlyList<ForestItemType> ForestResources { get; }
         IReadOnlyList<FarmItemType> FarmResources { get; }
         int ForestWorkers(ForestWorker type);
@@ -20,6 +21,9 @@ namespace KingdomFoundation.Api
         bool FarmBlocked { get; }
         float ForestUtilization(ForestWorker role);
         float ForestQuotaMultiplier(ForestWorker role);
+        /// <summary>Invokes the forest resource unlocked operation.</summary>
+        /// <param name="resource">The resource argument.</param>
+        /// <returns>The operation result.</returns>
         bool ForestResourceUnlocked(ForestItemType resource);
         bool FarmResourceUnlocked(FarmItemType resource);
         CurrencyCollection NextForestWorkerCost { get; }
@@ -30,6 +34,8 @@ namespace KingdomFoundation.Api
         bool AssignForestWorkers(ForestWorker role, int number);
         bool UnassignForestWorkers(ForestWorker role, int number);
         void UnlockForestResource(ForestItemType type);
+        /// <summary>Invokes the unlock farm resource operation.</summary>
+        /// <param name="type">The type argument.</param>
         void UnlockFarmResource(FarmItemType type);
         FarmItemType GetCrop(int x, int y);
         void PlantCrop(int x, int y, FarmItemType type);

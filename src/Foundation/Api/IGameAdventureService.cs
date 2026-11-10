@@ -12,6 +12,7 @@ namespace KingdomFoundation.Api
     {
         IReadOnlyList<Quest> Quests { get; }
         IReadOnlyList<DungeonType> Dungeons { get; }
+        /// <summary>Exposes the active wars value.</summary>
         IReadOnlyList<WarProgress> ActiveWars { get; }
         Quest FindQuest(string id);
         DungeonType FindDungeon(string id);
@@ -21,6 +22,9 @@ namespace KingdomFoundation.Api
         int QuestDuration(Quest quest);
         IReadOnlyList<QuestReward> QuestRewards(Quest quest);
         bool QuestUnlocked(Quest quest);
+        /// <summary>Invokes the is dungeon available operation.</summary>
+        /// <param name="dungeon">The dungeon argument.</param>
+        /// <returns>The operation result.</returns>
         bool IsDungeonAvailable(DungeonType dungeon);
         CurrencyCollection DungeonSupplyCost(DungeonType dungeon);
         IReadOnlyList<DungeonStage> DungeonStages(DungeonType dungeon);
@@ -30,6 +34,9 @@ namespace KingdomFoundation.Api
 
         QuestMetadata QuestMetadata(Quest quest);
         DungeonMetadata DungeonMetadata(DungeonType dungeon);
+        /// <summary>Invokes the dungeon progress operation.</summary>
+        /// <param name="dungeon">The dungeon argument.</param>
+        /// <returns>The operation result.</returns>
         DungeonProgress DungeonProgress(DungeonType dungeon);
         bool IsDungeonUnlocked(DungeonType dungeon);
         void UnlockDungeon(DungeonType dungeon);

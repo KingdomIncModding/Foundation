@@ -17,6 +17,9 @@ namespace KingdomFoundation.Api
         ItemEnhancement FindEnhancement(string id);
         IReadOnlyList<ItemEnhancementData> EquipmentEnhancements(InventoryItem item);
         int EquipmentStat(InventoryItem item, EquipStat stat);
+        /// <summary>Invokes the is unlocked operation.</summary>
+        /// <param name="type">The type argument.</param>
+        /// <returns>The operation result.</returns>
         bool IsUnlocked(ItemType type);
         long NativeBaseValue(ItemType type);
         long NativeSellValue(InventoryItem item);
@@ -28,6 +31,9 @@ namespace KingdomFoundation.Api
         CurrencyCollection RecipeCost(CraftingRecipe recipe);
         CurrencyCollection RecipeReward(CraftingRecipe recipe);
         IReadOnlyList<CraftingReagent> RecipeReagents(CraftingRecipe recipe);
+        /// <summary>Invokes the recipe results operation.</summary>
+        /// <param name="recipe">The recipe argument.</param>
+        /// <returns>The operation result.</returns>
         IReadOnlyList<CraftingResult> RecipeResults(CraftingRecipe recipe);
         int RequiredQuantity(CraftingRecipe recipe, ItemType item);
         int ProducedQuantity(CraftingRecipe recipe, ItemType item);
@@ -38,6 +44,9 @@ namespace KingdomFoundation.Api
         CraftingRecipe FindRecipe(string id);
         InventoryItem CreateItem(string itemId, float quality = 1f, bool initialize = true);
         InventoryItem Clone(InventoryItem original);
+        /// <summary>Invokes the deserialize operation.</summary>
+        /// <param name="json">The json argument.</param>
+        /// <returns>The operation result.</returns>
         InventoryItem Deserialize(JsonValue json);
         JsonValue Serialize(InventoryItem item);
         IReadOnlyList<CraftingRecipe> Producing(ItemType type);

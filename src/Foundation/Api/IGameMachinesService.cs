@@ -20,6 +20,10 @@ namespace KingdomFoundation.Api
         IReadOnlyList<FlowElement> Catalog { get; }
         IReadOnlyList<FlowElement> BuildableCatalog { get; }
         IReadOnlyList<T> Find<T>() where T : FlowElement;
+        /// <summary>Invokes the configure recipe operation.</summary>
+        /// <param name="machine">The machine argument.</param>
+        /// <param name="recipe">The recipe argument.</param>
+        /// <returns>The operation result.</returns>
         bool ConfigureRecipe(RecipeElement machine, CraftingRecipe recipe);
         bool ConfigureForest(Forest machine, ForestItemType resource);
         void SetFilter(Filter machine, ItemType item);
@@ -28,6 +32,8 @@ namespace KingdomFoundation.Api
         void SetTimer(Timer machine, float seconds);
         void SetAppraiser(Appraiser machine, AppraiserStat? stat, AppraiserType op, int threshold);
         void AddDistributorOutput(Distributor machine);
+        /// <summary>Invokes the add manifold input operation.</summary>
+        /// <param name="machine">The machine argument.</param>
         void AddManifoldInput(Manifold machine);
         void AddCollectorInput(Collector machine);
         void AdvanceCollector(Collector machine);
@@ -37,6 +43,9 @@ namespace KingdomFoundation.Api
         void SetPortalChannel(Portal machine, int channel, int index);
         void SetArmoryChannel(Armory machine, int channel);
         void SelectQuest(QuestBoard machine, Quest quest);
+        /// <summary>Invokes the select dungeon operation.</summary>
+        /// <param name="machine">The machine argument.</param>
+        /// <param name="dungeon">The dungeon argument.</param>
         void SelectDungeon(Dungeon machine, DungeonType dungeon);
         void SelectRequisition(RequisitionOffice machine, int index);
         void CollectShop(Shop machine);
@@ -48,6 +57,10 @@ namespace KingdomFoundation.Api
         bool CanCraft(RecipeElement machine, CraftingRecipe recipe);
         Assets.Source.Player.CurrencyCollection CraftingCost(RecipeElement machine, CraftingRecipe recipe = null);
         IReadOnlyList<ResourceItemType> AvailableResources(ResourceElement machine);
+        /// <summary>Invokes the resource cost operation.</summary>
+        /// <param name="machine">The machine argument.</param>
+        /// <param name="resource">The resource argument.</param>
+        /// <returns>The operation result.</returns>
         Assets.Source.Player.CurrencyCollection ResourceCost(ResourceElement machine, ResourceItemType resource = null);
         float DesiredResourceOutput(ResourceElement machine);
         float ResourceOutputPerSecond(ResourceElement machine);

@@ -12,6 +12,10 @@ namespace KingdomFoundation.Api
     {
         string CurrentLocale { get; }
         IReadOnlyList<string> NativeLocales { get; }
+        /// <summary>Invokes the translate only operation.</summary>
+        /// <param name="token">The token argument.</param>
+        /// <param name="arguments">The arguments argument.</param>
+        /// <returns>The operation result.</returns>
         string TranslateOnly(string token, params object[] arguments);
 
         string Translate(string token, params object[] arguments);

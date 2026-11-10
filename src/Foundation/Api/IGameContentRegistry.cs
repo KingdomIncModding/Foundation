@@ -16,6 +16,10 @@ namespace KingdomFoundation.Api
     {
         IReadOnlyDictionary<string, string> Ownership { get; }
         ItemType RegisterItem(string modId, ItemType item);
+        /// <summary>Invokes the register recipe operation.</summary>
+        /// <param name="modId">The mod id argument.</param>
+        /// <param name="recipe">The recipe argument.</param>
+        /// <returns>The operation result.</returns>
         CraftingRecipe RegisterRecipe(string modId, CraftingRecipe recipe);
         Quest RegisterQuest(string modId, Quest quest);
         DungeonType RegisterDungeon(string modId, DungeonType dungeon);

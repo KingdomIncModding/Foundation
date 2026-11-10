@@ -7,6 +7,11 @@ namespace KingdomFoundation.Api
     {
         bool HasFlag(string modId, string key, bool defaultValue = false);
         void SetFlag(string modId, string key, bool value = true);
+        /// <summary>Invokes the get counter operation.</summary>
+        /// <param name="modId">The mod id argument.</param>
+        /// <param name="key">The key argument.</param>
+        /// <param name="defaultValue">The default value argument.</param>
+        /// <returns>The operation result.</returns>
         int GetCounter(string modId, string key, int defaultValue = 0);
         void SetCounter(string modId, string key, int value);
         int AddCounter(string modId, string key, int count = 1);

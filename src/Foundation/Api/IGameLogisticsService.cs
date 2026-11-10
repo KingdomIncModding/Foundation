@@ -11,6 +11,9 @@ namespace KingdomFoundation.Api
     {
         int ArmoryCount(int channel, ItemType type);
         InventoryItem PeekArmory(int channel, ItemType type);
+        /// <summary>Invokes the armory types operation.</summary>
+        /// <param name="channel">The channel argument.</param>
+        /// <returns>The operation result.</returns>
         IReadOnlyList<ItemType> ArmoryTypes(int channel);
         void StoreInArmory(int channel, InventoryItem item);
         int PortalCount(int channel, int index);
