@@ -13,6 +13,9 @@ namespace KingdomFoundation.Api
     {
         FlowPipe Connect(FlowOutput output, FlowInput input, IEnumerable<Vector2Int> route = null);
         void Disconnect(FlowPipe pipe);
+        /// <summary>Provides the is connected operation.</summary>
+        /// <param name="port">The port argument.</param>
+        /// <returns>The operation result.</returns>
         bool IsConnected(FlowIO port);
         FlowPipeMetrics GetMeasuredThroughput(FlowPipe pipe);
         /// <summary>All live native pipes connected to an element, across the loaded kingdom.</summary>
