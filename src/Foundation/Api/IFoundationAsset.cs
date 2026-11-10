@@ -12,6 +12,7 @@ namespace KingdomFoundation.Api
         string ModId { get; }
         string AssetId { get; }
         Sprite Sprite { get; }
+        /// <summary>Exposes the bundle value.</summary>
         AssetBundle Bundle { get; }
         bool IsLoaded { get; }
     }
