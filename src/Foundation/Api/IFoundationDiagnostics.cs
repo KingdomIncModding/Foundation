@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Defines the foundation diagnostics contract.</summary>
     public interface IFoundationDiagnostics
     {
         IReadOnlyList<FoundationDiagnosticEntry> Recent { get; }
