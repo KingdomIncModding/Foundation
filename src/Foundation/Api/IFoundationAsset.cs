@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>Defines the foundation asset contract.</summary>
     public interface IFoundationAsset : IDisposable
     {
         string ModId { get; }
