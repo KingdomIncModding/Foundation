@@ -183,7 +183,7 @@ namespace MyMod
 
 ---
 
-## 5. Build and Installation
+## 5. Build, Release, and Installation
 
 1. Put your source files under `src/`.
 2. Ensure your `.csproj` targets `netstandard2.1` and references `Foundation.dll` from `BepInEx/plugins/Foundation/`.
@@ -191,10 +191,10 @@ namespace MyMod
    ```powershell
    dotnet build -c Release
    ```
-4. Copy the compiled DLL and `mod.json` to the game's plugins folder:
-   - `BepInEx/plugins/{ModName}/{ModName}.dll`
-   - `BepInEx/plugins/{ModName}/mod.json`
-5. When packaging a release ZIP for players or Nexus Mods, preserve the directory structure:
+4. **Always copy `mod.json` with your Release DLL**:
+   - Local Release folder: `{ModName}/Release/{ModName}.dll` and `{ModName}/Release/mod.json`
+   - Game installation folder: `BepInEx/plugins/{ModName}/{ModName}.dll` and `BepInEx/plugins/{ModName}/mod.json`
+5. When packaging a release ZIP for players, GitHub Releases, or Nexus Mods, always bundle `mod.json` alongside the release DLL:
    ```text
    {ModName}-v{Version}.zip
    └── BepInEx/
