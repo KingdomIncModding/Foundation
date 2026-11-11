@@ -76,3 +76,6 @@
 /GEMINI.md
 /~tmp/
 /AI_SETUP_PROMPT.md
+# Local build outputs (never commit)
+/Release/
+/Debug/
