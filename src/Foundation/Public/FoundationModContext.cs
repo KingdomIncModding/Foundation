@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace KingdomFoundation.Api
 {
@@ -9,11 +10,59 @@ namespace KingdomFoundation.Api
         readonly List<IDisposable> registrations = new List<IDisposable>();
         bool disposed;
         public string ModId { get; }
+
+        /// <summary>Directory containing this mod's DLL and mod.json.</summary>
+        public string ModDirectory { get; }
+
+        /// <summary>Directory containing this mod's approved runtime Assets/ folder.</summary>
+        public string AssetsDirectory => Metadata?.AssetsDirectory ?? (!string.IsNullOrEmpty(ModDirectory) ? Path.Combine(ModDirectory, "Assets") : null);
+
+        /// <summary>Metadata parsed from this mod's mod.json file, if present.</summary>
+        public ModMetadata Metadata { get; }
+
         public FoundationModContext(string modId)
         {
             SignalPropertyDefinition.ValidateId(modId, nameof(modId));
             ModId = modId;
+
+            // Resolve mod directory from BepInEx Chainloader or Paths
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.TryGetValue(modId, out var info) && !string.IsNullOrEmpty(info?.Location))
+            {
+                ModDirectory = Path.GetDirectoryName(info.Location);
+            }
+            else
+            {
+                string plugins = BepInEx.Paths.PluginPath;
+                if (!string.IsNullOrEmpty(plugins))
+                {
+                    string candidate = Path.Combine(plugins, modId);
+                    if (Directory.Exists(candidate)) ModDirectory = candidate;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(ModDirectory))
+            {
+                Metadata = ModMetadata.LoadFromDirectory(ModDirectory);
+            }
         }
+
+        /// <summary>Returns the absolute path to a file in Assets/{category}/{fileName}.</summary>
+        public string GetAssetPath(string category, string fileName)
+        {
+            if (string.IsNullOrEmpty(AssetsDirectory)) return null;
+            return Path.Combine(AssetsDirectory, category, fileName);
+        }
+
+        /// <summary>Loads a sprite directly from this mod's Assets/{category}/{fileName}.</summary>
+        public IFoundationAsset LoadAssetSprite(string category, string fileName, float pixelsPerUnit = 100f)
+        {
+            string path = GetAssetPath(category, fileName);
+            if (string.IsNullOrEmpty(path) || !File.Exists(path))
+                throw new FileNotFoundException($"Asset not found: Assets/{category}/{fileName}", path);
+            string assetId = $"{category}/{fileName}";
+            return LoadSprite(assetId, path, pixelsPerUnit);
+        }
+
         T Track<T>(T registration) where T : IDisposable
         {
             if (disposed) { registration.Dispose(); throw new ObjectDisposedException(nameof(FoundationModContext)); }
@@ -60,9 +109,7 @@ namespace KingdomFoundation.Api
             => Track(FoundationApi.Assets.LoadAssetBundle(ModId, id, absoluteBundlePath));
         public IDisposable Persist(int schemaVersion, Func<LightJson.JsonValue> save, Action<int, LightJson.JsonValue> load)
             => Track(FoundationApi.ModSave.Register(ModId, schemaVersion, save, load));
-        // Native catalog registration is intentionally process-lifetime: Kingdom Inc saves
-        // use native IDs/indices, so removing a registered item or quest during the same
-        // session would corrupt deserialization. These convenience methods are NOT Track()ed.
+
         public Assets.Source.Items.ItemType RegisterItem(Assets.Source.Items.ItemType item)
         {
             EnsureActive();
@@ -142,9 +189,6 @@ namespace KingdomFoundation.Api
         {
             if (disposed) return;
             disposed = true;
-            // Keep a local list of the exact owned asset handles: releasing by
-            // ModId would also release resources owned by other contexts using
-            // the same ID. Retry them after all dependent registrations unload.
             var ownedAssets = new List<IFoundationAsset>();
             foreach (var token in registrations)
                 if (token is IFoundationAsset asset) ownedAssets.Add(asset);

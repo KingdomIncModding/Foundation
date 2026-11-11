@@ -1,13 +1,13 @@
 # Foundation Documentation
 
-Foundation is the shared C# modding framework for Kingdom Inc. It exposes native game features and gives mods common tools for custom content, UI, signals, services and saved data.
+Foundation is the shared C# modding framework for Kingdom Inc. It exposes native game features and gives mods common tools for custom content, UI, signals, services, asset loading, and saved data.
 
-**Start with [Getting Started](Getting-Started.md).**
+**Start with [Getting Started](Getting-Started.md) to learn the standardized mod structure and `mod.json` specification.**
 
 | Guide | Topic |
 | --- | --- |
-| [Getting Started](Getting-Started.md) | Create a BepInEx mod using Foundation |
-| [API Reference](API-Reference.md) | Find the public service you need |
+| [Getting Started](Getting-Started.md) | Standardized mod structure, `mod.json` configuration, and plugin basics |
+| [API Reference](API-Reference.md) | Public services, `FoundationModContext`, and metadata APIs |
 | [Core Framework](Core/README.md) | Module lifecycle and inter-mod services |
 | [Game API](GameAPI/README.md) | Access to the original game's systems |
 | [Machines](GameAPI/Machines.md) | Native machine state and operations |

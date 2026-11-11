@@ -12,27 +12,6 @@ namespace KingdomFoundation
 {
     public static class NexusUpdateChecker
     {
-        public static readonly Dictionary<string, int> KnownNexusModIds = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
-        {
-            { "urakka.kingdominc.partynode", 5 },
-            { "urakka.kingdominc.sharableblueprints", 6 },
-            { "urakka.kingdominc.ledgermod", 7 },
-            { "urakka.kingdominc.pathfinder", 8 },
-            { "urakka.kingdominc.leylineconduits", 9 },
-            { "urakka.kingdominc.nightmareprogressfix", 10 },
-            { "urakka.kingdominc.containercolors", 11 },
-            { "urakka.kingdominc.snappy", 12 },
-            { "urakka.kingdominc.devspawner", 13 },
-            { "urakka.kingdominc.betterzoom", 14 },
-            { "urakka.kingdominc.portlayouts", 15 },
-            { "urakka.kingdominc.hotkeycustomizer", 16 },
-            { "urakka.kingdominc.guildhousecleanup", 17 },
-            { "urakka.kingdominc.foundation", 18 },
-            { "urakka.kingdominc.globalledger", 19 },
-            { "urakka.kingdominc.hdsnapshot", 20 },
-            { "urakka.kingdominc.bottleneckheatmap", 21 }
-        };
-
         private static readonly Dictionary<string, int> customMappings = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         private static readonly List<ModItem> cachedMods = new List<ModItem>();
 
@@ -53,12 +32,10 @@ namespace KingdomFoundation
             }
         }
 
-        public static bool TryLoadModJson(PluginInfo plugin, out string gameDomain, out int? nexusId, out int? gameScopedId, out int? fileId)
+        public static bool TryLoadModJson(PluginInfo plugin, out string gameDomain, out int? nexusId)
         {
             gameDomain = null;
             nexusId = null;
-            gameScopedId = null;
-            fileId = null;
 
             if (plugin == null) return false;
 
@@ -71,10 +48,7 @@ namespace KingdomFoundation
                 if (!string.IsNullOrEmpty(dir))
                 {
                     string localJson = Path.Combine(dir, "mod.json");
-                    if (File.Exists(localJson))
-                    {
-                        candidate = localJson;
-                    }
+                    if (File.Exists(localJson)) candidate = localJson;
                     else
                     {
                         var parent = Directory.GetParent(dir);
@@ -163,21 +137,7 @@ namespace KingdomFoundation
                                 nexusId = parsedModId;
                         }
 
-                        if (nexus.ContainsKey("gameScopedId"))
-                        {
-                            if (nexus["gameScopedId"].IsInteger) gameScopedId = nexus["gameScopedId"].AsInteger;
-                            else if (nexus["gameScopedId"].IsString && int.TryParse(nexus["gameScopedId"].AsString, out int parsedScoped))
-                                gameScopedId = parsedScoped;
-                        }
-
-                        if (nexus.ContainsKey("fileId"))
-                        {
-                            if (nexus["fileId"].IsInteger) fileId = nexus["fileId"].AsInteger;
-                            else if (nexus["fileId"].IsString && int.TryParse(nexus["fileId"].AsString, out int parsedFid))
-                                fileId = parsedFid;
-                        }
-
-                        return nexusId.HasValue || gameScopedId.HasValue;
+                        return nexusId.HasValue;
                     }
                 }
             }
@@ -186,15 +146,13 @@ namespace KingdomFoundation
             return false;
         }
 
-        public static void ResolveNexusInfo(string guid, PluginInfo plugin, out string gameDomain, out int? nexusId, out int? gameScopedId, out int? fileId)
+        public static void ResolveNexusInfo(string guid, PluginInfo plugin, out string gameDomain, out int? nexusId)
         {
             gameDomain = null;
             nexusId = null;
-            gameScopedId = null;
-            fileId = null;
 
-            // Priority 1: Read dynamic metadata directly from mod.json of loaded mod
-            if (TryLoadModJson(plugin, out gameDomain, out nexusId, out gameScopedId, out fileId))
+            // Priority 1: Read from mod.json of the loaded mod
+            if (TryLoadModJson(plugin, out gameDomain, out nexusId))
             {
                 if (string.IsNullOrEmpty(gameDomain)) gameDomain = "kingdominc";
                 return;
@@ -252,14 +210,6 @@ namespace KingdomFoundation
                 }
                 catch { }
             }
-
-            // Priority 5: Fallback dictionary
-            if (!string.IsNullOrEmpty(guid) && KnownNexusModIds.TryGetValue(guid, out int knownId))
-            {
-                nexusId = knownId;
-                gameDomain = "kingdominc";
-                return;
-            }
         }
 
         public static bool IsOutdated(string currentStr, string latestStr)
@@ -301,7 +251,7 @@ namespace KingdomFoundation
                 if (info?.Metadata == null) continue;
                 string guid = info.Metadata.GUID;
 
-                ResolveNexusInfo(guid, info, out string domain, out int? nexusId, out int? gameScopedId, out int? fileId);
+                ResolveNexusInfo(guid, info, out string domain, out int? nexusId);
 
                 if (map.TryGetValue(guid, out var existing))
                 {
@@ -310,8 +260,6 @@ namespace KingdomFoundation
                     existing.Location = info.Location;
                     if (!string.IsNullOrEmpty(domain)) existing.GameDomain = domain;
                     if (nexusId.HasValue) existing.NexusId = nexusId;
-                    if (gameScopedId.HasValue) existing.GameScopedId = gameScopedId;
-                    if (fileId.HasValue) existing.FileId = fileId;
                     list.Add(existing);
                 }
                 else
@@ -324,8 +272,6 @@ namespace KingdomFoundation
                         Location = info.Location,
                         GameDomain = domain ?? "kingdominc",
                         NexusId = nexusId,
-                        GameScopedId = gameScopedId,
-                        FileId = fileId,
                         StatusText = "Not checked"
                     };
                     list.Add(item);
@@ -342,10 +288,7 @@ namespace KingdomFoundation
         {
             RefreshInstalledList();
 
-            // API key is strictly optional; Nexus v3 mod metadata does not require an API key
-            string apiKey = FoundationPlugin.GetNexusApiKey();
-
-            var targets = cachedMods.Where(m => m.NexusId.HasValue || m.GameScopedId.HasValue).ToList();
+            var targets = cachedMods.Where(m => m.NexusId.HasValue).ToList();
             if (targets.Count == 0)
             {
                 LastCheckSummary = "No Nexus mods detected";
@@ -367,7 +310,7 @@ namespace KingdomFoundation
 
             foreach (var mod in targets)
             {
-                CheckSingleMod(mod, apiKey, () =>
+                CheckSingleMod(mod, () =>
                 {
                     pending--;
                     if (pending <= 0)
@@ -388,10 +331,9 @@ namespace KingdomFoundation
             }
         }
 
-        private static void CheckSingleMod(ModItem mod, string apiKey, Action callback)
+        private static void CheckSingleMod(ModItem mod, Action callback)
         {
-            int targetId = mod.NexusId ?? mod.GameScopedId ?? 0;
-            if (targetId <= 0)
+            if (!mod.NexusId.HasValue)
             {
                 mod.IsChecking = false;
                 mod.StatusText = "Local mod";
@@ -400,64 +342,11 @@ namespace KingdomFoundation
             }
 
             string domain = !string.IsNullOrEmpty(mod.GameDomain) ? mod.GameDomain : "kingdominc";
+            string url = $"https://api.nexusmods.com/v3/games/{domain}/mods/{mod.NexusId.Value}";
 
-            // If a specific file-version gameScopedId was provided and differs from modId, check mod-file-versions first
-            if (mod.GameScopedId.HasValue && mod.GameScopedId.Value > 0 && mod.GameScopedId.Value != mod.NexusId)
-            {
-                string fileVersionUrl = $"https://api.nexusmods.com/v3/games/{domain}/mod-file-versions/{mod.GameScopedId.Value}";
-                TryRequest(fileVersionUrl, apiKey, (success, ver) =>
-                {
-                    if (success && !string.IsNullOrEmpty(ver))
-                    {
-                        ApplyVersionResult(mod, ver);
-                        callback?.Invoke();
-                    }
-                    else if (mod.NexusId.HasValue)
-                    {
-                        // Fall back to unauthenticated mod endpoint
-                        string modUrl = $"https://api.nexusmods.com/v3/games/{domain}/mods/{mod.NexusId.Value}";
-                        TryRequest(modUrl, apiKey, (modSuccess, modVer) =>
-                        {
-                            if (modSuccess && !string.IsNullOrEmpty(modVer)) ApplyVersionResult(mod, modVer);
-                            else ApplyErrorResult(mod, "Check failed");
-                            callback?.Invoke();
-                        });
-                    }
-                    else
-                    {
-                        ApplyErrorResult(mod, "Check failed");
-                        callback?.Invoke();
-                    }
-                });
-            }
-            else
-            {
-                // Standard Nexus v3 endpoint: https://api.nexusmods.com/v3/games/{game_domain}/mods/{game_scoped_id}
-                string modUrl = $"https://api.nexusmods.com/v3/games/{domain}/mods/{targetId}";
-                TryRequest(modUrl, apiKey, (success, ver) =>
-                {
-                    if (success && !string.IsNullOrEmpty(ver))
-                    {
-                        ApplyVersionResult(mod, ver);
-                    }
-                    else
-                    {
-                        ApplyErrorResult(mod, "Check failed");
-                    }
-                    callback?.Invoke();
-                });
-            }
-        }
-
-        private static void TryRequest(string url, string apiKey, Action<bool, string> onComplete)
-        {
             var req = UnityWebRequest.Get(url);
-            if (!string.IsNullOrEmpty(apiKey))
-            {
-                req.SetRequestHeader("apikey", apiKey);
-            }
-            req.SetRequestHeader("User-Agent", "KingdomInc-Foundation/0.11.0");
             req.SetRequestHeader("Accept", "application/json");
+            req.SetRequestHeader("User-Agent", "KingdomInc-Foundation/0.11.0");
             req.timeout = 10;
 
             var op = req.SendWebRequest();
@@ -478,38 +367,38 @@ namespace KingdomFoundation
                                 latest = data["version"].AsString;
                             }
                         }
-                        onComplete?.Invoke(!string.IsNullOrEmpty(latest), latest);
+
+                        if (!string.IsNullOrEmpty(latest))
+                        {
+                            mod.LatestVersion = latest;
+                            mod.IsOutdated = IsOutdated(mod.InstalledVersion, latest);
+                            mod.Checked = true;
+                            mod.StatusText = mod.IsOutdated ? "Update Available" : "Up to date";
+                        }
+                        else
+                        {
+                            mod.Checked = false;
+                            mod.StatusText = "Check failed";
+                        }
                     }
                     else
                     {
-                        onComplete?.Invoke(false, null);
+                        mod.Checked = false;
+                        mod.StatusText = "Check failed (" + req.responseCode + ")";
                     }
                 }
                 catch
                 {
-                    onComplete?.Invoke(false, null);
+                    mod.Checked = false;
+                    mod.StatusText = "Error";
                 }
                 finally
                 {
+                    mod.IsChecking = false;
                     req.Dispose();
+                    callback?.Invoke();
                 }
             };
-        }
-
-        private static void ApplyVersionResult(ModItem mod, string latest)
-        {
-            mod.LatestVersion = latest;
-            mod.IsOutdated = IsOutdated(mod.InstalledVersion, latest);
-            mod.Checked = true;
-            mod.StatusText = mod.IsOutdated ? "Update Available" : "Up to date";
-            mod.IsChecking = false;
-        }
-
-        private static void ApplyErrorResult(ModItem mod, string errorText)
-        {
-            mod.Checked = false;
-            mod.StatusText = errorText;
-            mod.IsChecking = false;
         }
     }
 }
