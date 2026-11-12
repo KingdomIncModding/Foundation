@@ -27,7 +27,7 @@ namespace KingdomFoundation.Machines
             if(machine is Filter) names.Add("SetFilter");
             if(machine is TrackSwitch) names.Add("SetSwitch");
             if(machine is SingleButton) names.Add("PressButton");
-            if(machine is Assets.Source.Flow.Elements.Timer && GamePlayer.Current.HasTech("outfitter_timeout")) names.Add("SetTimer");
+            if(machine is Assets.Source.Flow.Elements.Timer) names.Add("SetTimer");
             if(machine is Outfitter && GamePlayer.Current.HasTech("outfitter_timeout")) names.Add("SetOutfitterTimeout");
             if(machine is Refiner && GamePlayer.Current.HasTech("refiner_mana")) names.Add("SetRefinerMana");
             if(machine is Stockpile && GamePlayer.Current.HasTech("stockpile_capacity")) names.Add("SetStockpileCapacity");

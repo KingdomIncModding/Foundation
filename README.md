@@ -2,9 +2,13 @@
 
 **A shared modding framework for Kingdom Inc.**
 
+**Current runtime and SDK: for Kingdom Inc game version 1.0.14.**
+
 Foundation lets other mods extend *Kingdom Inc* through reusable game integrations. It provides native research and workspace registration, machine and logistics access, in-game mod settings, a shared Mod Bar, events, and services for mods that work together. The framework uses the game's existing systems wherever possible instead of replacing how the game plays.
 
-The current source version is **0.12.0**. Foundation uses BepInEx 5 and ships its Core and Machines components together in **Foundation.dll**.
+The current download is **Foundation 0.13.0 for Kingdom Inc 1.0.14**. Foundation uses BepInEx 5 and ships its Core and Machines components together in **Foundation.dll**.
+
+This update follows the game's revised currency exchange calculations, makes timer settings available without outfitter timeout research, refreshes track-switch backgrounds correctly, and preserves mod-owned data in the updated native save format. Existing older saves remain loadable.
 
 ## Features
 
@@ -43,14 +47,16 @@ The framework itself does **not** add demonstration buildings or technologies to
 
 ## Requirements
 
-- **Kingdom Inc.** for PC (Unity Mono build).
+- **Kingdom Inc game version 1.0.14** for PC (Unity Mono build).
 - **BepInEx 5** with its bundled Harmony library.
 - Mods using Foundation must be compatible with the installed Foundation version.
 
 ## Downloads
 
-- **Foundation** is the runtime download required by mods that use this framework.
-- **Foundation SDK** is an optional development download containing the matching framework library, IntelliSense documentation, guides, and example projects. Extract it into a development folder; install the Foundation runtime separately in the game.
+- **Foundation 0.13.0 - Kingdom Inc 1.0.14** is the runtime download required by mods that use this framework.
+- **Foundation SDK 0.13.0 - Kingdom Inc 1.0.14** is an optional development download containing the matching framework library, IntelliSense documentation, guides, and example projects. Extract it into a development folder; install the matching Foundation runtime separately in the game.
+
+Choose these current downloads for **game version 1.0.14**. Older Foundation downloads remain available for mods that require an earlier framework version; they are separate releases.
 
 ## Installation
 

@@ -33,4 +33,6 @@ foreach (var collector in FoundationMachineApi.Registry.OfType<Collector>())
 
 Other supported operations cover native crafting recipes, resource selection, filtering, switching, timing, storage, manual production and specialized game machines. Use `Capabilities.SupportedCommands` instead of assuming every operation applies to every machine.
 
+In game 1.0.14, `SetTimer` is available without `outfitter_timeout` research. Outfitter timeout still requires that research. Both `FoundationApi.Machines.SetSwitch` and `FoundationMachineApi.Operations.SetSwitch` update the native switch background and routing state.
+
 See [Logistics](Logistics.md) for pipe and port APIs and [UI](../UI/README.md) for machine-specific controls.

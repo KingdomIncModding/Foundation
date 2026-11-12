@@ -28,3 +28,5 @@ Hold the returned `IDisposable` and release it on shutdown. `FoundationApi.SaveM
 `FoundationApi.Assets` and `FoundationApi.AssetDirectory` manage mod-owned sprites and other assets. Keep assets alive while registered content or UI uses them.
 
 Store stable IDs rather than live Unity object references.
+
+Game 1.0.14 no longer writes a `Secret` checksum. Foundation adds its data to the native document without introducing that field. Older saves containing `Secret` remain loadable; subsequent snapshots use the current native format. See [Migration](Migration.md) for the retained legacy adapter and removal schedule.

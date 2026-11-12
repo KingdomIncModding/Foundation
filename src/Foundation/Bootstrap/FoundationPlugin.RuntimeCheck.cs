@@ -58,6 +58,19 @@ namespace KingdomFoundation
             }
             catch (Exception ex) { error = ex.ToString(); }
             yield return new WaitForSecondsRealtime(4);
+            if (error == null)
+            {
+                var updateChecks = GameUpdateChecks.Run(Check);
+                while (error == null)
+                {
+                    bool more = false; object step = null;
+                    try { more = updateChecks.MoveNext(); if (more) step = updateChecks.Current; }
+                    catch (Exception ex) { error = ex.ToString(); }
+                    if (!more || error != null) break;
+                    yield return step;
+                }
+                (updateChecks as IDisposable)?.Dispose();
+            }
             if (error == null) try
             {
                 mouse = InputSystem.AddDevice<Mouse>(); mouse.MakeCurrent();

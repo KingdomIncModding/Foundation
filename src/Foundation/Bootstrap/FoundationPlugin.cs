@@ -146,14 +146,11 @@ namespace KingdomFoundation
             if (Assets.Source.Player.GamePlayer.Current != null &&
                 Assets.Source.Player.GamePlayer.Current.Flows.Count > 0)
             {
-                // SaveCurrentState's secret is calculated by SeedGenerator over the
-                // complete JSON excluding Secret. Native saves with Foundation data
-                // must remain compatible with this exact native calculation.
+                // Game 1.0.14 removed the native checksum. Extended documents must
+                // keep that native shape while preserving mod data and research.
                 var stateDocument = SaveGame.SaveCurrentState();
-                var storedDigest = stateDocument["Secret"].AsString;
-                stateDocument.Remove("Secret");
-                Check(storedDigest == new SeedGenerator().Add(stateDocument).Hash.ToString(),
-                    "Extended native save retains the game's exact FNV checksum");
+                Check(!stateDocument.ContainsKey("Secret") && stateDocument["Player"].IsJsonObject,
+                    "Extended native save retains the game 1.0.14 document shape without Secret");
             }
 
             var selector = new ModConfigSignalSelector("Source", new SignalSelection(null, null), null);

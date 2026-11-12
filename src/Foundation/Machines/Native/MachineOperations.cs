@@ -72,9 +72,7 @@ namespace KingdomFoundation.Machines
             var bad = Guard(machine); if (bad != null) return bad;
             return Call(() =>
             {
-                machine.SwitchPosition = activated;
-                var control = machine.World.GetComponent<WorldFlowTrackSwitch>();
-                if (control) control.SendMessage("UpdateSprite", SendMessageOptions.DontRequireReceiver);
+                KingdomFoundation.Api.FoundationApi.Machines.SetSwitch(machine, activated);
             });
         }
         public MachineOperationResult PressButton(SingleButton machine, int times = 1)
@@ -87,7 +85,6 @@ namespace KingdomFoundation.Machines
         {
             var bad = Guard(machine); if (bad != null) return bad;
             if (float.IsNaN(seconds) || float.IsInfinity(seconds) || seconds <= 0f) return MachineOperationResult.Reject("Timer interval must be finite and positive.");
-            if (!GamePlayer.Current.HasTech("outfitter_timeout")) return MachineOperationResult.Reject("Native timer configuration requires outfitter_timeout research.");
             return Call(() => { machine.MaxTime = seconds; machine.TimeLeft = seconds; });
         }
         public MachineOperationResult SetRefinerMana(Refiner machine, bool useMana)

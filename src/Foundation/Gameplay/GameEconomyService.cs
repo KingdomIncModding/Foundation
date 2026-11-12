@@ -41,7 +41,9 @@ namespace KingdomFoundation.Api
             foreach (var entry in amounts.GetCurrency()) if (entry.amt < 0) throw new ArgumentOutOfRangeException(nameof(amounts));
             Player.AddCurrency(amounts, countAsIncome);
         }
-        public float ExchangeTax(Currency currency) => Player.GetExchangeTax(currency);
+        [Obsolete("Deprecated: last working native signature was game build 1.0.13. Use ExchangeTaxDouble(Currency). Scheduled for removal in the next Foundation release.", false)]
+        public float ExchangeTax(Currency currency) => (float)ExchangeTaxDouble(currency);
+        public double ExchangeTaxDouble(Currency currency) => Player.GetExchangeTax(currency);
         public bool CanAfford(Currency currency, long amount)
         {
             if (amount < 0) throw new ArgumentOutOfRangeException(nameof(amount));

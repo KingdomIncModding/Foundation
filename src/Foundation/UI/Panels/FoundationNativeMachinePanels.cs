@@ -120,10 +120,8 @@ namespace KingdomFoundation
         {
             var timer = (TimerNode)ui.Machine;
             ui.LiveText("Time left", () => timer.TimeLeft.ToString("0.##") + "s");
-            if (GamePlayer.Current != null && GamePlayer.Current.HasTech("outfitter_timeout"))
-                ui.Number("Interval (seconds)", timer.MaxTime, .05, 100000, .05, next =>
-                    Apply(ui, operations.SetTimer(timer, (float)next)));
-            else ui.Text("Timer adjustment requires native outfitter_timeout research.");
+            ui.Number("Interval (seconds)", timer.MaxTime, .05, 100000, .05, next =>
+                Apply(ui, operations.SetTimer(timer, (float)next)));
             Overview(ui);
         }
 

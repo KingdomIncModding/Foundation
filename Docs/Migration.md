@@ -31,3 +31,23 @@ For owned registrations, prefer `FoundationApi.ForMod(modId)` and dispose it in 
 `IFoundationCore` includes `Mods` and `ServiceDirectory` getters. Mods implementing this interface themselves need to provide these members; most mods should consume `FoundationCoreApi.Core` instead.
 
 Use `FoundationApi.Panels` and `ModBar` for UI, `SignalDirectory` / `SignalLinks` for bindings, and `ModSave` for additional versioned data.
+
+## 4. Kingdom Inc game build 1.0.14
+
+Build mods against the 1.0.14 game assemblies and the matching Foundation 0.13.0 runtime/SDK. Game build numbers below refer to Kingdom Inc, not Foundation's version.
+
+| Retained deprecated API | Last working native game build | Replacement | Removal |
+| --- | --- | --- | --- |
+| `IGameEconomyService.ExchangeTax(Currency)` returning `float` | **1.0.13** | `ExchangeTaxDouble(Currency)` returning `double` | Next Foundation release |
+
+The old method keeps its exact CLR signature and forwards to the current game with an explicit float conversion. Existing consumers remain callable; newly compiled uses receive a non-error `[Obsolete]` warning. Use the replacement to preserve native precision and the game's five-percent minimum tax. Custom implementations of `IGameEconomyService` must also implement the new method.
+
+```csharp
+double tax = FoundationApi.Economy.ExchangeTaxDouble(currency);
+```
+
+Timers no longer require `outfitter_timeout` research: the machine command, capability list, and default panel follow the updated game. Outfitter timeout configuration still requires its own research. Both switch APIs refresh the native child control, including its new background sprites.
+
+Game 1.0.14 snapshots contain `Version` and `Player`, plus Foundation's mod-data extension; they no longer create `Secret`. Old saves that contain `Secret` still load. The internal legacy checksum adapter is also marked `[Obsolete]`, records **1.0.13**, and is scheduled for removal next release. Remove both compatibility adapters and their explicit diagnostic warning suppressions together when making that release; keep loading older native saves.
+
+Foundation does not expose wrappers named `TrackSwitch.UpdateTrackSwitch` or `Tier10._restoreEnergy`. If your mod calls or patches the game directly, the former now takes `bool newTech = false`, and the latter has become `_restoreEnergyScroll`. Reflection/Harmony lookups for `UpdateTrackSwitch` must specify `typeof(bool)`; an optional C# parameter does not retain the old parameterless CLR method. Currency exchange UI amounts and `SliderMax()` now use `long`.

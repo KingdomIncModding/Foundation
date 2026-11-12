@@ -56,9 +56,13 @@ namespace KingdomFoundation.Api
         public void SetSwitch(TrackSwitch machine, bool enabled)
         {
             Active(machine);
-            if (machine.SwitchPosition == enabled) return;
             machine.SwitchPosition = enabled;
-            machine.UpdateTrackSwitch();
+            machine.UpdateTrackSwitch(newTech: false);
+            if (machine.World)
+            {
+                var control = machine.World.GetComponentInChildren<WorldFlowTrackSwitch>();
+                if (control) control.UpdateSprite();
+            }
         }
         public void SetTimer(Timer machine, float seconds)
         {

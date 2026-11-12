@@ -1,9 +1,9 @@
 {
   "id": "Foundation",
   "name": "Foundation",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "author": "Urakka",
-  "description": "Shared Kingdom Inc modding framework providing native game APIs, mod content registration, research, machine integration, UI, events, services, and save support.",
+  "description": "For Kingdom Inc game version 1.0.14. Shared modding framework providing native game APIs, mod content registration, research, machine integration, UI, events, services, and save support. Matching Foundation SDK available separately.",
   "repository": {
     "platform": "GitHub",
     "owner": "urakkaamyx",
@@ -29,8 +29,8 @@
       "tagsVerified": true,
       "requirementsVerified": true,
       "sdkFileId": 8314821,
-      "sdkVersionId": "46785078755441",
-      "runtimeVersionId": "46785078755440"
+      "sdkVersionId": "46785078755446",
+      "runtimeVersionId": "46785078755445"
     }
   },
   "development": {

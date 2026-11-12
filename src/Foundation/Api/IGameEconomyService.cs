@@ -18,7 +18,12 @@ namespace KingdomFoundation.Api
         bool TrySpend(Currency currency, long amount);
         void Grant(Currency currency, long amount, bool countAsIncome = false);
         void Grant(CurrencyCollection amounts, bool countAsIncome = false);
+        /// <summary>Legacy single-precision adapter. Last native signature: game build 1.0.13.</summary>
+        /// <remarks>Retained for compatibility; scheduled for removal in the next Foundation release.</remarks>
+        [Obsolete("Deprecated: last working native signature was game build 1.0.13. Use ExchangeTaxDouble(Currency). Scheduled for removal in the next Foundation release.", false)]
         float ExchangeTax(Currency currency);
+        /// <summary>Returns the native double-precision exchange tax, including the game's minimum tax.</summary>
+        double ExchangeTaxDouble(Currency currency);
         bool CanAfford(Currency currency, long amount);
         double ResourceCostMultiplier(ResourceItemType resource);
         CurrencyCollection AdditionalWorkspaceCost();

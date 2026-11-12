@@ -20,7 +20,7 @@ namespace KingdomFoundation
     [BepInPlugin(Id, "Foundation", Version)]
     public sealed partial class FoundationPlugin : BaseUnityPlugin
     {
-        public const string Id = "urakka.kingdominc.foundation", Version = "0.12.0";
+        public const string Id = "urakka.kingdominc.foundation", Version = "0.13.0";
         internal static FoundationPlugin Instance;
         public static BepInEx.Configuration.ConfigEntry<string> NexusApiKeyConfig;
         internal Harmony hooks;
