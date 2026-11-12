@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -20,11 +20,11 @@ namespace KingdomFoundation
     [BepInPlugin(Id, "Foundation", Version)]
     public sealed partial class FoundationPlugin : BaseUnityPlugin
     {
-        public const string Id = "urakka.kingdominc.foundation", Version = "0.11.0";
+        public const string Id = "urakka.kingdominc.foundation", Version = "0.12.0";
         internal static FoundationPlugin Instance;
         public static BepInEx.Configuration.ConfigEntry<string> NexusApiKeyConfig;
         internal Harmony hooks;
-        internal static bool Diagnostic => Environment.GetCommandLineArgs().Contains("-foundation-smoke");
+        internal static bool Diagnostic => Environment.GetCommandLineArgs().Any(arg => arg == "-foundation-smoke" || arg == "-foundation-options-smoke");
 
         public static string GetNexusApiKey()
         {
@@ -76,7 +76,7 @@ namespace KingdomFoundation
                 IsolateSmokeSaves();
                 InstallDiagnostics();
                 Application.runInBackground = true;
-                StartCoroutine(RuntimeCheck());
+                StartCoroutine(Environment.GetCommandLineArgs().Contains("-foundation-options-smoke") ? new OptionsMenuChecks().Run() : RuntimeCheck());
             }
             Logger.LogInfo("Foundation " + Version + ": native game services, content, quests, dungeons, wars, economy, IO, UI, events and SDK ready.");
         }

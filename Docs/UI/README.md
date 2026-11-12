@@ -2,6 +2,8 @@
 
 Foundation provides native-themed controls for mod settings, HUD entries, custom panels and machine-specific interfaces.
 
+For top-level Options tabs, controls, Apply/Cancel and mod-controlled vanilla row visibility, see [Creating Options tabs](Options-Tabs.md) (Foundation 0.12.0+).
+
 ## Register a panel
 
 ```csharp

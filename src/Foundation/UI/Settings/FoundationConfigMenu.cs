@@ -14,7 +14,7 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationConfigMenu : MonoBehaviour
+    public sealed class FoundationConfigMenu : MonoBehaviour, IOptionsView
     {
         OptionsUI optionsUI;
         RectTransform rootRect;
@@ -27,11 +27,7 @@ namespace KingdomFoundation
         // Tabs
         RectTransform tabContainer;
         Button gameTabButton, modsTabButton, installedTabButton;
-        Image gameTabImage, modsTabImage, installedTabImage;
-        TMP_Text gameTabText, modsTabText, installedTabText;
-        Sprite activeTabSprite;
-        Color activeTabColor = Color.white;
-        Color inactiveTabColor = new Color(0.7f, 0.7f, 0.7f, 0.85f);
+        TMP_Text gameTabText;
         bool isModsTabActive;
         bool isInstalledTabActive;
 
@@ -62,6 +58,18 @@ namespace KingdomFoundation
         // Templates
         ModConfigTemplates templates;
         public IModConfigTemplates Templates => templates;
+
+        OptionsTabStrip tabStrip;
+        OptionsMenuBrand brand;
+        readonly Dictionary<IOptionsTabRegistration, OptionsTabPage> customPages = new Dictionary<IOptionsTabRegistration, OptionsTabPage>();
+        readonly Dictionary<string, IVanillaSettingView> vanillaRows = new Dictionary<string, IVanillaSettingView>(StringComparer.Ordinal);
+        readonly Dictionary<Transform, GameObject> vanillaHeaders = new Dictionary<Transform, GameObject>();
+        readonly List<IModConfigSection> editSections = new List<IModConfigSection>();
+        IOptionsTabRegistration selectedTab;
+        public bool IsOpen => built && isActiveAndEnabled;
+        public IReadOnlyList<IVanillaSettingView> VanillaSettings => vanillaRows.Values.ToArray();
+        public bool TryGetVanillaSetting(string id, out IVanillaSettingView setting)
+        { setting = null; return id != null && vanillaRows.TryGetValue(id, out setting); }
 
         bool built;
         bool modEditSessionOpen;
@@ -111,9 +119,13 @@ namespace KingdomFoundation
 
             // Hook API change events
             FoundationApi.ModConfig.Changed += OnRegistryChanged;
+            FoundationApi.Options.Changed += OnOptionsChanged;
             NexusUpdateChecker.Changed += OnInstalledModsChanged;
 
             built = true;
+            brand = new OptionsMenuBrand(source);
+            if (isActiveAndEnabled) brand.Show();
+            OnOptionsChanged();
             if (isActiveAndEnabled) BeginModConfigSession();
             ShowGameTab();
         }
@@ -122,6 +134,11 @@ namespace KingdomFoundation
         {
             CancelModConfigs();
             FoundationApi.ModConfig.Changed -= OnRegistryChanged;
+            FoundationApi.Options.Changed -= OnOptionsChanged;
+            ((OptionsTabRegistry)FoundationApi.Options).Close(this);
+            foreach (var page in customPages.Values) page.Dispose();
+            customPages.Clear(); tabStrip?.Dispose();
+            brand?.Dispose();
             NexusUpdateChecker.Changed -= OnInstalledModsChanged;
         }
 
@@ -130,7 +147,9 @@ namespace KingdomFoundation
             if (!built && optionsUI != null) Build(optionsUI);
             if (built) BeginModConfigSession();
             AdjustWindowTransform();
-            if (isInstalledTabActive) ShowInstalledTab();
+            brand?.Show();
+            if (selectedTab != null && selectedTab.IsRegistered) ShowCustomTab(selectedTab);
+            else if (isInstalledTabActive) ShowInstalledTab();
             else if (isModsTabActive) ShowModsTab();
             else ShowGameTab();
         }
@@ -140,14 +159,80 @@ namespace KingdomFoundation
             // The native Options panel can also be hidden by navigation/close.
             // Discard any staged values if neither Apply nor Cancel was invoked.
             CancelModConfigs();
+            ((OptionsTabRegistry)FoundationApi.Options).Close(this);
+            ResetVanillaRows();
+            brand?.Hide();
         }
 
         void BeginModConfigSession()
         {
             if (modEditSessionOpen) return;
-            foreach (var section in FoundationApi.ModConfig.Sections)
+            modEditSessionOpen = true; SynchronizeEditSections();
+            ResetVanillaRows();
+            ((OptionsTabRegistry)FoundationApi.Options).Open(this);
+        }
+
+        void SynchronizeEditSections()
+        {
+            if (!modEditSessionOpen) return;
+            var sections = FoundationApi.ModConfig.Sections.Concat(FoundationApi.Options.Tabs.Select(t => t.Tab.Settings)).ToArray();
+            foreach (var old in editSections.Where(s => !sections.Any(current => ReferenceEquals(current, s))).ToArray())
+            { editSections.Remove(old); try { old.Cancel(); } catch (Exception error) { FoundationApi.Report(error); } }
+            foreach (var section in sections)
+            {
+                if (editSections.Any(current => ReferenceEquals(current, section))) continue;
+                editSections.Add(section);
                 if (section is ModConfigSection concrete) concrete.BeginEdit();
-            modEditSessionOpen = true;
+            }
+        }
+
+        void ResetVanillaRows()
+        { foreach (var row in vanillaRows.Values) row.IsVisible = true; UpdateVanillaLayout(); }
+
+        void UpdateVanillaLayout()
+        {
+            foreach (var pair in vanillaHeaders)
+            {
+                if (!pair.Key || !pair.Value) continue;
+                bool any = pair.Key.Cast<Transform>().Any(child => child.gameObject != pair.Value && child.gameObject.activeSelf);
+                pair.Value.SetActive(any); LayoutRebuilder.MarkLayoutForRebuild((RectTransform)pair.Key);
+            }
+        }
+
+        void OnOptionsChanged()
+        {
+            if (!built) return;
+            SynchronizeEditSections();
+            var tabs = FoundationApi.Options.Tabs;
+            foreach (var removed in customPages.Keys.Where(t => !tabs.Contains(t)).ToArray())
+            { customPages[removed].Dispose(); customPages.Remove(removed); }
+            foreach (var tab in tabs)
+                if (!customPages.ContainsKey(tab)) customPages.Add(tab, new OptionsTabPage(transform, tab.Tab, templates));
+            tabStrip.Rebuild(tabs, SelectBuiltinTab, ShowCustomTab);
+            gameTabButton = tabStrip.Buttons["game"]; modsTabButton = tabStrip.Buttons["mods"]; installedTabButton = tabStrip.Buttons["installed"];
+            gameTabText = gameTabButton.GetComponentInChildren<TMP_Text>();
+            if (selectedTab != null) { if (selectedTab.IsRegistered) ShowCustomTab(selectedTab); else ShowGameTab(); }
+        }
+
+        void SelectBuiltinTab(string id)
+        { if (id == "mods") ShowModsTab(); else if (id == "installed") ShowInstalledTab(); else ShowGameTab(); }
+
+        public void ShowCustomTab(IOptionsTabRegistration tab)
+        {
+            if (tab == null || !tab.IsRegistered || !customPages.TryGetValue(tab, out var page)) return;
+            selectedTab = tab; isModsTabActive = isInstalledTabActive = false;
+            gamePage.SetActive(false); modsPage.SetActive(false); installedPage.SetActive(false);
+            foreach (var pair in customPages) pair.Value.SetVisible(pair.Key == tab);
+            tabStrip.Select(OptionsTabStrip.Key(tab));
+        }
+
+        void HideCustomPages()
+        { selectedTab = null; foreach (var page in customPages.Values) page.SetVisible(false); }
+
+        void LateUpdate()
+        {
+            tabStrip?.Update();
+            if (selectedTab != null && customPages.TryGetValue(selectedTab, out var page)) page.Refresh();
         }
 
         void AdjustWindowTransform()
@@ -190,7 +275,7 @@ namespace KingdomFoundation
 
                 var headerText = header.GetComponentInChildren<TMP_Text>(true);
                 float textWidth = headerText != null ? headerText.preferredWidth : 100f;
-                float badgeWidth = Mathf.Max(240f, textWidth + 80f);
+                float badgeWidth = Mathf.Max(170f, textWidth + 48f);
                 header.sizeDelta = new Vector2(badgeWidth, 42f);
 
                 if (headerText != null)
@@ -227,7 +312,7 @@ namespace KingdomFoundation
                 var r = (RectTransform)applyTrans;
                 r.anchorMin = r.anchorMax = r.pivot = new Vector2(1, 0);
                 r.anchoredPosition = new Vector2(-40, 20);
-                r.sizeDelta = new Vector2(180, 52); // Taller: 52px
+                r.sizeDelta = new Vector2(180, 44); // Taller: 52px
 
                 var text = applyButton.GetComponentInChildren<TMP_Text>(true);
                 if (text)
@@ -248,8 +333,8 @@ namespace KingdomFoundation
                 cancelButton = cancelTrans.GetComponent<Button>();
                 var r = (RectTransform)cancelTrans;
                 r.anchorMin = r.anchorMax = r.pivot = new Vector2(1, 0);
-                r.anchoredPosition = new Vector2(-235, 20);
-                r.sizeDelta = new Vector2(180, 52); // Taller: 52px
+                r.anchoredPosition = new Vector2(-236, 20);
+                r.sizeDelta = new Vector2(180, 44); // Taller: 52px
 
                 var text = cancelButton.GetComponentInChildren<TMP_Text>(true);
                 if (text)
@@ -266,111 +351,14 @@ namespace KingdomFoundation
 
         void CreateTabs()
         {
-            tabContainer = new GameObject("Tabs", typeof(RectTransform)).GetComponent<RectTransform>();
-            tabContainer.SetParent(transform, false);
-            tabContainer.anchorMin = new Vector2(0, 1);
-            tabContainer.anchorMax = new Vector2(1, 1);
-            tabContainer.pivot = new Vector2(0.5f, 1);
-            tabContainer.anchoredPosition = new Vector2(0, -40);
-            tabContainer.sizeDelta = new Vector2(0, 36); // Reduced height: 36px
-
-            // Tab button template from Apply button
-            var template = applyButton != null ? applyButton.gameObject : null;
-
-            // Game Settings Tab
-            var gameBtnObj = template != null ? Instantiate(template, tabContainer) : new GameObject("GameTab", typeof(RectTransform), typeof(Image), typeof(Button));
-            gameBtnObj.name = "GameTabButton";
-            gameTabButton = gameBtnObj.GetComponent<Button>();
-            gameTabButton.onClick = new Button.ButtonClickedEvent();
-            gameTabButton.onClick.AddListener(() => { UISounds.TurnPage(); ShowGameTab(); });
-
-            var gRect = (RectTransform)gameBtnObj.transform;
-            gRect.anchorMin = new Vector2(0, 0);
-            gRect.anchorMax = new Vector2(0, 1);
-            gRect.pivot = new Vector2(0, 0.5f);
-            gRect.anchoredPosition = new Vector2(35, 0);
-            gRect.sizeDelta = new Vector2(210, 36); // Sleek 36px height
-
-            gameTabImage = gameBtnObj.GetComponent<Image>();
-            activeTabSprite = gameTabImage ? gameTabImage.sprite : null;
-            gameTabText = gameBtnObj.GetComponentInChildren<TMP_Text>(true);
-            if (gameTabText)
-            {
-                gameTabText.text = "Game Settings";
-                gameTabText.fontSize = 17;
-                gameTabText.alignment = TextAlignmentOptions.Center;
-                var gtr = gameTabText.rectTransform;
-                gtr.anchorMin = Vector2.zero;
-                gtr.anchorMax = Vector2.one;
-                gtr.offsetMin = gtr.offsetMax = Vector2.zero;
-            }
-
-            // Mods Settings Tab
-            var modsBtnObj = template != null ? Instantiate(template, tabContainer) : new GameObject("ModsTab", typeof(RectTransform), typeof(Image), typeof(Button));
-            modsBtnObj.name = "ModsTabButton";
-            modsTabButton = modsBtnObj.GetComponent<Button>();
-            modsTabButton.onClick = new Button.ButtonClickedEvent();
-            modsTabButton.onClick.AddListener(() => { UISounds.TurnPage(); ShowModsTab(); });
-
-            var mRect = (RectTransform)modsBtnObj.transform;
-            mRect.anchorMin = new Vector2(0, 0);
-            mRect.anchorMax = new Vector2(0, 1);
-            mRect.pivot = new Vector2(0, 0.5f);
-            mRect.anchoredPosition = new Vector2(265, 0);
-            mRect.sizeDelta = new Vector2(210, 36); // Sleek 36px height
-
-            modsTabImage = modsBtnObj.GetComponent<Image>();
-            modsTabText = modsBtnObj.GetComponentInChildren<TMP_Text>(true);
-            if (modsTabText)
-            {
-                modsTabText.text = "Mod Settings";
-                modsTabText.fontSize = 17;
-                modsTabText.alignment = TextAlignmentOptions.Center;
-                var mtr = modsTabText.rectTransform;
-                mtr.anchorMin = Vector2.zero;
-                mtr.anchorMax = Vector2.one;
-                mtr.offsetMin = mtr.offsetMax = Vector2.zero;
-            }
-
-            // Installed Tab (on the far right)
-            var instBtnObj = template != null ? Instantiate(template, tabContainer) : new GameObject("InstalledTab", typeof(RectTransform), typeof(Image), typeof(Button));
-            instBtnObj.name = "InstalledTabButton";
-            installedTabButton = instBtnObj.GetComponent<Button>();
-            installedTabButton.onClick = new Button.ButtonClickedEvent();
-            installedTabButton.onClick.AddListener(() => { UISounds.TurnPage(); ShowInstalledTab(); });
-
-            var iRect = (RectTransform)instBtnObj.transform;
-            iRect.anchorMin = new Vector2(1, 0);
-            iRect.anchorMax = new Vector2(1, 1);
-            iRect.pivot = new Vector2(1, 0.5f);
-            iRect.anchoredPosition = new Vector2(-55, 0); // Far right, clear of CloseButton (-16, -12)
-            iRect.sizeDelta = new Vector2(190, 36);
-
-            installedTabImage = instBtnObj.GetComponent<Image>();
-            installedTabText = instBtnObj.GetComponentInChildren<TMP_Text>(true);
-            if (installedTabText)
-            {
-                installedTabText.text = "Installed";
-                installedTabText.fontSize = 17;
-                installedTabText.alignment = TextAlignmentOptions.Center;
-                var itr = installedTabText.rectTransform;
-                itr.anchorMin = Vector2.zero;
-                itr.anchorMax = Vector2.one;
-                itr.offsetMin = new Vector2(16, 0);
-                itr.offsetMax = new Vector2(-16, 0);
-            }
-
-            // Horizontal divider line under tabs
-            var lineObj = new GameObject("TabDivider", typeof(RectTransform), typeof(Image));
-            lineObj.transform.SetParent(tabContainer, false);
-            var lRect = (RectTransform)lineObj.transform;
-            lRect.anchorMin = new Vector2(0, 0);
-            lRect.anchorMax = new Vector2(1, 0);
-            lRect.pivot = new Vector2(0.5f, 0);
-            lRect.anchoredPosition = new Vector2(0, -6);
-            lRect.sizeDelta = new Vector2(-60, 2);
-            var lineImg = lineObj.GetComponent<Image>();
-            lineImg.color = new Color(0.55f, 0.45f, 0.28f, 0.85f);
+            var font = header.GetComponentInChildren<TMP_Text>(true);
+            tabStrip = new OptionsTabStrip(transform, font);
+            tabStrip.Rebuild(FoundationApi.Options.Tabs, SelectBuiltinTab, ShowCustomTab);
+            tabContainer = tabStrip.Root;
+            gameTabButton = tabStrip.Buttons["game"];
+            modsTabButton = tabStrip.Buttons["mods"];
+            installedTabButton = tabStrip.Buttons["installed"];
+            gameTabText = gameTabButton.GetComponentInChildren<TMP_Text>();
         }
 
         void BuildGamePage()
@@ -381,7 +369,7 @@ namespace KingdomFoundation
             pageRect.anchorMin = new Vector2(0, 0);
             pageRect.anchorMax = new Vector2(1, 1);
             pageRect.offsetMin = new Vector2(30, 84);
-            pageRect.offsetMax = new Vector2(-30, -96);
+            pageRect.offsetMax = new Vector2(-30, -OptionsTabStrip.PageTopInset);
 
             // Locate the native OptionsContent containing vanilla rows
             var nativeContent = transform.Find("OptionsContent") as RectTransform;
@@ -442,7 +430,7 @@ namespace KingdomFoundation
 
         void CreateSectionHeader(Transform parent, string title)
         {
-            templates.CreateTextRow(parent, title, true, out _);
+            vanillaHeaders[parent] = templates.CreateTextRow(parent, title, true, out _);
         }
 
         void MoveRow(Transform nativeParent, Transform newParent, string childName)
@@ -450,6 +438,8 @@ namespace KingdomFoundation
             var child = nativeParent.Find(childName);
             if (child)
             {
+                child.gameObject.SetActive(true);
+                vanillaRows[childName] = new VanillaSettingView(childName, child.gameObject, UpdateVanillaLayout);
                 child.SetParent(newParent, false);
                 var rect = (RectTransform)child;
                 rect.anchorMin = new Vector2(0, 1);
@@ -472,7 +462,7 @@ namespace KingdomFoundation
             pageRect.anchorMin = new Vector2(0, 0);
             pageRect.anchorMax = new Vector2(1, 1);
             pageRect.offsetMin = new Vector2(30, 84);
-            pageRect.offsetMax = new Vector2(-30, -96);
+            pageRect.offsetMax = new Vector2(-30, -OptionsTabStrip.PageTopInset);
 
             // 1. Sidebar on the left (width ~320px)
             var sidebar = new GameObject("Sidebar", typeof(RectTransform), typeof(Image));
@@ -535,6 +525,7 @@ namespace KingdomFoundation
             sVlg.childControlHeight = false;
             sVlg.childForceExpandWidth = true;
             sVlg.childForceExpandHeight = false;
+            sVlg.childAlignment = TextAnchor.UpperLeft;
 
             var sCsf = sContent.GetComponent<ContentSizeFitter>();
             sCsf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
@@ -701,62 +692,33 @@ namespace KingdomFoundation
 
         public void ShowGameTab()
         {
-            isModsTabActive = false;
-            isInstalledTabActive = false;
+            HideCustomPages(); isModsTabActive = isInstalledTabActive = false;
             if (gamePage) gamePage.SetActive(true);
             if (modsPage) modsPage.SetActive(false);
             if (installedPage) installedPage.SetActive(false);
-
-            if (gameTabImage) gameTabImage.color = activeTabColor;
-            if (gameTabText) gameTabText.fontStyle = FontStyles.Bold;
-            if (modsTabImage) modsTabImage.color = inactiveTabColor;
-            if (modsTabText) modsTabText.fontStyle = FontStyles.Normal;
-            if (installedTabImage) installedTabImage.color = inactiveTabColor;
-            if (installedTabText) installedTabText.fontStyle = FontStyles.Normal;
+            tabStrip?.Select("game");
         }
 
         public void ShowModsTab(string modId = null)
         {
-            isModsTabActive = true;
-            isInstalledTabActive = false;
+            HideCustomPages(); isModsTabActive = true; isInstalledTabActive = false;
             if (gamePage) gamePage.SetActive(false);
             if (modsPage) modsPage.SetActive(true);
             if (installedPage) installedPage.SetActive(false);
-
-            if (modsTabImage) modsTabImage.color = activeTabColor;
-            if (modsTabText) modsTabText.fontStyle = FontStyles.Bold;
-            if (gameTabImage) gameTabImage.color = inactiveTabColor;
-            if (gameTabText) gameTabText.fontStyle = FontStyles.Normal;
-            if (installedTabImage) installedTabImage.color = inactiveTabColor;
-            if (installedTabText) installedTabText.fontStyle = FontStyles.Normal;
-
-            if (!string.IsNullOrEmpty(modId))
-                selectedModId = modId;
-
+            tabStrip?.Select("mods");
+            if (!string.IsNullOrEmpty(modId)) selectedModId = modId;
             RefreshModsList();
         }
 
         public void ShowInstalledTab()
         {
-            isModsTabActive = false;
-            isInstalledTabActive = true;
+            HideCustomPages(); isModsTabActive = false; isInstalledTabActive = true;
             if (gamePage) gamePage.SetActive(false);
             if (modsPage) modsPage.SetActive(false);
             if (installedPage) installedPage.SetActive(true);
-
-            if (installedTabImage) installedTabImage.color = activeTabColor;
-            if (installedTabText) installedTabText.fontStyle = FontStyles.Bold;
-            if (gameTabImage) gameTabImage.color = inactiveTabColor;
-            if (gameTabText) gameTabText.fontStyle = FontStyles.Normal;
-            if (modsTabImage) modsTabImage.color = inactiveTabColor;
-            if (modsTabText) modsTabText.fontStyle = FontStyles.Normal;
-
-            RefreshInstalledModsUI();
-
+            tabStrip?.Select("installed"); RefreshInstalledModsUI();
             if (!NexusUpdateChecker.CachedMods.Any(m => m.Checked) && !NexusUpdateChecker.IsCheckingAll)
-            {
                 NexusUpdateChecker.CheckAll();
-            }
         }
 
         void BuildInstalledPage()
@@ -767,7 +729,7 @@ namespace KingdomFoundation
             pageRect.anchorMin = new Vector2(0, 0);
             pageRect.anchorMax = new Vector2(1, 1);
             pageRect.offsetMin = new Vector2(30, 84);
-            pageRect.offsetMax = new Vector2(-30, -96);
+            pageRect.offsetMax = new Vector2(-30, -OptionsTabStrip.PageTopInset);
 
             // 1. Top Control Bar (Title + Subtitle + Action buttons)
             var topBar = new GameObject("TopBar", typeof(RectTransform));
@@ -796,7 +758,7 @@ namespace KingdomFoundation
             installedSummaryText.fontSizeMin = 13;
             installedSummaryText.fontSizeMax = 17;
             installedSummaryText.alignment = TextAlignmentOptions.MidlineLeft;
-            installedSummaryText.text = "<b>Installed Mods</b>  ·  Loading...";
+            installedSummaryText.text = "<b>Installed Mods</b>  Ã‚Â·  Loading...";
 
             // Action Buttons Template from Apply button
             var template = applyButton != null ? applyButton.gameObject : gameTabButton.gameObject;
@@ -1000,15 +962,15 @@ namespace KingdomFoundation
             {
                 if (NexusUpdateChecker.IsCheckingAll)
                 {
-                    installedSummaryText.text = $"<b>Installed Mods</b>  ·  <size=15>{total} Mods Loaded  ·  <color=#D4AF37>Checking Nexus for updates...</color></size>";
+                    installedSummaryText.text = $"<b>Installed Mods</b>  Ã‚Â·  <size=15>{total} Mods Loaded  Ã‚Â·  <color=#D4AF37>Checking Nexus for updates...</color></size>";
                 }
                 else if (outdated > 0)
                 {
-                    installedSummaryText.text = $"<b>Installed Mods</b>  ·  <size=15>{total} Mods Loaded  ·  <color=#FF7777><b>{outdated} Update{(outdated == 1 ? "" : "s")} Available</b></color></size>";
+                    installedSummaryText.text = $"<b>Installed Mods</b>  Ã‚Â·  <size=15>{total} Mods Loaded  Ã‚Â·  <color=#FF7777><b>{outdated} Update{(outdated == 1 ? "" : "s")} Available</b></color></size>";
                 }
                 else
                 {
-                    installedSummaryText.text = $"<b>Installed Mods</b>  ·  <size=15>{total} Mods Loaded  ·  <color=#77DD77>{NexusUpdateChecker.LastCheckSummary}</color></size>";
+                    installedSummaryText.text = $"<b>Installed Mods</b>  Ã‚Â·  <size=15>{total} Mods Loaded  Ã‚Â·  <color=#77DD77>{NexusUpdateChecker.LastCheckSummary}</color></size>";
                 }
             }
 
@@ -1068,7 +1030,7 @@ namespace KingdomFoundation
                 var gText = guidObj.GetComponent<TextMeshProUGUI>();
                 if (gameTabText) { gText.font = gameTabText.font; gText.fontSharedMaterial = gameTabText.fontSharedMaterial; }
                 string fileName = !string.IsNullOrEmpty(mod.Location) ? Path.GetFileName(mod.Location) : "";
-                gText.text = $"{mod.Guid}{(string.IsNullOrEmpty(fileName) ? "" : "  ·  " + fileName)}";
+                gText.text = $"{mod.Guid}{(string.IsNullOrEmpty(fileName) ? "" : "  Ã‚Â·  " + fileName)}";
                 gText.fontSize = 12;
                 gText.color = new Color(0.65f, 0.65f, 0.70f, 0.9f);
                 gText.alignment = TextAlignmentOptions.MidlineLeft;
@@ -1187,6 +1149,7 @@ namespace KingdomFoundation
 
         void OnRegistryChanged()
         {
+            SynchronizeEditSections();
             if (isModsTabActive && gameObject.activeInHierarchy)
                 RefreshModsList();
         }
@@ -1200,7 +1163,13 @@ namespace KingdomFoundation
 
             // Rebuild buttons if count or IDs changed
             foreach (var btn in modButtons.Values)
-                if (btn) Destroy(btn.gameObject);
+            {
+                if (!btn) continue;
+                // Deferred destruction must not leave obsolete rows in this frame's layout.
+                btn.gameObject.SetActive(false);
+                btn.transform.SetParent(null, false);
+                Destroy(btn.gameObject);
+            }
             modButtons.Clear();
 
             if (string.IsNullOrEmpty(selectedModId) && sections.Count > 0)
@@ -1249,6 +1218,12 @@ namespace KingdomFoundation
                 modButtons[section.ModId] = btn;
             }
 
+            LayoutRebuilder.ForceRebuildLayoutImmediate(modsSidebarContent);
+            if (modsSidebarScroll)
+            {
+                modsSidebarScroll.StopMovement();
+                modsSidebarScroll.verticalNormalizedPosition = 1f;
+            }
             SelectMod(selectedModId);
         }
 
@@ -1316,7 +1291,8 @@ namespace KingdomFoundation
         {
             if (!modEditSessionOpen) return;
             modEditSessionOpen = false;
-            foreach (var section in FoundationApi.ModConfig.Sections)
+            var sections = editSections.ToArray(); editSections.Clear();
+            foreach (var section in sections)
             {
                 try { section.Commit(); }
                 catch (Exception ex) { FoundationApi.Report(ex); }
@@ -1327,7 +1303,8 @@ namespace KingdomFoundation
         {
             if (!modEditSessionOpen) return;
             modEditSessionOpen = false;
-            foreach (var section in FoundationApi.ModConfig.Sections)
+            var sections = editSections.ToArray(); editSections.Clear();
+            foreach (var section in sections)
             {
                 try { section.Cancel(); }
                 catch (Exception ex) { FoundationApi.Report(ex); }

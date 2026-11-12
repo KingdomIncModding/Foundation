@@ -18,6 +18,8 @@ namespace KingdomFoundation.Api
         /// <summary>Native Kingdom Inc UI creation bridge; existing mod-bar control contract unchanged.</summary>
         public static IFoundationNativeUiFactory NativeUiFactory => NativeUiFactoryService;
         public static IModConfigRegistry ModConfig { get; } = new ModConfigRegistry();
+        /// <summary>Top-level Options tabs and per-opening access to vanilla setting views.</summary>
+        public static IOptionsTabRegistry Options { get; } = new OptionsTabRegistry();
         /// <summary>Native-themed mod windows and type-specific machine panels (single unified DLL).</summary>
         public static IFoundationPanelRegistry Panels { get; } = new FoundationPanelRegistry();
         private static readonly FoundationAssets AssetService = new FoundationAssets();

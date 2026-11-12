@@ -4,7 +4,7 @@
 
 Foundation lets other mods extend *Kingdom Inc* through reusable game integrations. It provides native research and workspace registration, machine and logistics access, in-game mod settings, a shared Mod Bar, events, and services for mods that work together. The framework uses the game's existing systems wherever possible instead of replacing how the game plays.
 
-The current source version is **0.11.0**. Foundation uses BepInEx 5 and ships its Core and Machines components together in **Foundation.dll**.
+The current source version is **0.12.0**. Foundation uses BepInEx 5 and ships its Core and Machines components together in **Foundation.dll**.
 
 ## Features
 
@@ -26,7 +26,9 @@ The current source version is **0.11.0**. Foundation uses BepInEx 5 and ships it
 ### In-game mod controls
 
 - A shared **Mod Bar** that other mods can populate with buttons, toggles, dropdowns, and status text.
-- A **Mod Settings** area integrated into the game's Options menu, with controls registered by installed mods.
+- An **Options** window with Game, Mods and Installed tabs, native bronze tab styling, and padded labels sized to their text.
+- Additional top-level Options tabs supplied by participating mods, with shared Apply & Close and Cancel behavior.
+- Vanilla settings remain available by default; a participating mod can hide individual rows while it supplies its own interface.
 - Native-themed windows, controls, and panels that mods can reuse.
 
 ### Shared services

@@ -14,9 +14,7 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationConfigMenu
-    {
-        sealed class ConfigContext : IModConfigContext
+    internal sealed class ConfigContext : IModConfigContext
         {
             public RectTransform Container { get; }
             public IModConfigTemplates Templates { get; }
@@ -26,7 +24,6 @@ namespace KingdomFoundation
                 Container = container;
                 Templates = templates;
             }
-        }
     }
-
 }
+

@@ -11,6 +11,7 @@ The primary API is `KingdomFoundation.Api.FoundationApi`.
 | `View`, `Audio`, `Presentation` | Camera/input, audio and native assets |
 | `Content`, `TechNodes`, `WorkspaceNodes` | Supported mod-created definitions |
 | `Panels`, `ModBar`, `ModConfig`, `NativeUiFactory` | Native-themed mod interfaces |
+| `Options` | Mod-registered top-level Options tabs and access to vanilla setting views; see [Options tabs](UI/Options-Tabs.md) |
 | `Signals`, `SignalDirectory`, `SignalLinks` | Signal source/property discovery and bindings |
 | `Assets`, `AssetDirectory` | Mod-owned assets |
 | `ModSave`, `SaveMigrations` | Per-kingdom mod-owned persistence |
@@ -37,6 +38,7 @@ Obtained via `FoundationApi.ForMod(modId)`. Owns your mod's registrations and au
 | `BindKey(key, handler)` | `IDisposable` | Binds a keypress shortcut. |
 | `Register(definition)` | `ITechNode` / `IWorkspaceNodeType` | Registers tech tree or workspace nodes. |
 | `Register(element)` | `IModBarRegistration` | Registers buttons, toggles, or dropdowns in the top Mod Bar. |
+| `Register(tab)` | `IOptionsTabRegistration` | Owns a top-level Options tab and disposes it with this context. |
 | `Persist(...)` | `IDisposable` | Registers per-kingdom custom save data. |
 
 ---

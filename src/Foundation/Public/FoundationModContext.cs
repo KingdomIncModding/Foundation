@@ -185,6 +185,14 @@ namespace KingdomFoundation.Api
             if (disposed) throw new ObjectDisposedException(nameof(FoundationModContext));
             return FoundationApi.ModConfig.GetOrCreateSection(ModId, title, description);
         }
+        /// <summary>Registers a top-level Options tab, owned and disposed by this mod context.</summary>
+        public IOptionsTabRegistration Register(IOptionsTab tab)
+        {
+            EnsureActive();
+            if (tab == null) throw new ArgumentNullException(nameof(tab));
+            if (tab.ModId != ModId) throw new ArgumentException("Tab owner does not match the mod context.", nameof(tab));
+            return Track(FoundationApi.Options.Register(tab));
+        }
         public void Dispose()
         {
             if (disposed) return;

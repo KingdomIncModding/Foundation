@@ -11,4 +11,6 @@ The Foundation SDK helps mod developers extend **Kingdom Inc** with BepInEx 5 an
 
 See [Getting Started](../Docs/Getting-Started.md), the [API reference](../Docs/API-Reference.md), [Game API](../Docs/GameAPI/README.md), [UI](../Docs/UI/README.md), [Core](../Docs/Core/README.md) and [Content](../Docs/Content-And-Persistence.md). Complete plugin examples are in [Examples](../Examples/).
 
+To add an Options tab with native controls, see [Options tabs and controls](../Docs/UI/Options-Tabs.md).
+
 Do not distribute game-provided DLLs or copyrighted Kingdom Inc assets with your mod.

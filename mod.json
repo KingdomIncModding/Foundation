@@ -1,48 +1,50 @@
 {
-  "id": "Foundation",
-  "name": "Foundation",
-  "version": "0.11.0",
-  "author": "Urakka",
-  "description": "Shared Kingdom Inc modding framework providing native game APIs, mod content registration, research, machine integration, UI, events, services, and save support.",
-  "repository": {
-    "platform": "GitHub",
-    "owner": "urakkaamyx",
-    "name": "KingdomInc_Foundation",
-    "url": "https://github.com/urakkaamyx/KingdomInc_Foundation",
-    "branch": "main",
-    "visibility": "public",
-    "topics": [],
-    "latestTag": null
-  },
-  "distribution": {
-    "nexus": {
-      "game": "kingdominc",
-      "modId": 18,
-      "fileId": null,
-      "url": "https://www.nexusmods.com/kingdominc/mods/18",
-      "requirements": [
-        "BepInEx 5"
-      ],
-      "tags": [
-        "AI-Generated Content"
-      ],
-      "tagsVerified": false,
-      "requirementsVerified": true
-    }
-  },
-  "development": {
-    "framework": "BepInEx 5 / HarmonyX",
-    "language": "C#",
-    "target": "netstandard2.1",
-    "dependencies": [
-      "BepInEx 5",
-      "0Harmony (bundled with BepInEx 5)",
-      "Kingdom Inc game assemblies",
-      "UnityEngine (bundled with game)"
-    ]
-  },
-  "publishing": {
-    "githubReleases": null,
-    "nexusMods": null
-  }
+    "id":  "Foundation",
+    "name":  "Foundation",
+    "version":  "0.12.0",
+    "author":  "Urakka",
+    "description":  "Shared Kingdom Inc modding framework providing native game APIs, mod content registration, research, machine integration, UI, events, services, and save support.",
+    "repository":  {
+                       "platform":  "GitHub",
+                       "owner":  "urakkaamyx",
+                       "name":  "KingdomInc_Foundation",
+                       "url":  "https://github.com/urakkaamyx/KingdomInc_Foundation",
+                       "branch":  "main",
+                       "visibility":  "public",
+                       "topics":  [
+
+                                  ],
+                       "latestTag":  "v0.12.0"
+                   },
+    "distribution":  {
+                         "nexus":  {
+                                       "game":  "kingdominc",
+                                       "modId":  18,
+                                       "fileId":  8358756,
+                                       "url":  "https://www.nexusmods.com/kingdominc/mods/18",
+                                       "requirements":  [
+                                                            "BepInEx 5"
+                                                        ],
+                                       "tags":  [
+                                                    "AI-Generated Content"
+                                                ],
+                                       "tagsVerified":  true,
+                                       "requirementsVerified":  true
+                                   }
+                     },
+    "development":  {
+                        "framework":  "BepInEx 5 / HarmonyX",
+                        "language":  "C#",
+                        "target":  "netstandard2.1",
+                        "dependencies":  [
+                                             "BepInEx 5",
+                                             "0Harmony (bundled with BepInEx 5)",
+                                             "Kingdom Inc game assemblies",
+                                             "UnityEngine (bundled with game)"
+                                         ]
+                    },
+    "publishing":  {
+                       "githubReleases":  "https://github.com/urakkaamyx/KingdomInc_Foundation/releases/tag/v0.12.0",
+                       "nexusMods":  "https://www.nexusmods.com/kingdominc/mods/18"
+                   }
 }
