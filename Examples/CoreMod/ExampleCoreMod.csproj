@@ -4,7 +4,8 @@
     <LangVersion>latest</LangVersion>
     <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
     <GameRoot Condition="'$(GameRoot)' == ''">$(MSBuildThisFileDirectory)..\..\..\..\</GameRoot>
-    <FoundationDll Condition="'$(FoundationDll)' == ''">$(MSBuildThisFileDirectory)..\..\bin\Release\netstandard2.1\Foundation.dll</FoundationDll>
+    <FoundationDll Condition="'$(FoundationDll)' == '' And Exists('$(MSBuildThisFileDirectory)..\..\bin\Release\netstandard2.1\Foundation.dll')">$(MSBuildThisFileDirectory)..\..\bin\Release\netstandard2.1\Foundation.dll</FoundationDll>
+    <FoundationDll Condition="'$(FoundationDll)' == ''">$(MSBuildThisFileDirectory)..\..\lib\Foundation.dll</FoundationDll>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Foundation"><HintPath>$(FoundationDll)</HintPath><Private>false</Private></Reference>

@@ -17,6 +17,6 @@ Foundation is the shared C# modding framework for Kingdom Inc. It exposes native
 | [Content and Persistence](Content-And-Persistence.md) | Custom definitions and mod-owned saves |
 | [Migration](Migration.md) | Updating existing Foundation mods |
 
-The implementation lives in [src/Foundation](../src/Foundation/). Consumer mod projects are in [Examples](../Examples/).
+The implementation lives in [src/Foundation on GitHub](https://github.com/urakkaamyx/KingdomInc_Foundation/tree/main/src/Foundation). Consumer mod projects are in [Examples](../Examples/).
 
 **The game remains authoritative.** Foundation does not recreate the simulation of machines, crafting, research, combat or item transportation.

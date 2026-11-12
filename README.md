@@ -46,6 +46,11 @@ The framework itself does **not** add demonstration buildings or technologies to
 - **BepInEx 5** with its bundled Harmony library.
 - Mods using Foundation must be compatible with the installed Foundation version.
 
+## Downloads
+
+- **Foundation** is the runtime download required by mods that use this framework.
+- **Foundation SDK** is an optional development download containing the matching framework library, IntelliSense documentation, guides, and example projects. Extract it into a development folder; install the Foundation runtime separately in the game.
+
 ## Installation
 
 1. Install BepInEx 5 for Kingdom Inc.
