@@ -11,7 +11,7 @@ The primary API is `KingdomFoundation.Api.FoundationApi`.
 | `View`, `Audio`, `Presentation` | Camera/input, audio and native assets |
 | `Content`, `TechNodes`, `WorkspaceNodes` | Supported mod-created definitions |
 | `Panels`, `ModBar`, `ModConfig`, `NativeUiFactory` | Native-themed mod interfaces |
-| `Options` | Mod-registered top-level Options tabs and access to vanilla setting views; see [Options tabs](UI/Options-Tabs.md) |
+| `Options` | Mod-registered top-level Options tabs, vanilla setting views, and section-heading visibility (refreshed 0.12.0 runtime); see [Options tabs](UI/Options-Tabs.md) |
 | `Signals`, `SignalDirectory`, `SignalLinks` | Signal source/property discovery and bindings |
 | `Assets`, `AssetDirectory` | Mod-owned assets |
 | `ModSave`, `SaveMigrations` | Per-kingdom mod-owned persistence |

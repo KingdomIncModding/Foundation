@@ -14,7 +14,7 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation
 {
-    public sealed class FoundationConfigMenu : MonoBehaviour, IOptionsView
+    public sealed class FoundationConfigMenu : MonoBehaviour, IOptionsView, IVanillaSectionProvider
     {
         OptionsUI optionsUI;
         RectTransform rootRect;
@@ -63,13 +63,21 @@ namespace KingdomFoundation
         OptionsMenuBrand brand;
         readonly Dictionary<IOptionsTabRegistration, OptionsTabPage> customPages = new Dictionary<IOptionsTabRegistration, OptionsTabPage>();
         readonly Dictionary<string, IVanillaSettingView> vanillaRows = new Dictionary<string, IVanillaSettingView>(StringComparer.Ordinal);
-        readonly Dictionary<Transform, GameObject> vanillaHeaders = new Dictionary<Transform, GameObject>();
+        readonly Dictionary<string, VanillaSectionView> vanillaSections = new Dictionary<string, VanillaSectionView>(StringComparer.Ordinal);
         readonly List<IModConfigSection> editSections = new List<IModConfigSection>();
         IOptionsTabRegistration selectedTab;
         public bool IsOpen => built && isActiveAndEnabled;
         public IReadOnlyList<IVanillaSettingView> VanillaSettings => vanillaRows.Values.ToArray();
         public bool TryGetVanillaSetting(string id, out IVanillaSettingView setting)
         { setting = null; return id != null && vanillaRows.TryGetValue(id, out setting); }
+        public IReadOnlyList<IVanillaSectionView> VanillaSections => vanillaSections.Values.Cast<IVanillaSectionView>().ToArray();
+        public bool TryGetVanillaSection(string id, out IVanillaSectionView section)
+        {
+            section = null;
+            if (id == null || !vanillaSections.TryGetValue(id, out var found)) return false;
+            section = found;
+            return true;
+        }
 
         bool built;
         bool modEditSessionOpen;
@@ -160,7 +168,7 @@ namespace KingdomFoundation
             // Discard any staged values if neither Apply nor Cancel was invoked.
             CancelModConfigs();
             ((OptionsTabRegistry)FoundationApi.Options).Close(this);
-            ResetVanillaRows();
+            ResetVanillaPresentation();
             brand?.Hide();
         }
 
@@ -168,7 +176,7 @@ namespace KingdomFoundation
         {
             if (modEditSessionOpen) return;
             modEditSessionOpen = true; SynchronizeEditSections();
-            ResetVanillaRows();
+            ResetVanillaPresentation();
             ((OptionsTabRegistry)FoundationApi.Options).Open(this);
         }
 
@@ -186,16 +194,20 @@ namespace KingdomFoundation
             }
         }
 
-        void ResetVanillaRows()
-        { foreach (var row in vanillaRows.Values) row.IsVisible = true; UpdateVanillaLayout(); }
+        void ResetVanillaPresentation()
+        {
+            foreach (var section in vanillaSections.Values) section.IsVisible = true;
+            foreach (var row in vanillaRows.Values) row.IsVisible = true;
+            UpdateVanillaLayout();
+        }
 
         void UpdateVanillaLayout()
         {
-            foreach (var pair in vanillaHeaders)
+            foreach (var section in vanillaSections.Values)
             {
-                if (!pair.Key || !pair.Value) continue;
-                bool any = pair.Key.Cast<Transform>().Any(child => child.gameObject != pair.Value && child.gameObject.activeSelf);
-                pair.Value.SetActive(any); LayoutRebuilder.MarkLayoutForRebuild((RectTransform)pair.Key);
+                if (!section.IsAlive) continue;
+                section.RefreshVisibility();
+                LayoutRebuilder.MarkLayoutForRebuild((RectTransform)section.Container);
             }
         }
 
@@ -389,7 +401,7 @@ namespace KingdomFoundation
 
                 // Create Left Column: Display & Interface
                 var leftCol = CreateColumn(nativeContent, "DisplayColumn", new Vector2(0, 0), new Vector2(0.485f, 1));
-                CreateSectionHeader(leftCol, "Display & Interface");
+                CreateSectionHeader(leftCol, VanillaSectionIds.DisplayAndInterface, "Display & Interface");
 
                 // Move Resolution, WindowMode, Framerate, UIScale into Left Column
                 MoveRow(nativeContent, leftCol, "Resolution");
@@ -399,7 +411,7 @@ namespace KingdomFoundation
 
                 // Create Right Column: Audio & Controls
                 var rightCol = CreateColumn(nativeContent, "AudioColumn", new Vector2(0.515f, 0), new Vector2(1, 1));
-                CreateSectionHeader(rightCol, "Audio & System");
+                CreateSectionHeader(rightCol, VanillaSectionIds.AudioAndSystem, "Audio & System");
 
                 // Move MusicVolume, SoundVolume, AutosaveFreq, KeyBindings into Right Column
                 MoveRow(nativeContent, rightCol, "MusicVolume");
@@ -428,9 +440,10 @@ namespace KingdomFoundation
             return rect;
         }
 
-        void CreateSectionHeader(Transform parent, string title)
+        void CreateSectionHeader(Transform parent, string id, string title)
         {
-            vanillaHeaders[parent] = templates.CreateTextRow(parent, title, true, out _);
+            var heading = templates.CreateTextRow(parent, title, true, out _);
+            vanillaSections.Add(id, new VanillaSectionView(id, title, heading, parent, UpdateVanillaLayout));
         }
 
         void MoveRow(Transform nativeParent, Transform newParent, string childName)

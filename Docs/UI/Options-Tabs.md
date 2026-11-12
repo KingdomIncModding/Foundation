@@ -66,6 +66,8 @@ Register during plugin initialization, even before Options exists, or register l
 | `IOptionsTabRegistration` | Dispose the tab or request a presentation refresh. |
 | `IOptionsView` | Access one menu instance's vanilla rows. |
 | `IVanillaSettingView` | Inspect row lifetime and change its current presentation visibility. |
+| `IVanillaSectionProvider` | Optional section-heading access; implemented by the refreshed Foundation 0.12.0 Options menus. |
+| `IVanillaSectionView` | Inspect a section heading's stable ID/title/lifetime and change its visibility independently of its rows. |
 | `IModConfigElement` | Implement custom controls, including view creation, Commit and Cancel. |
 
 `OptionsTab` is a convenience implementation, not a required base class. You can implement `IOptionsTab` yourself and supply a section from `new ModConfigRegistry().GetOrCreateSection(yourModId, title)`. The menu renders every tab through its interfaces.
@@ -126,7 +128,37 @@ Call `ObserveOptions()` from Awake and `StopObservingOptions()` from OnDestroy b
 
 Use `IsAlive` before keeping a view reference across scene changes. Foundation handles layout reflow when a mod changes IsVisible, including empty headings. Only row visibility changes: native values, saving and gameplay remain intact. There is no ownership arbitration between mods changing the same row; those mods must coordinate their presentation choices.
 
-### Stable vanilla IDs
+## Hide a vanilla section heading
+
+These APIs require the refreshed Foundation 0.12.0 runtime and SDK containing section-heading support. Update an earlier 0.12.0 download before using this API; the displayed release version stays the same.
+
+Hiding the music and effects rows leaves Autosave and Key Bindings in the right column, so the **Audio & System** heading stays visible by default. A mod can explicitly hide that heading without hiding the remaining settings:
+
+```csharp
+using KingdomFoundation.Api;
+
+// Register once during plugin initialization; keep and dispose this observer.
+viewObserver = FoundationApi.Options.ObserveViews(view =>
+{
+    if (view.TryGetVanillaSection(VanillaSectionIds.AudioAndSystem, out var heading))
+        heading.IsVisible = false;
+});
+```
+
+`TryGetVanillaSection` and `GetVanillaSections()` are extension methods for `IOptionsView` in `KingdomFoundation.Api`. They use the optional `IVanillaSectionProvider` contract; the original `IOptionsView` interface is unchanged. A custom view without this capability returns false/an empty list.
+
+| Constant on `VanillaSectionIds` | Heading |
+| --- | --- |
+| `DisplayAndInterface` | Display & Interface |
+| `AudioAndSystem` | Audio & System |
+
+`IVanillaSectionView.IsVisible` controls only the heading text and its layout space. It does not hide rows, disable settings, change saved values or rename the heading. Explicit hiding survives subsequent row-visibility/layout changes. An empty section still hides its heading automatically, even if visibility was requested.
+
+Keep any modified heading handles alongside your row handles. When your mod unloads, dispose the observer and set each live heading's `IsVisible = true`, just as you restore its rows. Every Options opening starts with default-visible headings before installed mods receive the view callback; no hidden-heading policy is saved. If your mod is absent, the headings and settings return normally.
+
+Declare `[BepInDependency("urakka.kingdominc.foundation", "0.12.0")]` and use the current runtime and SDK downloads when using section-heading APIs.
+
+## Stable vanilla row IDs
 
 Use the matching constants on `VanillaSettingIds`:
 

@@ -32,6 +32,7 @@ namespace KingdomFoundation
         IModConfigToggle toggle;
         IModConfigSlider slider;
         IModConfigDropdown dropdown;
+        IVanillaSectionView audioSection;
         bool savedToggle;
         int commits;
         void Assert(bool condition, string description) { if (!condition) throw new InvalidOperationException(description); checks.Add(description); }
@@ -52,6 +53,8 @@ namespace KingdomFoundation
             Step(() => {
                 Assert(menu && menu.VanillaSettings.Count == 8, "Options exposes all eight native settings rows");
                 Assert(menu.VanillaSettings.All(s => s.IsAlive && s.IsVisible), "Vanilla settings start visible without mod policy");
+                IOptionsView initialView = menu;
+                Assert(initialView.GetVanillaSections().Count == 2 && initialView.GetVanillaSections().All(s => s.IsAlive && s.IsVisible), "Both vanilla headings are available and visible by default");
                 var strip = menu.GetComponent<FoundationConfigMenu>().transform.Find("OptionsTabs");
                 Assert(strip.GetComponentsInChildren<Button>().Length == 3, "Default tab strip has Game, Mods and Installed only");
                 foreach (var button in strip.GetComponentsInChildren<Button>())
@@ -117,6 +120,45 @@ namespace KingdomFoundation
             });
             yield return null;
             Step(() => {
+                Click(TabButton("Game"));
+                IOptionsView view = menu;
+                Assert(view.TryGetVanillaSection(VanillaSectionIds.AudioAndSystem, out audioSection) && audioSection.Title == "Audio & System", "Options observer interface resolves the Audio & System heading");
+                Assert(!view.TryGetVanillaSection(null, out _) && !view.TryGetVanillaSection("missing", out _), "Unknown section IDs safely return false");
+                audioSection.IsVisible = false;
+                Assert(!audioSection.IsVisible && menu.VanillaSettings.All(s => s.IsVisible), "Hiding only a heading keeps every vanilla setting available");
+                audioSection.IsVisible = true;
+                observer = FoundationApi.Options.ObserveViews(opened => {
+                    if (opened.TryGetVanillaSection(VanillaSectionIds.AudioAndSystem, out var section)) section.IsVisible = false;
+                    if (opened.TryGetVanillaSetting(VanillaSettingIds.MusicVolume, out var music)) music.IsVisible = false;
+                    if (opened.TryGetVanillaSetting(VanillaSettingIds.SoundVolume, out var effects)) effects.IsVisible = false;
+                });
+                Assert(!audioSection.IsVisible && menu.VanillaSettings.Count(s => s.IsVisible) == 6 &&
+                    menu.TryGetVanillaSetting(VanillaSettingIds.AutosaveFreq, out var autosave) && autosave.IsVisible &&
+                    menu.TryGetVanillaSetting(VanillaSettingIds.KeyBindings, out var bindings) && bindings.IsVisible,
+                    "A mod can hide the audio heading and volume rows while keeping Autosave and Key Bindings");
+                menu.TryGetVanillaSetting(VanillaSettingIds.MusicVolume, out var row);
+                row.IsVisible = true; row.IsVisible = false;
+                Assert(!audioSection.IsVisible, "Row layout changes never re-enable an explicitly hidden heading");
+                Assert(view.TryGetVanillaSection(VanillaSectionIds.DisplayAndInterface, out var display) && display.IsVisible, "Hiding Audio & System leaves the Display & Interface heading visible");
+            });
+            yield return null;
+            Step(() => {
+                Capture("options-hidden-heading.png");
+                observer.Dispose(); observer = null;
+                audioSection.IsVisible = true;
+                foreach (var row in menu.VanillaSettings) row.IsVisible = true;
+                Assert(audioSection.IsVisible && menu.VanillaSettings.All(s => s.IsVisible), "A mod can restore its heading and rows immediately on unload");
+                foreach (var id in new[] { VanillaSettingIds.MusicVolume, VanillaSettingIds.SoundVolume, VanillaSettingIds.AutosaveFreq, VanillaSettingIds.KeyBindings })
+                    if (menu.TryGetVanillaSetting(id, out var row)) row.IsVisible = false;
+                Assert(!audioSection.IsVisible, "An empty section still removes its unused heading automatically");
+                if (menu.TryGetVanillaSetting(VanillaSettingIds.AutosaveFreq, out var autosave)) autosave.IsVisible = true;
+                Assert(audioSection.IsVisible, "A default-visible heading returns when its section has a visible row");
+                audioSection.IsVisible = false;
+                options.CancelOptions(); MainMenuUI.Instance.ShowOptions();
+                Assert(menu.GetVanillaSections().All(s => s.IsVisible) && menu.VanillaSettings.All(s => s.IsVisible), "Reopening without the mod observer resets heading and row visibility");
+            });
+            yield return null;
+            Step(() => {
                 Click(TabButton("Workshop"));
                 registration.Dispose(); registration.Dispose();
                 Assert(menu.transform.Find("GameSettingsPage").gameObject.activeSelf, "Removing the active custom tab safely selects Game");
@@ -145,6 +187,7 @@ namespace KingdomFoundation
             });
             yield return new WaitForSecondsRealtime(4);
             Step(() => {
+                Assert(!audioSection.IsAlive, "Heading view lifetime ends when its menu scene is destroyed");
                 GameUI.Instance.ProcessEscape();
                 var inGame = Resources.FindObjectsOfTypeAll<InGameMenuUI>().First(m => m.gameObject.activeInHierarchy);
                 inGame.ShowOptions();

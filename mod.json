@@ -46,6 +46,7 @@
   "publishing": {
     "githubReleases": "https://github.com/urakkaamyx/KingdomInc_Foundation/releases/tag/v0.12.0",
     "nexusMods": "https://www.nexusmods.com/kingdominc/mods/18",
-    "githubSdkAsset": "https://github.com/urakkaamyx/KingdomInc_Foundation/releases/download/v0.12.0/Foundation-SDK-v0.12.0.zip"
+    "githubSdkAsset": "https://github.com/urakkaamyx/KingdomInc_Foundation/releases/download/v0.12.0/Foundation-SDK-v0.12.0.zip",
+    "archivePreviousReleases": false
   }
 }

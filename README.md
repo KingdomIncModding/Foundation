@@ -29,6 +29,7 @@ The current source version is **0.12.0**. Foundation uses BepInEx 5 and ships it
 - An **Options** window with Game, Mods and Installed tabs, native bronze tab styling, and padded labels sized to their text.
 - Additional top-level Options tabs supplied by participating mods, with shared Apply & Close and Cancel behavior.
 - Vanilla settings remain available by default; a participating mod can hide individual rows while it supplies its own interface.
+- Participating mods can also hide section headings independently while keeping the remaining settings available.
 - Native-themed windows, controls, and panels that mods can reuse.
 
 ### Shared services
