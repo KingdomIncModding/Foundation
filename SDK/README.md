@@ -13,7 +13,7 @@ For consumers that must avoid a direct game-assembly dependency, start with [the
 
 See [Getting Started](../Docs/Getting-Started.md), the [API reference](../Docs/API-Reference.md), [Game API](../Docs/GameAPI/README.md), [UI](../Docs/UI/README.md), [Core](../Docs/Core/README.md) and [Content](../Docs/Content-And-Persistence.md). Complete plugin examples are in [Examples](../Examples/).
 
-Foundation **0.14.0** and this matching SDK target **Kingdom Inc game build 1.0.14**. Use `FoundationApi.Economy.ExchangeTaxDouble(currency)` for native precision. The old float-returning `ExchangeTax(currency)` remains available with an `[Obsolete]` warning identifying **game build 1.0.13** as its last native signature and **the next Foundation release** as its removal point. See the [migration and deprecation register](../Docs/Migration.md#4-kingdom-inc-game-build-1014) before updating a consumer.
+Foundation **0.14.1** and this matching SDK target **Kingdom Inc game build 1.0.14**. Use `FoundationApi.Economy.ExchangeTaxDouble(currency)` for native precision. The old float-returning `ExchangeTax(currency)` remains available with an `[Obsolete]` warning identifying **game build 1.0.13** as its last native signature and **the next Foundation release** as its removal point. See the [migration and deprecation register](../Docs/Migration.md#4-kingdom-inc-game-build-1014) before updating a consumer.
 
 To add an Options tab with native controls, see [Options tabs and controls](../Docs/UI/Options-Tabs.md).
 

@@ -94,6 +94,18 @@ namespace KingdomFoundation
                 }
 
                 Capture("options-default.png");
+                NexusUpdateChecker.RefreshInstalledList();
+                // Keep this UI regression offline; update requests are covered separately.
+                foreach (var installed in NexusUpdateChecker.CachedMods)
+                    installed.Checked = true;
+                menu.ShowInstalledTab();
+                var installedRows = menu.GetComponentsInChildren<Transform>(true)
+                    .Where(row => row.name.StartsWith("ModRow_", StringComparison.Ordinal)).ToArray();
+                Assert(installedRows.Count(row => row.name == "ModRow_" + FoundationPlugin.Id) == 1, "Installed UI shows one Foundation row");
+                Assert(installedRows.All(row => row.name != "ModRow_" + Core.FoundationCorePlugin.Id), "Installed UI hides the internal Foundation Core companion");
+                Assert(installedRows.Length == NexusUpdateChecker.CachedMods.Count, "Installed UI row count matches the displayed mod count");
+                Capture("options-installed.png");
+                TabButton("Game").onClick.Invoke();
                 var tab = new OptionsTab("foundation.options.check", "tools", "Workshop");
                 tab.Settings.Description = "An example of a mod-owned Options tab.";
                 tab.Settings.AddText("Workshop settings", true);

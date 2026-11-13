@@ -6,10 +6,12 @@ namespace KingdomFoundation.Core
     /// Companion BepInEx component in the SAME Foundation.dll. Existing Foundation
     /// plugin classes do not need editing; both plugin types are discovered by BepInEx.
     /// </summary>
-    [BepInPlugin("urakka.kingdominc.foundation.core", "Foundation Core", "0.11.0")]
+    [BepInPlugin(Id, "Foundation Core", FoundationPlugin.Version)]
     [BepInDependency("urakka.kingdominc.foundation", BepInDependency.DependencyFlags.HardDependency)]
     public sealed class FoundationCorePlugin : BaseUnityPlugin
     {
+        internal const string Id = "urakka.kingdominc.foundation.core";
+
         void Awake()
         {
             FoundationCoreApi.Runtime.AttachLogger(Logger);

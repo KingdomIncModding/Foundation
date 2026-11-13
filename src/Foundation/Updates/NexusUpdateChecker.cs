@@ -281,6 +281,10 @@ namespace KingdomFoundation
                 if (info?.Metadata == null)
                     continue;
                 string guid = info.Metadata.GUID;
+                // Core is a companion component of Foundation.dll, not a
+                // separately installed mod or an independent Nexus download.
+                if (string.Equals(guid, Core.FoundationCorePlugin.Id, StringComparison.OrdinalIgnoreCase))
+                    continue;
                 ResolveNexusInfo(guid, info, out string domain, out int? nexusId);
                 if (map.TryGetValue(guid, out var existing))
                 {

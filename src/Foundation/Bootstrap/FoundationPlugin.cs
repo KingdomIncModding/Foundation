@@ -38,6 +38,14 @@ namespace KingdomFoundation
     {
         void VerifyFoundationCore()
         {
+            var coreId = Core.FoundationCorePlugin.Id;
+            Check(Chainloader.PluginInfos.ContainsKey(coreId), "Foundation Core companion remains loaded for compatibility");
+            Check(Core.FoundationCoreApi.Core.Plugins.Has(coreId), "Core remains discoverable through the SDK plugin catalog");
+            Check(Chainloader.PluginInfos[coreId].Metadata.Version == new Version(Version), "Core companion reports the unified Foundation release version");
+            NexusUpdateChecker.RefreshInstalledList();
+            Check(!NexusUpdateChecker.CachedMods.Any(mod => string.Equals(mod.Guid, coreId, StringComparison.OrdinalIgnoreCase)), "Installed list and update targets omit the internal Core companion");
+            Check(NexusUpdateChecker.CachedMods.Count(mod => mod.Guid == Id) == 1, "Installed list contains one Foundation entry");
+            Check(NexusUpdateChecker.CachedMods.Count == Chainloader.PluginInfos.Values.Count(plugin => plugin?.Metadata != null) - 1, "Installed list retains every other loaded plugin");
             const string owner = "urakka.foundation.test-services";
             // Typed events and deterministic owner cleanup.
             var events = new FoundationEventBus();
@@ -549,7 +557,7 @@ namespace KingdomFoundation
                 GUILayout.Label(entry.TimestampUtc.ToString("HH:mm:ss") + " [" + entry.Level + "] " + entry.Owner + ": " + entry.Message);
         }
 
-        public const string Id = "urakka.kingdominc.foundation", Version = "0.14.0";
+        public const string Id = "urakka.kingdominc.foundation", Version = "0.14.1";
         internal static FoundationPlugin Instance;
         public static BepInEx.Configuration.ConfigEntry<string> NexusApiKeyConfig;
         internal Harmony hooks;
