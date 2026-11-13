@@ -6,9 +6,9 @@
   "description": "Example mod demonstrating custom research tech nodes, upgrade paths, and research unlocks using Foundation.",
   "repository": {
     "platform": "GitHub",
-    "owner": "urakkaamyx",
+    "owner": "KingdomIncModding",
     "name": "KingdomInc_Foundation",
-    "url": "https://github.com/urakkaamyx/KingdomInc_Foundation",
+    "url": "https://github.com/KingdomIncModding/KingdomInc_Foundation",
     "branch": "main",
     "visibility": "public",
     "topics": [
