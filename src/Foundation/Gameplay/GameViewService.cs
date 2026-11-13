@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Assets.Behaviour.Flow;
 using GamePlayerInput = Assets.Behaviour.Input.PlayerInput;
 using UnityEngine;

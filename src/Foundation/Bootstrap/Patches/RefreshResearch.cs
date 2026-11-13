@@ -16,10 +16,13 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    [HarmonyPatch(typeof(TechTreeMenu), nameof(TechTreeMenu.UpdateTechTree))]
+    internal static class RefreshResearch
     {
-        [HarmonyPatch(typeof(TechTreeMenu), nameof(TechTreeMenu.UpdateTechTree))]
-        static class RefreshResearch { static void Postfix(TechTreeMenu __instance) { if (ModsOpen) ModResearchLayout.Arrange(__instance); } }
+        static void Postfix(TechTreeMenu __instance)
+        {
+            if (global::KingdomFoundation.FoundationPlugin.ModsOpen)
+                ModResearchLayout.Arrange(__instance);
+        }
     }
-
 }

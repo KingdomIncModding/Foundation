@@ -8,6 +8,15 @@ namespace KingdomFoundation.Api
     /// <summary>Immutable native research rules. Register parent nodes before their children.</summary>
     public sealed class TechNodeOptions
     {
+        /// <summary>Create research rules without binding the consumer to native enum or currency types.</summary>
+        public static TechNodeOptions Create(GameMoney fixedCost = null, string nodeKind = "FlowElement", int costTier = 1,
+            double costMultiplier = 1, double goldMultiplier = 1, string previousId = null, string rootId = null,
+            IEnumerable<string> requirements = null, string iconName = "Icons_17")
+        {
+            if (!Enum.TryParse<TechNodeType>(nodeKind, out var kind) || !Enum.IsDefined(typeof(TechNodeType), kind))
+                throw new ArgumentException("Unknown research node kind.", nameof(nodeKind));
+            return new TechNodeOptions(kind, costTier, costMultiplier, goldMultiplier, previousId, rootId, requirements, fixedCost?.Native, iconName);
+        }
         public TechNodeType NodeType { get; }
         public int CostTier { get; }
         public double CostMultiplier { get; }

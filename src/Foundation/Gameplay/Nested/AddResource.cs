@@ -8,19 +8,15 @@ using KingdomFoundation.Api;
 
 namespace KingdomFoundation
 {
-    internal static partial class GameEventIntegration
+    [HarmonyPatch(typeof(GamePlayer), nameof(GamePlayer.AddResource))]
+    internal static class AddResource
     {
-        [HarmonyPatch(typeof(GamePlayer), nameof(GamePlayer.AddResource))]
-        private static class AddResource
+        static void Prefix(GamePlayer __instance, ResourceItemType resource, out double __state) => __state = __instance.GetResourceAvailable(resource);
+        static void Postfix(GamePlayer __instance, ResourceItemType resource, double __state)
         {
-            static void Prefix(GamePlayer __instance, ResourceItemType resource, out double __state)
-                => __state = __instance.GetResourceAvailable(resource);
-            static void Postfix(GamePlayer __instance, ResourceItemType resource, double __state)
-            {
-                var current = __instance.GetResourceAvailable(resource);
-                if (current != __state) Publish(new ResourceChangedEvent(__instance, resource, __state, current));
-            }
+            var current = __instance.GetResourceAvailable(resource);
+            if (current != __state)
+                global::KingdomFoundation.GameEventIntegration.Publish(new ResourceChangedEvent(__instance, resource, __state, current));
         }
     }
-
 }

@@ -16,11 +16,10 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    // Mods has its own camera state; keep the vanilla saved position on Base Game.
+    [HarmonyPatch(typeof(TechTreeMenu), "Update")]
+    internal static class TreeUpdate
     {
-        // Mods has its own camera state; keep the vanilla saved position on Base Game.
-        [HarmonyPatch(typeof(TechTreeMenu), "Update")]
-        static class TreeUpdate { static bool Prefix() => !ModsOpen; }
+        static bool Prefix() => !global::KingdomFoundation.FoundationPlugin.ModsOpen;
     }
-
 }

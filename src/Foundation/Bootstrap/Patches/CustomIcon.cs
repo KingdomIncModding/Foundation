@@ -16,14 +16,15 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    [HarmonyPatch(typeof(SpriteLibrary), nameof(SpriteLibrary.Get), new[] { typeof(string) })]
+    internal static class CustomIcon
     {
-        [HarmonyPatch(typeof(SpriteLibrary), nameof(SpriteLibrary.Get), new[] { typeof(string) })]
-        static class CustomIcon
+        static bool Prefix(string name, ref Sprite __result)
         {
-            static bool Prefix(string name, ref Sprite __result)
-            { if (!NativeResearch.TryIcon(name, out var sprite)) return true; __result = sprite; return false; }
+            if (!NativeResearch.TryIcon(name, out var sprite))
+                return true;
+            __result = sprite;
+            return false;
         }
     }
-
 }

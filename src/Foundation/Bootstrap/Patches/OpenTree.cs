@@ -16,14 +16,13 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    [HarmonyPatch(typeof(TechTreeMenu), "OnEnable")]
+    internal static class OpenTree
     {
-        [HarmonyPatch(typeof(TechTreeMenu), "OnEnable")]
-        static class OpenTree
+        static void Postfix(TechTreeMenu __instance)
         {
-            static void Postfix(TechTreeMenu __instance)
-            { var tabs = Tabs(__instance) ?? __instance.gameObject.AddComponent<TechTreeTabs>(); tabs.Open(__instance); }
+            var tabs = global::KingdomFoundation.FoundationPlugin.Tabs(__instance) ?? __instance.gameObject.AddComponent<TechTreeTabs>();
+            tabs.Open(__instance);
         }
     }
-
 }

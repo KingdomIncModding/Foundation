@@ -16,19 +16,16 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    // Vanilla ignores missing researched IDs on load, but its NewTechCount dictionary
+    // cannot accept missing keys. Keep Foundation's branch counters session-only.
+    [HarmonyPatch(typeof(GamePlayer), nameof(GamePlayer.ToJson))]
+    internal static class SaveNotifications
     {
-        // Vanilla ignores missing researched IDs on load, but its NewTechCount dictionary
-        // cannot accept missing keys. Keep Foundation's branch counters session-only.
-        [HarmonyPatch(typeof(GamePlayer), nameof(GamePlayer.ToJson))]
-        static class SaveNotifications
+        static void Postfix(JsonValue __result)
         {
-            static void Postfix(JsonValue __result)
-            {
-                var counts = __result["NewTechCount"].AsJsonObject;
-                foreach (var node in TechNode.Nodes.Where(NativeResearch.Owns)) counts.Remove(node.Identifier);
-            }
+            var counts = __result["NewTechCount"].AsJsonObject;
+            foreach (var node in TechNode.Nodes.Where(NativeResearch.Owns))
+                counts.Remove(node.Identifier);
         }
     }
-
 }

@@ -12,13 +12,9 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    internal static partial class WorkspaceIntegration
+    [HarmonyPatch(typeof(FlowElement), nameof(FlowElement.GetAllTypes))]
+    internal static class BuildCatalog
     {
-        [HarmonyPatch(typeof(FlowElement), nameof(FlowElement.GetAllTypes))]
-        static class BuildCatalog
-        {
-            static void Postfix(ref IEnumerable<FlowElement> __result) => __result = WorkspaceNodeRegistry.Shared.Include(__result);
-        }
+        static void Postfix(ref IEnumerable<FlowElement> __result) => __result = WorkspaceNodeRegistry.Shared.Include(__result);
     }
-
 }

@@ -13,28 +13,44 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    internal sealed class ProbeBarElement : IModBarElement
     {
-        sealed class ProbeBarElement : IModBarElement
+        public string Id => "lifetime";
+        public string ModId => "foundation.diagnostics";
+        public float Width => 180;
+        public int Order => 10;
+        public ModBarAlignment Alignment => ModBarAlignment.Right;
+        public bool IsVisible => true;
+
+        internal int Creates, Refreshes, Disposes;
+        internal Vector2 InitialSize;
+        public IModBarView CreateView(IModBarContext context)
         {
-            public string Id => "lifetime";
-            public string ModId => "foundation.diagnostics";
-            public float Width => 180;
-            public int Order => 10;
-            public ModBarAlignment Alignment => ModBarAlignment.Right;
-            public bool IsVisible => true;
-            internal int Creates, Refreshes, Disposes;
-            internal Vector2 InitialSize;
-            public IModBarView CreateView(IModBarContext context) { Creates++; InitialSize = context.Root.rect.size; return new ProbeView(this, context); }
-            sealed class ProbeView : IModBarView
+            Creates++;
+            InitialSize = context.Root.rect.size;
+            return new global::KingdomFoundation.ProbeBarElement.ProbeView(this, context);
+        }
+
+        sealed class ProbeView : IModBarView
+        {
+            readonly global::KingdomFoundation.ProbeBarElement element;
+            readonly TMP_Text text;
+            internal ProbeView(global::KingdomFoundation.ProbeBarElement element, IModBarContext context)
             {
-                readonly ProbeBarElement element;
-                readonly TMP_Text text;
-                internal ProbeView(ProbeBarElement element, IModBarContext context) { this.element = element; text = context.CreateText("Custom contract"); }
-                public void Refresh() { element.Refreshes++; text.text = "Custom contract"; }
-                public void Dispose() { element.Disposes++; }
+                this.element = element;
+                text = context.CreateText("Custom contract");
+            }
+
+            public void Refresh()
+            {
+                element.Refreshes++;
+                text.text = "Custom contract";
+            }
+
+            public void Dispose()
+            {
+                element.Disposes++;
             }
         }
     }
-
 }

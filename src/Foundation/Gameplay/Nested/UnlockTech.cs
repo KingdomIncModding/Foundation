@@ -8,18 +8,14 @@ using KingdomFoundation.Api;
 
 namespace KingdomFoundation
 {
-    internal static partial class GameEventIntegration
+    [HarmonyPatch(typeof(GamePlayer), nameof(GamePlayer.AddTech))]
+    internal static class UnlockTech
     {
-        [HarmonyPatch(typeof(GamePlayer), nameof(GamePlayer.AddTech))]
-        private static class UnlockTech
+        static void Prefix(GamePlayer __instance, TechNode tech, out bool __state) => __state = tech != null && __instance.HasTech(tech);
+        static void Postfix(GamePlayer __instance, TechNode tech, bool __state)
         {
-            static void Prefix(GamePlayer __instance, TechNode tech, out bool __state)
-                => __state = tech != null && __instance.HasTech(tech);
-            static void Postfix(GamePlayer __instance, TechNode tech, bool __state)
-            {
-                if (!__state && tech != null && __instance.HasTech(tech)) Publish(new ResearchUnlockedEvent(__instance, tech));
-            }
+            if (!__state && tech != null && __instance.HasTech(tech))
+                global::KingdomFoundation.GameEventIntegration.Publish(new ResearchUnlockedEvent(__instance, tech));
         }
     }
-
 }

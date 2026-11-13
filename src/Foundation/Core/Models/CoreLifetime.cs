@@ -1,4 +1,8 @@
 namespace KingdomFoundation.Core
 {
-    public enum CoreLifetime { Module, World }
+    public enum CoreLifetime
+    {
+        Module,
+        World
+    }
 }

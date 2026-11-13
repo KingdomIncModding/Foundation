@@ -20,10 +20,9 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    [HarmonyPatch(typeof(SaveGame), nameof(SaveGame.Store))]
+    internal static class NoSave
     {
-        [HarmonyPatch(typeof(SaveGame), nameof(SaveGame.Store))] static class NoSave { static bool Prefix() => false; }
+        static bool Prefix() => false;
     }
-
 }
-

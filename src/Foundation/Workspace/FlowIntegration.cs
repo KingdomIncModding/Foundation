@@ -8,26 +8,26 @@ using KingdomFoundation.Api;
 namespace KingdomFoundation
 {
     /// <summary>Observe verified native pipe operations without changing native flow mechanics.</summary>
-    internal static partial class FlowIntegration
+    internal static class FlowIntegration
     {
         internal static void Install(Harmony hooks)
         {
-            hooks.CreateClassProcessor(typeof(PipeConnect)).Patch();
-            hooks.CreateClassProcessor(typeof(PipeDisconnect)).Patch();
-            hooks.CreateClassProcessor(typeof(ItemTransferred)).Patch();
-            hooks.CreateClassProcessor(typeof(PauseMissingPipe)).Patch();
+            hooks.CreateClassProcessor(typeof(global::KingdomFoundation.PipeConnect)).Patch();
+            hooks.CreateClassProcessor(typeof(global::KingdomFoundation.PipeDisconnect)).Patch();
+            hooks.CreateClassProcessor(typeof(global::KingdomFoundation.ItemTransferred)).Patch();
+            hooks.CreateClassProcessor(typeof(global::KingdomFoundation.PauseMissingPipe)).Patch();
         }
 
-        static void Safely(Action action)
+        internal static void Safely(Action action)
         {
-            try { action(); }
-            catch (Exception error) { FoundationApi.Report(error); }
+            try
+            {
+                action();
+            }
+            catch (Exception error)
+            {
+                FoundationApi.Report(error);
+            }
         }
-
-
-
-
-
-
     }
 }

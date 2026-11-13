@@ -1,7 +1,7 @@
 {
   "id": "Foundation",
   "name": "Foundation",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "author": "Urakka",
   "description": "For Kingdom Inc game version 1.0.14. Shared modding framework providing native game APIs, mod content registration, research, machine integration, UI, events, services, and save support. Matching Foundation SDK available separately.",
   "repository": {
@@ -12,7 +12,7 @@
     "branch": "main",
     "visibility": "public",
     "topics": [],
-    "latestTag": "v0.12.0"
+    "latestTag": "v0.13.0"
   },
   "distribution": {
     "nexus": {
@@ -29,8 +29,8 @@
       "tagsVerified": true,
       "requirementsVerified": true,
       "sdkFileId": 8314821,
-      "sdkVersionId": "46785078755446",
-      "runtimeVersionId": "46785078755445"
+      "runtimeVersionId": "46785078755447",
+      "sdkVersionId": "46785078755448"
     }
   },
   "development": {
@@ -45,9 +45,9 @@
     ]
   },
   "publishing": {
-    "githubReleases": "https://github.com/urakkaamyx/KingdomInc_Foundation/releases/tag/v0.12.0",
+    "githubReleases": "https://github.com/urakkaamyx/KingdomInc_Foundation/releases/tag/v0.13.0",
     "nexusMods": "https://www.nexusmods.com/kingdominc/mods/18",
-    "githubSdkAsset": "https://github.com/urakkaamyx/KingdomInc_Foundation/releases/download/v0.12.0/Foundation-SDK-v0.12.0.zip",
+    "githubSdkAsset": "https://github.com/urakkaamyx/KingdomInc_Foundation/releases/download/v0.13.0/Foundation-SDK-v0.13.0-KingdomInc-1.0.14.zip",
     "archivePreviousReleases": false
   }
 }

@@ -16,18 +16,15 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    [HarmonyPatch(typeof(UIElementTechNode), nameof(UIElementTechNode.UpdateNodeStatus))]
+    internal static class RequirementNavigation
     {
-        [HarmonyPatch(typeof(UIElementTechNode), nameof(UIElementTechNode.UpdateNodeStatus))]
-        static class RequirementNavigation
+        static void Postfix(UIElementTechNode __instance, TMPro.TMP_Text ____requirementsText, RectTransform ____requirementsContainer)
         {
-            static void Postfix(UIElementTechNode __instance, TMPro.TMP_Text ____requirementsText, RectTransform ____requirementsContainer)
-            {
-                if (!____requirementsText || !____requirementsContainer || !____requirementsContainer.gameObject.activeSelf) return;
-                var links = ____requirementsContainer.GetComponent<RequirementLinks>() ?? ____requirementsContainer.gameObject.AddComponent<RequirementLinks>();
-                links.Bind(__instance, ____requirementsText);
-            }
+            if (!____requirementsText || !____requirementsContainer || !____requirementsContainer.gameObject.activeSelf)
+                return;
+            var links = ____requirementsContainer.GetComponent<RequirementLinks>() ?? ____requirementsContainer.gameObject.AddComponent<RequirementLinks>();
+            links.Bind(__instance, ____requirementsText);
         }
     }
-
 }

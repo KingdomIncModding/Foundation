@@ -14,15 +14,15 @@ namespace KingdomFoundation
     {
         private static readonly Dictionary<string, int> customMappings = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         private static readonly List<ModItem> cachedMods = new List<ModItem>();
-
         public static IReadOnlyList<ModItem> CachedMods => cachedMods;
         public static bool IsCheckingAll { get; private set; }
         public static string LastCheckSummary { get; private set; } = "Not checked";
-        public static event Action Changed;
 
+        public static event Action Changed;
         public static void RegisterModMapping(string guid, int nexusId)
         {
-            if (string.IsNullOrEmpty(guid) || nexusId <= 0) return;
+            if (string.IsNullOrEmpty(guid) || nexusId <= 0)
+                return;
             customMappings[guid] = nexusId;
             var existing = cachedMods.FirstOrDefault(m => string.Equals(m.Guid, guid, StringComparison.OrdinalIgnoreCase));
             if (existing != null)
@@ -36,11 +36,9 @@ namespace KingdomFoundation
         {
             gameDomain = null;
             nexusId = null;
-
-            if (plugin == null) return false;
-
+            if (plugin == null)
+                return false;
             string candidate = null;
-
             // 1. Next to the plugin DLL
             if (!string.IsNullOrEmpty(plugin.Location))
             {
@@ -48,14 +46,16 @@ namespace KingdomFoundation
                 if (!string.IsNullOrEmpty(dir))
                 {
                     string localJson = Path.Combine(dir, "mod.json");
-                    if (File.Exists(localJson)) candidate = localJson;
+                    if (File.Exists(localJson))
+                        candidate = localJson;
                     else
                     {
                         var parent = Directory.GetParent(dir);
                         if (parent != null)
                         {
                             string parentJson = Path.Combine(parent.FullName, "mod.json");
-                            if (File.Exists(parentJson)) candidate = parentJson;
+                            if (File.Exists(parentJson))
+                                candidate = parentJson;
                         }
                     }
                 }
@@ -68,7 +68,8 @@ namespace KingdomFoundation
                 if (!string.IsNullOrEmpty(modDirName))
                 {
                     string devJson = Path.Combine(Paths.GameRootPath, "_Mods", modDirName, "mod.json");
-                    if (File.Exists(devJson)) candidate = devJson;
+                    if (File.Exists(devJson))
+                        candidate = devJson;
                 }
             }
 
@@ -95,30 +96,32 @@ namespace KingdomFoundation
                                         var obj = testJson.AsJsonObject;
                                         string id = obj.ContainsKey("id") ? obj["id"].AsString : null;
                                         string name = obj.ContainsKey("name") ? obj["name"].AsString : null;
-                                        if (string.Equals(id, targetName, StringComparison.OrdinalIgnoreCase) ||
-                                            string.Equals(name, targetName, StringComparison.OrdinalIgnoreCase) ||
-                                            (targetGuid != null && targetGuid.IndexOf(id ?? "---", StringComparison.OrdinalIgnoreCase) >= 0))
+                                        if (string.Equals(id, targetName, StringComparison.OrdinalIgnoreCase) || string.Equals(name, targetName, StringComparison.OrdinalIgnoreCase) || (targetGuid != null && targetGuid.IndexOf(id ?? "---", StringComparison.OrdinalIgnoreCase) >= 0))
                                         {
                                             candidate = subJson;
                                             break;
                                         }
                                     }
                                 }
-                                catch { }
+                                catch
+                                {
+                                }
                             }
                         }
                     }
-                    catch { }
+                    catch
+                    {
+                    }
                 }
             }
 
-            if (candidate == null || !File.Exists(candidate)) return false;
-
+            if (candidate == null || !File.Exists(candidate))
+                return false;
             try
             {
                 var json = JsonValue.Parse(File.ReadAllText(candidate));
-                if (!json.IsJsonObject) return false;
-
+                if (!json.IsJsonObject)
+                    return false;
                 var root = json.AsJsonObject;
                 if (root.ContainsKey("distribution") && root["distribution"].IsJsonObject)
                 {
@@ -126,13 +129,12 @@ namespace KingdomFoundation
                     if (dist.ContainsKey("nexus") && dist["nexus"].IsJsonObject)
                     {
                         var nexus = dist["nexus"].AsJsonObject;
-
                         if (nexus.ContainsKey("game") && nexus["game"].IsString)
                             gameDomain = nexus["game"].AsString;
-
                         if (nexus.ContainsKey("modId"))
                         {
-                            if (nexus["modId"].IsInteger) nexusId = nexus["modId"].AsInteger;
+                            if (nexus["modId"].IsInteger)
+                                nexusId = nexus["modId"].AsInteger;
                             else if (nexus["modId"].IsString && int.TryParse(nexus["modId"].AsString, out int parsedModId))
                                 nexusId = parsedModId;
                         }
@@ -141,7 +143,9 @@ namespace KingdomFoundation
                     }
                 }
             }
-            catch { }
+            catch
+            {
+            }
 
             return false;
         }
@@ -150,11 +154,11 @@ namespace KingdomFoundation
         {
             gameDomain = null;
             nexusId = null;
-
             // Priority 1: Read from mod.json of the loaded mod
             if (TryLoadModJson(plugin, out gameDomain, out nexusId))
             {
-                if (string.IsNullOrEmpty(gameDomain)) gameDomain = "kingdominc";
+                if (string.IsNullOrEmpty(gameDomain))
+                    gameDomain = "kingdominc";
                 return;
             }
 
@@ -171,20 +175,32 @@ namespace KingdomFoundation
             {
                 try
                 {
-                    var attr = plugin.Instance.GetType().GetCustomAttributes(false)
-                        .FirstOrDefault(a => a is NexusModAttribute || a.GetType().Name == "NexusModAttribute" || a.GetType().Name == "NexusModIdAttribute");
+                    global::System.Object attr = plugin.Instance.GetType().GetCustomAttributes(false).FirstOrDefault(a => a is NexusModAttribute || a.GetType().Name == "NexusModAttribute" || a.GetType().Name == "NexusModIdAttribute");
                     if (attr != null)
                     {
                         var prop = attr.GetType().GetProperty("ModId") ?? attr.GetType().GetProperty("Id");
                         if (prop != null)
                         {
                             object val = prop.GetValue(attr);
-                            if (val is int intId && intId > 0) { nexusId = intId; gameDomain = "kingdominc"; return; }
-                            if (val is string strId && int.TryParse(strId, out int parsed) && parsed > 0) { nexusId = parsed; gameDomain = "kingdominc"; return; }
+                            if (val is int intId && intId > 0)
+                            {
+                                nexusId = intId;
+                                gameDomain = "kingdominc";
+                                return;
+                            }
+
+                            if (val is string strId && int.TryParse(strId, out int parsed) && parsed > 0)
+                            {
+                                nexusId = parsed;
+                                gameDomain = "kingdominc";
+                                return;
+                            }
                         }
                     }
                 }
-                catch { }
+                catch
+                {
+                }
             }
 
             // Priority 4: Legacy nexus.json in DLL folder
@@ -202,31 +218,43 @@ namespace KingdomFoundation
                             if (json.IsJsonObject)
                             {
                                 var obj = json.AsJsonObject;
-                                if (obj.ContainsKey("nexus_id")) { nexusId = obj["nexus_id"].AsInteger; gameDomain = "kingdominc"; return; }
-                                if (obj.ContainsKey("id")) { nexusId = obj["id"].AsInteger; gameDomain = "kingdominc"; return; }
+                                if (obj.ContainsKey("nexus_id"))
+                                {
+                                    nexusId = obj["nexus_id"].AsInteger;
+                                    gameDomain = "kingdominc";
+                                    return;
+                                }
+
+                                if (obj.ContainsKey("id"))
+                                {
+                                    nexusId = obj["id"].AsInteger;
+                                    gameDomain = "kingdominc";
+                                    return;
+                                }
                             }
                         }
                     }
                 }
-                catch { }
+                catch
+                {
+                }
             }
         }
 
         public static bool IsOutdated(string currentStr, string latestStr)
         {
-            if (string.IsNullOrEmpty(currentStr) || string.IsNullOrEmpty(latestStr)) return false;
-
+            if (string.IsNullOrEmpty(currentStr) || string.IsNullOrEmpty(latestStr))
+                return false;
             currentStr = currentStr.Trim().TrimStart('v', 'V');
             latestStr = latestStr.Trim().TrimStart('v', 'V');
-
             int curDash = currentStr.IndexOf('-');
-            if (curDash >= 0) currentStr = currentStr.Substring(0, curDash);
+            if (curDash >= 0)
+                currentStr = currentStr.Substring(0, curDash);
             int latDash = latestStr.IndexOf('-');
-            if (latDash >= 0) latestStr = latestStr.Substring(0, latDash);
-
+            if (latDash >= 0)
+                latestStr = latestStr.Substring(0, latDash);
             if (Version.TryParse(currentStr, out var curVer) && Version.TryParse(latestStr, out var latVer))
                 return latVer > curVer;
-
             var curParts = currentStr.Split('.');
             var latParts = latestStr.Split('.');
             int max = Math.Max(curParts.Length, latParts.Length);
@@ -234,9 +262,12 @@ namespace KingdomFoundation
             {
                 int c = i < curParts.Length && int.TryParse(curParts[i], out var cv) ? cv : 0;
                 int l = i < latParts.Length && int.TryParse(latParts[i], out var lv) ? lv : 0;
-                if (l > c) return true;
-                if (l < c) return false;
+                if (l > c)
+                    return true;
+                if (l < c)
+                    return false;
             }
+
             return false;
         }
 
@@ -244,22 +275,22 @@ namespace KingdomFoundation
         {
             var map = cachedMods.ToDictionary(m => m.Guid, StringComparer.OrdinalIgnoreCase);
             var list = new List<ModItem>();
-
             foreach (var pair in Chainloader.PluginInfos)
             {
                 var info = pair.Value;
-                if (info?.Metadata == null) continue;
+                if (info?.Metadata == null)
+                    continue;
                 string guid = info.Metadata.GUID;
-
                 ResolveNexusInfo(guid, info, out string domain, out int? nexusId);
-
                 if (map.TryGetValue(guid, out var existing))
                 {
                     existing.Name = info.Metadata.Name;
                     existing.InstalledVersion = info.Metadata.Version?.ToString() ?? "1.0.0";
                     existing.Location = info.Location;
-                    if (!string.IsNullOrEmpty(domain)) existing.GameDomain = domain;
-                    if (nexusId.HasValue) existing.NexusId = nexusId;
+                    if (!string.IsNullOrEmpty(domain))
+                        existing.GameDomain = domain;
+                    if (nexusId.HasValue)
+                        existing.NexusId = nexusId;
                     list.Add(existing);
                 }
                 else
@@ -287,7 +318,6 @@ namespace KingdomFoundation
         public static void CheckAll(Action onDone = null)
         {
             RefreshInstalledList();
-
             var targets = cachedMods.Where(m => m.NexusId.HasValue).ToList();
             if (targets.Count == 0)
             {
@@ -300,14 +330,13 @@ namespace KingdomFoundation
             IsCheckingAll = true;
             LastCheckSummary = "Checking Nexus for updates...";
             int pending = targets.Count;
-
             foreach (var mod in targets)
             {
                 mod.IsChecking = true;
                 mod.StatusText = "Checking...";
             }
-            Changed?.Invoke();
 
+            Changed?.Invoke();
             foreach (var mod in targets)
             {
                 CheckSingleMod(mod, () =>
@@ -317,9 +346,7 @@ namespace KingdomFoundation
                     {
                         IsCheckingAll = false;
                         int outdatedCount = cachedMods.Count(m => m.IsOutdated);
-                        LastCheckSummary = outdatedCount > 0
-                            ? $"{outdatedCount} update{(outdatedCount == 1 ? "" : "s")} available"
-                            : "All mods up to date";
+                        LastCheckSummary = outdatedCount > 0 ? $"{outdatedCount} update{(outdatedCount == 1 ? "" : "s")} available" : "All mods up to date";
                         Changed?.Invoke();
                         onDone?.Invoke();
                     }
@@ -343,12 +370,10 @@ namespace KingdomFoundation
 
             string domain = !string.IsNullOrEmpty(mod.GameDomain) ? mod.GameDomain : "kingdominc";
             string url = $"https://api.nexusmods.com/v3/games/{domain}/mods/{mod.NexusId.Value}";
-
             var req = UnityWebRequest.Get(url);
             req.SetRequestHeader("Accept", "application/json");
             req.SetRequestHeader("User-Agent", "KingdomInc-Foundation/0.11.0");
             req.timeout = 10;
-
             var op = req.SendWebRequest();
             op.completed += _ =>
             {

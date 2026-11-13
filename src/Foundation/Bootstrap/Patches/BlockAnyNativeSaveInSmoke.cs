@@ -16,15 +16,11 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    // Defense in depth: never write any native save file in smoke mode,
+    // including autosave-exit on normal application shutdown.
+    [HarmonyPatch(typeof(SaveGame), nameof(SaveGame.Store))]
+    internal static class BlockAnyNativeSaveInSmoke
     {
-        // Defense in depth: never write any native save file in smoke mode,
-        // including autosave-exit on normal application shutdown.
-        [HarmonyPatch(typeof(SaveGame), nameof(SaveGame.Store))]
-        private static class BlockAnyNativeSaveInSmoke
-        {
-            static bool Prefix() => false;
-        }
+        static bool Prefix() => false;
     }
-
 }

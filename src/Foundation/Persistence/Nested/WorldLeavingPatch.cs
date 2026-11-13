@@ -8,14 +8,9 @@ using LightJson;
 
 namespace KingdomFoundation
 {
-    internal static partial class SaveIntegration
+    [HarmonyPatch(typeof(Assets.Behaviour.GameManager), "OnApplicationQuit")]
+    internal static class WorldLeavingPatch
     {
-        [HarmonyPatch(typeof(Assets.Behaviour.GameManager), "OnApplicationQuit")]
-        private static class WorldLeavingPatch
-        {
-            static void Prefix()
-                => FoundationApi.LifecycleEvents.Raise(FoundationLifecyclePhase.GameLeaving, GamePlayer.Current);
-        }
+        static void Prefix() => FoundationApi.LifecycleEvents.Raise(FoundationLifecyclePhase.GameLeaving, GamePlayer.Current);
     }
-
 }

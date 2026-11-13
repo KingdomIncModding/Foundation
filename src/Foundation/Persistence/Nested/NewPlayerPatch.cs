@@ -8,19 +8,22 @@ using LightJson;
 
 namespace KingdomFoundation
 {
-    internal static partial class SaveIntegration
+    [HarmonyPatch(typeof(GamePlayer), nameof(GamePlayer.CreateNewPlayer))]
+    internal static class NewPlayerPatch
     {
-        [HarmonyPatch(typeof(GamePlayer), nameof(GamePlayer.CreateNewPlayer))]
-        private static class NewPlayerPatch
+        static void Postfix(GamePlayer __result)
         {
-            static void Postfix(GamePlayer __result)
+            MissingResearchRecovery.Clear();
+            try
             {
-                MissingResearchRecovery.Clear();
-                try { FoundationApi.SaveDataInternal.NewKingdom(); }
-                catch (Exception exception) { FoundationApi.Report(exception); }
-                FoundationApi.LifecycleEvents.Raise(FoundationLifecyclePhase.NewKingdom, __result);
+                FoundationApi.SaveDataInternal.NewKingdom();
             }
+            catch (Exception exception)
+            {
+                FoundationApi.Report(exception);
+            }
+
+            FoundationApi.LifecycleEvents.Raise(FoundationLifecyclePhase.NewKingdom, __result);
         }
     }
-
 }

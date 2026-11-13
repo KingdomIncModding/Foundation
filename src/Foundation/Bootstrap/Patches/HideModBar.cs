@@ -16,14 +16,14 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    [HarmonyPatch(typeof(Assets.Behaviour.UI.GameUI), nameof(Assets.Behaviour.UI.GameUI.ToggleUI))]
+    internal static class HideModBar
     {
-        [HarmonyPatch(typeof(Assets.Behaviour.UI.GameUI), nameof(Assets.Behaviour.UI.GameUI.ToggleUI))]
-        static class HideModBar
+        static void Postfix(Assets.Behaviour.UI.GameUI __instance)
         {
-            static void Postfix(Assets.Behaviour.UI.GameUI __instance)
-            { if (!__instance.GetComponent<Canvas>().enabled) foreach (var host in __instance.GetComponentsInChildren<ModBarHost>(true)) host.ClosePopups(); }
+            if (!__instance.GetComponent<Canvas>().enabled)
+                foreach (var host in __instance.GetComponentsInChildren<ModBarHost>(true))
+                    host.ClosePopups();
         }
     }
-
 }

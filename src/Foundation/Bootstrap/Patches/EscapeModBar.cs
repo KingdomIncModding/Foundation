@@ -16,11 +16,9 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    [HarmonyPatch(typeof(Assets.Behaviour.UI.GameUI), nameof(Assets.Behaviour.UI.GameUI.ProcessEscape))]
+    internal static class EscapeModBar
     {
-        [HarmonyPatch(typeof(Assets.Behaviour.UI.GameUI), nameof(Assets.Behaviour.UI.GameUI.ProcessEscape))]
-        static class EscapeModBar
-        { static bool Prefix(Assets.Behaviour.UI.GameUI __instance) => !__instance.GetComponentsInChildren<ModBarHost>(true).Any(host => host.ClosePopups()); }
+        static bool Prefix(Assets.Behaviour.UI.GameUI __instance) => !__instance.GetComponentsInChildren<ModBarHost>(true).Any(host => host.ClosePopups());
     }
-
 }

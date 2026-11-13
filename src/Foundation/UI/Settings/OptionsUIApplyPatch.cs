@@ -13,8 +13,7 @@ namespace KingdomFoundation
             if (parentField != null && parentField.GetValue(__instance) == null)
                 parentField.SetValue(__instance, __instance.GetComponentInParent<MainMenuUI>() ?? MainMenuUI.Instance);
             if (ingameField != null && ingameField.GetValue(__instance) == null)
-                ingameField.SetValue(__instance, __instance.GetComponentInParent<InGameMenuUI>() ?? UnityEngine.Object.FindAnyObjectByType<InGameMenuUI>());
-
+                ingameField.SetValue(__instance, __instance.GetComponentInParent<InGameMenuUI>() ?? global::UnityEngine.Object.FindAnyObjectByType<InGameMenuUI>());
             __instance.GetComponent<FoundationConfigMenu>()?.CommitModConfigs();
         }
     }

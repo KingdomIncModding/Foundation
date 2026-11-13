@@ -6,8 +6,9 @@ namespace KingdomFoundation.Api
 {
     internal sealed class GameAudioService : IGameAudioService
     {
-        public bool IsReady => UnityEngine.Object.FindAnyObjectByType<MusicManager>() != null;
+        public bool IsReady => global::UnityEngine.Object.FindAnyObjectByType<MusicManager>() != null;
         public bool IsPlaying => IsReady && MusicManager.IsPlaying;
+
         public float MusicVolume
         {
             get => MusicManager.Volume;
@@ -18,19 +19,25 @@ namespace KingdomFoundation.Api
                 MusicManager.Volume = value;
             }
         }
+
         public void PlayMusic(string nativeTrackId, float fadeSeconds = -1f)
         {
-            if (string.IsNullOrWhiteSpace(nativeTrackId)) throw new ArgumentException("Track ID is required.", nameof(nativeTrackId));
+            if (string.IsNullOrWhiteSpace(nativeTrackId))
+                throw new ArgumentException("Track ID is required.", nameof(nativeTrackId));
             if (float.IsNaN(fadeSeconds) || float.IsInfinity(fadeSeconds) || fadeSeconds < -1)
                 throw new ArgumentOutOfRangeException(nameof(fadeSeconds));
             MusicManager.Play(nativeTrackId, fadeSeconds);
         }
+
         public void QueueMusic(string nativeTrackId, int priority = 0)
         {
-            if (string.IsNullOrWhiteSpace(nativeTrackId)) throw new ArgumentException("Track ID is required.", nameof(nativeTrackId));
-            if (!IsReady) throw new InvalidOperationException("The native music manager has not initialized.");
+            if (string.IsNullOrWhiteSpace(nativeTrackId))
+                throw new ArgumentException("Track ID is required.", nameof(nativeTrackId));
+            if (!IsReady)
+                throw new InvalidOperationException("The native music manager has not initialized.");
             MusicManager.Queue(nativeTrackId, priority);
         }
+
         public void PreviewMusicVolume(float volume)
         {
             if (float.IsNaN(volume) || float.IsInfinity(volume) || volume < 0 || volume > 1)

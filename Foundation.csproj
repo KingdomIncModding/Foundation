@@ -2,8 +2,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <Version>0.13.0</Version>
-    <AssemblyVersion>0.13.0.0</AssemblyVersion>
+    <Version>0.14.0</Version>
+    <AssemblyVersion>0.14.0.0</AssemblyVersion>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
     <AssemblyName>Foundation</AssemblyName>
@@ -17,6 +17,7 @@
     <Reference Include="Assembly-CSharp"><HintPath>$(GameRoot)KingdomInc_Data\Managed\Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="UnityEngine"><HintPath>$(GameRoot)KingdomInc_Data\Managed\UnityEngine.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="UnityEngine.CoreModule"><HintPath>$(GameRoot)KingdomInc_Data\Managed\UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.AudioModule"><HintPath>$(GameRoot)KingdomInc_Data\Managed\UnityEngine.AudioModule.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="UnityEngine.UIModule"><HintPath>$(GameRoot)KingdomInc_Data\Managed\UnityEngine.UIModule.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="UnityEngine.UI"><HintPath>$(GameRoot)KingdomInc_Data\Managed\UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="UnityEngine.IMGUIModule"><HintPath>$(GameRoot)KingdomInc_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath><Private>false</Private></Reference>

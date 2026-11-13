@@ -19,23 +19,19 @@ namespace KingdomFoundation
         OptionsUI optionsUI;
         RectTransform rootRect;
         Image rootImage;
-
         // Header and buttons
         RectTransform header;
         Button applyButton, cancelButton, closeButton;
-
         // Tabs
         RectTransform tabContainer;
         Button gameTabButton, modsTabButton, installedTabButton;
         TMP_Text gameTabText;
         bool isModsTabActive;
         bool isInstalledTabActive;
-
         // Pages
         GameObject gamePage;
         GameObject modsPage;
         GameObject installedPage;
-
         // Installed Page UI
         RectTransform installedContent;
         ScrollRect installedScroll;
@@ -43,7 +39,6 @@ namespace KingdomFoundation
         Button checkUpdatesButton;
         Button openFolderButton;
         readonly List<GameObject> installedModRowObjects = new List<GameObject>();
-
         // Mods Page UI
         RectTransform modsSidebarContent;
         RectTransform modsSettingsContent;
@@ -54,7 +49,6 @@ namespace KingdomFoundation
         TMP_Text noModsText;
         readonly Dictionary<string, Button> modButtons = new Dictionary<string, Button>(StringComparer.Ordinal);
         string selectedModId;
-
         // Templates
         ModConfigTemplates templates;
         public IModConfigTemplates Templates => templates;
@@ -68,23 +62,30 @@ namespace KingdomFoundation
         IOptionsTabRegistration selectedTab;
         public bool IsOpen => built && isActiveAndEnabled;
         public IReadOnlyList<IVanillaSettingView> VanillaSettings => vanillaRows.Values.ToArray();
+
         public bool TryGetVanillaSetting(string id, out IVanillaSettingView setting)
-        { setting = null; return id != null && vanillaRows.TryGetValue(id, out setting); }
+        {
+            setting = null;
+            return id != null && vanillaRows.TryGetValue(id, out setting);
+        }
+
         public IReadOnlyList<IVanillaSectionView> VanillaSections => vanillaSections.Values.Cast<IVanillaSectionView>().ToArray();
+
         public bool TryGetVanillaSection(string id, out IVanillaSectionView section)
         {
             section = null;
-            if (id == null || !vanillaSections.TryGetValue(id, out var found)) return false;
+            if (id == null || !vanillaSections.TryGetValue(id, out var found))
+                return false;
             section = found;
             return true;
         }
 
         bool built;
         bool modEditSessionOpen;
-
         public static FoundationConfigMenu Attach(OptionsUI ui)
         {
-            if (ui == null) return null;
+            if (ui == null)
+                return null;
             var menu = ui.GetComponent<FoundationConfigMenu>() ?? ui.gameObject.AddComponent<FoundationConfigMenu>();
             menu.Build(ui);
             return menu;
@@ -92,49 +93,42 @@ namespace KingdomFoundation
 
         public void Build(OptionsUI source)
         {
-            if (built) return;
+            if (built)
+                return;
             optionsUI = source;
             rootRect = (RectTransform)transform;
             rootImage = GetComponent<Image>();
-
             // Ensure OptionsUI._parent and _ingameParent are populated even if Start() hasn't executed yet
             var parentField = AccessTools.Field(typeof(OptionsUI), "_parent");
             var ingameField = AccessTools.Field(typeof(OptionsUI), "_ingameParent");
             if (parentField != null && parentField.GetValue(source) == null)
                 parentField.SetValue(source, source.GetComponentInParent<MainMenuUI>() ?? MainMenuUI.Instance);
             if (ingameField != null && ingameField.GetValue(source) == null)
-                ingameField.SetValue(source, source.GetComponentInParent<InGameMenuUI>() ?? UnityEngine.Object.FindAnyObjectByType<InGameMenuUI>());
-
+                ingameField.SetValue(source, source.GetComponentInParent<InGameMenuUI>() ?? global::UnityEngine.Object.FindAnyObjectByType<InGameMenuUI>());
             templates = new ModConfigTemplates(source);
-
             // 1. Sizing and centering: 3x bigger area (~1100 x 700)
             AdjustWindowTransform();
-
             // 2. Identify and reposition vanilla buttons & header
             FindAndRepositionNativeControls();
-
             // 3. Create top tabs: [ Game Settings ]  [ Mod Settings ]
             CreateTabs();
-
             // 4. Rearrange Game Page into 2 columns
             BuildGamePage();
-
             // 5. Build Mods Page (Sidebar + Scrollable settings panel)
             BuildModsPage();
-
             // 6. Build Installed Mods Page
             BuildInstalledPage();
-
             // Hook API change events
             FoundationApi.ModConfig.Changed += OnRegistryChanged;
             FoundationApi.Options.Changed += OnOptionsChanged;
             NexusUpdateChecker.Changed += OnInstalledModsChanged;
-
             built = true;
             brand = new OptionsMenuBrand(source);
-            if (isActiveAndEnabled) brand.Show();
+            if (isActiveAndEnabled)
+                brand.Show();
             OnOptionsChanged();
-            if (isActiveAndEnabled) BeginModConfigSession();
+            if (isActiveAndEnabled)
+                BeginModConfigSession();
             ShowGameTab();
         }
 
@@ -144,22 +138,30 @@ namespace KingdomFoundation
             FoundationApi.ModConfig.Changed -= OnRegistryChanged;
             FoundationApi.Options.Changed -= OnOptionsChanged;
             ((OptionsTabRegistry)FoundationApi.Options).Close(this);
-            foreach (var page in customPages.Values) page.Dispose();
-            customPages.Clear(); tabStrip?.Dispose();
+            foreach (var page in customPages.Values)
+                page.Dispose();
+            customPages.Clear();
+            tabStrip?.Dispose();
             brand?.Dispose();
             NexusUpdateChecker.Changed -= OnInstalledModsChanged;
         }
 
         void OnEnable()
         {
-            if (!built && optionsUI != null) Build(optionsUI);
-            if (built) BeginModConfigSession();
+            if (!built && optionsUI != null)
+                Build(optionsUI);
+            if (built)
+                BeginModConfigSession();
             AdjustWindowTransform();
             brand?.Show();
-            if (selectedTab != null && selectedTab.IsRegistered) ShowCustomTab(selectedTab);
-            else if (isInstalledTabActive) ShowInstalledTab();
-            else if (isModsTabActive) ShowModsTab();
-            else ShowGameTab();
+            if (selectedTab != null && selectedTab.IsRegistered)
+                ShowCustomTab(selectedTab);
+            else if (isInstalledTabActive)
+                ShowInstalledTab();
+            else if (isModsTabActive)
+                ShowModsTab();
+            else
+                ShowGameTab();
         }
 
         void OnDisable()
@@ -174,30 +176,48 @@ namespace KingdomFoundation
 
         void BeginModConfigSession()
         {
-            if (modEditSessionOpen) return;
-            modEditSessionOpen = true; SynchronizeEditSections();
+            if (modEditSessionOpen)
+                return;
+            modEditSessionOpen = true;
+            SynchronizeEditSections();
             ResetVanillaPresentation();
             ((OptionsTabRegistry)FoundationApi.Options).Open(this);
         }
 
         void SynchronizeEditSections()
         {
-            if (!modEditSessionOpen) return;
+            if (!modEditSessionOpen)
+                return;
             var sections = FoundationApi.ModConfig.Sections.Concat(FoundationApi.Options.Tabs.Select(t => t.Tab.Settings)).ToArray();
             foreach (var old in editSections.Where(s => !sections.Any(current => ReferenceEquals(current, s))).ToArray())
-            { editSections.Remove(old); try { old.Cancel(); } catch (Exception error) { FoundationApi.Report(error); } }
+            {
+                editSections.Remove(old);
+                try
+                {
+                    old.Cancel();
+                }
+                catch (Exception error)
+                {
+                    FoundationApi.Report(error);
+                }
+            }
+
             foreach (var section in sections)
             {
-                if (editSections.Any(current => ReferenceEquals(current, section))) continue;
+                if (editSections.Any(current => ReferenceEquals(current, section)))
+                    continue;
                 editSections.Add(section);
-                if (section is ModConfigSection concrete) concrete.BeginEdit();
+                if (section is ModConfigSection concrete)
+                    concrete.BeginEdit();
             }
         }
 
         void ResetVanillaPresentation()
         {
-            foreach (var section in vanillaSections.Values) section.IsVisible = true;
-            foreach (var row in vanillaRows.Values) row.IsVisible = true;
+            foreach (var section in vanillaSections.Values)
+                section.IsVisible = true;
+            foreach (var row in vanillaRows.Values)
+                row.IsVisible = true;
             UpdateVanillaLayout();
         }
 
@@ -205,7 +225,8 @@ namespace KingdomFoundation
         {
             foreach (var section in vanillaSections.Values)
             {
-                if (!section.IsAlive) continue;
+                if (!section.IsAlive)
+                    continue;
                 section.RefreshVisibility();
                 LayoutRebuilder.MarkLayoutForRebuild((RectTransform)section.Container);
             }
@@ -213,53 +234,82 @@ namespace KingdomFoundation
 
         void OnOptionsChanged()
         {
-            if (!built) return;
+            if (!built)
+                return;
             SynchronizeEditSections();
             var tabs = FoundationApi.Options.Tabs;
             foreach (var removed in customPages.Keys.Where(t => !tabs.Contains(t)).ToArray())
-            { customPages[removed].Dispose(); customPages.Remove(removed); }
+            {
+                customPages[removed].Dispose();
+                customPages.Remove(removed);
+            }
+
             foreach (var tab in tabs)
-                if (!customPages.ContainsKey(tab)) customPages.Add(tab, new OptionsTabPage(transform, tab.Tab, templates));
+                if (!customPages.ContainsKey(tab))
+                    customPages.Add(tab, new OptionsTabPage(transform, tab.Tab, templates));
             tabStrip.Rebuild(tabs, SelectBuiltinTab, ShowCustomTab);
-            gameTabButton = tabStrip.Buttons["game"]; modsTabButton = tabStrip.Buttons["mods"]; installedTabButton = tabStrip.Buttons["installed"];
+            gameTabButton = tabStrip.Buttons["game"];
+            modsTabButton = tabStrip.Buttons["mods"];
+            installedTabButton = tabStrip.Buttons["installed"];
             gameTabText = gameTabButton.GetComponentInChildren<TMP_Text>();
-            if (selectedTab != null) { if (selectedTab.IsRegistered) ShowCustomTab(selectedTab); else ShowGameTab(); }
+            if (selectedTab != null)
+            {
+                if (selectedTab.IsRegistered)
+                    ShowCustomTab(selectedTab);
+                else
+                    ShowGameTab();
+            }
         }
 
         void SelectBuiltinTab(string id)
-        { if (id == "mods") ShowModsTab(); else if (id == "installed") ShowInstalledTab(); else ShowGameTab(); }
+        {
+            if (id == "mods")
+                ShowModsTab();
+            else if (id == "installed")
+                ShowInstalledTab();
+            else
+                ShowGameTab();
+        }
 
         public void ShowCustomTab(IOptionsTabRegistration tab)
         {
-            if (tab == null || !tab.IsRegistered || !customPages.TryGetValue(tab, out var page)) return;
-            selectedTab = tab; isModsTabActive = isInstalledTabActive = false;
-            gamePage.SetActive(false); modsPage.SetActive(false); installedPage.SetActive(false);
-            foreach (var pair in customPages) pair.Value.SetVisible(pair.Key == tab);
+            if (tab == null || !tab.IsRegistered || !customPages.TryGetValue(tab, out var page))
+                return;
+            selectedTab = tab;
+            isModsTabActive = isInstalledTabActive = false;
+            gamePage.SetActive(false);
+            modsPage.SetActive(false);
+            installedPage.SetActive(false);
+            foreach (var pair in customPages)
+                pair.Value.SetVisible(pair.Key == tab);
             tabStrip.Select(OptionsTabStrip.Key(tab));
         }
 
         void HideCustomPages()
-        { selectedTab = null; foreach (var page in customPages.Values) page.SetVisible(false); }
+        {
+            selectedTab = null;
+            foreach (var page in customPages.Values)
+                page.SetVisible(false);
+        }
 
         void LateUpdate()
         {
             tabStrip?.Update();
-            if (selectedTab != null && customPages.TryGetValue(selectedTab, out var page)) page.Refresh();
+            if (selectedTab != null && customPages.TryGetValue(selectedTab, out var page))
+                page.Refresh();
         }
 
         void AdjustWindowTransform()
         {
-            if (!rootRect) return;
+            if (!rootRect)
+                return;
             var canvas = GetComponentInParent<Canvas>();
             float canvasW = canvas ? canvas.pixelRect.width / canvas.scaleFactor : Screen.width;
             float canvasH = canvas ? canvas.pixelRect.height / canvas.scaleFactor : Screen.height;
-
             float targetW = Mathf.Min(1140f, canvasW - 40f);
             float targetH = Mathf.Min(720f, canvasH - 40f);
-
             rootRect.sizeDelta = new Vector2(targetW, targetH);
             rootRect.anchorMin = rootRect.anchorMax = rootRect.pivot = new Vector2(0.5f, 0.5f);
-
             // If father has constrained anchorMax.y (like MainMenu spanning 0..0.6), offset to center on screen
             var parentRect = transform.parent as RectTransform;
             if (parentRect != null && parentRect.anchorMax.y < 0.9f)
@@ -284,12 +334,10 @@ namespace KingdomFoundation
                 header.anchorMax = new Vector2(0.5f, 1f);
                 header.pivot = new Vector2(0.5f, 0.5f);
                 header.anchoredPosition = new Vector2(0, 0); // Perched centered on top border line
-
                 var headerText = header.GetComponentInChildren<TMP_Text>(true);
                 float textWidth = headerText != null ? headerText.preferredWidth : 100f;
                 float badgeWidth = Mathf.Max(170f, textWidth + 48f);
                 header.sizeDelta = new Vector2(badgeWidth, 42f);
-
                 if (headerText != null)
                 {
                     headerText.alignment = TextAlignmentOptions.Center;
@@ -325,7 +373,6 @@ namespace KingdomFoundation
                 r.anchorMin = r.anchorMax = r.pivot = new Vector2(1, 0);
                 r.anchoredPosition = new Vector2(-40, 20);
                 r.sizeDelta = new Vector2(180, 44); // Taller: 52px
-
                 var text = applyButton.GetComponentInChildren<TMP_Text>(true);
                 if (text)
                 {
@@ -334,9 +381,8 @@ namespace KingdomFoundation
                     text.rectTransform.anchorMax = Vector2.one;
                     text.rectTransform.offsetMin = text.rectTransform.offsetMax = Vector2.zero;
                 }
-
-                // Apply/Cancel are handled by OptionsUI Harmony prefixes only.
-                // Adding listeners here invoked commits twice for the same click.
+            // Apply/Cancel are handled by OptionsUI Harmony prefixes only.
+            // Adding listeners here invoked commits twice for the same click.
             }
 
             var cancelTrans = transform.Find("Cancel");
@@ -347,7 +393,6 @@ namespace KingdomFoundation
                 r.anchorMin = r.anchorMax = r.pivot = new Vector2(1, 0);
                 r.anchoredPosition = new Vector2(-236, 20);
                 r.sizeDelta = new Vector2(180, 44); // Taller: 52px
-
                 var text = cancelButton.GetComponentInChildren<TMP_Text>(true);
                 if (text)
                 {
@@ -356,8 +401,7 @@ namespace KingdomFoundation
                     text.rectTransform.anchorMax = Vector2.one;
                     text.rectTransform.offsetMin = text.rectTransform.offsetMax = Vector2.zero;
                 }
-
-                // The OptionsUI.CancelOptions prefix discards staged values.
+            // The OptionsUI.CancelOptions prefix discards staged values.
             }
         }
 
@@ -382,37 +426,33 @@ namespace KingdomFoundation
             pageRect.anchorMax = new Vector2(1, 1);
             pageRect.offsetMin = new Vector2(30, 84);
             pageRect.offsetMax = new Vector2(-30, -OptionsTabStrip.PageTopInset);
-
             // Locate the native OptionsContent containing vanilla rows
             var nativeContent = transform.Find("OptionsContent") as RectTransform;
             if (nativeContent)
             {
                 // Disable its vertical layout group so we can arrange cleanly into two columns
                 var oldVlg = nativeContent.GetComponent<VerticalLayoutGroup>();
-                if (oldVlg) oldVlg.enabled = false;
+                if (oldVlg)
+                    oldVlg.enabled = false;
                 var oldContentSize = nativeContent.GetComponent<ContentSizeFitter>();
-                if (oldContentSize) oldContentSize.enabled = false;
-
+                if (oldContentSize)
+                    oldContentSize.enabled = false;
                 // Reparent native content to gamePage
                 nativeContent.SetParent(gamePage.transform, false);
                 nativeContent.anchorMin = Vector2.zero;
                 nativeContent.anchorMax = Vector2.one;
                 nativeContent.offsetMin = nativeContent.offsetMax = Vector2.zero;
-
                 // Create Left Column: Display & Interface
                 var leftCol = CreateColumn(nativeContent, "DisplayColumn", new Vector2(0, 0), new Vector2(0.485f, 1));
                 CreateSectionHeader(leftCol, VanillaSectionIds.DisplayAndInterface, "Display & Interface");
-
                 // Move Resolution, WindowMode, Framerate, UIScale into Left Column
                 MoveRow(nativeContent, leftCol, "Resolution");
                 MoveRow(nativeContent, leftCol, "WindowMode");
                 MoveRow(nativeContent, leftCol, "Framerate");
                 MoveRow(nativeContent, leftCol, "UIScale");
-
                 // Create Right Column: Audio & Controls
                 var rightCol = CreateColumn(nativeContent, "AudioColumn", new Vector2(0.515f, 0), new Vector2(1, 1));
                 CreateSectionHeader(rightCol, VanillaSectionIds.AudioAndSystem, "Audio & System");
-
                 // Move MusicVolume, SoundVolume, AutosaveFreq, KeyBindings into Right Column
                 MoveRow(nativeContent, rightCol, "MusicVolume");
                 MoveRow(nativeContent, rightCol, "SoundVolume");
@@ -429,7 +469,6 @@ namespace KingdomFoundation
             rect.anchorMin = anchorMin;
             rect.anchorMax = anchorMax;
             rect.offsetMin = rect.offsetMax = Vector2.zero;
-
             var vlg = col.GetComponent<VerticalLayoutGroup>();
             vlg.padding = new RectOffset(10, 10, 8, 8);
             vlg.spacing = 10;
@@ -459,7 +498,6 @@ namespace KingdomFoundation
                 rect.anchorMax = new Vector2(1, 1);
                 rect.pivot = new Vector2(0.5f, 1);
                 rect.sizeDelta = new Vector2(0, 42);
-
                 var le = child.GetComponent<LayoutElement>() ?? child.gameObject.AddComponent<LayoutElement>();
                 le.preferredHeight = 42;
                 le.minHeight = 42;
@@ -476,7 +514,6 @@ namespace KingdomFoundation
             pageRect.anchorMax = new Vector2(1, 1);
             pageRect.offsetMin = new Vector2(30, 84);
             pageRect.offsetMax = new Vector2(-30, -OptionsTabStrip.PageTopInset);
-
             // 1. Sidebar on the left (width ~320px)
             var sidebar = new GameObject("Sidebar", typeof(RectTransform), typeof(Image));
             sidebar.transform.SetParent(modsPage.transform, false);
@@ -486,7 +523,6 @@ namespace KingdomFoundation
             sRect.pivot = new Vector2(0, 0.5f);
             sRect.anchoredPosition = Vector2.zero;
             sRect.sizeDelta = new Vector2(320, 0);
-
             var sImg = sidebar.GetComponent<Image>();
             if (rootImage)
             {
@@ -505,14 +541,17 @@ namespace KingdomFoundation
             stRect.pivot = new Vector2(0.5f, 1);
             stRect.anchoredPosition = new Vector2(0, -10);
             stRect.sizeDelta = new Vector2(-20, 36);
-
             var stText = sTitleObj.GetComponent<TextMeshProUGUI>();
-            if (gameTabText) { stText.font = gameTabText.font; stText.fontSharedMaterial = gameTabText.fontSharedMaterial; }
+            if (gameTabText)
+            {
+                stText.font = gameTabText.font;
+                stText.fontSharedMaterial = gameTabText.fontSharedMaterial;
+            }
+
             stText.text = "Installed Mods";
             stText.fontStyle = FontStyles.Bold;
             stText.fontSize = 20;
             stText.alignment = TextAlignmentOptions.Center;
-
             // Sidebar Scroll Viewport
             var sViewport = new GameObject("Viewport", typeof(RectTransform), typeof(RectMask2D), typeof(Image));
             sViewport.transform.SetParent(sidebar.transform, false);
@@ -522,7 +561,6 @@ namespace KingdomFoundation
             svRect.offsetMin = new Vector2(8, 12);
             svRect.offsetMax = new Vector2(-8, -48);
             sViewport.GetComponent<Image>().color = Color.clear;
-
             var sContent = new GameObject("Content", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
             sContent.transform.SetParent(sViewport.transform, false);
             modsSidebarContent = (RectTransform)sContent.transform;
@@ -530,7 +568,6 @@ namespace KingdomFoundation
             modsSidebarContent.anchorMax = new Vector2(1, 1);
             modsSidebarContent.pivot = new Vector2(0.5f, 1);
             modsSidebarContent.sizeDelta = new Vector2(0, 0);
-
             var sVlg = sContent.GetComponent<VerticalLayoutGroup>();
             sVlg.padding = new RectOffset(4, 4, 4, 4);
             sVlg.spacing = 6;
@@ -539,10 +576,8 @@ namespace KingdomFoundation
             sVlg.childForceExpandWidth = true;
             sVlg.childForceExpandHeight = false;
             sVlg.childAlignment = TextAnchor.UpperLeft;
-
             var sCsf = sContent.GetComponent<ContentSizeFitter>();
             sCsf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-
             modsSidebarScroll = sViewport.AddComponent<ScrollRect>();
             modsSidebarScroll.content = modsSidebarContent;
             modsSidebarScroll.viewport = svRect;
@@ -550,7 +585,6 @@ namespace KingdomFoundation
             modsSidebarScroll.vertical = true;
             modsSidebarScroll.movementType = ScrollRect.MovementType.Clamped;
             modsSidebarScroll.scrollSensitivity = 25f;
-
             // Empty notice
             var emptyObj = new GameObject("EmptyNotice", typeof(RectTransform), typeof(TextMeshProUGUI));
             emptyObj.transform.SetParent(sViewport.transform, false);
@@ -559,12 +593,16 @@ namespace KingdomFoundation
             eRect.anchorMax = Vector2.one;
             eRect.offsetMin = eRect.offsetMax = Vector2.zero;
             noModsText = emptyObj.GetComponent<TextMeshProUGUI>();
-            if (gameTabText) { noModsText.font = gameTabText.font; noModsText.fontSharedMaterial = gameTabText.fontSharedMaterial; }
+            if (gameTabText)
+            {
+                noModsText.font = gameTabText.font;
+                noModsText.fontSharedMaterial = gameTabText.fontSharedMaterial;
+            }
+
             noModsText.text = "No mods registered with config";
             noModsText.fontSize = 15;
             noModsText.alignment = TextAlignmentOptions.Center;
             noModsText.color = new Color(0.6f, 0.6f, 0.6f, 0.8f);
-
             // 2. Settings Panel on the right (width ~750px)
             var panel = new GameObject("SettingsPanel", typeof(RectTransform), typeof(Image));
             panel.transform.SetParent(modsPage.transform, false);
@@ -573,7 +611,6 @@ namespace KingdomFoundation
             pRect.anchorMax = new Vector2(1, 1);
             pRect.offsetMin = new Vector2(335, 0);
             pRect.offsetMax = Vector2.zero;
-
             var pImg = panel.GetComponent<Image>();
             if (rootImage)
             {
@@ -592,28 +629,34 @@ namespace KingdomFoundation
             mhRect.pivot = new Vector2(0.5f, 1);
             mhRect.anchoredPosition = new Vector2(0, -10);
             mhRect.sizeDelta = new Vector2(-40, 58);
-
             var mhVlg = mHeaderObj.GetComponent<VerticalLayoutGroup>();
             mhVlg.spacing = 2;
             mhVlg.childControlWidth = true;
             mhVlg.childControlHeight = true;
-
             var titleObj = new GameObject("Title", typeof(RectTransform), typeof(TextMeshProUGUI));
             titleObj.transform.SetParent(mHeaderObj.transform, false);
             modsHeaderTitle = titleObj.GetComponent<TextMeshProUGUI>();
-            if (gameTabText) { modsHeaderTitle.font = gameTabText.font; modsHeaderTitle.fontSharedMaterial = gameTabText.fontSharedMaterial; }
+            if (gameTabText)
+            {
+                modsHeaderTitle.font = gameTabText.font;
+                modsHeaderTitle.fontSharedMaterial = gameTabText.fontSharedMaterial;
+            }
+
             modsHeaderTitle.fontStyle = FontStyles.Bold;
             modsHeaderTitle.fontSize = 22;
             modsHeaderTitle.alignment = TextAlignmentOptions.MidlineLeft;
-
             var descObj = new GameObject("Desc", typeof(RectTransform), typeof(TextMeshProUGUI));
             descObj.transform.SetParent(mHeaderObj.transform, false);
             modsHeaderDesc = descObj.GetComponent<TextMeshProUGUI>();
-            if (gameTabText) { modsHeaderDesc.font = gameTabText.font; modsHeaderDesc.fontSharedMaterial = gameTabText.fontSharedMaterial; }
+            if (gameTabText)
+            {
+                modsHeaderDesc.font = gameTabText.font;
+                modsHeaderDesc.fontSharedMaterial = gameTabText.fontSharedMaterial;
+            }
+
             modsHeaderDesc.fontSize = 14;
             modsHeaderDesc.color = new Color(0.7f, 0.7f, 0.7f, 0.9f);
             modsHeaderDesc.alignment = TextAlignmentOptions.MidlineLeft;
-
             // Settings Viewport (with right margin for vertical scrollbar)
             var pViewport = new GameObject("SettingsViewport", typeof(RectTransform), typeof(RectMask2D), typeof(Image));
             pViewport.transform.SetParent(panel.transform, false);
@@ -623,7 +666,6 @@ namespace KingdomFoundation
             pvRect.offsetMin = new Vector2(12, 12);
             pvRect.offsetMax = new Vector2(-38, -72);
             pViewport.GetComponent<Image>().color = Color.clear;
-
             var pContent = new GameObject("SettingsContent", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
             pContent.transform.SetParent(pViewport.transform, false);
             modsSettingsContent = (RectTransform)pContent.transform;
@@ -631,7 +673,6 @@ namespace KingdomFoundation
             modsSettingsContent.anchorMax = new Vector2(1, 1);
             modsSettingsContent.pivot = new Vector2(0.5f, 1);
             modsSettingsContent.sizeDelta = new Vector2(0, 0);
-
             var pVlg = pContent.GetComponent<VerticalLayoutGroup>();
             pVlg.padding = new RectOffset(8, 8, 8, 8);
             pVlg.spacing = 8;
@@ -639,10 +680,8 @@ namespace KingdomFoundation
             pVlg.childControlHeight = false;
             pVlg.childForceExpandWidth = true;
             pVlg.childForceExpandHeight = false;
-
             var pCsf = pContent.GetComponent<ContentSizeFitter>();
             pCsf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-
             modsSettingsScroll = pViewport.AddComponent<ScrollRect>();
             modsSettingsScroll.content = modsSettingsContent;
             modsSettingsScroll.viewport = pvRect;
@@ -650,7 +689,6 @@ namespace KingdomFoundation
             modsSettingsScroll.vertical = true;
             modsSettingsScroll.movementType = ScrollRect.MovementType.Clamped;
             modsSettingsScroll.scrollSensitivity = 30f;
-
             // Vertical Scrollbar for Mod Settings Viewport
             var sbarObj = new GameObject("ScrollbarVertical", typeof(RectTransform), typeof(Image), typeof(Scrollbar));
             sbarObj.transform.SetParent(panel.transform, false);
@@ -660,11 +698,14 @@ namespace KingdomFoundation
             sbRect.pivot = new Vector2(1, 0.5f);
             sbRect.offsetMin = new Vector2(-28, 14);
             sbRect.offsetMax = new Vector2(-10, -74);
-
             var bgImg = sbarObj.GetComponent<Image>();
-            if (rootImage) { bgImg.sprite = rootImage.sprite; bgImg.type = Image.Type.Sliced; }
-            bgImg.color = new Color(0.12f, 0.12f, 0.15f, 0.90f);
+            if (rootImage)
+            {
+                bgImg.sprite = rootImage.sprite;
+                bgImg.type = Image.Type.Sliced;
+            }
 
+            bgImg.color = new Color(0.12f, 0.12f, 0.15f, 0.90f);
             var slideArea = new GameObject("SlidingArea", typeof(RectTransform));
             slideArea.transform.SetParent(sbarObj.transform, false);
             var saRect = (RectTransform)slideArea.transform;
@@ -672,64 +713,80 @@ namespace KingdomFoundation
             saRect.anchorMax = Vector2.one;
             saRect.offsetMin = new Vector2(2, 2);
             saRect.offsetMax = new Vector2(-2, -2);
-
             var handleObj = new GameObject("Handle", typeof(RectTransform), typeof(Image));
             handleObj.transform.SetParent(slideArea.transform, false);
             var hRect = (RectTransform)handleObj.transform;
             hRect.anchorMin = Vector2.zero;
             hRect.anchorMax = Vector2.one;
             hRect.offsetMin = hRect.offsetMax = Vector2.zero;
-
             var hImg = handleObj.GetComponent<Image>();
             if (applyButton)
             {
                 var btnImg = applyButton.GetComponent<Image>();
-                if (btnImg) { hImg.sprite = btnImg.sprite; hImg.type = Image.Type.Sliced; }
+                if (btnImg)
+                {
+                    hImg.sprite = btnImg.sprite;
+                    hImg.type = Image.Type.Sliced;
+                }
             }
-            hImg.color = new Color(0.78f, 0.68f, 0.45f, 1f);
 
+            hImg.color = new Color(0.78f, 0.68f, 0.45f, 1f);
             var scrollbar = sbarObj.GetComponent<Scrollbar>();
             scrollbar.direction = Scrollbar.Direction.BottomToTop;
             scrollbar.targetGraphic = hImg;
             scrollbar.handleRect = hRect;
-
             var colors = scrollbar.colors;
             colors.normalColor = new Color(0.78f, 0.68f, 0.45f, 1f);
             colors.highlightedColor = new Color(0.95f, 0.85f, 0.60f, 1f);
             colors.pressedColor = new Color(1f, 0.95f, 0.75f, 1f);
             scrollbar.colors = colors;
-
             modsSettingsScroll.verticalScrollbar = scrollbar;
             modsSettingsScroll.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.Permanent;
         }
 
         public void ShowGameTab()
         {
-            HideCustomPages(); isModsTabActive = isInstalledTabActive = false;
-            if (gamePage) gamePage.SetActive(true);
-            if (modsPage) modsPage.SetActive(false);
-            if (installedPage) installedPage.SetActive(false);
+            HideCustomPages();
+            isModsTabActive = isInstalledTabActive = false;
+            if (gamePage)
+                gamePage.SetActive(true);
+            if (modsPage)
+                modsPage.SetActive(false);
+            if (installedPage)
+                installedPage.SetActive(false);
             tabStrip?.Select("game");
         }
 
         public void ShowModsTab(string modId = null)
         {
-            HideCustomPages(); isModsTabActive = true; isInstalledTabActive = false;
-            if (gamePage) gamePage.SetActive(false);
-            if (modsPage) modsPage.SetActive(true);
-            if (installedPage) installedPage.SetActive(false);
+            HideCustomPages();
+            isModsTabActive = true;
+            isInstalledTabActive = false;
+            if (gamePage)
+                gamePage.SetActive(false);
+            if (modsPage)
+                modsPage.SetActive(true);
+            if (installedPage)
+                installedPage.SetActive(false);
             tabStrip?.Select("mods");
-            if (!string.IsNullOrEmpty(modId)) selectedModId = modId;
+            if (!string.IsNullOrEmpty(modId))
+                selectedModId = modId;
             RefreshModsList();
         }
 
         public void ShowInstalledTab()
         {
-            HideCustomPages(); isModsTabActive = false; isInstalledTabActive = true;
-            if (gamePage) gamePage.SetActive(false);
-            if (modsPage) modsPage.SetActive(false);
-            if (installedPage) installedPage.SetActive(true);
-            tabStrip?.Select("installed"); RefreshInstalledModsUI();
+            HideCustomPages();
+            isModsTabActive = false;
+            isInstalledTabActive = true;
+            if (gamePage)
+                gamePage.SetActive(false);
+            if (modsPage)
+                modsPage.SetActive(false);
+            if (installedPage)
+                installedPage.SetActive(true);
+            tabStrip?.Select("installed");
+            RefreshInstalledModsUI();
             if (!NexusUpdateChecker.CachedMods.Any(m => m.Checked) && !NexusUpdateChecker.IsCheckingAll)
                 NexusUpdateChecker.CheckAll();
         }
@@ -743,7 +800,6 @@ namespace KingdomFoundation
             pageRect.anchorMax = new Vector2(1, 1);
             pageRect.offsetMin = new Vector2(30, 84);
             pageRect.offsetMax = new Vector2(-30, -OptionsTabStrip.PageTopInset);
-
             // 1. Top Control Bar (Title + Subtitle + Action buttons)
             var topBar = new GameObject("TopBar", typeof(RectTransform));
             topBar.transform.SetParent(installedPage.transform, false);
@@ -753,7 +809,6 @@ namespace KingdomFoundation
             tbRect.pivot = new Vector2(0.5f, 1);
             tbRect.anchoredPosition = new Vector2(0, 0);
             tbRect.sizeDelta = new Vector2(0, 44);
-
             // Summary Text
             var sumObj = new GameObject("SummaryText", typeof(RectTransform), typeof(TextMeshProUGUI));
             sumObj.transform.SetParent(topBar.transform, false);
@@ -763,36 +818,37 @@ namespace KingdomFoundation
             stRect.pivot = new Vector2(0, 0.5f);
             stRect.offsetMin = new Vector2(10, 0);
             stRect.offsetMax = new Vector2(-375, 0);
-
             installedSummaryText = sumObj.GetComponent<TextMeshProUGUI>();
-            if (gameTabText) { installedSummaryText.font = gameTabText.font; installedSummaryText.fontSharedMaterial = gameTabText.fontSharedMaterial; }
+            if (gameTabText)
+            {
+                installedSummaryText.font = gameTabText.font;
+                installedSummaryText.fontSharedMaterial = gameTabText.fontSharedMaterial;
+            }
+
             installedSummaryText.fontSize = 17;
             installedSummaryText.enableAutoSizing = true;
             installedSummaryText.fontSizeMin = 13;
             installedSummaryText.fontSizeMax = 17;
             installedSummaryText.alignment = TextAlignmentOptions.MidlineLeft;
             installedSummaryText.text = "<b>Installed Mods</b>  Ã‚Â·  Loading...";
-
             // Action Buttons Template from Apply button
             var template = applyButton != null ? applyButton.gameObject : gameTabButton.gameObject;
-
             // Check Updates Button (generous width and inner padding)
             var checkBtnObj = Instantiate(template, topBar.transform);
             checkBtnObj.name = "CheckUpdatesButton";
             checkUpdatesButton = checkBtnObj.GetComponent<Button>();
             checkUpdatesButton.onClick = new Button.ButtonClickedEvent();
-            checkUpdatesButton.onClick.AddListener(() => {
+            checkUpdatesButton.onClick.AddListener(() =>
+            {
                 UISounds.Button();
                 NexusUpdateChecker.CheckAll();
             });
-
             var cbRect = (RectTransform)checkBtnObj.transform;
             cbRect.anchorMin = new Vector2(1, 0.5f);
             cbRect.anchorMax = new Vector2(1, 0.5f);
             cbRect.pivot = new Vector2(1, 0.5f);
             cbRect.anchoredPosition = new Vector2(-181, 0);
             cbRect.sizeDelta = new Vector2(185, 38);
-
             var cbText = checkBtnObj.GetComponentInChildren<TMP_Text>(true);
             if (cbText)
             {
@@ -814,18 +870,17 @@ namespace KingdomFoundation
             folderBtnObj.name = "OpenFolderButton";
             openFolderButton = folderBtnObj.GetComponent<Button>();
             openFolderButton.onClick = new Button.ButtonClickedEvent();
-            openFolderButton.onClick.AddListener(() => {
+            openFolderButton.onClick.AddListener(() =>
+            {
                 UISounds.Button();
                 Application.OpenURL("file://" + BepInEx.Paths.PluginPath);
             });
-
             var fbRect = (RectTransform)folderBtnObj.transform;
             fbRect.anchorMin = new Vector2(1, 0.5f);
             fbRect.anchorMax = new Vector2(1, 0.5f);
             fbRect.pivot = new Vector2(1, 0.5f);
             fbRect.anchoredPosition = new Vector2(-8, 0);
             fbRect.sizeDelta = new Vector2(165, 38);
-
             var fbText = folderBtnObj.GetComponentInChildren<TMP_Text>(true);
             if (fbText)
             {
@@ -850,7 +905,6 @@ namespace KingdomFoundation
             pRect.anchorMax = new Vector2(1, 1);
             pRect.offsetMin = Vector2.zero;
             pRect.offsetMax = new Vector2(0, -48);
-
             var pImg = panel.GetComponent<Image>();
             if (rootImage)
             {
@@ -869,7 +923,6 @@ namespace KingdomFoundation
             pvRect.offsetMin = new Vector2(12, 12);
             pvRect.offsetMax = new Vector2(-38, -12);
             pViewport.GetComponent<Image>().color = Color.clear;
-
             // Content
             var pContent = new GameObject("InstalledContent", typeof(RectTransform), typeof(VerticalLayoutGroup), typeof(ContentSizeFitter));
             pContent.transform.SetParent(pViewport.transform, false);
@@ -878,7 +931,6 @@ namespace KingdomFoundation
             installedContent.anchorMax = new Vector2(1, 1);
             installedContent.pivot = new Vector2(0.5f, 1);
             installedContent.sizeDelta = new Vector2(0, 0);
-
             var pVlg = pContent.GetComponent<VerticalLayoutGroup>();
             pVlg.padding = new RectOffset(8, 8, 8, 8);
             pVlg.spacing = 8;
@@ -886,10 +938,8 @@ namespace KingdomFoundation
             pVlg.childControlHeight = false;
             pVlg.childForceExpandWidth = true;
             pVlg.childForceExpandHeight = false;
-
             var pCsf = pContent.GetComponent<ContentSizeFitter>();
             pCsf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-
             installedScroll = pViewport.AddComponent<ScrollRect>();
             installedScroll.content = installedContent;
             installedScroll.viewport = pvRect;
@@ -897,7 +947,6 @@ namespace KingdomFoundation
             installedScroll.vertical = true;
             installedScroll.movementType = ScrollRect.MovementType.Clamped;
             installedScroll.scrollSensitivity = 30f;
-
             // Scrollbar Vertical
             var sbarObj = new GameObject("ScrollbarVertical", typeof(RectTransform), typeof(Image), typeof(Scrollbar));
             sbarObj.transform.SetParent(panel.transform, false);
@@ -907,11 +956,14 @@ namespace KingdomFoundation
             sbRect.pivot = new Vector2(1, 0.5f);
             sbRect.offsetMin = new Vector2(-28, 14);
             sbRect.offsetMax = new Vector2(-10, -14);
-
             var bgImg = sbarObj.GetComponent<Image>();
-            if (rootImage) { bgImg.sprite = rootImage.sprite; bgImg.type = Image.Type.Sliced; }
-            bgImg.color = new Color(0.12f, 0.12f, 0.15f, 0.90f);
+            if (rootImage)
+            {
+                bgImg.sprite = rootImage.sprite;
+                bgImg.type = Image.Type.Sliced;
+            }
 
+            bgImg.color = new Color(0.12f, 0.12f, 0.15f, 0.90f);
             var slideArea = new GameObject("SlidingArea", typeof(RectTransform));
             slideArea.transform.SetParent(sbarObj.transform, false);
             var saRect = (RectTransform)slideArea.transform;
@@ -919,33 +971,33 @@ namespace KingdomFoundation
             saRect.anchorMax = Vector2.one;
             saRect.offsetMin = new Vector2(2, 2);
             saRect.offsetMax = new Vector2(-2, -2);
-
             var handleObj = new GameObject("Handle", typeof(RectTransform), typeof(Image));
             handleObj.transform.SetParent(slideArea.transform, false);
             var hRect = (RectTransform)handleObj.transform;
             hRect.anchorMin = Vector2.zero;
             hRect.anchorMax = Vector2.one;
             hRect.offsetMin = hRect.offsetMax = Vector2.zero;
-
             var hImg = handleObj.GetComponent<Image>();
             if (applyButton)
             {
                 var btnImg = applyButton.GetComponent<Image>();
-                if (btnImg) { hImg.sprite = btnImg.sprite; hImg.type = Image.Type.Sliced; }
+                if (btnImg)
+                {
+                    hImg.sprite = btnImg.sprite;
+                    hImg.type = Image.Type.Sliced;
+                }
             }
-            hImg.color = new Color(0.78f, 0.68f, 0.45f, 1f);
 
+            hImg.color = new Color(0.78f, 0.68f, 0.45f, 1f);
             var scrollbar = sbarObj.GetComponent<Scrollbar>();
             scrollbar.direction = Scrollbar.Direction.BottomToTop;
             scrollbar.targetGraphic = hImg;
             scrollbar.handleRect = hRect;
-
             var colors = scrollbar.colors;
             colors.normalColor = new Color(0.78f, 0.68f, 0.45f, 1f);
             colors.highlightedColor = new Color(0.95f, 0.85f, 0.60f, 1f);
             colors.pressedColor = new Color(1f, 0.95f, 0.75f, 1f);
             scrollbar.colors = colors;
-
             installedScroll.verticalScrollbar = scrollbar;
             installedScroll.verticalScrollbarVisibility = ScrollRect.ScrollbarVisibility.Permanent;
         }
@@ -960,8 +1012,8 @@ namespace KingdomFoundation
 
         public void RefreshInstalledModsUI()
         {
-            if (!installedContent) return;
-
+            if (!installedContent)
+                return;
             var mods = NexusUpdateChecker.CachedMods;
             if (mods.Count == 0)
             {
@@ -989,33 +1041,32 @@ namespace KingdomFoundation
 
             foreach (var obj in installedModRowObjects)
             {
-                if (obj) Destroy(obj);
+                if (obj)
+                    Destroy(obj);
             }
+
             installedModRowObjects.Clear();
-
             var template = applyButton != null ? applyButton.gameObject : gameTabButton.gameObject;
-
             for (int i = 0; i < mods.Count; i++)
             {
                 var mod = mods[i];
                 var rowObj = new GameObject("ModRow_" + mod.Guid, typeof(RectTransform), typeof(Image), typeof(LayoutElement));
                 rowObj.transform.SetParent(installedContent, false);
                 installedModRowObjects.Add(rowObj);
-
                 var rRect = (RectTransform)rowObj.transform;
                 rRect.sizeDelta = new Vector2(0, 58);
-
                 var le = rowObj.GetComponent<LayoutElement>();
                 le.preferredHeight = 58;
                 le.minHeight = 58;
                 le.flexibleWidth = 1;
-
                 var rImg = rowObj.GetComponent<Image>();
-                if (rootImage) { rImg.sprite = rootImage.sprite; rImg.type = Image.Type.Sliced; }
-                rImg.color = mod.IsOutdated
-                    ? new Color(0.24f, 0.16f, 0.14f, 0.88f)
-                    : new Color(0.14f, 0.14f, 0.18f, 0.85f);
+                if (rootImage)
+                {
+                    rImg.sprite = rootImage.sprite;
+                    rImg.type = Image.Type.Sliced;
+                }
 
+                rImg.color = mod.IsOutdated ? new Color(0.24f, 0.16f, 0.14f, 0.88f) : new Color(0.14f, 0.14f, 0.18f, 0.85f);
                 // Left: Name & GUID
                 var nameObj = new GameObject("Name", typeof(RectTransform), typeof(TextMeshProUGUI));
                 nameObj.transform.SetParent(rowObj.transform, false);
@@ -1024,14 +1075,17 @@ namespace KingdomFoundation
                 nr.anchorMax = new Vector2(0.50f, 1f);
                 nr.offsetMin = new Vector2(16, 0);
                 nr.offsetMax = new Vector2(0, -6);
-
                 var nText = nameObj.GetComponent<TextMeshProUGUI>();
-                if (gameTabText) { nText.font = gameTabText.font; nText.fontSharedMaterial = gameTabText.fontSharedMaterial; }
+                if (gameTabText)
+                {
+                    nText.font = gameTabText.font;
+                    nText.fontSharedMaterial = gameTabText.fontSharedMaterial;
+                }
+
                 nText.text = mod.Name;
                 nText.fontStyle = FontStyles.Bold;
                 nText.fontSize = 17;
                 nText.alignment = TextAlignmentOptions.MidlineLeft;
-
                 var guidObj = new GameObject("Guid", typeof(RectTransform), typeof(TextMeshProUGUI));
                 guidObj.transform.SetParent(rowObj.transform, false);
                 var gr = (RectTransform)guidObj.transform;
@@ -1039,15 +1093,18 @@ namespace KingdomFoundation
                 gr.anchorMax = new Vector2(0.50f, 0.46f);
                 gr.offsetMin = new Vector2(16, 6);
                 gr.offsetMax = new Vector2(0, 0);
-
                 var gText = guidObj.GetComponent<TextMeshProUGUI>();
-                if (gameTabText) { gText.font = gameTabText.font; gText.fontSharedMaterial = gameTabText.fontSharedMaterial; }
+                if (gameTabText)
+                {
+                    gText.font = gameTabText.font;
+                    gText.fontSharedMaterial = gameTabText.fontSharedMaterial;
+                }
+
                 string fileName = !string.IsNullOrEmpty(mod.Location) ? Path.GetFileName(mod.Location) : "";
                 gText.text = $"{mod.Guid}{(string.IsNullOrEmpty(fileName) ? "" : "  Ã‚Â·  " + fileName)}";
                 gText.fontSize = 12;
                 gText.color = new Color(0.65f, 0.65f, 0.70f, 0.9f);
                 gText.alignment = TextAlignmentOptions.MidlineLeft;
-
                 // Center: Version Info
                 var verObj = new GameObject("Versions", typeof(RectTransform), typeof(TextMeshProUGUI));
                 verObj.transform.SetParent(rowObj.transform, false);
@@ -1056,12 +1113,15 @@ namespace KingdomFoundation
                 vr.anchorMax = new Vector2(0.74f, 1f);
                 vr.offsetMin = new Vector2(10, 6);
                 vr.offsetMax = new Vector2(-10, -6);
-
                 var vText = verObj.GetComponent<TextMeshProUGUI>();
-                if (gameTabText) { vText.font = gameTabText.font; vText.fontSharedMaterial = gameTabText.fontSharedMaterial; }
+                if (gameTabText)
+                {
+                    vText.font = gameTabText.font;
+                    vText.fontSharedMaterial = gameTabText.fontSharedMaterial;
+                }
+
                 vText.fontSize = 13;
                 vText.alignment = TextAlignmentOptions.MidlineLeft;
-
                 string nexusStatus;
                 if (mod.IsChecking)
                     nexusStatus = "<color=#D4AF37>Nexus: Checking...</color>";
@@ -1073,9 +1133,7 @@ namespace KingdomFoundation
                     nexusStatus = $"<color=#999999>Nexus: #{mod.NexusId}</color>";
                 else
                     nexusStatus = "<color=#777777>Local Mod (No Nexus Page)</color>";
-
                 vText.text = $"Installed: <b>v{mod.InstalledVersion}</b>\n{nexusStatus}";
-
                 // Right: Action button
                 if (mod.NexusId.HasValue)
                 {
@@ -1084,24 +1142,23 @@ namespace KingdomFoundation
                     var btn = btnObj.GetComponent<Button>();
                     btn.onClick = new Button.ButtonClickedEvent();
                     string targetUrl = mod.NexusUrl;
-                    btn.onClick.AddListener(() => {
+                    btn.onClick.AddListener(() =>
+                    {
                         UISounds.TurnPage();
                         Application.OpenURL(targetUrl);
                     });
-
                     var br = (RectTransform)btnObj.transform;
                     br.anchorMin = new Vector2(1f, 0.5f);
                     br.anchorMax = new Vector2(1f, 0.5f);
                     br.pivot = new Vector2(1f, 0.5f);
                     br.anchoredPosition = new Vector2(-14, 0);
                     br.sizeDelta = new Vector2(185, 38);
-
                     var bImg = btnObj.GetComponent<Image>();
                     var bText = btnObj.GetComponentInChildren<TMP_Text>(true);
-
                     if (mod.IsOutdated)
                     {
-                        if (bImg) bImg.color = new Color(0.95f, 0.72f, 0.28f, 1f); // Highlight amber/gold
+                        if (bImg)
+                            bImg.color = new Color(0.95f, 0.72f, 0.28f, 1f); // Highlight amber/gold
                         if (bText)
                         {
                             bText.text = "Update Available";
@@ -1112,7 +1169,8 @@ namespace KingdomFoundation
                     }
                     else
                     {
-                        if (bImg) bImg.color = new Color(0.85f, 0.85f, 0.85f, 0.90f);
+                        if (bImg)
+                            bImg.color = new Color(0.85f, 0.85f, 0.85f, 0.90f);
                         if (bText)
                         {
                             bText.text = "Nexus Page";
@@ -1146,9 +1204,13 @@ namespace KingdomFoundation
                     ltr.pivot = new Vector2(1f, 0.5f);
                     ltr.anchoredPosition = new Vector2(-20, 0);
                     ltr.sizeDelta = new Vector2(160, 32);
-
                     var lt = localTagObj.GetComponent<TextMeshProUGUI>();
-                    if (gameTabText) { lt.font = gameTabText.font; lt.fontSharedMaterial = gameTabText.fontSharedMaterial; }
+                    if (gameTabText)
+                    {
+                        lt.font = gameTabText.font;
+                        lt.fontSharedMaterial = gameTabText.fontSharedMaterial;
+                    }
+
                     lt.text = "Local Mod";
                     lt.fontSize = 14;
                     lt.alignment = TextAlignmentOptions.Center;
@@ -1169,29 +1231,27 @@ namespace KingdomFoundation
 
         public void RefreshModsList()
         {
-            if (!modsSidebarContent) return;
-
+            if (!modsSidebarContent)
+                return;
             var sections = FoundationApi.ModConfig.Sections;
             noModsText.gameObject.SetActive(sections.Count == 0);
-
             // Rebuild buttons if count or IDs changed
             foreach (var btn in modButtons.Values)
             {
-                if (!btn) continue;
+                if (!btn)
+                    continue;
                 // Deferred destruction must not leave obsolete rows in this frame's layout.
                 btn.gameObject.SetActive(false);
                 btn.transform.SetParent(null, false);
                 Destroy(btn.gameObject);
             }
-            modButtons.Clear();
 
+            modButtons.Clear();
             if (string.IsNullOrEmpty(selectedModId) && sections.Count > 0)
                 selectedModId = sections[0].ModId;
-
             // If selectedModId is no longer present, select first
             if (!sections.Any(s => s.ModId == selectedModId) && sections.Count > 0)
                 selectedModId = sections[0].ModId;
-
             for (int i = 0; i < sections.Count; i++)
             {
                 var section = sections[i];
@@ -1200,11 +1260,11 @@ namespace KingdomFoundation
                 var btn = btnObj.GetComponent<Button>();
                 btn.onClick = new Button.ButtonClickedEvent();
                 string id = section.ModId;
-                btn.onClick.AddListener(() => {
+                btn.onClick.AddListener(() =>
+                {
                     UISounds.TurnPage();
                     SelectMod(id);
                 });
-
                 var label = btnObj.GetComponentInChildren<TMP_Text>(true);
                 if (label)
                 {
@@ -1227,7 +1287,6 @@ namespace KingdomFoundation
                 le.preferredHeight = 50;
                 le.minHeight = 50;
                 le.flexibleWidth = 1;
-
                 modButtons[section.ModId] = btn;
             }
 
@@ -1237,20 +1296,21 @@ namespace KingdomFoundation
                 modsSidebarScroll.StopMovement();
                 modsSidebarScroll.verticalNormalizedPosition = 1f;
             }
+
             SelectMod(selectedModId);
         }
 
         public void SelectMod(string modId)
         {
             selectedModId = modId;
-
             // Highlight selected button
             foreach (var pair in modButtons)
             {
                 if (pair.Value)
                 {
                     var img = pair.Value.GetComponent<Image>();
-                    if (img) img.color = pair.Key == selectedModId ? Color.white : new Color(0.6f, 0.6f, 0.6f, 0.75f);
+                    if (img)
+                        img.color = pair.Key == selectedModId ? Color.white : new Color(0.6f, 0.6f, 0.6f, 0.75f);
                 }
             }
 
@@ -1259,8 +1319,8 @@ namespace KingdomFoundation
 
         void RenderSelectedModSettings()
         {
-            if (!modsSettingsContent) return;
-
+            if (!modsSettingsContent)
+                return;
             // Clear old elements immediately
             for (int i = modsSettingsContent.childCount - 1; i >= 0; i--)
             {
@@ -1271,21 +1331,30 @@ namespace KingdomFoundation
 
             if (string.IsNullOrEmpty(selectedModId) || !FoundationApi.ModConfig.TryGetSection(selectedModId, out var section))
             {
-                if (modsHeaderTitle) modsHeaderTitle.text = "Select a Mod";
-                if (modsHeaderDesc) modsHeaderDesc.text = "";
+                if (modsHeaderTitle)
+                    modsHeaderTitle.text = "Select a Mod";
+                if (modsHeaderDesc)
+                    modsHeaderDesc.text = "";
                 return;
             }
 
-            if (modsHeaderTitle) modsHeaderTitle.text = section.ModName;
-            if (modsHeaderDesc) modsHeaderDesc.text = section.Description;
-
+            if (modsHeaderTitle)
+                modsHeaderTitle.text = section.ModName;
+            if (modsHeaderDesc)
+                modsHeaderDesc.text = section.Description;
             var context = new ConfigContext(modsSettingsContent, templates);
             foreach (var el in section.Elements)
             {
                 if (el != null)
                 {
-                    try { el.CreateView(context); }
-                    catch (Exception ex) { FoundationApi.Report(ex); }
+                    try
+                    {
+                        el.CreateView(context);
+                    }
+                    catch (Exception ex)
+                    {
+                        FoundationApi.Report(ex);
+                    }
                 }
             }
 
@@ -1302,28 +1371,42 @@ namespace KingdomFoundation
 
         internal void CommitModConfigs()
         {
-            if (!modEditSessionOpen) return;
+            if (!modEditSessionOpen)
+                return;
             modEditSessionOpen = false;
-            var sections = editSections.ToArray(); editSections.Clear();
+            var sections = editSections.ToArray();
+            editSections.Clear();
             foreach (var section in sections)
             {
-                try { section.Commit(); }
-                catch (Exception ex) { FoundationApi.Report(ex); }
+                try
+                {
+                    section.Commit();
+                }
+                catch (Exception ex)
+                {
+                    FoundationApi.Report(ex);
+                }
             }
         }
 
         internal void CancelModConfigs()
         {
-            if (!modEditSessionOpen) return;
+            if (!modEditSessionOpen)
+                return;
             modEditSessionOpen = false;
-            var sections = editSections.ToArray(); editSections.Clear();
+            var sections = editSections.ToArray();
+            editSections.Clear();
             foreach (var section in sections)
             {
-                try { section.Cancel(); }
-                catch (Exception ex) { FoundationApi.Report(ex); }
+                try
+                {
+                    section.Cancel();
+                }
+                catch (Exception ex)
+                {
+                    FoundationApi.Report(ex);
+                }
             }
         }
-
-
     }
 }

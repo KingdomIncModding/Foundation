@@ -1,4 +1,9 @@
 namespace KingdomFoundation.Core
 {
-    public enum ContentLifetime { Module, World, NativePermanent }
+    public enum ContentLifetime
+    {
+        Module,
+        World,
+        NativePermanent
+    }
 }

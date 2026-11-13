@@ -1,6 +1,6 @@
 # Getting Started with Foundation
 
-A Foundation mod is a standard BepInEx 5 C# plugin targeting `netstandard2.1`. Reference the unified `Foundation.dll` and whichever actual Kingdom Inc / Unity assemblies your mod uses. Install Foundation at `BepInEx/plugins/Foundation/`.
+A Foundation mod is a standard BepInEx 5 C# plugin targeting `netstandard2.1`. Reference the unified `Foundation.dll`, BepInEx and the Unity assemblies your mod uses. Foundation 0.14.0 owns native game integration through its [framework contracts](Framework-Boundary.md). Start with the [FrameworkConsumer example](../Examples/FrameworkConsumer/FrameworkConsumer.csproj), which has no game-assembly or Harmony reference. Existing native-facing SDK APIs and their compatibility examples remain available. Install Foundation at `BepInEx/plugins/Foundation/`.
 
 ---
 

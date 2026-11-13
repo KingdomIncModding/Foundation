@@ -16,12 +16,11 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    // Native research uses a fixed-size array. Other consumers can retain player
+    // snapshots created before a late registration, or register native tech themselves.
+    [HarmonyPatch(typeof(GamePlayer), nameof(GamePlayer.HasTech), new[] { typeof(TechNode) })]
+    internal static class ReadResearch
     {
-        // Native research uses a fixed-size array. Other consumers can retain player
-        // snapshots created before a late registration, or register native tech themselves.
-        [HarmonyPatch(typeof(GamePlayer), nameof(GamePlayer.HasTech), new[] { typeof(TechNode) })]
-        static class ReadResearch { static void Prefix(GamePlayer __instance) => NativeResearch.EnsureCapacity(__instance); }
+        static void Prefix(GamePlayer __instance) => NativeResearch.EnsureCapacity(__instance);
     }
-
 }

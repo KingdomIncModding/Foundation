@@ -10,13 +10,4 @@ namespace KingdomFoundation.Api
     {
         RectTransform CreateRect(string name, RectTransform parent);
     }
-    internal sealed class FoundationNativeUiFactory : IFoundationNativeUiFactory
-    {
-        public RectTransform CreateRect(string name, RectTransform parent)
-        {
-            if (string.IsNullOrEmpty(name)) throw new ArgumentException("UI control name required.", nameof(name));
-            if (!parent) throw new ArgumentNullException(nameof(parent));
-            return TechTreeTabs.Rect(name, parent);
-        }
-    }
 }

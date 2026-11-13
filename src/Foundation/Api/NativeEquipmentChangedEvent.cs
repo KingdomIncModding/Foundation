@@ -1,4 +1,4 @@
-﻿using Assets.Source.Items;
+using Assets.Source.Items;
 using Assets.Source.Items.Data;
 
 namespace KingdomFoundation.Api

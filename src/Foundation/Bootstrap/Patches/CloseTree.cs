@@ -16,10 +16,9 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    [HarmonyPatch(typeof(TechTreeMenu), "OnDisable")]
+    internal static class CloseTree
     {
-        [HarmonyPatch(typeof(TechTreeMenu), "OnDisable")]
-        static class CloseTree { static void Prefix(TechTreeMenu __instance) => Tabs(__instance)?.Close(); }
+        static void Prefix(TechTreeMenu __instance) => global::KingdomFoundation.FoundationPlugin.Tabs(__instance)?.Close();
     }
-
 }

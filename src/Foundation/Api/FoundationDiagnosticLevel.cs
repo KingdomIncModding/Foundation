@@ -4,5 +4,10 @@ using System.Linq;
 
 namespace KingdomFoundation.Api
 {
-    public enum FoundationDiagnosticLevel { Info, Warning, Error }
+    public enum FoundationDiagnosticLevel
+    {
+        Info,
+        Warning,
+        Error
+    }
 }

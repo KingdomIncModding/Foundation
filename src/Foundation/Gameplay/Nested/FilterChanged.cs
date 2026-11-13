@@ -9,15 +9,14 @@ using KingdomFoundation.Api;
 
 namespace KingdomFoundation
 {
-    internal static partial class GameplayIntegration
+    [HarmonyPatch(typeof(Filter), nameof(Filter.SetFilterType))]
+    internal static class FilterChanged
     {
-        [HarmonyPatch(typeof(Filter), nameof(Filter.SetFilterType))]
-        private static class FilterChanged
+        static void Prefix(Filter __instance, out ItemType __state) => __state = __instance.FilterType;
+        static void Postfix(Filter __instance, ItemType __state)
         {
-            static void Prefix(Filter __instance, out ItemType __state) => __state = __instance.FilterType;
-            static void Postfix(Filter __instance, ItemType __state)
-            { if (__state != __instance.FilterType) Publish(new MachineFilterChangedEvent(__instance, __state, __instance.FilterType)); }
+            if (__state != __instance.FilterType)
+                global::KingdomFoundation.GameplayIntegration.Publish(new MachineFilterChangedEvent(__instance, __state, __instance.FilterType));
         }
     }
-
 }

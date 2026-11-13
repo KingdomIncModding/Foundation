@@ -9,18 +9,15 @@ using KingdomFoundation.Api;
 
 namespace KingdomFoundation
 {
-    internal static partial class GameplayIntegration
+    [HarmonyPatch(typeof(QuestBoard), nameof(QuestBoard.UpdateQuest))]
+    internal static class QuestChanged
     {
-        [HarmonyPatch(typeof(QuestBoard), nameof(QuestBoard.UpdateQuest))]
-        private static class QuestChanged
+        static void Prefix(QuestBoard __instance, out Quest __state) => __state = __instance.SelectedQuest?.Quest;
+        static void Postfix(QuestBoard __instance, Quest __state)
         {
-            static void Prefix(QuestBoard __instance, out Quest __state) => __state = __instance.SelectedQuest?.Quest;
-            static void Postfix(QuestBoard __instance, Quest __state)
-            {
-                var now = __instance.SelectedQuest?.Quest;
-                if (__state != now) Publish(new MachineQuestChangedEvent(__instance, __state, now));
-            }
+            var now = __instance.SelectedQuest?.Quest;
+            if (__state != now)
+                global::KingdomFoundation.GameplayIntegration.Publish(new MachineQuestChangedEvent(__instance, __state, now));
         }
     }
-
 }

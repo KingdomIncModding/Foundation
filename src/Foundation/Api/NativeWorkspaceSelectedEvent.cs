@@ -1,4 +1,4 @@
-﻿using Assets.Source.Flow;
+using Assets.Source.Flow;
 using Assets.Source.Player;
 
 namespace KingdomFoundation.Api

@@ -12,17 +12,13 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    internal static partial class WorkspaceIntegration
+    [HarmonyPatch(typeof(FlowElement), nameof(FlowElement.ToJson))]
+    internal static class PreserveMissingJson
     {
-        [HarmonyPatch(typeof(FlowElement), nameof(FlowElement.ToJson))]
-        static class PreserveMissingJson
+        static void Postfix(FlowElement __instance, ref LightJson.JsonValue __result)
         {
-            static void Postfix(FlowElement __instance, ref LightJson.JsonValue __result)
-            {
-                if (__instance is MissingWorkspaceElement missing && __result.IsJsonObject)
-                    missing.PreservePortFields(__result.AsJsonObject);
-            }
+            if (__instance is MissingWorkspaceElement missing && __result.IsJsonObject)
+                missing.PreservePortFields(__result.AsJsonObject);
         }
     }
-
 }

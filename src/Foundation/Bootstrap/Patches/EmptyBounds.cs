@@ -16,18 +16,29 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    [HarmonyPatch(typeof(WorldFlowCamera), nameof(WorldFlowCamera.RecalculateBounds))]
+    internal static class EmptyBounds
     {
-        [HarmonyPatch(typeof(WorldFlowCamera), nameof(WorldFlowCamera.RecalculateBounds))]
-        static class EmptyBounds
+        static void Postfix(WorldFlowCamera __instance)
         {
-            static void Postfix(WorldFlowCamera __instance)
+            if (!global::KingdomFoundation.FoundationPlugin.ModsOpen || TechTreeMenu.Instance.Nodes.Any())
+                return;
+            foreach (var name in new[]
             {
-                if (!ModsOpen || TechTreeMenu.Instance.Nodes.Any()) return;
-                foreach (var name in new[] { "xMin", "yMin" }) AccessTools.Field(typeof(WorldFlowCamera), name).SetValue(__instance, -1000f);
-                foreach (var name in new[] { "xMax", "yMax" }) AccessTools.Field(typeof(WorldFlowCamera), name).SetValue(__instance, 1000f);
+                "xMin",
+                "yMin"
             }
+
+            )
+                AccessTools.Field(typeof(WorldFlowCamera), name).SetValue(__instance, -1000f);
+            foreach (var name in new[]
+            {
+                "xMax",
+                "yMax"
+            }
+
+            )
+                AccessTools.Field(typeof(WorldFlowCamera), name).SetValue(__instance, 1000f);
         }
     }
-
 }

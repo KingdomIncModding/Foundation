@@ -9,13 +9,9 @@ using KingdomFoundation.Api;
 
 namespace KingdomFoundation
 {
-    internal static partial class GameplayIntegration
+    [HarmonyPatch(typeof(GamePlayer), nameof(GamePlayer.DoAscension))]
+    internal static class Ascended
     {
-        [HarmonyPatch(typeof(GamePlayer), nameof(GamePlayer.DoAscension))]
-        private static class Ascended
-        {
-            static void Postfix(GamePlayer __instance) => Publish(new KingdomAscendedEvent(__instance));
-        }
+        static void Postfix(GamePlayer __instance) => global::KingdomFoundation.GameplayIntegration.Publish(new KingdomAscendedEvent(__instance));
     }
-
 }

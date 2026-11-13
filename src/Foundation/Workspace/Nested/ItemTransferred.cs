@@ -7,25 +7,21 @@ using KingdomFoundation.Api;
 
 namespace KingdomFoundation
 {
-    internal static partial class FlowIntegration
+    [HarmonyPatch(typeof(WorldFlowPipe), nameof(WorldFlowPipe.ItemTransferred))]
+    internal static class ItemTransferred
     {
-        [HarmonyPatch(typeof(WorldFlowPipe), nameof(WorldFlowPipe.ItemTransferred))]
-        private static class ItemTransferred
+        private static void Postfix(WorldFlowPipe __instance, InventoryItem item)
         {
-            private static void Postfix(WorldFlowPipe __instance, InventoryItem item)
+            // Native FlowPipe.Update only calls this after the destination accepts
+            // the item and the source consumes it. It is not a rate limit.
+            if (__instance.Pipe != null && item != null)
             {
-                // Native FlowPipe.Update only calls this after the destination accepts
-                // the item and the source consumes it. It is not a rate limit.
-                if (__instance.Pipe != null && item != null)
+                global::KingdomFoundation.FlowIntegration.Safely(() =>
                 {
-                    Safely(() =>
-                    {
-                        FoundationApi.FlowOperationsInternal.Record(__instance.Pipe);
-                        FoundationApi.FlowEvents.RaiseItemTransferred(__instance.Pipe, item);
-                    });
-                }
+                    FoundationApi.FlowOperationsInternal.Record(__instance.Pipe);
+                    FoundationApi.FlowEvents.RaiseItemTransferred(__instance.Pipe, item);
+                });
             }
         }
     }
-
 }

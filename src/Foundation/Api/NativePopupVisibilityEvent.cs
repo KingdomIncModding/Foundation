@@ -1,4 +1,4 @@
-﻿using Assets.Behaviour.UI;
+using Assets.Behaviour.UI;
 using Assets.Behaviour.UI.Shared;
 
 namespace KingdomFoundation.Api

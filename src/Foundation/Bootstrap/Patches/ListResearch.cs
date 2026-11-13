@@ -16,14 +16,10 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    [HarmonyPatch]
+    internal static class ListResearch
     {
-        [HarmonyPatch]
-        static class ListResearch
-        {
-            static MethodBase TargetMethod() => AccessTools.EnumeratorMoveNext(AccessTools.Method(typeof(TechTreeListView), "_addNodes", Type.EmptyTypes));
-            static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) => FilterCatalog(instructions);
-        }
+        static MethodBase TargetMethod() => AccessTools.EnumeratorMoveNext(AccessTools.Method(typeof(TechTreeListView), "_addNodes", Type.EmptyTypes));
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) => global::KingdomFoundation.FoundationPlugin.FilterCatalog(instructions);
     }
-
 }

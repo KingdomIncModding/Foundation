@@ -16,14 +16,14 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    // Block reading any existing user autosave while in diagnostic mode.
+    [HarmonyPatch(typeof(SaveGame), nameof(SaveGame.LoadLatestSave))]
+    internal static class BlockExistingSaveInSmoke
     {
-        // Block reading any existing user autosave while in diagnostic mode.
-        [HarmonyPatch(typeof(SaveGame), nameof(SaveGame.LoadLatestSave))]
-        private static class BlockExistingSaveInSmoke
+        static bool Prefix(ref bool __result)
         {
-            static bool Prefix(ref bool __result) { __result = false; return false; }
+            __result = false;
+            return false;
         }
     }
-
 }

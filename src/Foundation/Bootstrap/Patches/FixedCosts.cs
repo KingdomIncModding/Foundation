@@ -16,10 +16,9 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    [HarmonyPatch(typeof(TechNode), nameof(TechNode.ResetCost))]
+    internal static class FixedCosts
     {
-        [HarmonyPatch(typeof(TechNode), nameof(TechNode.ResetCost))]
-        static class FixedCosts { static void Postfix(TechNode __instance) => NativeResearch.RestoreFixedCost(__instance); }
+        static void Postfix(TechNode __instance) => NativeResearch.RestoreFixedCost(__instance);
     }
-
 }

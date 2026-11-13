@@ -20,10 +20,9 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    [HarmonyPatch(typeof(SaveGame), nameof(SaveGame.StoreAutosaveState))]
+    internal static class NoAutosave
     {
-        [HarmonyPatch(typeof(SaveGame), nameof(SaveGame.StoreAutosaveState))] static class NoAutosave { static bool Prefix() => false; }
+        static bool Prefix() => false;
     }
-
 }
-

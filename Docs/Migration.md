@@ -34,7 +34,7 @@ Use `FoundationApi.Panels` and `ModBar` for UI, `SignalDirectory` / `SignalLinks
 
 ## 4. Kingdom Inc game build 1.0.14
 
-Build mods against the 1.0.14 game assemblies and the matching Foundation 0.13.0 runtime/SDK. Game build numbers below refer to Kingdom Inc, not Foundation's version.
+Foundation 0.14.0 adds game access and machine-host contracts for consumers targeting Kingdom Inc **1.0.14**. Migrated mods reference Foundation and their Unity/BepInEx dependencies; Foundation owns the game assembly and Harmony integration. See [Framework boundary](Framework-Boundary.md). Existing native-facing SDK contracts remain available for compatibility. Game build numbers below refer to Kingdom Inc, not Foundation's version.
 
 | Retained deprecated API | Last working native game build | Replacement | Removal |
 | --- | --- | --- | --- |

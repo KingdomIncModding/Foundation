@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Assets.Behaviour.UI;
 using Assets.Behaviour.UI.Shared;
 using Assets.Source.Adventure;

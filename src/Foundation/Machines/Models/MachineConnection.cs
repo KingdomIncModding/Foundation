@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Assets.Source.Flow;
 using UnityEngine;
+
 namespace KingdomFoundation.Machines
 {
     /// <summary>Native pipe endpoints and path; observed rate counts actual native ItemTransferred calls.</summary>
@@ -15,6 +16,7 @@ namespace KingdomFoundation.Machines
         public bool LastItemRejected { get; }
         public long ObservedItems { get; }
         public double ObservedItemsPerSecond { get; }
+
         internal MachineConnection(FlowPipe pipe, long count, double rate)
         {
             SourceGuid = pipe.ConnectedOutput?.Parent?.Guid;
@@ -26,15 +28,5 @@ namespace KingdomFoundation.Machines
             ObservedItems = count;
             ObservedItemsPerSecond = rate;
         }
-    }
-
-    public sealed class MachineOperationResult
-    {
-        public bool Succeeded { get; }
-        public string Message { get; }
-        private MachineOperationResult(bool success, string message) { Succeeded = success; Message = message; }
-        public static MachineOperationResult Ok(string message = "Native operation completed") => new MachineOperationResult(true, message);
-        public static MachineOperationResult Reject(string message) => new MachineOperationResult(false, message);
-        public override string ToString() => (Succeeded ? "OK: " : "REJECTED: ") + Message;
     }
 }

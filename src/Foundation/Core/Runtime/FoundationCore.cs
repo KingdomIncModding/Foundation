@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Assets.Source.Player;
 using BepInEx.Logging;
 

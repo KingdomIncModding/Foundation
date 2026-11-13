@@ -1,45 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Assets.Source.Flow;
 using UnityEngine;
+
 namespace KingdomFoundation.Machines
 {
-    public enum MachinePortDirection { Input, Output }
-
-    /// <summary>Immutable reading of a real native FlowIO. Item type is a native registered identifier.</summary>
-    public sealed class MachinePortSnapshot
-    {
-        public MachinePortDirection Direction { get; }
-        public int Index { get; }
-        public int Position { get; }
-        public string ItemTypeId { get; }
-        public int BufferCapacity { get; }
-        public int BufferCount { get; }
-        public bool IsConnected { get; }
-        public string ConnectedMachineGuid { get; }
-        public int ConnectedPortIndex { get; }
-        public bool CanBuffer { get; }
-        public bool HasFilter { get; }
-        public bool FilterPreview { get; }
-        internal MachinePortSnapshot(FlowIO port, MachinePortDirection direction)
-        {
-            Direction = direction;
-            Index = port.ParentIndex;
-            Position = port.Position;
-            ItemTypeId = port.Item?.Identifier;
-            BufferCapacity = port.BufferSize;
-            BufferCount = port.BufferedItems.Count;
-            CanBuffer = port.CanBuffer;
-            HasFilter = port.Filter != null;
-            FilterPreview = port.FilterPreview;
-            var pipe = port.ConnectedPipe;
-            IsConnected = pipe != null;
-            var peer = direction == MachinePortDirection.Input ? (FlowIO)pipe?.ConnectedOutput : pipe?.ConnectedInput;
-            ConnectedMachineGuid = peer?.Parent?.Guid;
-            ConnectedPortIndex = peer?.ParentIndex ?? -1;
-        }
-    }
-
     /// <summary>Immutable snapshot; raw native objects never leave through this DTO.</summary>
     public sealed class MachineSnapshot
     {
@@ -72,6 +37,7 @@ namespace KingdomFoundation.Machines
         public IReadOnlyDictionary<string, object> NativeProperties { get; }
         /// <summary>Existing mod-owned extension properties; maintained for binary/source compatibility.</summary>
         public IReadOnlyDictionary<string, object> AdditionalProperties { get; }
+
         internal MachineSnapshot(FlowElement el, int flow, IReadOnlyDictionary<string, object> extra, IReadOnlyDictionary<string, object> native)
         {
             Identity = new MachineIdentity(el.Guid, flow);
@@ -93,13 +59,24 @@ namespace KingdomFoundation.Machines
             UpgradeSlots = el.UpgradeSlots;
             var recipe = el as Assets.Source.Flow.Elements.RecipeElement;
             SelectedRecipeId = recipe?.Recipe?.Identifier;
-            NativeRecipeCraftingTime = recipe?.Recipe == null ? (float?)null : recipe.Recipe.CraftingTime;
+            NativeRecipeCraftingTime = recipe?.Recipe == null ? (float? )null : recipe.Recipe.CraftingTime;
             var inList = new List<MachinePortSnapshot>(el.Inputs.Count);
             var outList = new List<MachinePortSnapshot>(el.Outputs.Count);
             int totalInput = 0, totalOutput = 0;
-            foreach (var port in el.Inputs) { inList.Add(new MachinePortSnapshot(port, MachinePortDirection.Input)); totalInput += port.BufferedItems.Count; }
-            foreach (var port in el.Outputs) { outList.Add(new MachinePortSnapshot(port, MachinePortDirection.Output)); totalOutput += port.BufferedItems.Count; }
-            TotalInputBuffered = totalInput; TotalOutputBuffered = totalOutput;
+            foreach (var port in el.Inputs)
+            {
+                inList.Add(new MachinePortSnapshot(port, MachinePortDirection.Input));
+                totalInput += port.BufferedItems.Count;
+            }
+
+            foreach (var port in el.Outputs)
+            {
+                outList.Add(new MachinePortSnapshot(port, MachinePortDirection.Output));
+                totalOutput += port.BufferedItems.Count;
+            }
+
+            TotalInputBuffered = totalInput;
+            TotalOutputBuffered = totalOutput;
             Inputs = inList.AsReadOnly();
             Outputs = outList.AsReadOnly();
             NativeType = FoundationMachineApi.NativeTypes.Describe(el);

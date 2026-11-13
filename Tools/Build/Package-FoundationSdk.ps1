@@ -28,11 +28,17 @@ try {
         New-Item -ItemType Directory -Path (Split-Path -Parent $destination) -Force | Out-Null
         Copy-Item -LiteralPath $doc.FullName -Destination $destination
     }
-    foreach ($name in @('ExampleTechNodes','ExampleServices','ExampleGameplay','CoreMod','UIDemo')) {
+    foreach ($name in @('ExampleTechNodes','ExampleServices','ExampleGameplay','CoreMod','UIDemo','FrameworkConsumer')) {
         $destination = Join-Path (Join-Path $stage 'Examples') $name
         New-Item -ItemType Directory -Path $destination -Force | Out-Null
-        foreach ($file in Get-ChildItem -LiteralPath (Join-Path (Join-Path $modRoot 'Examples') $name) -File) {
-            if ($file.Extension -in @('.cs','.csproj') -or $file.Name -eq 'mod.json') { Copy-Item -LiteralPath $file.FullName -Destination $destination }
+        $source = Join-Path (Join-Path $modRoot 'Examples') $name
+        foreach ($file in Get-ChildItem -LiteralPath $source -Recurse -File) {
+            if ($file.FullName -match '[\\/](bin|obj)[\\/]') { continue }
+            if ($file.Extension -in @('.cs','.csproj') -or $file.Name -eq 'mod.json') {
+                $target = Join-Path $destination $file.FullName.Substring($source.Length + 1)
+                New-Item -ItemType Directory -Path (Split-Path -Parent $target) -Force | Out-Null
+                Copy-Item -LiteralPath $file.FullName -Destination $target
+            }
         }
     }
     $readme = [IO.File]::ReadAllText((Join-Path $modRoot 'SDK\README.md'))
@@ -55,7 +61,7 @@ try {
     if ($assemblies.Count -ne 1 -or $assemblies[0].Name -ne 'Foundation.dll') { throw 'SDK contains unexpected assemblies.' }
     if (-not (Test-Path -LiteralPath (Join-Path $extracted 'Docs\UI\Options-Tabs.md'))) { throw 'SDK Options API guide is missing.' }
     $projects = @(Get-ChildItem -LiteralPath (Join-Path $extracted 'Examples') -Recurse -File -Filter '*.csproj')
-    if ($projects.Count -ne 5) { throw 'Expected five SDK example projects.' }
+    if ($projects.Count -ne 6) { throw 'Expected six SDK example projects.' }
     foreach ($project in $projects) {
         & dotnet build $project.FullName -c Release --nologo ('-p:GameRoot=' + $gamePath)
         if ($LASTEXITCODE -ne 0) { throw "Extracted SDK example failed: $($project.Name)" }

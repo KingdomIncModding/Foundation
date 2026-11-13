@@ -12,12 +12,11 @@ namespace KingdomFoundation
     /// Foundation recognizes ONLY previously registered namespaced item IDs and
     /// reconstructs them without changing the parser used for vanilla items.
     /// </summary>
-    internal static partial class ItemIntegration
+    internal static class ItemIntegration
     {
         internal static void Install(Harmony harmony)
         {
-            harmony.CreateClassProcessor(typeof(ReadNamespacedItem)).Patch();
+            harmony.CreateClassProcessor(typeof(global::KingdomFoundation.ReadNamespacedItem)).Patch();
         }
-
     }
 }

@@ -20,10 +20,13 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    [HarmonyPatch(typeof(SteamManager), nameof(SteamManager.Initialized), MethodType.Getter)]
+    internal static class Offline
     {
-        [HarmonyPatch(typeof(SteamManager), nameof(SteamManager.Initialized), MethodType.Getter)] static class Offline { static bool Prefix(ref bool __result) { __result = false; return false; } }
+        static bool Prefix(ref bool __result)
+        {
+            __result = false;
+            return false;
+        }
     }
-
 }
-

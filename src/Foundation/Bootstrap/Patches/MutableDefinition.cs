@@ -8,17 +8,12 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    internal sealed class MutableDefinition : ITechNodeDefinition
     {
-        sealed class MutableDefinition : ITechNodeDefinition
-        {
-            public string Id { get; set; }
-            public string Title { get; set; }
-            public string Description { get; set; }
-            public Sprite Icon { get; set; }
-            public Vector2 Position { get; set; }
-        }
+        public string Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public Sprite Icon { get; set; }
+        public Vector2 Position { get; set; }
     }
-
 }
-

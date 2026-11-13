@@ -20,10 +20,9 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    [HarmonyPatch(typeof(SteamAchievement), nameof(SteamAchievement.Trigger))]
+    internal static class NoAchievement
     {
-        [HarmonyPatch(typeof(SteamAchievement), nameof(SteamAchievement.Trigger))] static class NoAchievement { static bool Prefix() => false; }
+        static bool Prefix() => false;
     }
-
 }
-

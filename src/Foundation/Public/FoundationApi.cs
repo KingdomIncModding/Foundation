@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using BepInEx.Logging;
@@ -8,6 +8,29 @@ namespace KingdomFoundation.Api
     /// <summary>Entry point shared by all mods that depend on Foundation.</summary>
     public static class FoundationApi
     {
+        private static readonly GameHookRegistry GameHookService = new GameHookRegistry();
+        /// <summary>Foundation-owned native interception points with disposable consumer handlers.</summary>
+        public static IGameHookRegistry GameHooks => GameHookService;
+        internal static GameHookRegistry GameHooksInternal => GameHookService;
+        /// <summary>Native workspace primitives through opaque Foundation object identities.</summary>
+        public static IGameWorkspaceAccess WorkspaceAccess { get; } = new GameWorkspaceAccess();
+        /// <summary>Native UI/input primitives through framework and Unity types only.</summary>
+        public static IGameUiAccess UiAccess { get; } = new GameUiAccess();
+        public static IGameCameraAccess CameraAccess { get; } = new GameCameraAccess();
+        public static IGameDragDropService DragDrop { get; } = new GameDragDropService();
+        public static IGameWorkspaceVisualAccess WorkspaceVisuals { get; } = new GameWorkspaceVisualAccess();
+        public static IGameDecorationAccess Decorations { get; } = new GameDecorationAccess();
+        public static IGameResearchAccess ResearchAccess { get; } = new GameResearchAccess();
+        public static IGameItemAccess ItemAccess {get;}=new GameItemAccess();
+        public static IGameBindingAccess Bindings {get;}=new GameBindingAccess();
+        public static IGameBlueprintAccess Blueprints {get;}=new GameBlueprintAccess();
+        public static IGameSeedInterception SeedInterception { get; } = new GameSeedInterception();
+        public static IGameExecutionHooks ExecutionHooks { get; } = new GameExecutionHooks();
+        public static GameRuntimeInfo GameInfo { get; } = new GameRuntimeInfo();
+        public static GameKingdom Kingdom=>GameKingdom.Wrap(global::Assets.Source.Player.GamePlayer.Current);
+        private static readonly GameAudioInterceptionService AudioInterceptionService = new GameAudioInterceptionService();
+        public static IGameAudioInterception AudioInterception => AudioInterceptionService;
+        internal static GameAudioInterceptionService AudioInterceptionInternal => AudioInterceptionService;
         internal static readonly TechNodeRegistry Registry = new TechNodeRegistry(true);
         static readonly ManualLogSource Log = Logger.CreateLogSource("Foundation API");
         public static ITechNodeRegistry TechNodes => Registry;

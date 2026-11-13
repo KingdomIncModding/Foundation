@@ -1,4 +1,9 @@
 namespace KingdomFoundation.Core
 {
-    public enum CoreSeverity { Info, Warning, Error }
+    public enum CoreSeverity
+    {
+        Info,
+        Warning,
+        Error
+    }
 }

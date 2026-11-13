@@ -1,4 +1,4 @@
-﻿using BepInEx;
+using BepInEx;
 
 namespace KingdomFoundation.Core
 {

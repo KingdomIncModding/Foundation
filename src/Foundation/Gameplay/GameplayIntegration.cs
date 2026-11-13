@@ -10,25 +10,44 @@ using KingdomFoundation.Api;
 namespace KingdomFoundation
 {
     /// <summary>Read-only observation hooks over actual native game machine methods.</summary>
-    internal static partial class GameplayIntegration
+    internal static class GameplayIntegration
     {
         internal static void Install(Harmony harmony)
         {
-            foreach (var type in new[] { typeof(RecipeChanged), typeof(FilterChanged), typeof(UpgradeChanged),
-                typeof(QuestChanged), typeof(DungeonChanged), typeof(QualityChanged), typeof(Ascended) })
+            foreach (var type in new[]
             {
-                try { harmony.CreateClassProcessor(type).Patch(); }
-                catch (Exception error) { FoundationApi.Report(new InvalidOperationException("Could not install " + type.Name + " observation hook.", error)); }
+                typeof(global::KingdomFoundation.RecipeChanged),
+                typeof(global::KingdomFoundation.FilterChanged),
+                typeof(global::KingdomFoundation.UpgradeChanged),
+                typeof(global::KingdomFoundation.QuestChanged),
+                typeof(global::KingdomFoundation.DungeonChanged),
+                typeof(global::KingdomFoundation.QualityChanged),
+                typeof(global::KingdomFoundation.Ascended)
+            }
+
+            )
+            {
+                try
+                {
+                    harmony.CreateClassProcessor(type).Patch();
+                }
+                catch (Exception error)
+                {
+                    FoundationApi.Report(new InvalidOperationException("Could not install " + type.Name + " observation hook.", error));
+                }
             }
         }
-        static void Publish<T>(T message)
-        { try { FoundationApi.Events.Publish(message); } catch (Exception error) { FoundationApi.Report(error); } }
 
-
-
-
-
-
-
+        internal static void Publish<T>(T message)
+        {
+            try
+            {
+                FoundationApi.Events.Publish(message);
+            }
+            catch (Exception error)
+            {
+                FoundationApi.Report(error);
+            }
+        }
     }
 }

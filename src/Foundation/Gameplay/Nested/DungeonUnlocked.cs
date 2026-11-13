@@ -8,15 +8,14 @@ using KingdomFoundation.Api;
 
 namespace KingdomFoundation
 {
-    internal static partial class GameEventIntegration
+    [HarmonyPatch(typeof(GamePlayer), nameof(GamePlayer.UnlockDungeon))]
+    internal static class DungeonUnlocked
     {
-        [HarmonyPatch(typeof(GamePlayer), nameof(GamePlayer.UnlockDungeon))]
-        private static class DungeonUnlocked
+        static void Prefix(GamePlayer __instance, DungeonType dt, out bool __state) => __state = __instance.UnlockedDungeons.Contains(dt.Identifier);
+        static void Postfix(GamePlayer __instance, DungeonType dt, bool __state)
         {
-            static void Prefix(GamePlayer __instance, DungeonType dt, out bool __state) => __state = __instance.UnlockedDungeons.Contains(dt.Identifier);
-            static void Postfix(GamePlayer __instance, DungeonType dt, bool __state)
-            { if (!__state && __instance.UnlockedDungeons.Contains(dt.Identifier)) Publish(new DungeonUnlockedEvent(__instance, dt)); }
+            if (!__state && __instance.UnlockedDungeons.Contains(dt.Identifier))
+                global::KingdomFoundation.GameEventIntegration.Publish(new DungeonUnlockedEvent(__instance, dt));
         }
     }
-
 }

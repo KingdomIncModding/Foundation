@@ -16,11 +16,9 @@ using UnityEngine;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    [HarmonyPatch(typeof(Assets.Behaviour.UI.GameUI), "Start")]
+    internal static class CreateModBar
     {
-        [HarmonyPatch(typeof(Assets.Behaviour.UI.GameUI), "Start")]
-        static class CreateModBar
-        { static void Postfix(Assets.Behaviour.UI.GameUI __instance) => ModBarHost.Attach(__instance); }
+        static void Postfix(Assets.Behaviour.UI.GameUI __instance) => ModBarHost.Attach(__instance);
     }
-
 }

@@ -20,10 +20,13 @@ using UnityEngine.UI;
 
 namespace KingdomFoundation
 {
-    public sealed partial class FoundationPlugin
+    [HarmonyPatch(typeof(SaveGame), nameof(SaveGame.LoadLatestSave))]
+    internal static class NoLoad
     {
-        [HarmonyPatch(typeof(SaveGame), nameof(SaveGame.LoadLatestSave))] static class NoLoad { static bool Prefix(ref bool __result) { __result = false; return false; } }
+        static bool Prefix(ref bool __result)
+        {
+            __result = false;
+            return false;
+        }
     }
-
 }
-

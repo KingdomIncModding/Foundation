@@ -8,14 +8,9 @@ using LightJson;
 
 namespace KingdomFoundation
 {
-    internal static partial class SaveIntegration
+    [HarmonyPatch(typeof(Assets.Behaviour.GameManager), "Start")]
+    internal static class WorldReadyPatch
     {
-        [HarmonyPatch(typeof(Assets.Behaviour.GameManager), "Start")]
-        private static class WorldReadyPatch
-        {
-            static void Postfix()
-                => FoundationApi.LifecycleEvents.Raise(FoundationLifecyclePhase.GameReady, GamePlayer.Current);
-        }
+        static void Postfix() => FoundationApi.LifecycleEvents.Raise(FoundationLifecyclePhase.GameReady, GamePlayer.Current);
     }
-
 }

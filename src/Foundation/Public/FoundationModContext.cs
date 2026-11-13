@@ -94,6 +94,8 @@ namespace KingdomFoundation.Api
         }
         /// <summary>Manually own an externally-created disposable token or UI registration.</summary>
         public T Own<T>(T resource) where T : IDisposable => Track(resource);
+        public IWorkspaceNodeType Register(FrameworkWorkspaceNodeDefinition definition)
+        {EnsureActive();if(definition==null)throw new ArgumentNullException(nameof(definition));return Track(FoundationApi.WorkspaceNodes.RegisterWorkspaceNode(definition.NativeDefinition));}
         public ISignalSource ExposeNative(string id, string label, Type nativeType,
             Func<object> target, IEnumerable<string> members, bool writable = false)
             => Track(FoundationApi.NativeSignals.Expose(ModId, id, label, nativeType, target, members, writable));

@@ -8,14 +8,13 @@ using KingdomFoundation.Api;
 
 namespace KingdomFoundation
 {
-    internal static partial class GameEventIntegration
+    [HarmonyPatch(typeof(QuestProgress), nameof(QuestProgress.QuestCompleted))]
+    internal static class QuestCompleted
     {
-        [HarmonyPatch(typeof(QuestProgress), nameof(QuestProgress.QuestCompleted))]
-        private static class QuestCompleted
+        static void Postfix(QuestProgress __instance, bool __result)
         {
-            static void Postfix(QuestProgress __instance, bool __result)
-            { if (__result) Publish(new QuestCompletedEvent(__instance)); }
+            if (__result)
+                global::KingdomFoundation.GameEventIntegration.Publish(new QuestCompletedEvent(__instance));
         }
     }
-
 }

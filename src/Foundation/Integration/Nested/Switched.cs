@@ -7,19 +7,14 @@ using KingdomFoundation.Api;
 
 namespace KingdomFoundation
 {
-    internal static partial class WorldEventIntegration
+    [HarmonyPatch(typeof(WorldFlowManager), nameof(WorldFlowManager.ShowFlow))]
+    internal static class Switched
     {
-        [HarmonyPatch(typeof(WorldFlowManager), nameof(WorldFlowManager.ShowFlow))]
-        private static class Switched
+        static void Postfix(int idx) => global::KingdomFoundation.WorldEventIntegration.Safely(() =>
         {
-            static void Postfix(int idx) => Safely(() =>
-            {
-                var player = GamePlayer.Current;
-                if (player != null && idx >= 0 && idx < player.Flows.Count)
-                    FoundationApi.Events.Publish(new WorkspaceChangedEvent(WorkspaceChangeKind.FlowSwitched,
-                        player.ActiveFlow, null, idx));
-            });
-        }
+            var player = GamePlayer.Current;
+            if (player != null && idx >= 0 && idx < player.Flows.Count)
+                FoundationApi.Events.Publish(new WorkspaceChangedEvent(WorkspaceChangeKind.FlowSwitched, player.ActiveFlow, null, idx));
+        });
     }
-
 }
