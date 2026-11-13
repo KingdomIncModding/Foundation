@@ -830,7 +830,7 @@ namespace KingdomFoundation
             installedSummaryText.fontSizeMin = 13;
             installedSummaryText.fontSizeMax = 17;
             installedSummaryText.alignment = TextAlignmentOptions.MidlineLeft;
-            installedSummaryText.text = "<b>Installed Mods</b>  Ã‚Â·  Loading...";
+            installedSummaryText.text = "<b>Installed Mods</b>  |  Loading...";
             // Action Buttons Template from Apply button
             var template = applyButton != null ? applyButton.gameObject : gameTabButton.gameObject;
             // Check Updates Button (generous width and inner padding)
@@ -1027,15 +1027,15 @@ namespace KingdomFoundation
             {
                 if (NexusUpdateChecker.IsCheckingAll)
                 {
-                    installedSummaryText.text = $"<b>Installed Mods</b>  Ã‚Â·  <size=15>{total} Mods Loaded  Ã‚Â·  <color=#D4AF37>Checking Nexus for updates...</color></size>";
+                    installedSummaryText.text = $"<b>Installed Mods</b>  |  <size=15>{total} Mods Loaded  |  <color=#D4AF37>Checking Nexus for updates...</color></size>";
                 }
                 else if (outdated > 0)
                 {
-                    installedSummaryText.text = $"<b>Installed Mods</b>  Ã‚Â·  <size=15>{total} Mods Loaded  Ã‚Â·  <color=#FF7777><b>{outdated} Update{(outdated == 1 ? "" : "s")} Available</b></color></size>";
+                    installedSummaryText.text = $"<b>Installed Mods</b>  |  <size=15>{total} Mods Loaded  |  <color=#FF7777><b>{outdated} Update{(outdated == 1 ? "" : "s")} Available</b></color></size>";
                 }
                 else
                 {
-                    installedSummaryText.text = $"<b>Installed Mods</b>  Ã‚Â·  <size=15>{total} Mods Loaded  Ã‚Â·  <color=#77DD77>{NexusUpdateChecker.LastCheckSummary}</color></size>";
+                    installedSummaryText.text = $"<b>Installed Mods</b>  |  <size=15>{total} Mods Loaded  |  <color=#77DD77>{NexusUpdateChecker.LastCheckSummary}</color></size>";
                 }
             }
 
@@ -1101,7 +1101,7 @@ namespace KingdomFoundation
                 }
 
                 string fileName = !string.IsNullOrEmpty(mod.Location) ? Path.GetFileName(mod.Location) : "";
-                gText.text = $"{mod.Guid}{(string.IsNullOrEmpty(fileName) ? "" : "  Ã‚Â·  " + fileName)}";
+                gText.text = $"{mod.Guid}{(string.IsNullOrEmpty(fileName) ? "" : "  |  " + fileName)}";
                 gText.fontSize = 12;
                 gText.color = new Color(0.65f, 0.65f, 0.70f, 0.9f);
                 gText.alignment = TextAlignmentOptions.MidlineLeft;
