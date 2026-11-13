@@ -48,8 +48,8 @@ Place `mod.json` in your mod root directory beside your `.csproj`, and ensure it
   "repository": {
     "platform": "GitHub",
     "owner": "yourgithubusername",
-    "name": "KingdomInc_MyMod",
-    "url": "https://github.com/yourgithubusername/KingdomInc_MyMod",
+    "name": "MyMod",
+    "url": "https://github.com/yourgithubusername/MyMod",
     "branch": "main",
     "visibility": "public",
     "topics": [
