@@ -29,6 +29,8 @@ Handlers execute synchronously on the game's calling thread. Use Unity game acce
 
 Workspace identities are opaque and weakly cached: repeated queries return the same identity, including for weak-table mod state. Keep selections local to the current workspace and recheck membership before mutation. Descriptive values are snapshots; query again to refresh them. Foundation does not choose which objects a feature should select, delete or confirm. Hook model arguments and results use these identities and Foundation JSON values; native game class names remain in the framework.
 
+`GameWorkspace.Buildings`, `Pipes` and `Decorations` return cached live read-only views. Reading a view, its count, or an indexed identity does not copy the whole workspace. Existing views reflect additions, removals and reordering. Their enumerators follow the native list's mutation rules: call `ToArray()` explicitly before iterating when the operation will edit that same collection. The `SetBuildings`, `SetPipes` and `SetDecorations` methods materialize their input before changing the native list, so passing a view of that same workspace remains supported.
+
 ## Existing SDK compatibility
 
 Existing native-facing services and `FoundationApi.Native` remain available. Those legacy contracts can expose native game types, so using them does not by itself isolate a consumer from game updates. Do not add native calls or Harmony targets to a migrated mod to fill a missing framework capability; add the primitive adapter or hook in Foundation instead.

@@ -9,8 +9,17 @@ namespace KingdomFoundation.Api
     public sealed class GameWorkspace
     {
         private static readonly ConditionalWeakTable<FlowDiagram, GameWorkspace> Cache = new ConditionalWeakTable<FlowDiagram, GameWorkspace>();
+        private readonly IReadOnlyList<WorkspaceObject> buildings;
+        private readonly IReadOnlyList<WorkspacePipe> pipes;
+        private readonly IReadOnlyList<WorkspaceObject> decorations;
         internal FlowDiagram Native { get; }
-        private GameWorkspace(FlowDiagram native) { Native = native; }
+        private GameWorkspace(FlowDiagram native)
+        {
+            Native = native;
+            buildings = new WorkspaceReadOnlyList<FlowElement, WorkspaceObject>(native.Elements, GameWorkspaceAccess.IdentityFor);
+            pipes = new WorkspaceReadOnlyList<FlowPipe, WorkspacePipe>(native.Pipes, WorkspacePipe.Wrap);
+            decorations = new WorkspaceReadOnlyList<FlowDeco, WorkspaceObject>(native.Decorations, GameWorkspaceAccess.IdentityFor);
+        }
         internal static GameWorkspace Wrap(FlowDiagram native) => native == null ? null : Cache.GetValue(native, value => new GameWorkspace(value));
         public string Label => Native.Label;
         public UnityEngine.Vector2Int CameraPosition {get=>Native.CameraPos;set=>Native.CameraPos=value;}
@@ -18,9 +27,12 @@ namespace KingdomFoundation.Api
         public int PipeCount => Native.Pipes.Count;
         public int DecorationCount => Native.Decorations.Count;
         public int RouteNodeCount { get { int count = 0; foreach (var pipe in Native.Pipes) count += pipe.Nodes.Count; return count; } }
-        public IReadOnlyList<WorkspaceObject> Buildings => Native.Elements.Select(GameWorkspaceAccess.IdentityFor).ToArray();
-        public IReadOnlyList<WorkspacePipe> Pipes => Native.Pipes.Select(WorkspacePipe.Wrap).ToArray();
-        public IReadOnlyList<WorkspaceObject> Decorations => Native.Decorations.Select(GameWorkspaceAccess.IdentityFor).ToArray();
+        /// <summary>Live read-only buildings. Take an explicit snapshot before editing the collection during enumeration.</summary>
+        public IReadOnlyList<WorkspaceObject> Buildings => buildings;
+        /// <summary>Live read-only pipes. Take an explicit snapshot before editing the collection during enumeration.</summary>
+        public IReadOnlyList<WorkspacePipe> Pipes => pipes;
+        /// <summary>Live read-only decorations. Take an explicit snapshot before editing the collection during enumeration.</summary>
+        public IReadOnlyList<WorkspaceObject> Decorations => decorations;
         public void SetBuildings(IEnumerable<WorkspaceObject> values)
         { var items=values.Select(value=>(FlowElement)value.Native).ToArray(); Native.Elements.Clear(); Native.Elements.AddRange(items); }
         public void SetPipes(IEnumerable<WorkspacePipe> values)
