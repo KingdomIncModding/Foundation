@@ -18,6 +18,8 @@ namespace KingdomFoundation.Api
         public static IGameUiAccess UiAccess { get; } = new GameUiAccess();
         public static IGameCameraAccess CameraAccess { get; } = new GameCameraAccess();
         public static IGameDragDropService DragDrop { get; } = new GameDragDropService();
+        /// <summary>Active native pipe preview and port geometry; consumers supply routing policy.</summary>
+        public static IGamePipeDragAccess PipeDrag { get; } = new GamePipeDragAccess();
         public static IGameWorkspaceVisualAccess WorkspaceVisuals { get; } = new GameWorkspaceVisualAccess();
         public static IGameDecorationAccess Decorations { get; } = new GameDecorationAccess();
         public static IGameResearchAccess ResearchAccess { get; } = new GameResearchAccess();

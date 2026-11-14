@@ -32,7 +32,9 @@ namespace KingdomFoundation.Api
         public Sprite FindSprite(string iconName)
         {
             if (string.IsNullOrEmpty(iconName)) return null;
-            return NativeSprites.TryGetValue(iconName, out var sprite) ? sprite : null;
+            if (NativeSprites.TryGetValue(iconName, out var sprite) && sprite) return sprite;
+            // UI artwork is loaded by the native HUD but is not necessarily in the icon library.
+            return Resources.FindObjectsOfTypeAll<Sprite>().FirstOrDefault(item => item && item.name == iconName);
         }
         public IReadOnlyList<string> IconNames => Array.AsReadOnly(NativeSprites.Keys.OrderBy(k => k, StringComparer.Ordinal).ToArray());
         public void RegisterSprite(string modId, string iconName, Sprite sprite)

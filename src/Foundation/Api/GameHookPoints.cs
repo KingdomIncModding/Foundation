@@ -4,6 +4,9 @@ namespace KingdomFoundation.Api
     public static class GameHookPoints
     {
         public const string PipeBound="pipe.bound";
+        public const string PipeDragMove = "pipe.drag.move";
+        public const string PipeDragEnd = "pipe.drag.end";
+        public const string PipeDragCancel = "pipe.drag.cancel";
         public const string PipeItemTransferred="pipe.item-transferred";
         public const string PipeItemRejected="pipe.item-rejected";
         public const string WorkspaceShown="workspace.shown";

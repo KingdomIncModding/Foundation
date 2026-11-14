@@ -19,6 +19,7 @@ The following additive APIs use Foundation-owned or Unity/framework types:
 | `KingdomFoundation.Json` | Native-compatible JSON values, objects and arrays without a game-assembly dependency. |
 | `FoundationPopup`, `FoundationTooltipSource` | Mod-owned popup/tooltip behaviour through internal native adapters. |
 | `FoundationApi.DragDrop` | Adapts a mod-owned `IGameDragDropTarget` Unity behaviour to the native drag manager. |
+| `FoundationApi.PipeDrag` | Active native pipe preview, exact connection points, compatible hovered ports and preview updates. Route selection and obstacle avoidance remain in the consumer. |
 | `FoundationApi.UiAccess` | Native UI/input state, overlay presentation, sounds, currency icons and number formatting. |
 | `FoundationApi.CameraAccess` | Native camera components, zoom state, background and font-filter refresh primitives. |
 | `FoundationApi.AudioInterception` | Native volume transforms and exception-safe activity scopes; channel policy and mixing remain in the mod. |
@@ -42,6 +43,10 @@ The deprecated float `ExchangeTax` adapter remains available, marked with game b
 Build the consumer without an `Assembly-CSharp` reference, then run `Tools/Architecture/Audit-GameBoundary.ps1 -Mod <folder> -Enforce` from a source checkout. The report inspects compiled native type/member references and separately lists reflection sites requiring review. It also inventories the complete native assembly to make remaining coverage visible. Passing the dependency check establishes the assembly boundary; runtime scenarios are still required to verify behavior.
 
 These contracts are being expanded as existing mods migrate. The legacy SDK is not yet a complete native-free abstraction of every game feature.
+
+Foundation 0.14.3 adds `GameHookPoints.PipeDragMove`, `PipeDragEnd` and `PipeDragCancel`. `PipeDrag.FromView(call.View)` remains available during the end hook after the native drag manager clears its current target. Preview node order is always output to input, including drags started at an input. A cancelled end hook may call `WorkspacePipeDrag.Continue()` to resume click-to-connect mode. `HoveredPort` ignores destroyed native UI references. Use `NativeIO.SnapRouteNode` to follow the game's live pipe grid, including active Snappy research; route shape, avoidance and slider behavior belong in the consumer.
+
+Foundation 0.14.3 exposes `UiAccess.ModBarBounds`, the reserved mod-bar strip, so consumers can anchor sibling controls beneath it without depending on hierarchy names or native types. `NativeUiFactory.BlockWorkspaceZoom(view)` adds the native zoom blocker to consumer-owned UI. Layout, visibility, routing settings and toolbar behavior remain in the consumer. `Presentation.FindSprite` also resolves loaded native UI artwork outside the icon library. `WorkspaceVisuals.BuildingLabel` supplies the live label rectangle when a consumer needs its visible bounds.
 
 `ExecutionHooks` observes native calls with per-invocation state and an end callback that runs on normal return, cancellation and exceptions. Observers cannot replace native exceptions. Disposing a subscription stops new scopes; an already-started scope still receives its end callback. Native targets use stable `GameExecutionPoints` identifiers. `SubscribeExternal` supports optional integrations with other mods and rejects direct game-assembly targets.
 

@@ -30,6 +30,9 @@ namespace KingdomFoundation.Api
             Bind(harmony,GameHookPoints.GhostCommit,AccessTools.Method(typeof(WorldFlowGhost),nameof(WorldFlowGhost.OnDragDropEnd)));
             Bind(harmony,GameHookPoints.GhostCost,AccessTools.Method(typeof(WorldFlowGhost),nameof(WorldFlowGhost.GetCopyCost),Type.EmptyTypes));
             Bind(harmony,GameHookPoints.PipeBound,AccessTools.Method(typeof(WorldFlowPipe),nameof(WorldFlowPipe.SetFlowPipe)));
+            Bind(harmony, GameHookPoints.PipeDragMove, AccessTools.Method(typeof(WorldFlowIO), nameof(WorldFlowIO.OnDragDropMove)));
+            Bind(harmony, GameHookPoints.PipeDragEnd, AccessTools.Method(typeof(WorldFlowIO), nameof(WorldFlowIO.OnDragDropEnd)));
+            Bind(harmony, GameHookPoints.PipeDragCancel, AccessTools.Method(typeof(WorldFlowIO), nameof(WorldFlowIO.OnDragDropCancel)));
             Bind(harmony,GameHookPoints.PipeItemTransferred,AccessTools.Method(typeof(WorldFlowPipe),nameof(WorldFlowPipe.ItemTransferred)));
             Bind(harmony,GameHookPoints.PipeItemRejected,AccessTools.Method(typeof(WorldFlowPipe),nameof(WorldFlowPipe.ItemRejected)));
             Bind(harmony,GameHookPoints.WorkspaceShown,AccessTools.Method(typeof(WorldFlowManager),nameof(WorldFlowManager.ShowFlow)));

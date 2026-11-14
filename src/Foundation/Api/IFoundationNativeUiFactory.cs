@@ -9,5 +9,7 @@ namespace KingdomFoundation.Api
     public interface IFoundationNativeUiFactory
     {
         RectTransform CreateRect(string name, RectTransform parent);
+        /// <summary>Prevents workspace zoom while the pointer is over this UI.</summary>
+        void BlockWorkspaceZoom(GameObject view);
     }
 }

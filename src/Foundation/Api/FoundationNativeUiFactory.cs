@@ -6,6 +6,11 @@ namespace KingdomFoundation.Api
 {
     internal sealed class FoundationNativeUiFactory : IFoundationNativeUiFactory
     {
+        public void BlockWorkspaceZoom(GameObject view)
+        {
+            if (!view) throw new ArgumentNullException(nameof(view));
+            if (!view.GetComponent<UIBlocksZoom>()) view.AddComponent<UIBlocksZoom>();
+        }
         public RectTransform CreateRect(string name, RectTransform parent)
         {
             if (string.IsNullOrEmpty(name))

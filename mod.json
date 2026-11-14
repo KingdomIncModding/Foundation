@@ -1,7 +1,7 @@
 {
   "id": "Foundation",
   "name": "Foundation",
-  "version": "0.14.2",
+  "version": "0.14.3",
   "author": "Urakka",
   "description": "For Kingdom Inc game version 1.0.14. Shared modding framework providing native game APIs, mod content registration, research, machine integration, UI, events, services, and save support. Matching Foundation SDK available separately.",
   "repository": {

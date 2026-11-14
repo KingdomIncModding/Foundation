@@ -14,6 +14,8 @@ namespace KingdomFoundation.Api
         RectTransform WorldOverlayTemplate { get; }
         GameObject CloneButtonTemplate { get; }
         RectTransform EditToolbar { get; }
+        /// <summary>Reserved mod-bar strip in the current HUD, suitable for anchoring sibling controls below it.</summary>
+        RectTransform ModBarBounds { get; }
         Component ItemFilterTemplate {get;}
         Component WorkspaceSwitcher {get;}
         Component WorkspaceItemTemplate {get;}

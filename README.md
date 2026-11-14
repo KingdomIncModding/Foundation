@@ -6,7 +6,9 @@
 
 Foundation lets other mods extend *Kingdom Inc* through reusable game integrations. It provides native research and workspace registration, machine and logistics access, in-game mod settings, a shared Mod Bar, events, and services for mods that work together. The framework uses the game's existing systems wherever possible instead of replacing how the game plays.
 
-The current download is **Foundation 0.14.2 for Kingdom Inc 1.0.14**. Foundation uses BepInEx 5 and ships its Core and Machines components together in **Foundation.dll**.
+The current download is **Foundation 0.14.3 for Kingdom Inc 1.0.14**. Foundation uses BepInEx 5 and ships its Core and Machines components together in **Foundation.dll**.
+
+Foundation 0.14.3 adds the pipe-placement and toolbar support required by Pipe Wrench, including safe hover handling when UI objects disappear during placement. The matching SDK includes these additions for other compatible mods.
 
 This update fixes severe slowdowns when Global Ledger scans large workspaces. Foundation also follows the game's revised currency exchange calculations, makes timer settings available without outfitter timeout research, refreshes track-switch backgrounds correctly, and preserves mod-owned data in the updated native save format. Existing older saves remain loadable.
 
@@ -53,8 +55,8 @@ The framework itself does **not** add demonstration buildings or technologies to
 
 ## Downloads
 
-- **Foundation 0.14.2 - Kingdom Inc 1.0.14** is the runtime download required by mods that use this framework.
-- **Foundation SDK 0.14.2 - Kingdom Inc 1.0.14** is an optional development download containing the matching framework library, IntelliSense documentation, guides, and example projects. Extract it into a development folder; install the matching Foundation runtime separately in the game.
+- **Foundation 0.14.3 - Kingdom Inc 1.0.14** is the runtime download required by mods that use this framework.
+- **Foundation SDK 0.14.3 - Kingdom Inc 1.0.14** is an optional development download containing the matching framework library, IntelliSense documentation, guides, and example projects. Extract it into a development folder; install the matching Foundation runtime separately in the game.
 
 Choose these current downloads for **game version 1.0.14**. Older Foundation downloads remain available for mods that require an earlier framework version; they are separate releases.
 
@@ -106,6 +108,9 @@ Foundation uses Harmony hooks to integrate with native game methods. These are t
 | FlowPipe.Connect | Postfix | Reports successful native pipe connections. |
 | FlowDiagram.DisconnectPipe | Prefix / Postfix | Reports successful native pipe disconnections. |
 | WorldFlowManager.CreateNewPipe | Postfix | Reports completed native pipe placements. |
+| WorldFlowIO.OnDragDropMove | Postfix | Exposes the live native pipe preview to compatible routing tools. |
+| WorldFlowIO.OnDragDropEnd | Prefix / Postfix | Lets compatible tools finalize or continue a pipe connection. |
+| WorldFlowIO.OnDragDropCancel | Prefix | Reports cancellation of native pipe placement. |
 | WorldFlowPipe.ItemTransferred | Postfix | Reports item transfers and records observed throughput. |
 | FlowPipe.Update | Prefix | Pauses item flow through placeholders for missing node types. |
 | GameUI.Start | Postfix | Attaches the shared Mod Bar to the game interface. |

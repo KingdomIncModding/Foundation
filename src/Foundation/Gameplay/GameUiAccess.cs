@@ -66,6 +66,7 @@ namespace KingdomFoundation.Api
         public RectTransform WorldOverlayTemplate => GameUI.Instance ? CloneGhost(GameUI.Instance)?.GetComponent<RectTransform>() : null;
         public GameObject CloneButtonTemplate => GameUI.Instance ? CloneButton(GameUI.Instance) : null;
         public RectTransform EditToolbar => GameUI.Instance ? Toolbar(GameUI.Instance) : null;
+        public RectTransform ModBarBounds => GameUI.Instance ? GameUI.Instance.GetComponentInChildren<global::KingdomFoundation.ModBarHost>(true)?.Clip : null;
         public Component ItemFilterTemplate => GameUI.Instance ? GameUI.Instance.FilterPopup : null;
         public Component WorkspaceSwitcher => GameUI.Instance ? FlowMenu(GameUI.Instance) : null;
         public Component WorkspaceItemTemplate => GameUI.Instance ? FlowItem(FlowMenu(GameUI.Instance)) : null;
