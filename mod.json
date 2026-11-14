@@ -12,7 +12,7 @@
     "branch": "main",
     "visibility": "public",
     "topics": [],
-    "latestTag": "v0.14.2"
+    "latestTag": "v0.14.3"
   },
   "distribution": {
     "nexus": {
@@ -29,8 +29,8 @@
       "tagsVerified": true,
       "requirementsVerified": true,
       "sdkFileId": 8314821,
-      "runtimeVersionId": "46785078755471",
-      "sdkVersionId": "46785078755470"
+      "runtimeVersionId": "46785078755475",
+      "sdkVersionId": "46785078755476"
     }
   },
   "development": {
@@ -45,9 +45,9 @@
     ]
   },
   "publishing": {
-    "githubReleases": "https://github.com/KingdomIncModding/Foundation/releases/tag/v0.14.2",
+    "githubReleases": "https://github.com/KingdomIncModding/Foundation/releases/tag/v0.14.3",
     "nexusMods": "https://www.nexusmods.com/kingdominc/mods/18",
-    "githubSdkAsset": "https://github.com/KingdomIncModding/Foundation/releases/download/v0.14.2/Foundation-SDK-v0.14.2-KingdomInc-1.0.14.zip",
+    "githubSdkAsset": "https://github.com/KingdomIncModding/Foundation/releases/download/v0.14.3/Foundation-SDK-v0.14.3-KingdomInc-1.0.14.zip",
     "archivePreviousReleases": false
   }
 }
