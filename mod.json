@@ -14,7 +14,7 @@
                        "topics":  [
 
                                   ],
-                       "latestTag":  "v0.14.4"
+                       "latestTag":  "v0.14.5"
                    },
     "distribution":  {
                          "nexus":  {
@@ -47,7 +47,7 @@
                                          ]
                     },
     "publishing":  {
-                       "githubReleases":  "https://github.com/KingdomIncModding/Foundation/releases/tag/v0.14.4",
+                       "githubReleases":  "https://github.com/KingdomIncModding/Foundation/releases/tag/v0.14.5",
                        "nexusMods":  "https://www.nexusmods.com/kingdominc/mods/18",
                        "githubSdkAsset":  "https://github.com/KingdomIncModding/Foundation/releases/download/v0.14.5/Foundation-SDK-v0.14.5.zip",
                        "archivePreviousReleases":  false
