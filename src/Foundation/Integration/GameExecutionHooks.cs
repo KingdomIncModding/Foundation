@@ -12,12 +12,28 @@ using LightJson.Serialization;
 
 namespace KingdomFoundation.Api
 {
+    /// <summary>
+    /// Execution-scope hook service. Bound Harmony patches remain installed as an idle cache while Foundation runs
+    /// to avoid repeated dynamic method recompilation; <see cref="Shutdown"/> removes all patches and clears state.
+    /// </summary>
     internal sealed class GameExecutionHooks : IGameExecutionHooks
     {
         private static readonly object Gate = new object();
-        private static readonly Harmony Harmony = new Harmony("urakka.kingdominc.foundation.execution-hooks");
-        private static readonly ConcurrentDictionary<MethodBase, string> Targets = new ConcurrentDictionary<MethodBase, string>();
-        private static readonly ConcurrentDictionary<string, GameExecutionSubscription[]> Subscriptions = new ConcurrentDictionary<string, GameExecutionSubscription[]>();
+        internal static readonly Harmony Harmony = new Harmony("urakka.kingdominc.foundation.execution-hooks");
+        internal static readonly ConcurrentDictionary<MethodBase, string> Targets = new ConcurrentDictionary<MethodBase, string>();
+        internal static readonly ConcurrentDictionary<string, GameExecutionSubscription[]> Subscriptions = new ConcurrentDictionary<string, GameExecutionSubscription[]>();
+
+        internal static void Shutdown()
+        {
+            lock (Gate)
+            {
+                foreach (var method in Targets.Keys.ToArray())
+                    Harmony.Unpatch(method, HarmonyPatchType.All, Harmony.Id);
+                Targets.Clear();
+                Subscriptions.Clear();
+            }
+        }
+
         public IDisposable Subscribe(string modId, string hookId, Func<GameExecutionCall, object> begin, Action<GameExecutionCall, object> end)
             => SubscribeCore(modId, hookId, () => Resolve(hookId).ToArray(), begin, end);
         public IDisposable SubscribeExternal(string modId, MethodBase method, Func<GameExecutionCall, object> begin, Action<GameExecutionCall, object> end)
@@ -61,7 +77,13 @@ namespace KingdomFoundation.Api
             }
         }
         private static void Remove(string id, GameExecutionSubscription entry)
-        { lock (Gate) { Subscriptions[id] = Subscriptions[id].Where(item => item != entry).ToArray(); } }
+        {
+            lock (Gate)
+            {
+                if (Subscriptions.TryGetValue(id, out var existing))
+                    Subscriptions[id] = existing.Where(item => item != entry).ToArray();
+            }
+        }
         private static IEnumerable<MethodBase> Resolve(string id)
         {
             switch (id)

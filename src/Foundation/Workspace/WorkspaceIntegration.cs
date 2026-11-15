@@ -23,6 +23,7 @@ namespace KingdomFoundation
             {
                 typeof(global::KingdomFoundation.CreateModel),
                 typeof(global::KingdomFoundation.BuildCatalog),
+                typeof(global::KingdomFoundation.HostedNodeElementCount),
                 typeof(global::KingdomFoundation.NativePrefab),
                 typeof(global::KingdomFoundation.PreserveMissingJson),
                 typeof(global::KingdomFoundation.DeserializeScope)

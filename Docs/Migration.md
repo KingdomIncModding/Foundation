@@ -9,7 +9,7 @@ If a mod referenced `Foundation.Machines.dll`, change the reference to `Foundati
 A regular Foundation plugin uses:
 
 ```csharp
-[BepInDependency("urakka.kingdominc.foundation", ">=0.11.0")]
+[BepInDependency("urakka.kingdominc.foundation", "0.14.4")]
 ```
 
 Core modules can depend on `urakka.kingdominc.foundation.core` where appropriate.

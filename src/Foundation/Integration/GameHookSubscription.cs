@@ -9,6 +9,7 @@ namespace KingdomFoundation.Api
         internal Action<GameHookCall> Before;
         internal Action<GameHookCall> After;
         internal int Priority;
+        internal long Sequence;
         internal bool Active = true;
         internal GameHookFilter Filter;
         private readonly GameHookRegistry owner;

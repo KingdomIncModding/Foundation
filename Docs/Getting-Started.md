@@ -132,7 +132,7 @@ using UnityEngine;
 namespace MyMod
 {
     [BepInPlugin("example.mymod", "My Foundation Mod", "1.0.0")]
-    [BepInDependency("urakka.kingdominc.foundation", ">=0.11.0")]
+    [BepInDependency("urakka.kingdominc.foundation", "0.14.4")]
     public sealed class MyModPlugin : BaseUnityPlugin
     {
         private FoundationModContext context;

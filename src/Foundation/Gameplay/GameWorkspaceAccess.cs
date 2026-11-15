@@ -33,14 +33,123 @@ namespace KingdomFoundation.Api
         }
 
         private static readonly AccessTools.FieldRef<WorldFlowElement, Image> IconField = AccessTools.FieldRefAccess<WorldFlowElement, Image>("_icon");
+        private static readonly MethodInfo ShowElementMethod = AccessTools.Method(typeof(WorldFlowManager), "_showElement", new[] { typeof(FlowElement) });
+        private static readonly MethodInfo ShowPipeMethod = AccessTools.Method(typeof(WorldFlowManager), "_showPipe", new[] { typeof(FlowPipe) });
+        private static readonly MethodInfo GetFlowParentMethod = AccessTools.Method(typeof(WorldFlowManager), "_getFlowParent", new[] { typeof(RectTransform), typeof(int) });
+        private static readonly FieldInfo ElementsField = AccessTools.Field(typeof(WorldFlowManager), "_elements");
+        private static readonly FieldInfo SetupFlowField = AccessTools.Field(typeof(WorldFlowManager), "_setupFlow");
+        private static readonly FieldInfo PipeNodesField = AccessTools.Field(typeof(WorldFlowPipe), "_nodes");
+        private static readonly FieldInfo ActiveContainersField = AccessTools.Field(typeof(WorldFlowDeco), "_activeContainers");
         public bool IsReady => WorldFlowManager.Instance && FlowColliderManager.Instance && FoundationApi.World.ActiveFlow != null;
         public Component Root => WorldFlowManager.Instance;
         public IReadOnlyList<Component> PipeNodeViews => ((RectTransform)AccessTools.Field(typeof(WorldFlowManager), "_pipeParent").GetValue(WorldFlowManager.Instance)).GetComponentsInChildren<WorldFlowPipeNode>(true).Cast<Component>().ToArray();
 
         public void ClearViewCaches()
         {
-            ((List<WorldFlowElement>)AccessTools.Field(typeof(WorldFlowManager), "_elements").GetValue(WorldFlowManager.Instance)).Clear();
-            ((List<WorldFlowDeco>)AccessTools.Field(typeof(WorldFlowDeco), "_activeContainers").GetValue(null)).Clear();
+            ((List<WorldFlowElement>)ElementsField.GetValue(WorldFlowManager.Instance)).Clear();
+            ((List<WorldFlowDeco>)ActiveContainersField.GetValue(null)).Clear();
+        }
+
+        public void DestroyView(WorkspaceObject item)
+        {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+            if (item.Native is FlowElement element)
+            {
+                if (!element.World) { element.World = null; return; }
+                var world = element.World;
+                if (WorldFlowManager.Instance)
+                    ((List<WorldFlowElement>)ElementsField.GetValue(WorldFlowManager.Instance)).Remove(world);
+                world.gameObject.SetActive(false);
+                global::UnityEngine.Object.Destroy(world.gameObject);
+                element.World = null;
+                return;
+            }
+            if (item.Native is FlowDeco deco)
+            {
+                if (!deco.World) { deco.World = null; return; }
+                var world = deco.World;
+                ((List<WorldFlowDeco>)ActiveContainersField.GetValue(null)).Remove(world);
+                world.gameObject.SetActive(false);
+                global::UnityEngine.Object.Destroy(world.gameObject);
+                deco.World = null;
+            }
+        }
+
+        public void DestroyView(WorkspacePipe pipe)
+        {
+            if (pipe == null) throw new ArgumentNullException(nameof(pipe));
+            var world = pipe.Native.World;
+            if (!world) { pipe.Native.World = null; return; }
+            var nodes = (WorldFlowPipeNode[])PipeNodesField.GetValue(world);
+            if (nodes != null)
+            {
+                foreach (var node in nodes)
+                {
+                    if (!node) continue;
+                    node.gameObject.SetActive(false);
+                    global::UnityEngine.Object.Destroy(node.gameObject);
+                }
+            }
+            world.gameObject.SetActive(false);
+            global::UnityEngine.Object.Destroy(world.gameObject);
+            pipe.Native.World = null;
+        }
+
+        public void CreateView(int workspaceIndex, WorkspaceObject item)
+        {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+            var player = Assets.Source.Player.GamePlayer.Current;
+            var manager = WorldFlowManager.Instance;
+            if (player == null || !manager || workspaceIndex < 0 || workspaceIndex >= player.Flows.Count)
+                throw new ArgumentOutOfRangeException(nameof(workspaceIndex));
+            int previousSetup = (int)SetupFlowField.GetValue(manager);
+            SetupFlowField.SetValue(manager, workspaceIndex);
+            try
+            {
+                if (item.Native is FlowElement element)
+                {
+                    if (element.World) return;
+                    var view = (WorldFlowElement)ShowElementMethod.Invoke(manager, new object[] { element });
+                    if (view && view.transform.parent)
+                        view.transform.parent.gameObject.SetActive(workspaceIndex == player.CurrentFlow);
+                    return;
+                }
+                if (item.Native is FlowDeco deco)
+                {
+                    if (deco.World) return;
+                    var view = manager.ShowDeco(deco);
+                    if (view && view.transform.parent)
+                        view.transform.parent.gameObject.SetActive(workspaceIndex == player.CurrentFlow);
+                }
+            }
+            finally { SetupFlowField.SetValue(manager, previousSetup); }
+        }
+
+        public void CreateView(int workspaceIndex, WorkspacePipe pipe)
+        {
+            if (pipe == null) throw new ArgumentNullException(nameof(pipe));
+            var player = Assets.Source.Player.GamePlayer.Current;
+            var manager = WorldFlowManager.Instance;
+            if (player == null || !manager || workspaceIndex < 0 || workspaceIndex >= player.Flows.Count)
+                throw new ArgumentOutOfRangeException(nameof(workspaceIndex));
+            if (pipe.Native.World) return;
+            int previousSetup = (int)SetupFlowField.GetValue(manager);
+            SetupFlowField.SetValue(manager, workspaceIndex);
+            try
+            {
+                var view = (WorldFlowPipe)ShowPipeMethod.Invoke(manager, new object[] { pipe.Native });
+                if (view && view.transform.parent)
+                    view.transform.parent.gameObject.SetActive(workspaceIndex == player.CurrentFlow);
+                var pipeParent = (Transform)GetFlowParentMethod.Invoke(manager, new object[] { (RectTransform)AccessTools.Field(typeof(WorldFlowManager), "_pipeParent").GetValue(manager), workspaceIndex });
+                if (pipeParent)
+                    pipeParent.gameObject.SetActive(workspaceIndex == player.CurrentFlow);
+            }
+            finally { SetupFlowField.SetValue(manager, previousSetup); }
+        }
+
+        public void RefreshView(WorkspacePipe pipe)
+        {
+            if (pipe?.Native?.World) pipe.Native.World.UpdateLinePositions();
         }
 
         public void SetupWorkspace(int index) => WorldFlowManager.Instance.SetupFlow(index);
@@ -220,11 +329,55 @@ namespace KingdomFoundation.Api
                 FoundationApi.Workspace.RemoveDecoration((FlowDeco)item.Native);
         }
 
+        public bool TrySpend(GameMoney amounts)
+        {
+            if (amounts == null)
+                throw new ArgumentNullException(nameof(amounts));
+            return FoundationApi.Economy.TrySpend(amounts.Native);
+        }
+
         public void Grant(GameMoney amounts, bool countAsIncome = false)
         {
             if (amounts == null)
                 throw new ArgumentNullException(nameof(amounts));
             FoundationApi.Economy.Grant(amounts.Native, countAsIncome);
+        }
+
+        public WorkspacePipe CreatePipe() => WorkspacePipe.Wrap(new FlowPipe());
+
+        public void PlaceBuilding(WorkspaceObject item)
+        {
+            if (!IsReady)
+                throw new InvalidOperationException("Workspace manager is not ready.");
+            WorldFlowManager.Instance.CreateNewElement(RequireMachine(item));
+        }
+
+        public void PlaceDecoration(WorkspaceObject item)
+        {
+            if (!IsReady)
+                throw new InvalidOperationException("Workspace manager is not ready.");
+            if (item?.Native is FlowDeco deco)
+                WorldFlowManager.Instance.CreateNewDeco(deco);
+            else
+                throw new ArgumentException("Expected a Foundation decoration identity.", nameof(item));
+        }
+
+        public void PlacePipe(WorkspacePipe pipe)
+        {
+            if (!IsReady)
+                throw new InvalidOperationException("Workspace manager is not ready.");
+            if (pipe == null)
+                throw new ArgumentNullException(nameof(pipe));
+            WorldFlowManager.Instance.CreateNewPipe(pipe.Native);
+        }
+
+        public void RemovePipe(WorkspacePipe pipe)
+        {
+            if (!IsReady)
+                throw new InvalidOperationException("Workspace manager is not ready.");
+            if (pipe == null)
+                throw new ArgumentNullException(nameof(pipe));
+            WorldFlowManager.Instance.DisconnectPipe(pipe.Native);
         }
 
         private static FlowElement RequireMachine(WorkspaceObject item) => item?.Native is FlowElement element ? element : throw new ArgumentException("Expected a Foundation machine identity.", nameof(item));

@@ -12,6 +12,11 @@ namespace KingdomFoundation.Api
         Component Root { get; }
         IReadOnlyList<Component> PipeNodeViews { get; }
         void ClearViewCaches();
+        void DestroyView(WorkspaceObject item);
+        void DestroyView(WorkspacePipe pipe);
+        void CreateView(int workspaceIndex, WorkspaceObject item);
+        void CreateView(int workspaceIndex, WorkspacePipe pipe);
+        void RefreshView(WorkspacePipe pipe);
         void SetupWorkspace(int index);
         void ShowWorkspace(int index);
         IReadOnlyList<WorkspaceObject> Catalog { get; }
@@ -37,7 +42,13 @@ namespace KingdomFoundation.Api
         bool IsInActiveWorkspace(WorkspaceObject item);
         GameMoney Refund(WorkspaceObject item, int alreadyRefundedUnits = 0, bool includeAnchored = false);
         void Remove(WorkspaceObject item);
+        bool TrySpend(GameMoney amounts);
         void Grant(GameMoney amounts, bool countAsIncome = false);
+        WorkspacePipe CreatePipe();
+        void PlaceBuilding(WorkspaceObject item);
+        void PlaceDecoration(WorkspaceObject item);
+        void PlacePipe(WorkspacePipe pipe);
+        void RemovePipe(WorkspacePipe pipe);
         GameMoney SingleCopyCost(WorkspaceObject item, int countOffset = 0);
         GameMoney CopyCost(WorkspaceObject item,int countOffset=0,bool includeAnchored=false);
         void SetStackSize(WorkspaceObject item, int size);

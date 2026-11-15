@@ -112,51 +112,61 @@ namespace KingdomFoundation.Api
         public IDisposable Persist(int schemaVersion, Func<LightJson.JsonValue> save, Action<int, LightJson.JsonValue> load)
             => Track(FoundationApi.ModSave.Register(ModId, schemaVersion, save, load));
 
+        /// <summary>Registers a legacy native item directly in the game catalog. Process-lifetime resource; removing requires a game restart.</summary>
         public Assets.Source.Items.ItemType RegisterItem(Assets.Source.Items.ItemType item)
         {
             EnsureActive();
             return FoundationApi.Content.RegisterItem(ModId, item);
         }
+        /// <summary>Registers a legacy native crafting recipe directly in the game catalog. Process-lifetime resource; removing requires a game restart.</summary>
         public Assets.Source.Items.CraftingRecipe RegisterRecipe(Assets.Source.Items.CraftingRecipe recipe)
         {
             EnsureActive();
             return FoundationApi.Content.RegisterRecipe(ModId, recipe);
         }
+        /// <summary>Registers a legacy native quest directly in the game catalog. Process-lifetime resource; removing requires a game restart.</summary>
         public Assets.Source.Adventure.Quest RegisterQuest(Assets.Source.Adventure.Quest quest)
         {
             EnsureActive();
             return FoundationApi.Content.RegisterQuest(ModId, quest);
         }
+        /// <summary>Registers a legacy native dungeon type directly in the game catalog. Process-lifetime resource; removing requires a game restart.</summary>
         public Assets.Source.Adventure.DungeonType RegisterDungeon(Assets.Source.Adventure.DungeonType dungeon)
         {
             EnsureActive();
             return FoundationApi.Content.RegisterDungeon(ModId, dungeon);
         }
+        /// <summary>Registers a legacy native war type directly in the game catalog. Process-lifetime resource; removing requires a game restart.</summary>
         public Assets.Source.Adventure.WarType RegisterWar(Assets.Source.Adventure.WarType war)
         {
             EnsureActive();
             return FoundationApi.Content.RegisterWar(ModId, war);
         }
+        /// <summary>Registers a legacy native prestige node directly in the game catalog. Process-lifetime resource; removing requires a game restart.</summary>
         public Assets.Source.Player.PrestigeNode RegisterPrestige(Assets.Source.Player.PrestigeNode node)
         {
             EnsureActive();
             return FoundationApi.Content.RegisterPrestige(ModId, node);
         }
+        /// <summary>Registers a legacy native item enhancement directly in the game catalog. Process-lifetime resource; removing requires a game restart.</summary>
         public Assets.Source.Items.ItemEnhancement RegisterEnhancement(Assets.Source.Items.ItemEnhancement enhancement)
         {
             EnsureActive();
             return FoundationApi.Content.RegisterEnhancement(ModId, enhancement);
         }
+        /// <summary>Registers an upgrade factory ID in the process-wide factory table. Process-lifetime resource; removing requires a game restart.</summary>
         public void RegisterUpgrade(string typeId, Func<Assets.Source.Flow.FlowUpgrade> factory)
         {
             EnsureActive();
             FoundationApi.Upgrades.Register(ModId, typeId, factory);
         }
+        /// <summary>Registers a context-scoped sprite under <c>{ModId}:{localName}</c>; automatically unregistered on <see cref="Dispose"/>.</summary>
         public void RegisterSprite(string localName, UnityEngine.Sprite sprite)
         {
             EnsureActive();
             FoundationApi.Presentation.RegisterSprite(ModId, localName, sprite);
         }
+        /// <summary>Registers a context-scoped localization entry under <c>{ModId}:{localKey}</c>; automatically unregistered on <see cref="Dispose"/>.</summary>
         public void RegisterText(string localKey, string locale, string text)
         {
             EnsureActive();
@@ -215,6 +225,7 @@ namespace KingdomFoundation.Api
             FoundationApi.Signals.RemoveOwner(ModId);
             FoundationApi.Events.RemoveOwner(ModId);
             FoundationApi.ModConfig.RemoveSection(ModId);
+            (FoundationApi.Presentation as GamePresentationService)?.RemoveOwner(ModId);
         }
     }
 }

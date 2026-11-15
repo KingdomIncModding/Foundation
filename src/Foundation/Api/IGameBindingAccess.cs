@@ -15,6 +15,7 @@ namespace KingdomFoundation.Api
         TMP_Text Text(Component row);
         TMP_Text Label(Component row);
         void AddRebindable(InputAction action);
+        void RemoveRebindable(InputAction action);
         Image Button(Component row);
         string Snapshot(Component menu);
         void SetSnapshot(Component menu,string value);

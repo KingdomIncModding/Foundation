@@ -1,4 +1,5 @@
 using System;
+using Assets.Behaviour.UI;
 using Assets.Behaviour.Util;
 using UnityEngine;
 
@@ -17,6 +18,18 @@ namespace KingdomFoundation.Api
                 if (float.IsNaN(value) || float.IsInfinity(value) || value < 0 || value > 1)
                     throw new ArgumentOutOfRangeException(nameof(value));
                 MusicManager.Volume = value;
+            }
+        }
+
+        public float SoundVolume
+        {
+            get => UISounds.Volume;
+            set
+            {
+                if (float.IsNaN(value) || float.IsInfinity(value) || value < 0 || value > 1)
+                    throw new ArgumentOutOfRangeException(nameof(value));
+                if (UISounds.Instance != null) UISounds.Volume = value;
+                else { PlayerPrefs.SetFloat("SoundVolume", value); PlayerPrefs.Save(); }
             }
         }
 
@@ -43,6 +56,13 @@ namespace KingdomFoundation.Api
             if (float.IsNaN(volume) || float.IsInfinity(volume) || volume < 0 || volume > 1)
                 throw new ArgumentOutOfRangeException(nameof(volume));
             MusicManager.PreviewVolume(volume);
+        }
+
+        public void PreviewSoundVolume(float volume)
+        {
+            if (float.IsNaN(volume) || float.IsInfinity(volume) || volume < 0 || volume > 1)
+                throw new ArgumentOutOfRangeException(nameof(volume));
+            UISounds.PreviewVolume(volume);
         }
     }
 }

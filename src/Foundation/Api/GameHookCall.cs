@@ -14,6 +14,7 @@ namespace KingdomFoundation.Api
         public bool IsCancelled { get; private set; }
 
         private readonly object[] arguments;
+        private readonly int[] mutableArguments;
         internal object NativeSubject { get; }
         internal object[] NativeArguments { get; }
 
@@ -22,14 +23,25 @@ namespace KingdomFoundation.Api
         internal bool HasResult { get; private set; }
         internal object ResultValue => GameValueCodec.Unwrap(result);
 
-        internal GameHookCall(object instance, object[] arguments, Type nativeResultType)
+        internal GameHookCall(object instance, object[] arguments, Type nativeResultType, int[] mutableArguments = null)
         {
             NativeSubject = instance;
-            NativeArguments = arguments;
+            NativeArguments = arguments ?? Array.Empty<object>();
             View = instance as Component;
             Subject = GameValueCodec.Wrap(instance);
-            this.arguments = arguments.Select(GameValueCodec.Wrap).ToArray();
-            this.nativeResultType = nativeResultType;
+            this.arguments = NativeArguments.Select(GameValueCodec.Wrap).ToArray();
+            this.nativeResultType = nativeResultType ?? typeof(void);
+            this.mutableArguments = mutableArguments ?? Array.Empty<int>();
+        }
+
+        public bool IsArgumentMutable(int index)
+        {
+            if (index < 0 || index >= arguments.Length)
+                return false;
+            for (int i = 0; i < mutableArguments.Length; i++)
+                if (mutableArguments[i] == index)
+                    return true;
+            return false;
         }
 
         public T Argument<T>(int index)
@@ -46,6 +58,8 @@ namespace KingdomFoundation.Api
         {
             if (index < 0 || index >= arguments.Length)
                 throw new ArgumentOutOfRangeException(nameof(index));
+            if (!IsArgumentMutable(index))
+                throw new InvalidOperationException($"Hook argument {index} is read-only; this Foundation hook does not propagate argument edits to the native method.");
             RequireFrameworkValue(value);
             if (arguments[index] != null && (value == null || !arguments[index].GetType().IsInstanceOfType(value)))
                 throw new ArgumentException("Hook argument type must remain compatible with its Foundation contract.", nameof(value));

@@ -270,6 +270,7 @@ namespace KingdomFoundation
             selector.Value = new SignalSelection(owner + ".example", "counter");
             selector.Cancel();
             Check(selector.Value.SourceId == null, "Paired source/property selector uses staged Apply/Cancel");
+            IssueRegressionChecks.VerifyCore(Check, Throws<InvalidOperationException>);
         }
 
         void VerifyMissingWorkspaceRecovery()
@@ -557,7 +558,7 @@ namespace KingdomFoundation
                 GUILayout.Label(entry.TimestampUtc.ToString("HH:mm:ss") + " [" + entry.Level + "] " + entry.Owner + ": " + entry.Message);
         }
 
-        public const string Id = "urakka.kingdominc.foundation", Version = "0.14.3";
+        public const string Id = "urakka.kingdominc.foundation", Version = "0.14.4";
         internal static FoundationPlugin Instance;
         public static BepInEx.Configuration.ConfigEntry<string> NexusApiKeyConfig;
         internal Harmony hooks;
@@ -687,6 +688,8 @@ namespace KingdomFoundation
             foreach (var menu in Resources.FindObjectsOfTypeAll<FoundationConfigMenu>())
                 Destroy(menu);
             hooks?.UnpatchSelf();
+            GameExecutionHooks.Shutdown();
+            FoundationApi.GameHooksInternal.Shutdown();
         }
 
         IModBarRegistration lifecycleItem;
@@ -1629,6 +1632,8 @@ namespace KingdomFoundation
                 try
                 {
                     FinishWorkspace(directory);
+                    IssueRegressionChecks.VerifyWorkspaceScene(Check);
+                    IssueRegressionChecks.VerifyToolbarHelpers(Check);
                     SceneManager.LoadScene("MainMenu");
                 }
                 catch (Exception ex)
@@ -1715,6 +1720,7 @@ namespace KingdomFoundation
                 {
                     Check(lifecycleElement.Disposes == 2 && lifecycleItem.IsRegistered, "Each HUD lifetime disposes its custom view exactly once");
                     lifecycleItem.Dispose();
+                    IssueRegressionChecks.VerifyIssue9ExecutionShutdown(Check);
                     Check(errors.Count == 0, "No Unity exceptions during research, workspace and Mod Bar diagnostics");
                 }
                 catch (Exception ex)

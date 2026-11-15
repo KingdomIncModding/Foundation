@@ -95,6 +95,7 @@ namespace KingdomFoundation.Api
         private static readonly GameProductionService ProductionService = new GameProductionService();
         private static readonly GameMachinesService MachinesService = new GameMachinesService();
         private static readonly GamePresentationService PresentationService = new GamePresentationService();
+        internal static GamePresentationService PresentationInternal => PresentationService;
         private static readonly GamePropertyControls PropertyControlsService = new GamePropertyControls();
         private static readonly GameLogisticsService LogisticsService = new GameLogisticsService();
         private static readonly GameSaveService GameSaves = new GameSaveService();

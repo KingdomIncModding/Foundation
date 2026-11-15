@@ -238,6 +238,27 @@ namespace KingdomFoundation.Api
 
             if (retained.Count == 0 && opaque.Count == 0)
                 return;
+            root[RootKey] = BuildRootPayload();
+        }
+
+        internal bool TryBuildRetainedPayload(out JsonValue payload)
+        {
+            if (!opaqueRoot.IsNull)
+            {
+                payload = Clone(opaqueRoot);
+                return true;
+            }
+            if (retained.Count == 0 && opaque.Count == 0)
+            {
+                payload = JsonValue.Null;
+                return false;
+            }
+            payload = BuildRootPayload();
+            return true;
+        }
+
+        JsonObject BuildRootPayload()
+        {
             var all = new JsonObject();
             foreach (var pair in opaque)
                 all[pair.Key] = Clone(pair.Value);
@@ -253,7 +274,7 @@ namespace KingdomFoundation.Api
                         Clone(pair.Value.Data)
                     }
                 };
-            root[RootKey] = all;
+            return all;
         }
 
         internal static JsonValue Clone(JsonValue original) => original.IsNull ? JsonValue.Null : JsonValue.Parse(original.ToString());

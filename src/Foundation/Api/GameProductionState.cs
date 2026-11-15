@@ -74,6 +74,7 @@ namespace KingdomFoundation.Api
             }
         }
         public bool HasRecipe=>(element as RecipeElement)?.Recipe!=null;
+        public bool CanAutoCraft=>element.CanAutoCraft;
         public bool Crafting=>(element as RecipeElement)?.Crafting ?? false;
         public bool HasCraftingInput=>(element as RecipeElement)?.Input!=null;
         public int ReagentCount=>(element as RecipeElement)?.Recipe?.Reagents?.Length ?? 0;

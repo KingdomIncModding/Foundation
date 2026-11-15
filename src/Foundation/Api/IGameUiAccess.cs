@@ -14,6 +14,12 @@ namespace KingdomFoundation.Api
         RectTransform WorldOverlayTemplate { get; }
         GameObject CloneButtonTemplate { get; }
         RectTransform EditToolbar { get; }
+        /// <summary>Locate the native icon image inside a cloned edit-toolbar button without depending on child names.</summary>
+        Image ToolbarButtonIcon(GameObject button);
+        /// <summary>Locate the native active-highlight object inside a cloned edit-toolbar button, if present.</summary>
+        GameObject ToolbarButtonActiveIndicator(GameObject button);
+        /// <summary>Remove the native tutorial-arrow helper from a cloned edit-toolbar button, if present.</summary>
+        void RemoveNativeToolbarTutorial(GameObject button);
         /// <summary>Reserved mod-bar strip in the current HUD, suitable for anchoring sibling controls below it.</summary>
         RectTransform ModBarBounds { get; }
         Component ItemFilterTemplate {get;}

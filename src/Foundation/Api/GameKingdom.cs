@@ -20,6 +20,30 @@ namespace KingdomFoundation.Api
         public GameWorkspace ActiveWorkspace=>GameWorkspace.Wrap(Native.ActiveFlow);
         public System.Collections.Generic.IReadOnlyList<string> AvailableUpgrades(string buildingType)=>Native.GetAvailableFlowUpgrades(buildingType).ToArray();
         public int UpgradeSlotCount(string buildingType)=>Native.GetUpgradeSlotCount(buildingType);
+        /// <summary>
+        /// Returns the native placed element count used for cost/refund scaling. For <see cref="FrameworkWorkspaceNode"/>
+        /// types hosted by Foundation, counts are isolated per registered element type ID.
+        /// </summary>
+        public int ElementCount(WorkspaceObject element)
+        {
+            if (element?.Native is Assets.Source.Flow.FlowElement flowElement)
+                return Native.GetElementCount(flowElement);
+            throw new ArgumentException("Expected a workspace building object.", nameof(element));
+        }
+        /// <summary>Returns the placed stack count for a hosted or native building definition ID across all workspaces.</summary>
+        public int ElementCount(string elementTypeId)
+        {
+            if (string.IsNullOrWhiteSpace(elementTypeId)) return 0;
+            int total = 0;
+            foreach (var flow in Native.Flows)
+            {
+                if (flow?.Elements == null) continue;
+                foreach (var element in flow.Elements)
+                    if (string.Equals(element.ElementType, elementTypeId, StringComparison.Ordinal))
+                        total += element.StackSize;
+            }
+            return total;
+        }
         public long GetCurrency(int index) => Native.GetCurrency(GameCurrencyMap.Resolve(((GameCurrency)index).ToString()));
         public void AddCurrency(int index,long delta,bool countAsIncome=false) => Native.AddCurrency(GameCurrencyMap.Resolve(((GameCurrency)index).ToString()),delta,countAsIncome);
         public bool HasResearch(GameResearchNode research)=>research!=null && Native.HasTech(research.Native);

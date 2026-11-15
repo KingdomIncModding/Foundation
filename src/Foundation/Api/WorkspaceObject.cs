@@ -25,6 +25,7 @@ namespace KingdomFoundation.Api
         public bool Stackable => Native is FlowElement element && element.Stackable;
         public bool IsContainer=>Native is FlowDeco deco && deco.IsContainer;
         public bool HasSticker=>Native is FlowDeco deco && deco.Sticker!=null;
+        public bool IsAnchoredParent => Native is FlowDeco deco && deco.IsParent;
         public Sprite StickerSprite=>(Native as FlowDeco)?.Sticker?.GetSprite();
         public GameWorkspace ParentWorkspace=>Native is FlowElement element ? GameWorkspace.Wrap(element.ParentFlow) : null;
         private GameProductionState production;

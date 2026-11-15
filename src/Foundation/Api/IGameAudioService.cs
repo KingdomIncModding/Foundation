@@ -13,8 +13,10 @@ namespace KingdomFoundation.Api
         bool IsReady { get; }
         bool IsPlaying { get; }
         float MusicVolume { get; set; }
+        float SoundVolume { get; set; }
         void PlayMusic(string nativeTrackId, float fadeSeconds = -1f);
         void QueueMusic(string nativeTrackId, int priority = 0);
         void PreviewMusicVolume(float volume);
+        void PreviewSoundVolume(float volume);
     }
 }

@@ -1,0 +1,156 @@
+[
+  {
+    "mod": "Undo",
+    "file": "src\\EditHooks.cs",
+    "match": "KingdomBetterDeconstruct.DeconstructSelection",
+    "kind": "OptionalModIntegration",
+    "reason": "Optional compatibility hook for Better Deconstruct batch deletions via assembly reflection without a hard compile-time DLL reference."
+  },
+  {
+    "mod": "Undo",
+    "file": "src\\EditHooks.cs",
+    "match": "GetMethod(\"ExecuteDeconstruct\"",
+    "kind": "OptionalModIntegration",
+    "reason": "Retrieves Better Deconstruct ExecuteDeconstruct method for optional undo integration."
+  },
+  {
+    "mod": "GlobalLedger",
+    "file": "src\\Accounting\\LedgerCustomNodeHooks.cs",
+    "match": "AppDomain.CurrentDomain.GetAssemblies()",
+    "kind": "ModNodeDiscovery",
+    "reason": "Discovers loaded third-party mod WorkspaceNode/FlowElement subclasses at runtime to attribute mod-owned flow updates without linking native assemblies."
+  },
+  {
+    "mod": "GlobalLedger",
+    "file": "src\\Accounting\\LedgerCustomNodeHooks.cs",
+    "match": "nodeType.GetMethod(\"Update\"",
+    "kind": "ModNodeDiscovery",
+    "reason": "Inspects overridden Update method on discovered third-party WorkspaceNode subclasses for flow attribution."
+  },
+  {
+    "mod": "LedgerMod",
+    "file": "src\\Accounting\\Events\\LedgerCustomNodeHooks.cs",
+    "match": "AppDomain.CurrentDomain.GetAssemblies()",
+    "kind": "ModNodeDiscovery",
+    "reason": "Discovers loaded third-party mod FrameworkWorkspaceNode subclasses at runtime to attribute mod-owned Update activity without linking external mod assemblies."
+  },
+  {
+    "mod": "LedgerMod",
+    "file": "src\\Accounting\\Events\\LedgerCustomNodeHooks.cs",
+    "match": "nodeType.GetMethod(\"Update\"",
+    "kind": "ModNodeDiscovery",
+    "reason": "Inspects overridden Update method on discovered third-party FrameworkWorkspaceNode subclasses for Ledger cost and income provenance."
+  },
+  {
+    "mod": "GlobalLedger",
+    "file": "src\\Accounting\\LedgerCustomNodeHooks.cs",
+    "match": "nodeType.GetMethod(\"Update\"",
+    "kind": "ModNodeDiscovery",
+    "reason": "Inspects overridden Update method on discovered third-party WorkspaceNode subclasses for flow attribution."
+  },
+  {
+    "mod": "GlobalLedger",
+    "file": "src\\UI\\Navigation\\LedgerNavigation.cs",
+    "match": "KingdomLeylineLogic.MacroDimensionManager",
+    "kind": "OptionalModIntegration",
+    "reason": "Optional navigation jump integration for Leyline Logic macro dimensions when that mod is installed."
+  },
+  {
+    "mod": "GlobalLedger",
+    "file": "src\\UI\\Navigation\\LedgerNavigation.cs",
+    "match": "mdmType.GetMethod(\"EnterMacroDimension\"",
+    "kind": "OptionalModIntegration",
+    "reason": "Invokes Leyline Logic EnterMacroDimension navigation helper when that optional mod is installed."
+  },
+  {
+    "mod": "GlobalLedgerV2",
+    "file": "src\\Accounting\\GlobalLedgerCustomNodeHooks.cs",
+    "match": "AppDomain.CurrentDomain.GetAssemblies()",
+    "kind": "ModNodeDiscovery",
+    "reason": "Discovers loaded third-party mod FrameworkWorkspaceNode subclasses at runtime to attribute mod-owned Update activity without linking native assemblies."
+  },
+  {
+    "mod": "GlobalLedgerV2",
+    "file": "src\\Accounting\\GlobalLedgerCustomNodeHooks.cs",
+    "match": "nodeType.GetMethod(\"Update\"",
+    "kind": "ModNodeDiscovery",
+    "reason": "Inspects overridden Update method on discovered third-party FrameworkWorkspaceNode subclasses for flow attribution."
+  },
+  {
+    "mod": "GlobalLedgerV2",
+    "file": "src\\UI\\Navigation\\GlobalLedgerNavigation.cs",
+    "match": "KingdomLeylineLogic.MacroDimensionManager",
+    "kind": "OptionalModIntegration",
+    "reason": "Optional navigation jump integration for Leyline Logic macro dimensions when that mod is installed."
+  },
+  {
+    "mod": "GlobalLedgerV2",
+    "file": "src\\Accounting\\GlobalLedgerCustomNodeHooks.cs",
+    "match": "AppDomain.CurrentDomain.GetAssemblies()",
+    "kind": "ModNodeDiscovery",
+    "reason": "Discovers loaded third-party mod FrameworkWorkspaceNode subclasses at runtime to attribute mod-owned Update activity without linking native assemblies."
+  },
+  {
+    "mod": "GlobalLedgerV2",
+    "file": "src\\Accounting\\GlobalLedgerCustomNodeHooks.cs",
+    "match": "nodeType.GetMethod(\"Update\"",
+    "kind": "ModNodeDiscovery",
+    "reason": "Inspects overridden Update method on discovered third-party FrameworkWorkspaceNode subclasses for flow attribution."
+  },
+  {
+    "mod": "GlobalLedgerV2",
+    "file": "src\\UI\\Navigation\\GlobalLedgerNavigation.cs",
+    "match": "mdmType.GetMethod(\"EnterMacroDimension\"",
+    "kind": "OptionalModIntegration",
+    "reason": "Invokes Leyline Logic EnterMacroDimension navigation helper when that optional mod is installed."
+  },
+  {
+    "mod": "PathFinder",
+    "file": "src\\Compatibility\\LeylineCompatibility.cs",
+    "match": "KingdomLeylineConduits.LeylineConduit",
+    "kind": "OptionalModIntegration",
+    "reason": "Optional soft integration reading KingdomLeylineConduits conduit metadata when that third-party mod is installed."
+  },
+  {
+    "mod": "PathFinder",
+    "file": "src\\Compatibility\\LeylineCompatibility.cs",
+    "match": "type?.GetProperty(\"Channel\")",
+    "kind": "OptionalModIntegration",
+    "reason": "Reads optional KingdomLeylineConduits Channel property without a hard DLL reference."
+  },
+  {
+    "mod": "PathFinder",
+    "file": "src\\Compatibility\\LeylineCompatibility.cs",
+    "match": "type?.GetProperty(\"Mode\")",
+    "kind": "OptionalModIntegration",
+    "reason": "Reads optional KingdomLeylineConduits Mode property without a hard DLL reference."
+  },
+  {
+    "mod": "GlobalLedgerV2",
+    "file": "src\\UI\\Navigation\\GlobalLedgerNavigation.cs",
+    "match": "mdmType.GetMethod(\"EnterMacroDimension\"",
+    "kind": "OptionalModIntegration",
+    "reason": "Invokes Leyline Logic EnterMacroDimension navigation helper when that optional mod is installed."
+  },
+  {
+    "mod": "PathFinder",
+    "file": "src\\Compatibility\\LeylineCompatibility.cs",
+    "match": "KingdomLeylineConduits.LeylineConduit",
+    "kind": "OptionalModIntegration",
+    "reason": "Optional soft integration reading KingdomLeylineConduits conduit metadata when that third-party mod is installed."
+  },
+  {
+    "mod": "PathFinder",
+    "file": "src\\Compatibility\\LeylineCompatibility.cs",
+    "match": "type?.GetProperty(\"Channel\")",
+    "kind": "OptionalModIntegration",
+    "reason": "Reads optional KingdomLeylineConduits Channel property without a hard DLL reference."
+  },
+  {
+    "mod": "PathFinder",
+    "file": "src\\Compatibility\\LeylineCompatibility.cs",
+    "match": "type?.GetProperty(\"Mode\")",
+    "kind": "OptionalModIntegration",
+    "reason": "Reads optional KingdomLeylineConduits Mode property without a hard DLL reference."
+  }
+]
