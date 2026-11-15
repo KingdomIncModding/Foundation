@@ -558,7 +558,7 @@ namespace KingdomFoundation
                 GUILayout.Label(entry.TimestampUtc.ToString("HH:mm:ss") + " [" + entry.Level + "] " + entry.Owner + ": " + entry.Message);
         }
 
-        public const string Id = "urakka.kingdominc.foundation", Version = "0.14.4";
+        public const string Id = "urakka.kingdominc.foundation", Version = "0.14.5";
         internal static FoundationPlugin Instance;
         public static BepInEx.Configuration.ConfigEntry<string> NexusApiKeyConfig;
         internal Harmony hooks;

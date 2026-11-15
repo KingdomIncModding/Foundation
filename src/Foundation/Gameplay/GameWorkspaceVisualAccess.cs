@@ -49,7 +49,7 @@ namespace KingdomFoundation.Api
         public Image Background(Component buildingView)=>(Image)AccessTools.Field(typeof(WorldFlowElement),"_background").GetValue(Require<WorldFlowElement>(buildingView));
         public Sprite BackgroundSprite(Component buildingView)=>Require<WorldFlowElement>(buildingView).BackgroundSprite;
         public bool IsOutputFullIndicatorVisible(Component buildingView)
-        {var text=AccessTools.Field(typeof(WorldFlowElement),"_outputFull").GetValue(Require<WorldFlowElement>(buildingView)) as TMP_Text;return text && text.gameObject.activeSelf;}
+        {var text=AccessTools.Field(typeof(WorldFlowElement),"_outputFull").GetValue(Require<WorldFlowElement>(buildingView)) as TMP_Text;return text && text.isActiveAndEnabled;}
         public void RefreshIcon(Component buildingView,Sprite icon=null)=>Require<WorldFlowElement>(buildingView).UpdateIcon(icon);
         public Component PortTemplate(WorkspaceObject item)=>PortPrefab(FlowPrefabSet.Get(RequireModel(item)).Prefab);
         public Component PortGraphic(Component portView,GamePortGraphic graphic)

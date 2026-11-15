@@ -6,9 +6,9 @@
 
 Foundation lets other mods extend *Kingdom Inc* through reusable game integrations. It provides native research and workspace registration, machine and logistics access, in-game mod settings, a shared Mod Bar, events, and services for mods that work together. The framework uses the game's existing systems wherever possible instead of replacing how the game plays.
 
-The current download is **Foundation 0.14.3 for Kingdom Inc 1.0.14**. Foundation uses BepInEx 5 and ships its Core and Machines components together in **Foundation.dll**.
+The current download is **Foundation 0.14.5 for Kingdom Inc 1.0.14**. Foundation uses BepInEx 5 and ships its Core and Machines components together in **Foundation.dll**.
 
-Foundation 0.14.3 adds the pipe-placement and toolbar support required by Pipe Wrench, including safe hover handling when UI objects disappear during placement. The matching SDK includes these additions for other compatible mods.
+Foundation 0.14.5 fixes output-full indicator checks in workspace visual access, and builds on 0.14.4's save-recovery, Nexus update checking, hook dispatch performance and fault rate-limiting, custom building cost isolation, and shared toolbar helpers. The matching SDK includes all framework updates for compatible mods.
 
 This update fixes severe slowdowns when Global Ledger scans large workspaces. Foundation also follows the game's revised currency exchange calculations, makes timer settings available without outfitter timeout research, refreshes track-switch backgrounds correctly, and preserves mod-owned data in the updated native save format. Existing older saves remain loadable.
 
@@ -55,8 +55,8 @@ The framework itself does **not** add demonstration buildings or technologies to
 
 ## Downloads
 
-- **Foundation 0.14.3 - Kingdom Inc 1.0.14** is the runtime download required by mods that use this framework.
-- **Foundation SDK 0.14.3 - Kingdom Inc 1.0.14** is an optional development download containing the matching framework library, IntelliSense documentation, guides, and example projects. Extract it into a development folder; install the matching Foundation runtime separately in the game.
+- **Foundation 0.14.5 - Kingdom Inc 1.0.14** is the runtime download required by mods that use this framework.
+- **Foundation SDK 0.14.5 - Kingdom Inc 1.0.14** is an optional development download containing the matching framework library, IntelliSense documentation, guides, and example projects. Extract it into a development folder; install the matching Foundation runtime separately in the game.
 
 Choose these current downloads for **game version 1.0.14**. Older Foundation downloads remain available for mods that require an earlier framework version; they are separate releases.
 
