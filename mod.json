@@ -1,53 +1,55 @@
 {
-  "id": "Foundation",
-  "name": "Foundation",
-  "version": "0.14.4",
-  "author": "Urakka",
-  "description": "For Kingdom Inc game version 1.0.14. Shared modding framework providing native game APIs, mod content registration, research, machine integration, UI, events, services, and save support. Matching Foundation SDK available separately.",
-  "repository": {
-    "platform": "GitHub",
-    "owner": "KingdomIncModding",
-    "name": "Foundation",
-    "url": "https://github.com/KingdomIncModding/Foundation",
-    "branch": "main",
-    "visibility": "public",
-    "topics": [],
-    "latestTag": "v0.14.3"
-  },
-  "distribution": {
-    "nexus": {
-      "game": "kingdominc",
-      "modId": 18,
-      "fileId": 8358756,
-      "url": "https://www.nexusmods.com/kingdominc/mods/18",
-      "requirements": [
-        "BepInEx 5"
-      ],
-      "tags": [
-        "AI-Generated Content"
-      ],
-      "tagsVerified": true,
-      "requirementsVerified": true,
-      "sdkFileId": 8314821,
-      "runtimeVersionId": "46785078755475",
-      "sdkVersionId": "46785078755476"
-    }
-  },
-  "development": {
-    "framework": "BepInEx 5 / HarmonyX",
-    "language": "C#",
-    "target": "netstandard2.1",
-    "dependencies": [
-      "BepInEx 5",
-      "0Harmony (bundled with BepInEx 5)",
-      "Kingdom Inc game assemblies",
-      "UnityEngine (bundled with game)"
-    ]
-  },
-  "publishing": {
-    "githubReleases": "https://github.com/KingdomIncModding/Foundation/releases/tag/v0.14.3",
-    "nexusMods": "https://www.nexusmods.com/kingdominc/mods/18",
-    "githubSdkAsset": "https://github.com/KingdomIncModding/Foundation/releases/download/v0.14.4/Foundation-SDK-v0.14.4.zip",
-    "archivePreviousReleases": false
-  }
+    "id":  "Foundation",
+    "name":  "Foundation",
+    "version":  "0.14.4",
+    "author":  "Urakka",
+    "description":  "For Kingdom Inc game version 1.0.14. Shared modding framework providing native game APIs, mod content registration, research, machine integration, UI, events, services, and save support. Matching Foundation SDK available separately.",
+    "repository":  {
+                       "platform":  "GitHub",
+                       "owner":  "KingdomIncModding",
+                       "name":  "Foundation",
+                       "url":  "https://github.com/KingdomIncModding/Foundation",
+                       "branch":  "main",
+                       "visibility":  "public",
+                       "topics":  [
+
+                                  ],
+                       "latestTag":  "v0.14.4"
+                   },
+    "distribution":  {
+                         "nexus":  {
+                                       "game":  "kingdominc",
+                                       "modId":  18,
+                                       "fileId":  8358756,
+                                       "url":  "https://www.nexusmods.com/kingdominc/mods/18",
+                                       "requirements":  [
+                                                            "BepInEx 5"
+                                                        ],
+                                       "tags":  [
+                                                    "AI-Generated Content"
+                                                ],
+                                       "tagsVerified":  true,
+                                       "requirementsVerified":  true,
+                                       "sdkFileId":  8314821,
+                                       "runtimeVersionId":  "46785078755481",
+                                       "sdkVersionId":  "46785078755482"
+                                   }
+                     },
+    "development":  {
+                        "framework":  "BepInEx 5 / HarmonyX",
+                        "language":  "C#",
+                        "target":  "netstandard2.1",
+                        "dependencies":  [
+                                             "BepInEx 5",
+                                             "0Harmony (bundled with BepInEx 5)",
+                                             "Kingdom Inc game assemblies",
+                                             "UnityEngine (bundled with game)"
+                                         ]
+                    },
+    "publishing":  {
+                       "githubReleases":  "https://github.com/KingdomIncModding/Foundation/releases/tag/v0.14.4",
+                       "nexusMods":  "https://www.nexusmods.com/kingdominc/mods/18",
+                       "githubSdkAsset":  "https://github.com/KingdomIncModding/Foundation/releases/download/v0.14.4/Foundation-SDK-v0.14.4.zip",
+                       "archivePreviousReleases":  false
+                   }
 }
