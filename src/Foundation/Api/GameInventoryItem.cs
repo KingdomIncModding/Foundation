@@ -13,6 +13,8 @@ namespace KingdomFoundation.Api
         public GameInventoryItem(GameItemType type)
         {if(type==null)throw new ArgumentNullException(nameof(type));Native=new InventoryItem(type.Native);Cache.Add(Native,this);}
         public long SellValue=>Native.SellValue;
+        public int ManaValue=>Native.ManaValue;
+        public float Quality=>Native.Quality;
         public string DisplayName=>Native.DisplayName;
         public UnityEngine.Sprite Icon=>Native.Icon;
         public GameItemType Type=>GameItemType.Wrap(Native.Type);

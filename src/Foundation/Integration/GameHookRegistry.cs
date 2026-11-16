@@ -145,6 +145,8 @@ namespace KingdomFoundation.Api
                 (GameHookPoints.PipeUpdateGeometry, AccessTools.Method(typeof(WorldFlowPipe), nameof(WorldFlowPipe.UpdateLinePositions))),
                 (GameHookPoints.PortBound, AccessTools.Method(typeof(WorldFlowIO), nameof(WorldFlowIO.SetIO))),
                 (GameHookPoints.GhostBound, AccessTools.Method(typeof(WorldFlowGhost), nameof(WorldFlowGhost.SetElement))),
+                (GameHookPoints.PlacementOverlapRect, AccessTools.Method(typeof(FlowColliderManager), nameof(FlowColliderManager.Overlaps), new[] { typeof(Vector2Int), typeof(Vector2Int) })),
+                (GameHookPoints.PlacementOverlapElement, AccessTools.Method(typeof(FlowColliderManager), nameof(FlowColliderManager.Overlaps), new[] { typeof(WorldFlowElement) })),
                 (GameHookPoints.DecorationSerialize, AccessTools.Method(typeof(FlowDeco), nameof(FlowDeco.ToJson))),
                 (GameHookPoints.DecorationDeserialize, AccessTools.Method(typeof(FlowDeco), nameof(FlowDeco.FromJson))),
                 (GameHookPoints.DecorationCopy, AccessTools.Method(typeof(FlowDeco), nameof(FlowDeco.CreateCopy))),

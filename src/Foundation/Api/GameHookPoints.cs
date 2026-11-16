@@ -41,6 +41,8 @@ namespace KingdomFoundation.Api
         public const string PipeUpdateGeometry = "workspace.pipe.update-geometry";
         public const string PortBound = "workspace.port.bound";
         public const string GhostBound = "workspace.ghost.bound";
+        public const string PlacementOverlapRect = "workspace.placement.overlap-rect";
+        public const string PlacementOverlapElement = "workspace.placement.overlap-element";
         public const string DecorationSerialize = "workspace.decoration.serialize";
         public const string DecorationDeserialize = "workspace.decoration.deserialize";
         public const string DecorationCopy = "workspace.decoration.copy";

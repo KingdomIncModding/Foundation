@@ -42,8 +42,13 @@ namespace KingdomFoundation.Api
         private static FlowElement RequireModel(WorkspaceObject item)=>item?.Native is FlowElement model ? model : throw new ArgumentException("Expected a Foundation building identity.",nameof(item));
         private static T Require<T>(Component view) where T:Component
         { var result=view ? view.GetComponent<T>() : null; return result ? result : throw new ArgumentException("Unexpected Foundation native view.",nameof(view)); }
-        public RectTransform PortParentTemplate(WorkspaceObject item)=>PortParent(FlowPrefabSet.Get(RequireModel(item)).Prefab);
-        public RectTransform BuildingTemplate(WorkspaceObject item)=>(RectTransform)FlowPrefabSet.Get(RequireModel(item)).Prefab.transform;
+        private static WorldFlowElement PrefabFor(WorkspaceObject item)
+        {
+            var set = FlowPrefabSet.Get(RequireModel(item));
+            return set ? set.Prefab : null;
+        }
+        public RectTransform PortParentTemplate(WorkspaceObject item){var p=PrefabFor(item);return p?PortParent(p):null;}
+        public RectTransform BuildingTemplate(WorkspaceObject item){var p=PrefabFor(item);return p?(RectTransform)p.transform:null;}
         public TMP_Text LabelText(Component buildingView)=>Caption(Require<WorldFlowElement>(buildingView));
         public Image Icon(Component buildingView)=>IconField(Require<WorldFlowElement>(buildingView));
         public Image Background(Component buildingView)=>(Image)AccessTools.Field(typeof(WorldFlowElement),"_background").GetValue(Require<WorldFlowElement>(buildingView));
@@ -51,7 +56,7 @@ namespace KingdomFoundation.Api
         public bool IsOutputFullIndicatorVisible(Component buildingView)
         {var text=AccessTools.Field(typeof(WorldFlowElement),"_outputFull").GetValue(Require<WorldFlowElement>(buildingView)) as TMP_Text;return text && text.isActiveAndEnabled;}
         public void RefreshIcon(Component buildingView,Sprite icon=null)=>Require<WorldFlowElement>(buildingView).UpdateIcon(icon);
-        public Component PortTemplate(WorkspaceObject item)=>PortPrefab(FlowPrefabSet.Get(RequireModel(item)).Prefab);
+        public Component PortTemplate(WorkspaceObject item){var p=PrefabFor(item);return p?PortPrefab(p):null;}
         public Component PortGraphic(Component portView,GamePortGraphic graphic)
         {
             var port=Require<WorldFlowIO>(portView);

@@ -17,6 +17,8 @@ namespace KingdomFoundation.Api
         public string PreviewDisplayName=>Native is ResourceItemType resource ? resource.PreviewItem.DisplayName : Native is Assets.Source.Items.Type.ForestItemType forest ? forest.PreviewItem.DisplayName : Native.GetDisplayName();
         public string IconName=>Native.IconName;
         public bool IsUnlocked=>Native.IsUnlocked;
+        public long BaseValue=>Native.BaseValue;
+        public bool CanSell=>Native.CanSell;
         public GameRecipe DefaultRecipe=>GameRecipe.Wrap(Native.DefaultRecipe);
         public bool HasSourceQuest=>Native.SourceQuest;
         public System.Collections.Generic.IReadOnlyList<GameResearchNode> SourceQuestResearch=>System.Linq.Enumerable.ToArray(System.Linq.Enumerable.Select(Native.GetSourceQuests(),quest=>GameResearchNode.Wrap(quest.RequiredTech)));

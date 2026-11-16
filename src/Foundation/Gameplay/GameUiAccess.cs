@@ -33,6 +33,20 @@ namespace KingdomFoundation.Api
         public bool IsTutorialActive => TutorialUI.Active;
         public bool InteractReleased => Assets.Behaviour.Input.PlayerInput.InteractReleased;
         public bool IsDraggingGhost => DragDropManager.Instance && DragDropManager.Instance.Target is WorldFlowGhost;
+        public bool IsMovingDecoration => DragDropManager.Instance && DragDropManager.Instance.Target is WorldFlowDecoMover;
+
+        public void FocusWorldPosition(Vector2 worldPosition)
+        {
+            var camController = WorldFlowCamera.Instance;
+            if (!camController)
+                return;
+            var cam = camController.GetComponent<Camera>() ?? Camera.main;
+            if (!cam)
+                return;
+            camController.RecalculateBounds();
+            var current = cam.transform.position;
+            camController.Move(worldPosition.x - current.x, worldPosition.y - current.y);
+        }
 
         public void CloseAllMenus() => GameUI.Instance.CloseAllExcept(null);
         public void ShowStatusMessage(string text) => UIStatusMessage.Show(text, "Icons_64", false);

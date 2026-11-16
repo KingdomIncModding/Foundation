@@ -71,6 +71,7 @@ namespace KingdomFoundation.Verification
             report.AppendLine((failed ? "FAIL" : "PASS") + ": " + checks + " runtime checks.");
             File.WriteAllText(Path.Combine(output, "result.txt"), report.ToString());
             Logger.LogInfo(report.ToString());
+            output = null;
             Application.Quit(failed ? 1 : 0);
         }
 
@@ -117,13 +118,16 @@ namespace KingdomFoundation.Verification
             Check(screen.All(point => point.x >= 0 && point.x <= Screen.width && point.y >= 0 && point.y <= Screen.height), "Toolbar lies inside the actual game viewport");
             yield return Screenshot("tools-started.png");
 
+            var avoidanceSetting = plugin.Config[new BepInEx.Configuration.ConfigDefinition("Routing", "Avoidance")];
+            avoidanceSetting.BoxedValue = Enum.ToObject(avoidanceSetting.BoxedValue.GetType(), 0);
             for (int i = 0; i < buttons.Length; i++)
             {
                 buttons[i].onClick.Invoke(); yield return null;
-                var mode = plugin.Config[new BepInEx.Configuration.ConfigDefinition("Routing", "Avoidance")].BoxedValue;
-                Check(Convert.ToInt32(mode) == i, "Toolbar button selects rule " + i);
+                Check(Convert.ToInt32(avoidanceSetting.BoxedValue) == i + 1, "Toolbar button selects rule " + (i + 1));
                 Check(root.gameObject.activeInHierarchy && FoundationApi.PipeDrag.Active != null, "Changing a rule preserves the active connection and tools");
             }
+            buttons[buttons.Length - 1].onClick.Invoke(); yield return null;
+            Check(Convert.ToInt32(avoidanceSetting.BoxedValue) == 0, "Clicking the active toolbar button clears constraints back to None");
             buttons[0].onClick.Invoke();
             var uiCamera = canvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : canvas.worldCamera;
             var buttonRect = (RectTransform)buttons[1].transform;
@@ -165,6 +169,8 @@ namespace KingdomFoundation.Verification
             Check(Field(Field(plugin, "editor"), "pipe") != null && root.gameObject.activeInHierarchy, "Tools remain after completing the connection");
             yield return Screenshot("tools-connected.png");
             CheckSliderSnap();
+            var undoRun = CheckUndoIntegration();
+            while (undoRun.MoveNext()) yield return undoRun.Current;
             yield return null; yield return null;
 
             SetMouse(new MouseState { position = new Vector2(Screen.width - 80, 160), buttons = 1 });
@@ -216,12 +222,12 @@ namespace KingdomFoundation.Verification
                 var start = Activator.CreateInstance(pointType, x, Mathf.CeilToInt(corners.Max(p => p.y)) + 64);
                 var end = Activator.CreateInstance(pointType, x, Mathf.FloorToInt(corners.Min(p => p.y)) - 64);
                 var direct = Array.CreateInstance(pointType, 2); direct.SetValue(start, 0); direct.SetValue(end, 1);
-                foreach (string mode in new[] { "Buildings", "Overlap", "BuildingsAndOverlap", "Strict" })
+                foreach (string mode in new[] { "None", "Buildings", "Overlap", "BuildingsAndOverlap", "Strict" })
                 {
                     var constraints = AccessTools.Method(geometry, "Constraints").Invoke(null, new object[] { null, Enum.Parse(modeType, mode), 8, null, null });
                     var clearMethod = AccessTools.Method(constraints.GetType(), "IsClear");
                     bool directClear = (bool)clearMethod.Invoke(constraints, new object[] { direct });
-                    Check(directClear == (mode == "Overlap"), "Visible building label follows the " + mode + " avoidance policy");
+                    Check(directClear == (mode == "None" || mode == "Overlap"), "Visible building label follows the " + mode + " avoidance policy");
                     var router = assembly.GetType("KingdomPipeWrench.Routing.ObstacleRouter");
                     var find = router.GetMethods(BindingFlags.Public | BindingFlags.Static).Single(m => m.Name == "Find" && m.GetParameters().Last().ParameterType == constraints.GetType());
                     var route = find.Invoke(null, new[] { start, end, 0, 0, Enum.Parse(shapeType, "Center"), constraints });
@@ -291,7 +297,7 @@ namespace KingdomFoundation.Verification
         {
             var setting = plugin.Config[new BepInEx.Configuration.ConfigDefinition("Routing", "Avoidance")];
             var previous = setting.BoxedValue;
-            setting.BoxedValue = Enum.ToObject(previous.GetType(), 3);
+            setting.BoxedValue = Enum.ToObject(previous.GetType(), 4);
             try
             {
                 foreach (string kind in new[] { "building", "overlap", "crossing" })
@@ -352,6 +358,61 @@ namespace KingdomFoundation.Verification
                 setting.BoxedValue = previous;
                 var editor = Field(plugin, "editor"); AccessTools.Method(editor.GetType(), "Touch").Invoke(editor, null);
             }
+        }
+
+        private IEnumerator CheckUndoIntegration()
+        {
+            var undoType = AppDomain.CurrentDomain.GetAssemblies()
+                .Select(a => a.GetType("KingdomIncUndo.UndoPlugin", false))
+                .FirstOrDefault(t => t != null);
+            Check(undoType != null, "Undo plugin is loaded for Pipe Wrench Undo integration verification");
+            var undoInstance = AccessTools.Field(undoType, "Instance").GetValue(null);
+            var replay = AccessTools.Method(undoType, "Replay", new[] { typeof(bool) });
+            var undoCountProp = AccessTools.Property(undoType, "UndoCount");
+
+            var editor = Field(plugin, "editor");
+            var pipe = (WorkspacePipe)Field(editor, "pipe");
+            var beforeSlide = pipe.Nodes.ToArray();
+            var marker = Resources.FindObjectsOfTypeAll<KingdomPipeWrench.Handles.PipeGrabMarker>().FirstOrDefault(m => m.gameObject.activeInHierarchy);
+            Check(marker, "Grab marker is active before Undo slider test");
+            int undoBefore = (int)undoCountProp.GetValue(undoInstance);
+
+            marker.OnBeginDrag(new PointerEventData(EventSystem.current) { button = PointerEventData.InputButton.Left });
+            var plan = Field(marker, "plan");
+            bool vertical = (bool)AccessTools.Property(plan.GetType(), "Vertical").GetValue(plan);
+            int targetCoord = (int)AccessTools.Property(plan.GetType(), "Coordinate").GetValue(plan) + 32;
+            marker.OnDragDropMove(vertical ? new Vector2Int(targetCoord, 0) : new Vector2Int(0, targetCoord), Vector2Int.zero);
+            AccessTools.Method(typeof(DragDropManager), "_dropTarget").Invoke(DragDropManager.Instance, null);
+            yield return null;
+            var afterSlide = pipe.Nodes.ToArray();
+            Check(!afterSlide.SequenceEqual(beforeSlide), "Committed slider move updates pipe nodes");
+            Check((int)undoCountProp.GetValue(undoInstance) == undoBefore + 1, "Committed slider move records an Undo entry");
+
+            replay.Invoke(undoInstance, new object[] { false });
+            yield return null; yield return null;
+            Check(pipe.Nodes.SequenceEqual(beforeSlide), "Undo restores pipe nodes after slider move");
+            var markerAfterUndo = Resources.FindObjectsOfTypeAll<KingdomPipeWrench.Handles.PipeGrabMarker>().FirstOrDefault(m => m.gameObject.activeInHierarchy);
+            Check(markerAfterUndo, "Grab marker remains alive after Undo rebuilds the pipe view");
+
+            replay.Invoke(undoInstance, new object[] { true });
+            yield return null; yield return null;
+            Check(pipe.Nodes.SequenceEqual(afterSlide), "Redo reapplies slider move pipe nodes");
+            var markerAfterRedo = Resources.FindObjectsOfTypeAll<KingdomPipeWrench.Handles.PipeGrabMarker>().FirstOrDefault(m => m.gameObject.activeInHierarchy);
+            Check(markerAfterRedo, "Grab marker remains alive after Redo rebuilds the pipe view");
+
+            replay.Invoke(undoInstance, new object[] { false });
+            yield return null; yield return null;
+            Check(pipe.Nodes.SequenceEqual(beforeSlide), "Second Undo restores centered pipe nodes");
+
+            Press(Key.P); yield return null; yield return null; Press(); yield return null; yield return null;
+            var afterModeCycle = pipe.Nodes.ToArray();
+            Check(!afterModeCycle.SequenceEqual(beforeSlide), "P mode cycle updates connected pipe nodes");
+            replay.Invoke(undoInstance, new object[] { false });
+            yield return null; yield return null;
+            Check(pipe.Nodes.SequenceEqual(beforeSlide), "Undo reverts P mode cycle on connected pipe");
+            var stateObj = Field(editor, "state");
+            Check(AccessTools.Property(stateObj.GetType(), "Shape").GetValue(stateObj).ToString() == "NearStart", "Connected pipe editor syncs shape back to NearStart after Undo");
+            Check(Resources.FindObjectsOfTypeAll<KingdomPipeWrench.Handles.PipeGrabMarker>().Any(m => m.gameObject.activeInHierarchy), "Grab marker remains active after undoing P mode cycle");
         }
 
         private IEnumerator Screenshot(string name)

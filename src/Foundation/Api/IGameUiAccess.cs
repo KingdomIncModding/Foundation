@@ -40,6 +40,8 @@ namespace KingdomFoundation.Api
         bool IsTutorialActive { get; }
         bool InteractReleased { get; }
         bool IsDraggingGhost { get; }
+        bool IsMovingDecoration { get; }
+        void FocusWorldPosition(Vector2 worldPosition);
         void CloseAllMenus();
         void ShowStatusMessage(string text);
         bool IsWorkspaceVisible { get; }
