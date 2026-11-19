@@ -1,6 +1,6 @@
 # Foundation
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6V62AX30M)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/urakkaamyx/tip)
 
 **A shared modding framework for Kingdom Inc.**
 
@@ -159,4 +159,4 @@ Foundation is a community-made modding framework, not an official component of K
 
 If you enjoy these Kingdom Inc mods and tools, consider supporting development on Ko-fi!
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6V62AX30M)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/urakkaamyx/tip)
