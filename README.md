@@ -1,5 +1,7 @@
 # Foundation
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6V62AX30M)
+
 **A shared modding framework for Kingdom Inc.**
 
 **Current runtime and SDK: for Kingdom Inc game version 1.0.14.**
@@ -152,3 +154,9 @@ Foundation uses Harmony hooks to integrate with native game methods. These are t
 | CombatantItemData.LoseEnergy | Prefix / Postfix | Reports changes to combatant energy. |
 
 Foundation is a community-made modding framework, not an official component of Kingdom Inc.
+
+## Support
+
+If you enjoy these Kingdom Inc mods and tools, consider supporting development on Ko-fi!
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6V62AX30M)
