@@ -1,14 +1,16 @@
 # Foundation
 
+[![Support on Ko-fi](https://raw.githubusercontent.com/KingdomIncModding/.github/main/assets/kofi-button.png)](https://ko-fi.com/urakkaamyx/tip)
+
 **A shared modding framework for Kingdom Inc.**
 
 **Current runtime and SDK: for Kingdom Inc game version 1.0.14.**
 
 Foundation lets other mods extend *Kingdom Inc* through reusable game integrations. It provides native research and workspace registration, machine and logistics access, in-game mod settings, a shared Mod Bar, events, and services for mods that work together. The framework uses the game's existing systems wherever possible instead of replacing how the game plays.
 
-The current download is **Foundation 0.14.7 for Kingdom Inc 1.0.14**. Foundation uses BepInEx 5 and ships its Core and Machines components together in **Foundation.dll**.
+The current download is **Foundation 0.14.8 for Kingdom Inc 1.0.14**. Foundation uses BepInEx 5 and ships its Core and Machines components together in **Foundation.dll**.
 
-Foundation 0.14.7 adds shared junction hooks and native-free slot primitives for Collectors, Distributors, and Manifolds, building on 0.14.6's shutdown-safe visual prefab lookups, 0.14.5's output-full indicator checks, save-recovery, Nexus update checking, hook dispatch performance and fault rate-limiting, custom building cost isolation, and shared toolbar helpers. The matching SDK includes all framework updates for compatible mods.
+Foundation 0.14.8 adds a built-in Main Menu **Mods** manager that discovers all installed `.dll` and `.dll.disabled` mods, lets you enable or disable them by renaming `.dll` / `.dll.disabled`, and prompts with **Restart Now**, **Restart Later**, or **Cancel** before applying changes. It builds on 0.14.7's shared junction hooks and slot primitives, 0.14.6's shutdown-safe visual prefab lookups, 0.14.5's output-full indicator checks, save-recovery, Nexus update checking, hook dispatch performance and fault rate-limiting, custom building cost isolation, and shared toolbar helpers. The matching SDK includes all framework updates for compatible mods.
 
 This update fixes severe slowdowns when Global Ledger scans large workspaces. Foundation also follows the game's revised currency exchange calculations, makes timer settings available without outfitter timeout research, refreshes track-switch backgrounds correctly, and preserves mod-owned data in the updated native save format. Existing older saves remain loadable.
 
@@ -31,6 +33,7 @@ This update fixes severe slowdowns when Global Ledger scans large workspaces. Fo
 
 ### In-game mod controls
 
+- A **Mods** manager in the Main Menu that discovers installed `.dll` and `.dll.disabled` mods, supports searching/filtering, toggles mods by renaming `.dll` / `.dll.disabled`, and confirms changes with a **Restart Now / Restart Later / Cancel** dialog.
 - A shared **Mod Bar** that other mods can populate with buttons, toggles, dropdowns, and status text.
 - An **Options** window with Game, Mods and Installed tabs, native bronze tab styling, and padded labels sized to their text.
 - Additional top-level Options tabs supplied by participating mods, with shared Apply & Close and Cancel behavior.
@@ -55,8 +58,8 @@ The framework itself does **not** add demonstration buildings or technologies to
 
 ## Downloads
 
-- **Foundation 0.14.7 - Kingdom Inc 1.0.14** is the runtime download required by mods that use this framework.
-- **Foundation SDK 0.14.7 - Kingdom Inc 1.0.14** is an optional development download containing the matching framework library, IntelliSense documentation, guides, and example projects. Extract it into a development folder; install the matching Foundation runtime separately in the game.
+- **Foundation 0.14.8 - Kingdom Inc 1.0.14** is the runtime download required by mods that use this framework.
+- **Foundation SDK 0.14.8 - Kingdom Inc 1.0.14** is an optional development download containing the matching framework library, IntelliSense documentation, guides, and example projects. Extract it into a development folder; install the matching Foundation runtime separately in the game.
 
 Choose these current downloads for **game version 1.0.14**. Older Foundation downloads remain available for mods that require an earlier framework version; they are separate releases.
 
@@ -121,6 +124,12 @@ Foundation uses Harmony hooks to integrate with native game methods. These are t
 | OptionsUI.OnEnable | Postfix | Refreshes mod settings when the Options menu opens. |
 | OptionsUI.ApplyAndClose | Prefix | Applies pending mod settings with game options. |
 | OptionsUI.CancelOptions | Prefix | Discards pending mod settings when options are canceled. |
+| MainMenuUI.Start | Postfix | Adds the Mods button and Mod Manager panel to the Main Menu. |
+| MainMenuUI.ShowMainMenu | Postfix | Hides the Mod Manager panel when returning to the Main Menu. |
+| MainMenuUI.ShowLoadGame | Postfix | Hides the Mod Manager panel when opening Load Game. |
+| MainMenuUI.ShowOptions | Postfix | Hides the Mod Manager panel when opening Options. |
+| MainMenuUI.ShowKeyBindings | Postfix | Hides the Mod Manager panel when opening Key Bindings. |
+| UIAlertWindow.Hide | Postfix | Restores default alert dialog width after closing the Mod Manager restart prompt. |
 | SaveGame.SaveCurrentState | Postfix | Embeds mod-owned data in native saves and emits save lifecycle events. |
 | SaveGame.LoadState | Prefix / Postfix / Finalizer | Restores mod data, handles missing research notices, and emits load events. |
 | SaveGame.Store | Postfix | Reports completion of native save storage. |
@@ -167,3 +176,7 @@ Foundation uses Harmony hooks to integrate with native game methods. These are t
 | WorldFlowManifold.OnPointerExit | Prefix / Postfix | Reports Manifold hover exit for slot controls. |
 
 Foundation is a community-made modding framework, not an official component of Kingdom Inc.
+
+## Support
+
+If you enjoy these Kingdom Inc mods and tools, consider supporting development on [**Ko-fi**](https://ko-fi.com/urakkaamyx/tip)!
