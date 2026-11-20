@@ -32,6 +32,34 @@ namespace KingdomFoundation.Api
             if (node.DevMode || Player.HasTech(node)) return false;
             NativeResearch.EnsureCapacity(Player);
             Player.AddTech(node, notify);
+            if (Assets.Behaviour.UI.GameUI.Instance)
+            {
+                Assets.Behaviour.UI.GameUI.Instance.UpdateBuildBarButtons();
+                Assets.Behaviour.UI.GameUI.Instance.UpdateResourcesButton();
+                Assets.Behaviour.UI.GameUI.Instance.UpdateWarEffortButton();
+            }
+            if (Assets.Behaviour.UI.TechTree.TechTreeMenu.Instance && Assets.Behaviour.UI.TechTree.TechTreeMenu.Visible)
+                Assets.Behaviour.UI.TechTree.TechTreeMenu.Instance.UpdateTechTree();
+            Behaviour.UI.UITooltip.Refresh();
+            return true;
+        }
+        public bool LockTech(string id)
+        {
+            var node = FindTech(id);
+            if (node == null) throw new ArgumentException("Unknown research identifier: " + id, nameof(id));
+            if (!Player.HasTech(node)) return false;
+            NativeResearch.EnsureCapacity(Player);
+            var flags = (bool[])HarmonyLib.AccessTools.Field(typeof(GamePlayer), "_techUnlocked").GetValue(Player);
+            flags[node.Ordinal] = false;
+            if (Assets.Behaviour.UI.GameUI.Instance)
+            {
+                Assets.Behaviour.UI.GameUI.Instance.UpdateBuildBarButtons();
+                Assets.Behaviour.UI.GameUI.Instance.UpdateResourcesButton();
+                Assets.Behaviour.UI.GameUI.Instance.UpdateWarEffortButton();
+            }
+            if (Assets.Behaviour.UI.TechTree.TechTreeMenu.Instance && Assets.Behaviour.UI.TechTree.TechTreeMenu.Visible)
+                Assets.Behaviour.UI.TechTree.TechTreeMenu.Instance.UpdateTechTree();
+            Behaviour.UI.UITooltip.Refresh();
             return true;
         }
         public int UpgradeSlots(string elementType) => Player.GetUpgradeSlotCount(elementType ?? throw new ArgumentNullException(nameof(elementType)));

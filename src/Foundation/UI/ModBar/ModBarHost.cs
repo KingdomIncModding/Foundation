@@ -261,6 +261,15 @@ namespace KingdomFoundation
                 }
             }
 
+            bool hasActiveItems = leftItems.Any(i => !(i.Element is ModBarSeparator))
+                || centerItems.Any(i => !(i.Element is ModBarSeparator))
+                || rightItems.Any(i => !(i.Element is ModBarSeparator));
+            if (Bar.gameObject.activeSelf != hasActiveItems)
+                Bar.gameObject.SetActive(hasActiveItems);
+            if (ToggleButton && ToggleButton.transform.parent && ToggleButton.transform.parent.gameObject.activeSelf != hasActiveItems)
+                ToggleButton.transform.parent.gameObject.SetActive(hasActiveItems);
+            Clip.sizeDelta = new Vector2(0, hasActiveItems ? Height : 0);
+
             float leftWidth = GroupWidth(leftItems);
             float centerWidth = GroupWidth(centerItems);
             float rightWidth = GroupWidth(rightItems);
@@ -353,8 +362,8 @@ namespace KingdomFoundation
                 Clip.gameObject.SetActive(true);
             if (Bar)
             {
-                Bar.gameObject.SetActive(true);
                 dirty = true;
+                Refresh();
             }
         }
 

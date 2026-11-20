@@ -5,6 +5,7 @@ using System.Reflection;
 using Assets.Behaviour.UI;
 using Assets.Behaviour.UI.HUD;
 using Assets.Behaviour.Flow;
+using Assets.Behaviour.Flow.Elements;
 using Assets.Source.Flow;
 using Assets.Behaviour.UI.Deco;
 using Assets.Source.Player;
@@ -167,7 +168,22 @@ namespace KingdomFoundation.Api
                 (GameHookPoints.BindingsCancel, AccessTools.Method(typeof(KeyBindingsUI), nameof(KeyBindingsUI.CancelBindings))),
                 (GameHookPoints.BindingsReset, AccessTools.Method(typeof(KeyBindingsUI), nameof(KeyBindingsUI.ResetBindings))),
                 (GameHookPoints.BindingsLoad, AccessTools.Method(typeof(KeyBindingsUI), nameof(KeyBindingsUI.Apply))),
-                (GameHookPoints.BindingsOpened, AccessTools.Method(typeof(KeyBindingsUI), "OnEnable"))
+                (GameHookPoints.BindingsOpened, AccessTools.Method(typeof(KeyBindingsUI), "OnEnable")),
+                (GameHookPoints.JunctionStarted, AccessTools.Method(typeof(WorldFlowCollector), "Start")),
+                (GameHookPoints.JunctionStarted, AccessTools.Method(typeof(WorldFlowDistributor), "Start")),
+                (GameHookPoints.JunctionStarted, AccessTools.Method(typeof(WorldFlowManifold), "Start")),
+                (GameHookPoints.JunctionSlotAction, AccessTools.Method(typeof(WorldFlowCollector), nameof(WorldFlowCollector.AddInputSlot))),
+                (GameHookPoints.JunctionSlotAction, AccessTools.Method(typeof(WorldFlowDistributor), nameof(WorldFlowDistributor.AddOutputSlot))),
+                (GameHookPoints.JunctionSlotAction, AccessTools.Method(typeof(WorldFlowManifold), nameof(WorldFlowManifold.AddOutputSlot))),
+                (GameHookPoints.JunctionButtonState, AccessTools.Method(typeof(WorldFlowCollector), "_updateButtonState")),
+                (GameHookPoints.JunctionButtonState, AccessTools.Method(typeof(WorldFlowDistributor), "_updateButtonState")),
+                (GameHookPoints.JunctionButtonState, AccessTools.Method(typeof(WorldFlowManifold), "_updateButtonState")),
+                (GameHookPoints.JunctionPointerEnter, AccessTools.Method(typeof(WorldFlowCollector), nameof(WorldFlowCollector.OnPointerEnter))),
+                (GameHookPoints.JunctionPointerEnter, AccessTools.Method(typeof(WorldFlowDistributor), nameof(WorldFlowDistributor.OnPointerEnter))),
+                (GameHookPoints.JunctionPointerEnter, AccessTools.Method(typeof(WorldFlowManifold), nameof(WorldFlowManifold.OnPointerEnter))),
+                (GameHookPoints.JunctionPointerExit, AccessTools.Method(typeof(WorldFlowCollector), nameof(WorldFlowCollector.OnPointerExit))),
+                (GameHookPoints.JunctionPointerExit, AccessTools.Method(typeof(WorldFlowDistributor), nameof(WorldFlowDistributor.OnPointerExit))),
+                (GameHookPoints.JunctionPointerExit, AccessTools.Method(typeof(WorldFlowManifold), nameof(WorldFlowManifold.OnPointerExit)))
             };
             foreach (var binding in bindings)
                 Bind(harmony, binding.Id, binding.Method, strict);

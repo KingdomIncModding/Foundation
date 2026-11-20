@@ -1,16 +1,14 @@
 # Foundation
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/urakkaamyx/tip)
-
 **A shared modding framework for Kingdom Inc.**
 
 **Current runtime and SDK: for Kingdom Inc game version 1.0.14.**
 
 Foundation lets other mods extend *Kingdom Inc* through reusable game integrations. It provides native research and workspace registration, machine and logistics access, in-game mod settings, a shared Mod Bar, events, and services for mods that work together. The framework uses the game's existing systems wherever possible instead of replacing how the game plays.
 
-The current download is **Foundation 0.14.6 for Kingdom Inc 1.0.14**. Foundation uses BepInEx 5 and ships its Core and Machines components together in **Foundation.dll**.
+The current download is **Foundation 0.14.7 for Kingdom Inc 1.0.14**. Foundation uses BepInEx 5 and ships its Core and Machines components together in **Foundation.dll**.
 
-Foundation 0.14.6 guards workspace visual prefab lookups against missing or unloaded prefab references during shutdown, building on 0.14.5's output-full indicator checks, save-recovery, Nexus update checking, hook dispatch performance and fault rate-limiting, custom building cost isolation, and shared toolbar helpers. The matching SDK includes all framework updates for compatible mods.
+Foundation 0.14.7 adds shared junction hooks and native-free slot primitives for Collectors, Distributors, and Manifolds, building on 0.14.6's shutdown-safe visual prefab lookups, 0.14.5's output-full indicator checks, save-recovery, Nexus update checking, hook dispatch performance and fault rate-limiting, custom building cost isolation, and shared toolbar helpers. The matching SDK includes all framework updates for compatible mods.
 
 This update fixes severe slowdowns when Global Ledger scans large workspaces. Foundation also follows the game's revised currency exchange calculations, makes timer settings available without outfitter timeout research, refreshes track-switch backgrounds correctly, and preserves mod-owned data in the updated native save format. Existing older saves remain loadable.
 
@@ -57,8 +55,8 @@ The framework itself does **not** add demonstration buildings or technologies to
 
 ## Downloads
 
-- **Foundation 0.14.6 - Kingdom Inc 1.0.14** is the runtime download required by mods that use this framework.
-- **Foundation SDK 0.14.6 - Kingdom Inc 1.0.14** is an optional development download containing the matching framework library, IntelliSense documentation, guides, and example projects. Extract it into a development folder; install the matching Foundation runtime separately in the game.
+- **Foundation 0.14.7 - Kingdom Inc 1.0.14** is the runtime download required by mods that use this framework.
+- **Foundation SDK 0.14.7 - Kingdom Inc 1.0.14** is an optional development download containing the matching framework library, IntelliSense documentation, guides, and example projects. Extract it into a development folder; install the matching Foundation runtime separately in the game.
 
 Choose these current downloads for **game version 1.0.14**. Older Foundation downloads remain available for mods that require an earlier framework version; they are separate releases.
 
@@ -152,11 +150,20 @@ Foundation uses Harmony hooks to integrate with native game methods. These are t
 | CombatantItemData.TakeDamage | Prefix / Postfix | Reports changes to combatant health or energy after damage. |
 | CombatantItemData.Heal | Prefix / Postfix | Reports changes to combatant health or energy after healing. |
 | CombatantItemData.LoseEnergy | Prefix / Postfix | Reports changes to combatant energy. |
+| WorldFlowCollector.Start | Prefix / Postfix | Notifies compatible mods when a Collector initializes its slot controls. |
+| WorldFlowCollector.AddInputSlot | Prefix / Postfix | Lets compatible mods intercept Collector slot expansion and collapse clicks. |
+| WorldFlowCollector._updateButtonState | Prefix / Postfix | Lets compatible mods synchronize Collector slot button icons. |
+| WorldFlowCollector.OnPointerEnter | Prefix / Postfix | Reports Collector hover entry for slot controls. |
+| WorldFlowCollector.OnPointerExit | Prefix / Postfix | Reports Collector hover exit for slot controls. |
+| WorldFlowDistributor.Start | Prefix / Postfix | Notifies compatible mods when a Distributor initializes its slot controls. |
+| WorldFlowDistributor.AddOutputSlot | Prefix / Postfix | Lets compatible mods intercept Distributor slot expansion and collapse clicks. |
+| WorldFlowDistributor._updateButtonState | Prefix / Postfix | Lets compatible mods synchronize Distributor slot button icons. |
+| WorldFlowDistributor.OnPointerEnter | Prefix / Postfix | Reports Distributor hover entry for slot controls. |
+| WorldFlowDistributor.OnPointerExit | Prefix / Postfix | Reports Distributor hover exit for slot controls. |
+| WorldFlowManifold.Start | Prefix / Postfix | Notifies compatible mods when a Manifold initializes its slot controls. |
+| WorldFlowManifold.AddOutputSlot | Prefix / Postfix | Lets compatible mods intercept Manifold slot expansion and collapse clicks. |
+| WorldFlowManifold._updateButtonState | Prefix / Postfix | Lets compatible mods synchronize Manifold slot button icons. |
+| WorldFlowManifold.OnPointerEnter | Prefix / Postfix | Reports Manifold hover entry for slot controls. |
+| WorldFlowManifold.OnPointerExit | Prefix / Postfix | Reports Manifold hover exit for slot controls. |
 
 Foundation is a community-made modding framework, not an official component of Kingdom Inc.
-
-## Support
-
-If you enjoy these Kingdom Inc mods and tools, consider supporting development on Ko-fi!
-
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/urakkaamyx/tip)

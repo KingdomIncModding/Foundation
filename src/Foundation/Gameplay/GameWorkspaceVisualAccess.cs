@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Assets.Behaviour.Flow;
+using Assets.Behaviour.Flow.Elements;
 using Assets.Behaviour.UI;
 using Assets.Source.Flow;
 using HarmonyLib;
@@ -39,6 +40,18 @@ namespace KingdomFoundation.Api
         private static readonly AccessTools.FieldRef<WorldFlowIO,Sprite[]> OutputSprites=AccessTools.FieldRefAccess<WorldFlowIO,Sprite[]>("_outputSprites");
         private static readonly AccessTools.FieldRef<WorldFlowPipe,LineRenderer> Line=AccessTools.FieldRefAccess<WorldFlowPipe,LineRenderer>("_line");
         private static readonly AccessTools.FieldRef<WorldFlowPipe,EdgeCollider2D> Collider=AccessTools.FieldRefAccess<WorldFlowPipe,EdgeCollider2D>("_collider");
+        private static readonly AccessTools.FieldRef<WorldFlowCollector,Image> CollectorBorder=AccessTools.FieldRefAccess<WorldFlowCollector,Image>("_buttonBorder");
+        private static readonly AccessTools.FieldRef<WorldFlowCollector,Image> CollectorIcon=AccessTools.FieldRefAccess<WorldFlowCollector,Image>("_buttonIcon");
+        private static readonly AccessTools.FieldRef<WorldFlowCollector,Sprite> CollectorAddIcon=AccessTools.FieldRefAccess<WorldFlowCollector,Sprite>("_addIcon");
+        private static readonly AccessTools.FieldRef<WorldFlowCollector,Sprite> CollectorCollapseIcon=AccessTools.FieldRefAccess<WorldFlowCollector,Sprite>("_collapseIcon");
+        private static readonly AccessTools.FieldRef<WorldFlowDistributor,Image> DistributorBorder=AccessTools.FieldRefAccess<WorldFlowDistributor,Image>("_buttonBorder");
+        private static readonly AccessTools.FieldRef<WorldFlowDistributor,Image> DistributorIcon=AccessTools.FieldRefAccess<WorldFlowDistributor,Image>("_buttonIcon");
+        private static readonly AccessTools.FieldRef<WorldFlowDistributor,Sprite> DistributorAddIcon=AccessTools.FieldRefAccess<WorldFlowDistributor,Sprite>("_addIcon");
+        private static readonly AccessTools.FieldRef<WorldFlowDistributor,Sprite> DistributorCollapseIcon=AccessTools.FieldRefAccess<WorldFlowDistributor,Sprite>("_collapseIcon");
+        private static readonly AccessTools.FieldRef<WorldFlowManifold,Image> ManifoldBorder=AccessTools.FieldRefAccess<WorldFlowManifold,Image>("_buttonBorder");
+        private static readonly AccessTools.FieldRef<WorldFlowManifold,Image> ManifoldIcon=AccessTools.FieldRefAccess<WorldFlowManifold,Image>("_buttonIcon");
+        private static readonly AccessTools.FieldRef<WorldFlowManifold,Sprite> ManifoldAddIcon=AccessTools.FieldRefAccess<WorldFlowManifold,Sprite>("_addIcon");
+        private static readonly AccessTools.FieldRef<WorldFlowManifold,Sprite> ManifoldCollapseIcon=AccessTools.FieldRefAccess<WorldFlowManifold,Sprite>("_collapseIcon");
         private static FlowElement RequireModel(WorkspaceObject item)=>item?.Native is FlowElement model ? model : throw new ArgumentException("Expected a Foundation building identity.",nameof(item));
         private static T Require<T>(Component view) where T:Component
         { var result=view ? view.GetComponent<T>() : null; return result ? result : throw new ArgumentException("Unexpected Foundation native view.",nameof(view)); }
@@ -85,5 +98,37 @@ namespace KingdomFoundation.Api
         public void RefreshPipe(Component pipeView)=>Require<WorldFlowPipe>(pipeView).UpdateLinePositions();
         public bool HasNativeDragTarget=>DragDropManager.Instance && DragDropManager.Instance.Target!=null;
         public bool IsNativeMoveHandleFor(Component buildingView)=>DragDropManager.Instance && DragDropManager.Instance.Target is WorldFlowLabel handle && handle.GetComponentInParent<WorldFlowElement>()==Require<WorldFlowElement>(buildingView);
+        public Image JunctionButtonBorder(Component junctionView)
+        {
+            if(!junctionView)return null;
+            if(junctionView.TryGetComponent<WorldFlowCollector>(out var collector))return CollectorBorder(collector);
+            if(junctionView.TryGetComponent<WorldFlowDistributor>(out var distributor))return DistributorBorder(distributor);
+            if(junctionView.TryGetComponent<WorldFlowManifold>(out var manifold))return ManifoldBorder(manifold);
+            return null;
+        }
+        public Image JunctionButtonIcon(Component junctionView)
+        {
+            if(!junctionView)return null;
+            if(junctionView.TryGetComponent<WorldFlowCollector>(out var collector))return CollectorIcon(collector);
+            if(junctionView.TryGetComponent<WorldFlowDistributor>(out var distributor))return DistributorIcon(distributor);
+            if(junctionView.TryGetComponent<WorldFlowManifold>(out var manifold))return ManifoldIcon(manifold);
+            return null;
+        }
+        public Sprite JunctionAddIcon(Component junctionView)
+        {
+            if(!junctionView)return null;
+            if(junctionView.TryGetComponent<WorldFlowCollector>(out var collector))return CollectorAddIcon(collector);
+            if(junctionView.TryGetComponent<WorldFlowDistributor>(out var distributor))return DistributorAddIcon(distributor);
+            if(junctionView.TryGetComponent<WorldFlowManifold>(out var manifold))return ManifoldAddIcon(manifold);
+            return null;
+        }
+        public Sprite JunctionCollapseIcon(Component junctionView)
+        {
+            if(!junctionView)return null;
+            if(junctionView.TryGetComponent<WorldFlowCollector>(out var collector))return CollectorCollapseIcon(collector);
+            if(junctionView.TryGetComponent<WorldFlowDistributor>(out var distributor))return DistributorCollapseIcon(distributor);
+            if(junctionView.TryGetComponent<WorldFlowManifold>(out var manifold))return ManifoldCollapseIcon(manifold);
+            return null;
+        }
     }
 }

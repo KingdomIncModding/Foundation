@@ -83,6 +83,8 @@ namespace KingdomFoundation.Verification
             toolbar = Field(plugin, "toolbar");
             Check(toolbar != null, "Production plugin completes Awake and loads the real nested toolbar JSON");
             GamePlayer.CreateNewPlayer();
+            GamePlayer.Current.AddTech("distributor");
+            FoundationApi.Progression.UnlockTech(PipeWrenchPlugin.ResearchId, false);
             var second = new Forge(); second.SetupRecipe("iron_ingot"); second.Position = new Vector2Int(512, -64);
             GamePlayer.Current.ActiveFlow.Elements.Add(second);
             SceneManager.LoadScene("Game");

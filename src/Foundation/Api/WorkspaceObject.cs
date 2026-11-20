@@ -53,6 +53,78 @@ namespace KingdomFoundation.Api
             set {if(Native is FlowDeco deco)deco.StyleIndex=value;else throw new InvalidOperationException("Only decorations have a style index.");}
         }
         public bool IsJunction => Native is Assets.Source.Flow.Elements.Collector || Native is Assets.Source.Flow.Elements.Distributor || Native is Assets.Source.Flow.Elements.Manifold;
+        private static readonly System.Reflection.MethodInfo CollectorUpdateCount = HarmonyLib.AccessTools.Method(typeof(Assets.Source.Flow.Elements.Collector), "_updateInputCount", new[] { typeof(int) });
+        private static readonly System.Reflection.MethodInfo DistributorUpdateCount = HarmonyLib.AccessTools.Method(typeof(Assets.Source.Flow.Elements.Distributor), "_updateOutputCount", new[] { typeof(int) });
+        private static readonly System.Reflection.MethodInfo ManifoldUpdateCount = HarmonyLib.AccessTools.Method(typeof(Assets.Source.Flow.Elements.Manifold), "_updateInputCount", new[] { typeof(int) });
+        public int JunctionSlotCount => Native is Assets.Source.Flow.Elements.Collector collector ? collector.InputCount
+            : Native is Assets.Source.Flow.Elements.Distributor distributor ? distributor.OutputCount
+            : Native is Assets.Source.Flow.Elements.Manifold manifold ? manifold.InputCount : 0;
+        public int MinJunctionSlotCount => IsJunction ? 2 : 0;
+        public int TrailingFreeJunctionSlots
+        {
+            get
+            {
+                if (Native is Assets.Source.Flow.Elements.Collector collector)
+                {
+                    int free = 0;
+                    for (int i = collector.InputCount - 1; i >= 2; i--)
+                    {
+                        if (i < collector.Inputs.Count && collector.Inputs[i].ConnectedPipe != null) break;
+                        free++;
+                    }
+                    return free;
+                }
+                if (Native is Assets.Source.Flow.Elements.Distributor distributor)
+                {
+                    int free = 0;
+                    for (int i = distributor.OutputCount - 1; i >= 2; i--)
+                    {
+                        if (i < distributor.Outputs.Count && distributor.Outputs[i].ConnectedPipe != null) break;
+                        free++;
+                    }
+                    return free;
+                }
+                if (Native is Assets.Source.Flow.Elements.Manifold manifold)
+                {
+                    int free = 0;
+                    for (int i = manifold.InputCount - 1; i >= 2; i--)
+                    {
+                        bool inputBusy = i < manifold.Inputs.Count && manifold.Inputs[i].ConnectedPipe != null;
+                        bool outputBusy = i < manifold.Outputs.Count && manifold.Outputs[i].ConnectedPipe != null;
+                        if (inputBusy || outputBusy) break;
+                        free++;
+                    }
+                    return free;
+                }
+                return 0;
+            }
+        }
+        public void AddJunctionSlot()
+        {
+            if (Native is Assets.Source.Flow.Elements.Collector collector) collector.AddInputSlot();
+            else if (Native is Assets.Source.Flow.Elements.Distributor distributor) distributor.AddOutputSlot();
+            else if (Native is Assets.Source.Flow.Elements.Manifold manifold) manifold.AddInputSlot();
+            else throw new InvalidOperationException("Expected a junction building identity.");
+        }
+        public bool SetJunctionSlotCount(int count)
+        {
+            if (!IsJunction) throw new InvalidOperationException("Expected a junction building identity.");
+            int current = JunctionSlotCount;
+            int minimum = Math.Max(2, current - TrailingFreeJunctionSlots);
+            int target = Math.Max(minimum, count);
+            if (target == current) return false;
+            if (Native is Assets.Source.Flow.Elements.Collector collector) CollectorUpdateCount.Invoke(collector, new object[] { target });
+            else if (Native is Assets.Source.Flow.Elements.Distributor distributor) DistributorUpdateCount.Invoke(distributor, new object[] { target });
+            else if (Native is Assets.Source.Flow.Elements.Manifold manifold) ManifoldUpdateCount.Invoke(manifold, new object[] { target });
+            return true;
+        }
+        public void CollapseJunctionSlots()
+        {
+            if (Native is Assets.Source.Flow.Elements.Collector collector) collector.Collapse();
+            else if (Native is Assets.Source.Flow.Elements.Distributor distributor) distributor.Collapse();
+            else if (Native is Assets.Source.Flow.Elements.Manifold manifold) manifold.Collapse();
+            else throw new InvalidOperationException("Expected a junction building identity.");
+        }
         public bool Mirrored
         {
             get=>Native is FlowElement element && element.Mirrored;

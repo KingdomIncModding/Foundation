@@ -372,6 +372,8 @@ namespace KingdomFoundation
         }
 
         ConfigEntry<bool> enableDeveloperConsole;
+        readonly CheatCmd cheatCmd = new CheatCmd();
+        internal CheatCmd CheatConsole => cheatCmd;
         bool consoleOpen;
         Rect consoleWindow = new Rect(35, 35, 720, 590);
         Vector2 consoleScroll;
@@ -402,6 +404,8 @@ namespace KingdomFoundation
                 FoundationApi.SignalsInternal.Poll();
             }
 
+            cheatCmd.Update();
+
             if (enableDeveloperConsole?.Value == true && Keyboard.current != null && Keyboard.current.f8Key.wasPressedThisFrame)
             {
                 consoleOpen = !consoleOpen;
@@ -414,6 +418,7 @@ namespace KingdomFoundation
 
         void OnGUI()
         {
+            cheatCmd.OnGUI();
             if (enableDeveloperConsole?.Value != true || !consoleOpen)
                 return;
             consoleWindow = GUI.Window(765142, consoleWindow, DrawDeveloperWindow, "Foundation Developer Inspector [F8]");
@@ -558,7 +563,7 @@ namespace KingdomFoundation
                 GUILayout.Label(entry.TimestampUtc.ToString("HH:mm:ss") + " [" + entry.Level + "] " + entry.Owner + ": " + entry.Message);
         }
 
-        public const string Id = "urakka.kingdominc.foundation", Version = "0.14.6";
+        public const string Id = "urakka.kingdominc.foundation", Version = "0.14.7";
         internal static FoundationPlugin Instance;
         public static BepInEx.Configuration.ConfigEntry<string> NexusApiKeyConfig;
         internal Harmony hooks;
@@ -673,6 +678,7 @@ namespace KingdomFoundation
 
         void OnDestroy()
         {
+            cheatCmd.Shutdown();
             FoundationApi.AudioInterceptionInternal.Shutdown();
             FoundationNativeMachinePanels.Uninstall();
             FoundationPanelHost.ResetAll();

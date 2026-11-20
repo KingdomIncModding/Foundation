@@ -19,6 +19,7 @@ namespace KingdomFoundation.Api
         int ResearchCostTier(TechNode node);
 
         bool UnlockTech(string id, bool notify = true);
+        bool LockTech(string id);
         int UpgradeSlots(string elementType);
         void SetUpgradeSlots(string elementType, int slots);
         void UnlockUpgrade(string elementType, string upgradeType);

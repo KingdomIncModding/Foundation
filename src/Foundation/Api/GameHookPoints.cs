@@ -64,5 +64,10 @@ namespace KingdomFoundation.Api
         public const string BindingsReset="input.bindings.reset";
         public const string BindingsLoad="input.bindings.load";
         public const string BindingsOpened="input.bindings.opened";
+        public const string JunctionStarted="workspace.junction.started";
+        public const string JunctionSlotAction="workspace.junction.slot-action";
+        public const string JunctionButtonState="workspace.junction.button-state";
+        public const string JunctionPointerEnter="workspace.junction.pointer-enter";
+        public const string JunctionPointerExit="workspace.junction.pointer-exit";
     }
 }

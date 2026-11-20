@@ -31,5 +31,9 @@ namespace KingdomFoundation.Api
         void RefreshPipe(Component pipeView);
         bool HasNativeDragTarget { get; }
         bool IsNativeMoveHandleFor(Component buildingView);
+        Image JunctionButtonBorder(Component junctionView);
+        Image JunctionButtonIcon(Component junctionView);
+        Sprite JunctionAddIcon(Component junctionView);
+        Sprite JunctionCollapseIcon(Component junctionView);
     }
 }
